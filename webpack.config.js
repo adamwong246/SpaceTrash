@@ -25,7 +25,7 @@ const commonConfig = {
       '@renderer': srcPaths('src/renderer'),
       '@utils': srcPaths('src/utils'),
     },
-    extensions: ['.js', '.json', '.ts', '.tsx'],
+    extensions: ['.js', '.json', '.ts', '.tsx', '.jsx'],
   },
   module: {
     rules: [

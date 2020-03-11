@@ -1,7 +1,6 @@
 import * as React from 'react';
 import '@public/style.css';
 
-
 export class BootSwitch extends React.Component<{},{}>{
   render(){
     return (
@@ -19,4 +18,3 @@ export class BootSwitch extends React.Component<{},{}>{
     );
   }
 }
-
