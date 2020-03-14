@@ -12,16 +12,22 @@ let mainWindow: Electron.BrowserWindow | null;
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', function(){
+app.on('ready', function() {
     windowManager.init();
-    windowManager.open('google', 'google!', 'http://www.google.com');
 
+    windowManager.open('boot', 'boot!', url.format({
+        pathname: path.join(__dirname, './index.html'),
+        protocol: 'file:',
+        slashes: true,
+        search: 'boot'
+    }));
 
-  windowManager.open('home', 'home!',         url.format({
-              pathname: path.join(__dirname, './index.html'),
-              protocol: 'file:',
-              slashes: true
-          }));
+    windowManager.open('term', 'term!', url.format({
+        pathname: path.join(__dirname, './index.html'),
+        protocol: 'file:',
+        slashes: true,
+        search: 'term'
+    }));
 });
 
 // Quit when all windows are closed.
