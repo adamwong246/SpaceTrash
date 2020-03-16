@@ -9,23 +9,18 @@ import {
  Route
 } from 'react-router-dom'
 
-
 import { BootSwitch } from './BootSwitch'
-
-
-// import configureStore, { history } from './configureStore'
-// const store = configureStore();
 
 // Import the styles here to process them with webpack
 import '@public/style.css';
 
-class Terminal extends React.Component<{},{}>{
-  render(){
-    return (<h1>Terminal</h1>);
-  }
+class Terminal extends React.Component<{}, {}>{
+ render() {
+  return (<h1>Terminal</h1>);
+ }
 };
 
-class ViewManager extends React.Component<{},{}>{
+class ViewManager extends React.Component<{}, {}>{
  static Views() {
   return {
    boot: <BootSwitch />,
@@ -33,20 +28,16 @@ class ViewManager extends React.Component<{},{}>{
   }
  }
  static View(props) {
-  console.log(props.location);
   let name = props.location.search.substr(1);
-  let view = ViewManager.Views()[name] || (<p>View {name} not found </p>);
-  if (view == null)
-   throw new Error(`View ${name} is undefined`);
-  return view;
+  return ViewManager.Views()[name] || (<p>View {name} not found </p>);
  }
 
  render() {
   return (
    <Router>
     <div>
-     <Route path='/' component={ViewManager.View}/>
- </div>
+     <Route path='/' component={ViewManager.View} />
+    </div>
    </Router>
   );
  }
