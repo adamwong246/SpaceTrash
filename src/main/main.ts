@@ -23,7 +23,7 @@ app.on('ready', function() {
    search: 'boot'
   }),
   false,
-  { 'width': 400, 'height': 400, 'webPreferences': { nodeIntegration: true } }
+  { 'width': 1000, 'height': 800, 'webPreferences': { nodeIntegration: true } }
  );
 
 

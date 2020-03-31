@@ -1,0 +1,97 @@
+.content {
+  background-color: red;
+}
+
+body{
+  background-color: black;
+  color: green;
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+input {
+  width: 100%;
+}
+
+td{
+  padding: 0.2em;
+  cellpadding: 0;
+  cellspaceing: 0;
+  border: 1px solid green;
+}
+
+#schematic td, #schematic tr {
+  padding: 0;
+}
+
+#table * schematic {
+  font-size: 9px;
+
+
+    width: 100%;
+    text-align: center;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+table{
+  width: 100%;
+  text-align: left;
+
+}
+.react-tabs__tab-list{
+  border-bottom: 1px solid green;
+}
+
+.react-tabs__tab.react-tabs__tab--selected{
+  background-color: green;
+  color: black;
+  border: none;
+  border-radius: 0px;
+}
+
+.react-tabs__tab-panel.react-tabs__tab-panel--selected{
+  padding: 10px;
+  border: 1px solid green;
+  overflow: scroll;
+  height: 87vh;
+}
+
+.react-tabs__tab-list{
+  margin: 0px;
+}
+
+.react-tabs__tab {
+  border: 1px dotted green;
+}
+
+#content{
+
+}
+
+#command-line {
+
+}
+hr {
+  border: 1px solid green;
+}
+
+#editor {
+  display: flex;
+  flex-direction: row;
+}
+
+.react-tabs__tab{
+  padding: 1px 6px;
+}
+
+ul{
+  padding-left: 10px;
+  list-style: none;
+}
+
+#filetree ul li button {
+
+    width: 100%;
+
+}
