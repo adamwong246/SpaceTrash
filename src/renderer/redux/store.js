@@ -8,7 +8,7 @@ export default createStore(rootReducer, {
     {
       id: 0,
       name: "USCSS Nostromo",
-      map: new RayCastMap(32),
+      map: new RayCastMap(16),
       class: "Starfreighter",
       registration: "1809246(09)",
       model: "Lockmart CM-88B Bison",
@@ -27,7 +27,7 @@ export default createStore(rootReducer, {
     {
       id: 1,
       name: "USCSS Sulaco",
-      map: new RayCastMap(32),
+      map: new RayCastMap(16),
       class: "Military vessel",
       registration: "7839f46(a4)",
       model: "Akira class",

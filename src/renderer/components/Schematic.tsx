@@ -5,7 +5,7 @@ import { getSchematicProps } from "../redux/selectors";
 
 const Cell = ({row, cell, map, drones}) => {
 
-  let char = '';
+  let char = 'O';
 
   if(map.get(row, cell) === 1){
     char = "X"
@@ -30,6 +30,8 @@ const Schematic = ( {ship, drones} ) => (
               {
                 Array.from(Array(ship.map.size).keys()).map((row, rowNdx) => {
                   return (
+                    <div>
+                    <col width="1"/>
                     <tr key={`schematic-row-${rowNdx}`}>
                       {
                         Array.from(Array(ship.map.size).keys()).map((cell, cellNdx) => {
@@ -41,6 +43,7 @@ const Schematic = ( {ship, drones} ) => (
                         })
                       }
                     </tr>
+                    </div>
                   );
                 })
               }

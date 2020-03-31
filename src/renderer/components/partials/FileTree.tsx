@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import * as React from 'react';
 
 import {SET_EDITING_FILE} from '../../redux/actionTypes';
 
-export default class FileTree extends Component<{
+export default class FileTree extends React.Component<{
   setEditingFile(filepath): null;
   files: any[];
   path: string[];

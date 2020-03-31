@@ -1,6 +1,7 @@
 const lodash = require('lodash');
 const CopyPkgJsonPlugin = require('copy-pkg-json-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 function srcPaths(src) {
@@ -35,29 +36,31 @@ const commonConfig = {
         exclude: /node_modules/,
         loader: 'ts-loader',
       },
-
-      // {
-      //   test: /\.scss$/i,
-      //   use: [
-      //     // Creates `style` nodes from JS strings
-      //     'style-loader',
-      //     // Translates CSS into CommonJS
-      //     'css-loader',
-      //     // Compiles Sass to CSS
-      //     'sass-loader',
-      //   ],
-      // },
-      // {
-      //   test: /\.(jpg|png|svg|ico|icns)$/,
-      //   loader: 'file-loader',
-      //   options: {
-      //     name: '[path][name].[ext]',
-      //   },
-      // },
+      {
+        test: /\.html$/,
+        use: [{
+          loader: "html-loader"
+        }]
+      }
     ],
   },
 };
 // #endregion
+
+const webConfig = lodash.cloneDeep(commonConfig);
+webConfig.entry = './src/renderer/renderer.tsx';
+webConfig.output.filename = 'index_bundle.js';
+webConfig.plugins = [
+    new CopyWebpackPlugin([
+      {from:'./src/images',to:'images'}
+    ]),
+
+    new HtmlWebpackPlugin({
+      template: "./src/renderer/index.html",
+      filename: "./index.html"
+    }),
+
+  ];
 
 const mainConfig = lodash.cloneDeep(commonConfig);
 mainConfig.entry = './src/main/main.ts';
@@ -84,4 +87,8 @@ rendererConfig.plugins = [
   }),
 ];
 
-module.exports = [mainConfig, rendererConfig];
+module.exports = [
+  webConfig,
+  mainConfig,
+  rendererConfig
+];

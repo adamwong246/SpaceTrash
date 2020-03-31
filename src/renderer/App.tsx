@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 
-
 import Admin from './components/Admin.tsx'
 import CommandLine from './components/CommandLine.tsx'
 import Inventory from './components/Inventory.tsx';
@@ -14,15 +13,6 @@ import ShipInformation from './components/ShipInformation.tsx'
 import Terminal from './components/Terminal.tsx'
 import Video from './components/Video.tsx'
 
-// import * as s from './style/style.css';
-// import * as s2 from 'react-tabs/style/react-tabs.css';
-// import style from "./style/style.css"
-// import {raycaster} from "./style/raycaster.scss"
-// import {tabstyle from 'react-tabs/style/react-tabs.css';
-// console.log(s.content)
-// console.log(s2)
-// console.log(raycaster)
-// console.log(tabstyle)
 require("./style/style.css");
 require("./style/raycaster.scss");
 require('react-tabs/style/react-tabs.css');

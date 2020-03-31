@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import * as React from 'react';
 import {connect} from "react-redux";
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 
@@ -7,7 +7,7 @@ import {getAdminProps} from "../redux/selectors";
 
 import Editor from './Editor.tsx';
 
-class Admin extends Component<{
+class Admin extends React.Component<{
   files: any[];
   editingShip: any;
   setEditingShip(id: number): null;
