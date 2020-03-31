@@ -1,6 +1,8 @@
-export default function RayCastMap(size) {
-  this.size = size;
-  this.wallGrid = new Uint8Array(size * size);
+const buffer = 1;
+export default function RayCastMap(x, y) {
+  this.sizeX = x +(buffer*2);
+  this.sizeY = y +(buffer*2);
+  this.wallGrid = Array.from(Array(this.sizeY), () => new Array(this.sizeX))
 
   // randomize
   // for (var i = 0; i < this.size * this.size; i++) {
@@ -18,17 +20,17 @@ export default function RayCastMap(size) {
 }
 
 RayCastMap.prototype.set = function(x, y, v) {
-  x = Math.floor(x);
-  y = Math.floor(y);
-  if (x < 0 || x > this.size - 1 || y < 0 || y > this.size - 1) return -1;
-  this.wallGrid[y * this.size + x] = v;
+  x = Math.floor(x) + buffer;
+  y = Math.floor(y) + buffer;
+  if (x < 0 || x > this.sizeX - 1 || y < 0 || y > this.sizeY - 1) return -1;
+  this.wallGrid[y][x] = v
 };
 
 RayCastMap.prototype.get = function(x, y) {
   x = Math.floor(x);
   y = Math.floor(y);
-  if (x < 0 || x > this.size - 1 || y < 0 || y > this.size - 1) return -1;
-  return this.wallGrid[y * this.size + x];
+  if (x < 0 || x > this.sizeX - 1 || y < 0 || y > this.sizeY - 1) return -1;
+  return this.wallGrid[y][x]
 };
 
 RayCastMap.prototype.cast = function(point, angle, range) {

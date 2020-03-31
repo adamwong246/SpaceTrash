@@ -11,8 +11,9 @@ import upgrades from "./upgrades";
 import threats from "./threats.js";
 import editingShip from "./editingShip.js"
 import editingFile from "./editingFile.js"
+import schematicCursor from "./schematicCursor.ts"
 
 export default combineReducers({
   ships, currentShip, drones, upgrades, boardedShip, droneWithActiveVideo, commands, camera, threats,
-  editingShip, editingFile
+  editingShip, editingFile, schematicCursor
 });

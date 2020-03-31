@@ -2,114 +2,155 @@ import * as React from 'react';
 import { connect } from "react-redux";
 
 import { getSchematicProps } from "../redux/selectors";
-
 import RayCastMap from "../raycast/RayCastMap"
-
 import ship0 from "../../lib/ship0.ts";
-const shipMap = ship0.makeMap();
 
-const maxX = [
-  shipMap.engineering,shipMap.bridge, shipMap.storage, shipMap.drone, shipMap.shop, shipMap.airlock,
-].reduce((mm, r) => {
-  mm = r.x > mm ? r.x : mm
-  return mm
-}, 0)
-
-const maxY = [
-  shipMap.engineering,shipMap.bridge, shipMap.storage, shipMap.drone, shipMap.shop, shipMap.airlock,
-].reduce((mm, r) => {
-  mm = r.y2 > mm ? r.y2 : mm
-  return mm
-}, 0)
-
-const materializedMap = new RayCastMap(Math.max(maxX, maxY))
+import {SET_SCHEMA_CURSOR} from '../redux/actionTypes';
 
 const rooms = ['engineering', 'bridge', 'storage', 'drone', 'shop', 'airlock']
-rooms.forEach((room, ndx) => {
-  for (let x = shipMap[room].x; x < shipMap[room].x2; x++ ){
-    for (let y = shipMap[room].y; y < shipMap[room].y2; y++ ){
-      materializedMap.set(
-        x, y, ndx+1
-      )
+
+
+
+const Cell = ({x, y, map, drones, onHover}) => {
+
+  let char = '_';
+
+  const mapCell = map.get(x, y);
+  if(mapCell){
+    if (rooms.includes(mapCell)){
+      char = '█'
+    } else if (mapCell === 'door'){
+      char = "░"
+    } else {
+      char = "?"
     }
   }
-});
 
-
-shipMap.doors.forEach((door, ndx) => {
-  materializedMap.set(door.x, door.y, ndx+10)
-
-  // if (door.direction === 'h'){
-  //   materializedMap.set(door.x, door.y-1, 0)
-  //   materializedMap.set(door.x, door.y+1, 0)
-  // }
-  //
-  // if (door.direction === 'v'){
-  //   materializedMap.set(door.x-1, door.y, 0)
-  //   materializedMap.set(door.x+1, door.y, 0)
-  // }
-
-});
-
-
-const Cell = ({row, cell, map, drones}) => {
-
-  let char = '';
-
-  if(map.get(row, cell)){
-    char = '█'
-  }
-
-  // drones.forEach((drone, i) => {
-  //   if (drone.x === cell && drone.y === row){
-  //     char = "D"
-  //   }
-  // });
-  return <>{char}</>;
+  drones.forEach((drone, i) => {
+    if (drone.x + 1 === x && drone.y +1=== y){
+      char = "X"
+    }
+  });
+  return <div key={`schematic-row-cell-char${x}-${y}`} onMouseOver={()=> onHover(x, y)}>{char}</div>;
 }
 
-const Schematic = ( {ship, drones} ) => (
-  <div id="schematic">
+class Schematic extends React.Component<{
+  ship, drones, setSchemaCursor, schematicCursor
+}, {}>{
+  render() {
 
-    <table>
-      <tr>
-        <td>
-          <table id="grid">
-            <tbody>
-              {
-                Array.from(Array(materializedMap.size).keys()).map((row, rowNdx) => {
-                  return (
-                    <div>
+    const {ship, drones, setSchemaCursor, schematicCursor} = this.props
 
-                    <tr key={`schematic-row-${rowNdx}`}>
-                      {
-                        Array.from(Array(materializedMap.size).keys()).map((cell, cellNdx) => {
-                          return (
-                            <td key={`schematic-row-cell-${rowNdx}-${cellNdx}`}>
-                              <Cell row={row} cell={cell} map={materializedMap} drones={drones}/>
-                            </td>
-                          )
-                        })
-                      }
-                    </tr>
-                    </div>
-                  );
-                })
-              }
-            </tbody>
-          </table></td>
-        <td>
-          INFO
-        </td>
-      </tr>
+    const shipMap = ship0.makeMap();
+    const doors = shipMap.doors
+    const maxX = rooms.reduce((mm, r) => {
+      mm = shipMap[r].x2 > mm ? shipMap[r].x2 : mm
+      return mm
+    }, 0)
+
+    const maxXd = doors.reduce((mm, d) => {
+      mm = d.x > mm ? d.x : mm
+      return mm
+    }, 0)
+
+    const maxXdr = drones.reduce((mm, d) => {
+      mm = d.x > mm ? d.x : mm
+      return mm
+    }, 0)
+
+    const maxY = rooms.reduce((mm, r) => {
+      mm = shipMap[r].y2 > mm ? shipMap[r].y2 : mm
+      return mm
+    }, 0)
+
+    const maxYd = doors.reduce((mm, d) => {
+      mm = d.y > mm ? d.y : mm
+      return mm
+    }, 0)
+
+    const maxYdr = drones.reduce((mm, d) => {
+      mm = d.y > mm ? d.y : mm
+      return mm
+    }, 0)
+
+    const materializedMap = new RayCastMap(
+      Math.max(maxX, maxXd, maxXdr)+1, Math.max(maxY, maxYd, maxYdr)
+    )
+
+    rooms.forEach((room, ndx) => {
+      for (let x = shipMap[room].x; x < shipMap[room].x2; x++ ){
+        for (let y = shipMap[room].y; y < shipMap[room].y2; y++ ){
+          materializedMap.set(
+            x, y, room
+          )
+        }
+      }
+    });
+
+
+    shipMap.doors.forEach((door, ndx) => {
+      materializedMap.set(door.x, door.y, 'door')
+    });
+
+    return (<div id="schematic">
+
+    <div>
+      INFO
+      {JSON.stringify(schematicCursor)}
+      {materializedMap.get(schematicCursor.x, schematicCursor.y)}
+    </div>
+
+    <table id="grid">
+      <tbody>
+        {
+          Array.from(Array(materializedMap.sizeY).keys()).map((row, rowNdx) => {
+            return (
+
+
+              <tr key={`schematic-row-${rowNdx}`}>
+                {
+                  Array.from(Array(materializedMap.sizeX).keys()).map((column, cellNdx) => {
+
+                    const highlighted =
+                      schematicCursor.x === column && schematicCursor.y === row ?
+                      'schematic-cursor-highlight' :
+                      'schematic-cursor-no-highlight';
+                    return (
+                      <td key={`schematic-row-cell-${rowNdx}-${cellNdx}`} className={highlighted}>
+                        <Cell
+                          x={column} y={row}
+                          map={materializedMap} drones={drones}
+                          onHover={setSchemaCursor}
+                        />
+                      </td>
+                    )
+                  })
+                }
+              </tr>
+
+            );
+          })
+        }
+      </tbody>
     </table>
 
 
-  </div>
-);
+    </div>);
+  }
+}
 
 const mapStateToProps = state => {
   return getSchematicProps(state) ;
 };
 
-export default connect(mapStateToProps)(Schematic);
+const mapActionsToProps = dispatch => {
+  return {
+    setSchemaCursor: (x, y) => {
+
+      dispatch({type: SET_SCHEMA_CURSOR, payload: {x, y}})
+
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(Schematic);

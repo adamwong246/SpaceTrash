@@ -4,11 +4,14 @@ import rootReducer from "./reducers";
 import RayCastMap from "../raycast/RayCastMap"
 
 export default createStore(rootReducer, {
+  schematicCursor:{
+    x: 0, y: 0
+  },
   ships: [
     {
       id: 0,
       name: "USCSS Nostromo",
-      map: new RayCastMap(16),
+      map: new RayCastMap(16, 16),
       class: "Starfreighter",
       registration: "1809246(09)",
       model: "Lockmart CM-88B Bison",
@@ -27,7 +30,7 @@ export default createStore(rootReducer, {
     {
       id: 1,
       name: "USCSS Sulaco",
-      map: new RayCastMap(16),
+      map: new RayCastMap(16, 16),
       class: "Military vessel",
       registration: "7839f46(a4)",
       model: "Akira class",
@@ -51,12 +54,12 @@ export default createStore(rootReducer, {
     {
       id: 1, name:  "Curly",
       upgrades: [2, 3, 4],
-      x: 4, y: 5, direction: 6
+      x: 0, y: 1, direction: 6
     },
     {
       id: 2,name:  "Moe",
       upgrades: [5],
-      x: 7, y: 8, direction: 9
+      x: 0, y: 2, direction: 9
     }
   ],
   droneWithActiveVideo: 0,

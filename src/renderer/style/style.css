@@ -16,7 +16,6 @@ td{
   padding: 0.2em;
   cellpadding: 0;
   cellspaceing: 0;
-  border: 1px solid green;
 }
 
 #schematic td, #schematic tr {
@@ -24,9 +23,7 @@ td{
 }
 
 #schematic #grid * {
-  font-size: 9px;
   width: 100%;
-  text-align: center;
   border: none;
   padding: 0px;
   margin: 0px;
@@ -36,6 +33,13 @@ td{
   width: 2em;
 }
 
+#schematic #grid .schematic-cursor-highlight {
+  border: 1px solid green;
+}
+
+#schematic #grid .schematic-cursor-no-highlight {
+  border: 1px solid black;
+}
 
 table{
   width: 100%;

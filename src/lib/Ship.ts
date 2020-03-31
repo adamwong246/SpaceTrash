@@ -1,7 +1,6 @@
 export interface IShipMapRoomDoor = {
   x: number;
   y: number;
-  direction: 'v' | 'h'
 }
 
 export interface IShipMapRoom = {

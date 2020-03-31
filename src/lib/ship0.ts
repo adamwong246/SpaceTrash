@@ -20,10 +20,12 @@ export default {
         otherRooms: [],
 
         doors: [
-          {x: 5, y: 2, direction: 'v'},
-          {x: 11, y: 2, direction: 'v'},
-          {x: 17, y: 2, direction: 'v'},
-          {x: 23, y: 2, direction: 'v'},
+          {x: 5, y: 2},
+          {x: 11, y: 2},
+          {x: 17, y: 2},
+          {x: 23, y: 2},
+          {x: 29, y: 2},
+          {x: 35, y: 2},
         ]
 
 

@@ -11,3 +11,4 @@ export const SET_VIDEO = "SET_VIDEO";
 export const TELEPORT = "TELEPORT"
 export const SET_EDITING_SHIP = "SET_EDITING_SHIP";
 export const SET_EDITING_FILE = "SET_EDITING_FILE";
+export const SET_SCHEMA_CURSOR = "SET_SCHEMA_CURSOR";

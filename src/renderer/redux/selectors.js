@@ -49,7 +49,8 @@ export const getShipInformationProps = store => {
 export const getSchematicProps = store => {
   return {
     ship: store.ships.find((s) => s.id === store.boardedShip),
-    drones: Object.keys(store.drones).map((s) => store.drones[s])
+    drones: Object.keys(store.drones).map((s) => store.drones[s]),
+    schematicCursor: store.schematicCursor
   }
 }
 
