@@ -1,3 +1,7 @@
 .app {
-  color: grey;
+  color: black;
+}
+
+table td{
+  border: black 1px solid;
 }

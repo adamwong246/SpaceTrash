@@ -9,16 +9,6 @@ const windowManager = require('electron-window-manager');
 
 let mainWindow: Electron.BrowserWindow | null;
 
-// Attach listener in the main process with the given ID
-ipcMain.on('bootup', (event, arg) => {
- windowManager.open('term', 'term!', url.format({
-  pathname: path.join(__dirname, './index.html'),
-  protocol: 'file:',
-  slashes: true,
-  search: 'term'
- }));
-});
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
