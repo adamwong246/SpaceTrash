@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
-import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
-import {getManual} from "../redux/selectors";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { getManual } from "../redux/selectors";
 
-const Manual = ({threats, upgrades}) => (<div >
+const Manual = ({ threats, upgrades, rooms }) => (<div >
   <Tabs>
     <TabList>
       <Tab>commands</Tab>
@@ -28,9 +28,9 @@ const Manual = ({threats, upgrades}) => (<div >
             </td>
             <td>
               NAVIGATE drone, room
-              <br/>
+              <br />
               NAVIGATE drone, x, y
-              <br/>
+              <br />
               NAVIAGTE d1 HOME
             </td>
           </tr>
@@ -55,7 +55,7 @@ const Manual = ({threats, upgrades}) => (<div >
             </td>
             <td>
               SWAP drone1, drone2
-              <br/>
+              <br />
               SWAP (automatically chooses closest)
             </td>
           </tr>
@@ -117,8 +117,8 @@ const Manual = ({threats, upgrades}) => (<div >
       <table>
         <tbody>
           <tr>
-          <td>
-            Name
+            <td>
+              Name
           </td>
 
           </tr>
@@ -127,25 +127,25 @@ const Manual = ({threats, upgrades}) => (<div >
               return (<tr key={t.id}>
                 <td>
                   {t.name}
-                <hr/>
-                {t.description}
+                  <hr />
+                  {t.description}
                 </td>
                 <td>
                   strength: {t.strength}
-                <br/>
+                  <br />
                   weakness: {t.weakness}
-                <br/>
+                  <br />
                   attraction: {t.attraction}
-                  <br/>
+                  <br />
                   speed: {t.speed}
                 </td>
                 <td>
                   1 {t.signal[0]}
-                  <br/>
+                  <br />
                   2 {t.signal[1]}
-                  <br/>
+                  <br />
                   3 {t.signal[2]}
-                  <br/>
+                  <br />
                 </td>
               </tr>);
             })
@@ -239,48 +239,19 @@ const Manual = ({threats, upgrades}) => (<div >
     <TabPanel>
       <table>
         <tbody>
-          <tr>
-            <td>
-              Engine
-            </td>
-            <td>
-              The location of a ship's CORE.
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Bridge
-            </td>
-            <td>
-              The location of a ship's DATABASE.
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Storage
-            </td>
-            <td>
-              The location of a ship's CHEST_MOUNTs.
-            </td>
-          </tr>
+          {
+            Object.keys(rooms).map((r) => {
+              return (<tr>
+                <td>
+                  {r}
+                </td>
+                <td>
+                  {rooms[r]}
+                </td>
+              </tr>)
+            })
+          }
 
-          <tr>
-            <td>
-              Bay
-            </td>
-            <td>
-              The location of a ship's DRONE_DOCKs.
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              Engineering
-            </td>
-            <td>
-              The location of a ship's FRABRICATOR.
-            </td>
-          </tr>
 
         </tbody>
       </table>

@@ -65,12 +65,12 @@ export default createStore(rootReducer, {
     'booting...'
   ],
   camera: {
-    x: -10000,
-    y: 10000,
-    z: -5000,
+    x: 0,
+    y: 0,
+    z: 0,
     dx: 0,
-    dy: 0.5,
-    dz: -0.5,
-    d: 150
+    dy: 0,
+    dz: 0,
+    d: 0
   }
 });

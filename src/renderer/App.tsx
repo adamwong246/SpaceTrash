@@ -13,9 +13,10 @@ import ShipInformation from './components/ShipInformation.tsx'
 import Terminal from './components/Terminal.tsx'
 import Video from './components/Video.tsx'
 
+require('react-tabs/style/react-tabs.css');
 require("./style/style.css");
 require("./style/raycaster.scss");
-require('react-tabs/style/react-tabs.css');
+
 
 export default class App extends React.Component<{
   newCommand(command: string): any;

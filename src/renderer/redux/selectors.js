@@ -1,5 +1,6 @@
 import threats from '../data/threats.js';
 import upgrades from '../data/upgrades.js';
+import rooms from '../data/rooms.js';
 
 export const getCurrentShip = store => {
   return {ship: store.ships.find((s) => s.id === store.currentShip)}
@@ -61,7 +62,8 @@ export const getBootProps = store => {
 export const getManual = store => {
   return {
     threats,
-    upgrades
+    upgrades,
+    rooms
   }
 }
 

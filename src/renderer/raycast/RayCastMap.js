@@ -3,17 +3,17 @@ export default function RayCastMap(size) {
   this.wallGrid = new Uint8Array(size * size);
 
   // randomize
-  for (var i = 0; i < this.size * this.size; i++) {
-    this.wallGrid[i] = Math.random() < 0.1 ? 1 : 0;
-  }
+  // for (var i = 0; i < this.size * this.size; i++) {
+  //   this.wallGrid[i] = Math.random() < 0.1 ? 1 : 0;
+  // }
 
   // make the wals
-  for (var i = 0; i < this.size; i++) {
-    this.set(0, i, 1)
-    this.set(i, 0, 1)
-    this.set(this.size-1, i, 1)
-    this.set(i, this.size-1, 1)
-  }
+  // for (var i = 0; i < this.size; i++) {
+  //   this.set(0, i, 1)
+  //   this.set(i, 0, 1)
+  //   this.set(this.size-1, i, 1)
+  //   this.set(i, this.size-1, 1)
+  // }
 
 }
 

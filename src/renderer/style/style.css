@@ -23,23 +23,26 @@ td{
   padding: 0;
 }
 
-#table * schematic {
+#schematic #grid * {
   font-size: 9px;
-
-
-    width: 100%;
-    text-align: center;
-    border: none;
-    padding: 0px;
-    margin: 0px;
+  width: 100%;
+  text-align: center;
+  border: none;
+  padding: 0px;
+  margin: 0px;
 }
+
+#schematic #grid td {
+  width: 2em;
+}
+
 
 table{
   width: 100%;
   text-align: left;
-
 }
-.react-tabs__tab-list{
+
+#content .react-tabs__tab-list{
   border-bottom: 1px solid green;
 }
 
@@ -65,13 +68,7 @@ table{
   border: 1px dotted green;
 }
 
-#content{
 
-}
-
-#command-line {
-
-}
 hr {
   border: 1px solid green;
 }
@@ -81,7 +78,7 @@ hr {
   flex-direction: row;
 }
 
-.react-tabs__tab{
+#content .react-tabs__tab{
   padding: 1px 6px;
 }
 
