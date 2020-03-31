@@ -47,7 +47,8 @@
     "react-terminal-component": "^1.4.1",
     "react-typist": "^2.0.5",
     "sass-loader": "^8.0.2",
-    "scss-loader": "^0.0.1"
+    "scss-loader": "^0.0.1",
+    "typings-for-css-modules-loader": "^1.7.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",

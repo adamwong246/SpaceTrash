@@ -14,14 +14,18 @@ import ShipInformation from './components/ShipInformation.tsx'
 import Terminal from './components/Terminal.tsx'
 import Video from './components/Video.tsx'
 
+// import * as s from './style/style.css';
+// import * as s2 from 'react-tabs/style/react-tabs.css';
 // import style from "./style/style.css"
 // import {raycaster} from "./style/raycaster.scss"
 // import {tabstyle from 'react-tabs/style/react-tabs.css';
-// console.log(style)
+// console.log(s.content)
+// console.log(s2)
 // console.log(raycaster)
 // console.log(tabstyle)
-// require("./style/style.css");
-// require('../../node_modules/react-tabs/style/react-tabs.css');
+require("./style/style.css");
+require("./style/raycaster.scss");
+require('react-tabs/style/react-tabs.css');
 
 export default class App extends React.Component<{
   newCommand(command: string): any;
