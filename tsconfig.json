@@ -7,7 +7,7 @@
       "@/*": ["src/*"],
       "@public/*": ["public/*"],
       "@main/*": ["src/main/*"],
-      "@models/*": ["src/models/*"],
+      "@lib/*": ["src/lib/*"],
       "@renderer*/": ["src/renderer/*"],
       "@utils/*": ["src/utils/*"]
     },

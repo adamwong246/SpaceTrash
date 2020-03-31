@@ -1,16 +1,16 @@
-export interface IShipMapRoomDoor = {
+export interface IShipMapRoomDoor {
   x: number;
   y: number;
 }
 
-export interface IShipMapRoom = {
+export interface IShipMapRoom {
   x: number;
   y: number;
   x2: number;
   y2: number;
 }
 
-export interface IShipMap = {
+export interface IShipMap {
   engineering: IShipMapRoom;
   bridge: IShipMapRoom;
   storage: IShipMapRoom;
@@ -21,7 +21,7 @@ export interface IShipMap = {
   doors: IShipMapRoomDoor[]
 }
 
-export interface IShip = {
+export interface IShip {
   name: string;
   map: IShipMap;
 }

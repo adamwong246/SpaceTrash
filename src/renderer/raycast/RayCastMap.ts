@@ -1,8 +1,35 @@
-const buffer = 1;
+// const buffer = 1;
+
+interface IMapCell {
+  type: 'wall' | 'floor' | 'door' | 'nothing' | '?'
+  contents?: [];
+};
+
+const unknownCell: IMapCell = {
+  type: '?',
+  contents: []
+}
+
+// const emptyCell: IMapCell = {
+//   type: 'nothing',
+//   contents: []
+// }
+
+const wallCell: IMapCell = {
+  type: 'wall',
+  contents: []
+}
+
 export default function RayCastMap(x, y) {
-  this.sizeX = x +(buffer*2);
-  this.sizeY = y +(buffer*2);
+  this.sizeX = x;
+  this.sizeY = y;
   this.wallGrid = Array.from(Array(this.sizeY), () => new Array(this.sizeX))
+
+  for (let x2 = 0; x2 < this.sizeX; x2++){
+    for (let y2 = 0; y2 < this.sizeY; y2++){
+      this.set(x2, y2, wallCell)
+    }
+  }
 
   // randomize
   // for (var i = 0; i < this.size * this.size; i++) {
@@ -19,17 +46,18 @@ export default function RayCastMap(x, y) {
 
 }
 
-RayCastMap.prototype.set = function(x, y, v) {
-  x = Math.floor(x) + buffer;
-  y = Math.floor(y) + buffer;
-  if (x < 0 || x > this.sizeX - 1 || y < 0 || y > this.sizeY - 1) return -1;
+RayCastMap.prototype.set = function(x: number, y: number, v: IMapCell) {
+  // console.log('set', x, y, v)
+  x = Math.floor(x);
+  y = Math.floor(y);
   this.wallGrid[y][x] = v
 };
 
-RayCastMap.prototype.get = function(x, y) {
+RayCastMap.prototype.get = function(x, y): IMapCell {
+  // console.log('get', x, y)
   x = Math.floor(x);
   y = Math.floor(y);
-  if (x < 0 || x > this.sizeX - 1 || y < 0 || y > this.sizeY - 1) return -1;
+  // if (x < 0 || x > this.sizeX - 1 || y < 0 || y > this.sizeY - 1) return unknownCell;
   return this.wallGrid[y][x]
 };
 
@@ -37,7 +65,7 @@ RayCastMap.prototype.cast = function(point, angle, range) {
   var self = this;
   var sin = Math.sin(angle);
   var cos = Math.cos(angle);
-  var noWall = { length2: Infinity };
+  var noWall = { x: 0, y:0,length2: Infinity };
 
   return ray({ x: point.x, y: point.y, height: 0, distance: 0 });
 
@@ -52,7 +80,11 @@ RayCastMap.prototype.cast = function(point, angle, range) {
     return [origin].concat(ray(nextStep));
   }
 
-  function step(rise, run, x, y, inverted) {
+  function step(rise, run, x, y, inverted = false):{
+    x: number,
+    y: number,
+    length2: number
+  } {
     if (run === 0) return noWall;
     var dx = run > 0 ? Math.floor(x + 1) - x : Math.ceil(x - 1) - x;
     var dy = dx * (rise / run);

@@ -2,36 +2,41 @@ import * as React from 'react';
 import { connect } from "react-redux";
 
 import { getSchematicProps } from "../redux/selectors";
-import RayCastMap from "../raycast/RayCastMap"
+import RayCastMap from "../raycast/RayCastMap.ts"
 import ship0 from "../../lib/ship0.ts";
 
 import {SET_SCHEMA_CURSOR} from '../redux/actionTypes';
 
 const rooms = ['engineering', 'bridge', 'storage', 'drone', 'shop', 'airlock']
 
-
-
 const Cell = ({x, y, map, drones, onHover}) => {
 
-  let char = '_';
+  let char = '?';
 
-  const mapCell = map.get(x, y);
+  let mapCell = map.get(x, y);
   if(mapCell){
-    if (rooms.includes(mapCell)){
-      char = '█'
-    } else if (mapCell === 'door'){
+    if (mapCell.type === 'floor'){
+      char = '_'
+    } else if (mapCell.type === 'door'){
       char = "░"
-    } else {
-      char = "?"
+    } else if (mapCell.type === 'wall'){
+      char = "█"
     }
   }
 
   drones.forEach((drone, i) => {
     if (drone.x + 1 === x && drone.y +1=== y){
       char = "X"
+      mapCell = {type: 'floor', contents: [drone]}
     }
   });
-  return <div key={`schematic-row-cell-char${x}-${y}`} onMouseOver={()=> onHover(x, y)}>{char}</div>;
+
+  return <div
+    key={`schematic-row-cell-char${x}-${y}`}
+    onMouseOver={()=> onHover(x, y, mapCell )}
+  >
+    {char}
+  </div>;
 }
 
 class Schematic extends React.Component<{
@@ -81,23 +86,33 @@ class Schematic extends React.Component<{
       for (let x = shipMap[room].x; x < shipMap[room].x2; x++ ){
         for (let y = shipMap[room].y; y < shipMap[room].y2; y++ ){
           materializedMap.set(
-            x, y, room
+            x, y, {
+              type: 'floor',
+              contents: []
+            }
           )
         }
       }
     });
 
-
     shipMap.doors.forEach((door, ndx) => {
-      materializedMap.set(door.x, door.y, 'door')
+      materializedMap.set(door.x, door.y, {
+        type: 'door',
+        contents: []
+      })
     });
 
     return (<div id="schematic">
 
-    <div>
-      INFO
-      {JSON.stringify(schematicCursor)}
-      {materializedMap.get(schematicCursor.x, schematicCursor.y)}
+    <div id="schematic-info">
+      <p>x: {schematicCursor.x}</p>
+      <p>y: {schematicCursor.y}</p>
+      <p>{schematicCursor.mapCell.type}</p>
+      <ul>
+        {(schematicCursor.mapCell.contents || []).map((c) => {
+          return (<li>{c.name}</li>)
+        })}
+      </ul>
     </div>
 
     <table id="grid">
@@ -145,9 +160,8 @@ const mapStateToProps = state => {
 
 const mapActionsToProps = dispatch => {
   return {
-    setSchemaCursor: (x, y) => {
-
-      dispatch({type: SET_SCHEMA_CURSOR, payload: {x, y}})
+    setSchemaCursor: (x, y, mapCell) => {
+      dispatch({type: SET_SCHEMA_CURSOR, payload: {x, y, mapCell}})
 
     }
   }

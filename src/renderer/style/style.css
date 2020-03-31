@@ -41,6 +41,22 @@ td{
   border: 1px solid black;
 }
 
+#schematic {
+  display: flex;
+  flex-direction: row;
+}
+
+#schematic #schematic-info {
+  width: 25%;
+  word-break:break-all;
+  background-color: green;
+  color: black;
+}
+
+#schematic #grid {
+  flex: auto;
+}
+
 table{
   width: 100%;
   text-align: left;
@@ -92,7 +108,5 @@ ul{
 }
 
 #filetree ul li button {
-
     width: 100%;
-
 }

@@ -19,6 +19,6 @@ wrapper
 
 // ReactDOM.render(<div> HELLO REACT</div>, document.getElementById('app'));
 
-document.write("node", process.versions.node)
-document.write("chrome", process.versions.chrome)
-document.write("electron", process.versions.electron)
+// document.write("node", process.versions.node)
+// document.write("chrome", process.versions.chrome)
+// document.write("electron", process.versions.electron)
