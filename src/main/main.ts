@@ -7,7 +7,8 @@ function createWindow () {
     height: 600,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    title: "SpaceTrash v0"
   })
 
   // and load the index.html of the app.

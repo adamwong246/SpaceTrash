@@ -1,7 +1,7 @@
 import { createStore } from "redux";
 import rootReducer from "./reducers";
 
-import RayCastMap from "../raycast/RayCastMap.ts"
+import RayCastMap from "../lib/RayCastMap.ts"
 
 export default createStore(rootReducer, {
   schematicCursor:{

@@ -1,4 +1,4 @@
-import * as ActionTypes from "../renderer/redux/actionTypes";
+import * as ActionTypes from "../redux/actionTypes";
 
 const actions = Object.keys(ActionTypes);
 

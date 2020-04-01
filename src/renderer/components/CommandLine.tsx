@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {NEW_COMMAND, SET_VIDEO, TELEPORT} from '../redux/actionTypes';
 import {getBootProps} from "../redux/selectors";
 
-import CommandParser from '../../lib/CommandParser.ts';
+import CommandParser from '../lib/CommandParser.ts';
 
 class CommandLine extends React.Component<{
   newCommand(value): null;

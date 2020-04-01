@@ -2,8 +2,10 @@ import * as React from 'react';
 import {connect} from "react-redux";
 
 import {getVideoProps} from "../redux/selectors";
-import RayCastRoom from "./Ray/RayCastRoom.tsx";
 import {TELEPORT} from "../redux/actionTypes";
+
+import style from "../style/raycast.css";
+
 
 class Video extends React.Component<{materializedMap, camera, teleport}, {}>{
   render(){
@@ -12,15 +14,17 @@ class Video extends React.Component<{materializedMap, camera, teleport}, {}>{
 
     return (<div >
 
-      <div id="wrapper" onKeyDown={(e) => alert(e)}>
-        <div id="gameWorld" style={{
-            transform: `rotate3d(${camera.dx}, ${camera.dy}, ${camera.dz}, ${camera.d}deg)  translate3d(${camera.x}px, ${camera.y}px, ${camera.z}px)`
-          }}>
-          <RayCastRoom materializedMap={materializedMap}/>
-        </div>
+      <div id="screen">
+      	<div id="floor"></div>
+      	<div id="ceiling"></div>
       </div>
 
-      {JSON.stringify(camera)}
+      <div id="minimapcontainer">
+      	<canvas id="minimap"></canvas>
+      	<canvas id="minimapobjects"></canvas>
+      </div>
+
+      <div id="debug"></div>
 
 
     </div>);

@@ -14,8 +14,6 @@ import Mission from './components/Mission.tsx';
 
 require('react-tabs/style/react-tabs.css');
 require("./style/style.css");
-require("./style/raycaster.scss");
-
 
 export default class App extends React.Component<{
   newCommand(command: string): any;
