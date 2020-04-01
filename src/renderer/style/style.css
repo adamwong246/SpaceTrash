@@ -22,6 +22,12 @@ input#command-line {
   font-size: inherit;
 }
 
+input#command-line:focus {
+  outline: none;
+}
+
+
+
 td{
   padding: 0.2em;
   cellpadding: 0;

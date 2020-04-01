@@ -8,7 +8,7 @@ import Schematic from './Schematic.tsx'
 
 import { getMissionProps } from "../redux/selectors";
 
-import RayCastMap from "../lib/RayCastMap.ts"
+import RayCastMap from "../lib/raycast/RayCastMap.ts"
 import ship0 from "../lib/ship0.ts";
 
 const rooms = ['engineering', 'bridge', 'storage', 'drone', 'shop', 'airlock']
