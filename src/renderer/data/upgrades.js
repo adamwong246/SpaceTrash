@@ -64,13 +64,13 @@ export default   [
   },
 
   {
-    id: 18, name: "INFRA_SCOPE", description: "Detects HEAT signatures"
+    id: 18, name: "INFRA_SCOPE", description: "Detects HEAT signatures through walls"
   },
   {
-    id: 19, name: "SONAR_SCOPE", description: "Detects SOUND signatures"
+    id: 19, name: "SONAR_SCOPE", description: "Detects SOUND signatures from any direction"
   },
   {
-    id: 20, name: "MOTION_SCOPE", description: "Detects MOTION signatures"
+    id: 20, name: "MOTION_SCOPE", description: "Detects MOTION signatures from a long distance."
   },
 
   {

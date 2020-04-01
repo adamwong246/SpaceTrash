@@ -4,8 +4,11 @@ import {connect} from "react-redux";
 import {NEW_COMMAND, SET_VIDEO, TELEPORT} from '../redux/actionTypes';
 import {getBootProps} from "../redux/selectors";
 
+import CommandParser from '../../lib/CommandParser.ts';
+
 class CommandLine extends React.Component<{
   newCommand(value): null;
+  notification: string
 }, {
   value: string;
 }> {
@@ -31,13 +34,16 @@ class CommandLine extends React.Component<{
     }
 
   render() {
-    return (<div>
+    const notification = this.props.notification
+
+    return (<div id="command-bar">
+      {notification}
       <form onSubmit={(event) => {
         event.preventDefault()
         this.resetState()
         this.props.newCommand(this.state.value)
       }}>
-        <input type="text" value={this.state.value} onChange={this.handleChange}/>
+        <input id="command-line" type="text" value={this.state.value} onChange={this.handleChange}/>
       </form >
     </div>);
   }
@@ -49,32 +55,7 @@ const mapStateToProps = state => {
 
 const mapActionsToProps = dispatch => {
   return {
-    newCommand: (value) => {
-
-      dispatch({type: NEW_COMMAND, payload: value})
-
-      const split = value.split(' ')
-
-      if (split[0] === SET_VIDEO){
-        dispatch({type: SET_VIDEO, payload: parseInt(split[1])})
-      } else if (split[0] === 'TELEPORT'){
-        dispatch(
-          {
-            type: TELEPORT,
-            payload: (
-              {
-                x: parseInt(split[1]),
-                y: parseInt(split[2]),
-                z: parseInt(split[3]),
-                dx: parseInt(split[4]),
-                dy: parseInt(split[5]),
-                dz: parseInt(split[6]),
-              }
-            )
-          }
-        )
-      }
-    }
+    newCommand: (value) => CommandParser.parse(dispatch, value)
   }
 };
 

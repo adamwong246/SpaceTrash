@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import {getBootProps} from "../redux/selectors";
 
 class Terminal extends React.Component<{
-  commands: any[];
+  logs: string[];
 }, {
   value: string;
 }> {
@@ -27,14 +27,8 @@ class Terminal extends React.Component<{
 
   render() {
     return (<div >
-      <pre>
-        <code>
-            {
-              this.props.commands.join("\n")
-            }
-        </code>
-      </pre>
 
+      {this.props.logs.map((c) => <p>{c}</p>)}
 
     </div>);
   }

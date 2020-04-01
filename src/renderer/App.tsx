@@ -7,11 +7,10 @@ import CommandLine from './components/CommandLine.tsx'
 import Inventory from './components/Inventory.tsx';
 import Manual from './components/Manual.tsx'
 import Navigation from './components/Navigation.tsx';
-import Schematic from './components/Schematic.tsx'
 import ShipConfiguration from './components/ShipConfiguration.tsx'
 import ShipInformation from './components/ShipInformation.tsx'
 import Terminal from './components/Terminal.tsx'
-import Video from './components/Video.tsx'
+import Mission from './components/Mission.tsx';
 
 require('react-tabs/style/react-tabs.css');
 require("./style/style.css");
@@ -50,15 +49,10 @@ export default class App extends React.Component<{
         </TabPanel>
 
         <TabPanel>
-          <Tabs>
-            <TabList>
-              <Tab>schematic</Tab>
-              <Tab>video</Tab>
-            </TabList>
-            <TabPanel><Schematic/></TabPanel>
-            <TabPanel><Video/></TabPanel>
-          </Tabs>
+          <Mission/>
         </TabPanel>
+
+
 
         <TabPanel>
           <Inventory/>

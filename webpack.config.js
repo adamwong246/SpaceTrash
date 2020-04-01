@@ -44,17 +44,19 @@ const commonConfig = {
       }
     ],
   },
+
+  plugins: [
+    new CopyWebpackPlugin([
+      {from:'./src/images',to:'images'}
+    ]),
+  ]
 };
 // #endregion
 
 const webConfig = lodash.cloneDeep(commonConfig);
 webConfig.entry = './src/renderer/renderer.tsx';
 webConfig.output.filename = 'index_bundle.js';
-webConfig.plugins = [
-    new CopyWebpackPlugin([
-      {from:'./src/images',to:'images'}
-    ]),
-
+webConfig.plugins = [...commonConfig.plugins,
     new HtmlWebpackPlugin({
       template: "./src/renderer/index.html",
       filename: "./index.html"
@@ -66,7 +68,7 @@ const mainConfig = lodash.cloneDeep(commonConfig);
 mainConfig.entry = './src/main/main.ts';
 mainConfig.target = 'electron-main';
 mainConfig.output.filename = 'main.bundle.js';
-mainConfig.plugins = [
+mainConfig.plugins = [...commonConfig.plugins,
   new CopyPkgJsonPlugin({
     remove: ['scripts', 'devDependencies', 'build'],
     replace: {
@@ -81,7 +83,7 @@ const rendererConfig = lodash.cloneDeep(commonConfig);
 rendererConfig.entry = './src/renderer/renderer.tsx';
 rendererConfig.target = 'electron-renderer';
 rendererConfig.output.filename = 'renderer.bundle.js';
-rendererConfig.plugins = [
+rendererConfig.plugins = [...commonConfig.plugins,
   new HtmlWebpackPlugin({
     template: path.resolve(__dirname, './public/index.html'),
   }),

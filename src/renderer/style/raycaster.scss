@@ -285,6 +285,27 @@ iframe {
   width: 400px;
   height: 400px;
 
+  .frontOWall {
+    background-color: red;
+	}
+
+  .rightOWall {
+		background-color: blue;
+	}
+
+  .leftOWall {
+    background-color: green;
+	}
+
+  .backOWall {
+		background-color: orange;
+	}
+
+  .bottomOWall {
+		background-color: yellow;
+	}
+
+
 	.smallroom,
 	.largeRoom {
 		width: $width;
@@ -298,9 +319,9 @@ iframe {
 			position: Absolute;
 			width: 100%;
 			height: 100%;
-			background: $background-image;
+			// background: $background-image;
 			transform: rotateY(90deg) translateZ(-400px);
-			background-color:#333;
+			// background-color:#333;
 		}
 		.rightOWall {
 			transform: rotateY(-90deg) translateZ(-400px);
@@ -310,15 +331,15 @@ iframe {
 			width: 100%;
 			height: 200%;
 			position: absolute;
-			background-color:#555 !important;
+			// background-color:#555 !important;
 		}
 		.topOWall {
-			background: $top-image;
+			// background: $top-image;
 			background-size: 512px 512px !important;
 			transform: rotateX(-90deg) translateZ(-400px) translateY(0vw);
 		}
 		.bottomOWall {
-			background: $bottom-image;
+			// background: $bottom-image;
 			background-size: 256px 256px !important;
 			transform: rotateX(90deg) translateZ(0vw) translateY(0vw);
 		}
@@ -333,7 +354,7 @@ iframe {
 				content: '';
 				width: calc(25% - 80px);
 				height: 100%;
-				background: $background-image;
+				// background: $background-image;
 				background-size: 256px 80% !important;
 				position: absolute;
 				left: 0;
@@ -459,10 +480,10 @@ iframe {
 			position: Absolute;
 			width: 100%;
 			height: 100%;
-			background: skyblue;
+			// background: skyblue;
 			transform: rotateY(180deg) translateZ(calc(#{$width / 2 * -1}));
-			background: $background-image;
-			background-color:#777;
+			// background: $background-image;
+			// background-color:#777;
 		}
 		.leftOWall,
 		.rightOWall,

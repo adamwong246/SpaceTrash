@@ -6,7 +6,7 @@ import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import DroneRegistry from './DroneRegistry.tsx'
 import UpgradeRegistry from './UpgradeRegistry.tsx'
 import ShipRegistry from './ShipRegistry.tsx'
-
+import FlightPLan from './FlightPLan.tsx'
 
 export default class App extends React.Component<{}, {}> {
 
@@ -32,7 +32,7 @@ export default class App extends React.Component<{}, {}> {
               <ShipRegistry/>
             </td>
             <td>
-              <ShipRegistry/>
+              <FlightPLan/>
             </td>
           </tr>
         </tbody>

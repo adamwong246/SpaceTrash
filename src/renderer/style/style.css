@@ -8,8 +8,18 @@ body{
   font-family: "Lucida Console", Monaco, monospace;
 }
 
-input {
+#command-bar{
+  background-color: green;
+  color: black;
+}
+input#command-line {
   width: 100%;
+  color: green;
+  background-color: black;
+  border: 1px solid green;
+  display: inline;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 td{
@@ -49,8 +59,6 @@ td{
 #schematic #schematic-info {
   width: 25%;
   word-break:break-all;
-  background-color: green;
-  color: black;
 }
 
 #schematic #grid {
@@ -77,7 +85,7 @@ table{
   padding: 10px;
   border: 1px solid green;
   overflow: scroll;
-  height: 87vh;
+  height: 80vh;
 }
 
 .react-tabs__tab-list{
@@ -109,4 +117,8 @@ ul{
 
 #filetree ul li button {
     width: 100%;
+}
+
+table td{
+  border: 1px solid green;
 }

@@ -9,13 +9,7 @@ const DroneRegistry = ( {drones} ) => (
       {drones.map((d) => {
         return (
           <li key={`drone-registry-${d.id}`}>
-            {d.name}
-            <ul>
-              {d.upgrades.map((u) => {
-                return (<li key={`drone-registry-upgrade${u.id}`}>{u.name}</li>)
-              })}
-            </ul>
-
+            {JSON.stringify(d)}
           </li>
         )
       })}

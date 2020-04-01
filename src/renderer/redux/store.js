@@ -39,7 +39,26 @@ export default createStore(rootReducer, {
       files: {
         'makeSulaco.ts': "// implement a class that inheirits from ship.ts\nmodule.exports = {}"
       }
-    }
+    },
+    {
+      id: 2,
+      name: "IPU Merkava",
+      map: new RayCastMap(16, 16),
+      class: "Mining",
+      registration: "v80dqi6(9)",
+      model: "Lockmart CM-88B Bison",
+      make: "SpaceEx",
+      year: "2071",
+      files: {
+        'makeNostromo.ts': "hello world",
+        'makeDrone.ts': "hello makeDrone.ts",
+        'utils': {
+          'foo.js': "hello foo.ts",
+          'bar.js': "hello bar.ts",
+          'dig.js': "hello dig.ts",
+        }
+      }
+    },
   ],
   currentShip: 0,
   boardedShip: 1,
@@ -63,17 +82,20 @@ export default createStore(rootReducer, {
     }
   ],
   droneWithActiveVideo: 0,
-  commands: [
-    'Space Trash v0',
-    'booting...'
-  ],
+  commandLine: {
+    notification: 'type commands here',
+    logs: [
+      'booting Space Trash v0...',
+      'Adam Wong 2020'
+    ],
+  },
   camera: {
-    x: 0,
-    y: 0,
-    z: 0,
-    dx: 0,
+    x: 0, //left
+    y: 1000, // up
+    z: -4000, // forward
+    dx: -1,
     dy: 0,
     dz: 0,
-    d: 0
+    d: 90
   }
 });

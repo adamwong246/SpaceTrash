@@ -2,12 +2,7 @@ import * as React from 'react';
 import { connect } from "react-redux";
 
 import { getSchematicProps } from "../redux/selectors";
-import RayCastMap from "../raycast/RayCastMap.ts"
-import ship0 from "../../lib/ship0.ts";
-
 import {SET_SCHEMA_CURSOR} from '../redux/actionTypes';
-
-const rooms = ['engineering', 'bridge', 'storage', 'drone', 'shop', 'airlock']
 
 const Cell = ({x, y, map, drones, onHover}) => {
 
@@ -40,74 +35,20 @@ const Cell = ({x, y, map, drones, onHover}) => {
 }
 
 class Schematic extends React.Component<{
-  ship, drones, setSchemaCursor, schematicCursor
+  ship, drones, setSchemaCursor, schematicCursor, materializedMap
 }, {}>{
   render() {
 
-    const {ship, drones, setSchemaCursor, schematicCursor} = this.props
+    const {ship, drones, setSchemaCursor, schematicCursor, materializedMap} = this.props
 
-    const shipMap = ship0.makeMap();
-    const doors = shipMap.doors
-    const maxX = rooms.reduce((mm, r) => {
-      mm = shipMap[r].x2 > mm ? shipMap[r].x2 : mm
-      return mm
-    }, 0)
 
-    const maxXd = doors.reduce((mm, d) => {
-      mm = d.x > mm ? d.x : mm
-      return mm
-    }, 0)
-
-    const maxXdr = drones.reduce((mm, d) => {
-      mm = d.x > mm ? d.x : mm
-      return mm
-    }, 0)
-
-    const maxY = rooms.reduce((mm, r) => {
-      mm = shipMap[r].y2 > mm ? shipMap[r].y2 : mm
-      return mm
-    }, 0)
-
-    const maxYd = doors.reduce((mm, d) => {
-      mm = d.y > mm ? d.y : mm
-      return mm
-    }, 0)
-
-    const maxYdr = drones.reduce((mm, d) => {
-      mm = d.y > mm ? d.y : mm
-      return mm
-    }, 0)
-
-    const materializedMap = new RayCastMap(
-      Math.max(maxX, maxXd, maxXdr)+1, Math.max(maxY, maxYd, maxYdr)
-    )
-
-    rooms.forEach((room, ndx) => {
-      for (let x = shipMap[room].x; x < shipMap[room].x2; x++ ){
-        for (let y = shipMap[room].y; y < shipMap[room].y2; y++ ){
-          materializedMap.set(
-            x, y, {
-              type: 'floor',
-              contents: []
-            }
-          )
-        }
-      }
-    });
-
-    shipMap.doors.forEach((door, ndx) => {
-      materializedMap.set(door.x, door.y, {
-        type: 'door',
-        contents: []
-      })
-    });
 
     return (<div id="schematic">
 
     <div id="schematic-info">
-      <p>x: {schematicCursor.x}</p>
-      <p>y: {schematicCursor.y}</p>
-      <p>{schematicCursor.mapCell.type}</p>
+      {schematicCursor.x}, {schematicCursor.y}
+      <br/>
+      ({schematicCursor.mapCell.type})
       <ul>
         {(schematicCursor.mapCell.contents || []).map((c) => {
           return (<li>{c.name}</li>)

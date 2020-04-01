@@ -22,3 +22,25 @@ wrapper
 // document.write("node", process.versions.node)
 // document.write("chrome", process.versions.chrome)
 // document.write("electron", process.versions.electron)
+
+// document.body.onkeydown = (function (ev) {
+//   var key;
+//   var isShift;
+//   if (window.event) {
+//     key = (window.event as KeyboardEvent).keyCode;
+//     isShift = !!(window.event as KeyboardEvent).shiftKey; // typecast to boolean
+//   } else {
+//     key = ev.which;
+//     isShift = !!ev.shiftKey;
+//   }
+//   if ( isShift ) {
+//     switch (key) {
+//       case 16: // ignore shift key
+//         break;
+//       default:
+//         alert(key);
+//         // do stuff here? code 816
+//         break;
+//     }
+//   }
+// });

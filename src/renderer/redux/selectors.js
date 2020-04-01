@@ -1,6 +1,7 @@
 import threats from '../data/threats.js';
 import upgrades from '../data/upgrades.js';
 import rooms from '../data/rooms.js';
+import signals from '../data/signals.js';
 
 export const getCurrentShip = store => {
   return {ship: store.ships.find((s) => s.id === store.currentShip)}
@@ -31,40 +32,20 @@ export const getUpgrades = store => {
   }
 }
 
-export const getVideoProps = store => {
-
-  return {
-    boardedShip: store.ships.find((s) => s.id === store.boardedShip),
-    drone: store.drones.find((d) => d.id === store.droneWithActiveVideo),
-    camera: store.camera
-  }
-}
-
 export const getShipInformationProps = store => {
   return {
     ship: store.ships.find((s) => s.id === store.boardedShip)
   }
 }
 
-export const getSchematicProps = store => {
-  return {
-    ship: store.ships.find((s) => s.id === store.boardedShip),
-    drones: Object.keys(store.drones).map((s) => store.drones[s]),
-    schematicCursor: store.schematicCursor
-  }
-}
-
-export const getBootProps = store => {
-  return {
-    commands: store.commands
-  }
-}
+export const getBootProps = store => store.commandLine;
 
 export const getManual = store => {
   return {
     threats,
     upgrades,
-    rooms
+    rooms,
+    signals
   }
 }
 
@@ -89,5 +70,29 @@ export const getEditorProps = store => {
     editingShip: store.editingShip,
     fileContents,
     ship
+  }
+}
+
+
+
+export const getMissionProps = store => {
+  return {
+    currentShip: store.ships.find((s) => s.id === store.currentShip),
+    boardedShip: store.ships.find((s) => s.id === store.boardedShip),
+    drones: Object.keys(store.drones).map((s) => store.drones[s]),
+  }
+};
+
+export const getVideoProps = store => {
+
+  return {
+    drone: store.drones.find((d) => d.id === store.droneWithActiveVideo),
+    camera: store.camera
+  }
+}
+
+export const getSchematicProps = store => {
+  return {
+    schematicCursor: store.schematicCursor
   }
 }

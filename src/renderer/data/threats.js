@@ -6,9 +6,9 @@ export default   [
       speed: 'fast',
       weakness: 'EXPLOSION',
       strength: 'EMP',
-      attraction: 'SOUND',
+      attraction: 'MOTION',
       signal: [
-        'MOTION','SOUND', 'HEAT'
+        'SOUND','MOTION', 'HEAT'
       ]
     },
     {
@@ -17,9 +17,9 @@ export default   [
       speed: 'medium',
       weakness: 'EMP',
       strength: 'RADIATION',
-      attraction: 'MOTION',
+      attraction: 'HEAT',
       signal: [
-        'SOUND','HEAT', 'MOTION'
+        'MOTION','HEAT', 'SOUND'
       ]
     },
     {
@@ -28,9 +28,9 @@ export default   [
       description: 'Alien lifeform.',
       weakness: 'RADIATION',
       strength: 'EXPLOSION',
-      attraction: 'HEAT',
+      attraction: 'SOUND',
       signal: [
-        'HEAT','MOTION', 'SOUND'
+        'HEAT','SOUND', 'MOTION'
       ]
     }
     ,

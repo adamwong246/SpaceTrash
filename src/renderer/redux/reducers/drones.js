@@ -23,19 +23,17 @@ export default function(state = initialState, action) {
         id,
         step
       } = action.payload;
-      return {
-        ...state,
-        drones: state.drones.map((d) => {
-          if (d.id === id){
-            return {
-              ...d,
-              x: d.x + step
-            }
-          } else {
-            return d
+
+      return state.map((d) => {
+        if (d.id === id){
+          return {
+            ...d,
+            x: d.x + step
           }
-        })
-      };
+        } else {
+          return d
+        }
+      })
     }
     case DRONE_ROTATE: {
       const {

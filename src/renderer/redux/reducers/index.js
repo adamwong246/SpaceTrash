@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 
 import boardedShip from "./boardedShip";
 import camera from "./camera";
-import commands from "./commands";
+import commandLine from "./commandLine";
 import currentShip from "./currentShip";
 import drones from "./drones";
 import droneWithActiveVideo from "./droneWithActiveVideo";
@@ -14,6 +14,6 @@ import editingFile from "./editingFile.js"
 import schematicCursor from "./schematicCursor.ts"
 
 export default combineReducers({
-  ships, currentShip, drones, upgrades, boardedShip, droneWithActiveVideo, commands, camera, threats,
+  ships, currentShip, drones, upgrades, boardedShip, droneWithActiveVideo, commandLine, camera, threats,
   editingShip, editingFile, schematicCursor
 });
