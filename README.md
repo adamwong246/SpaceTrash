@@ -3,4 +3,4 @@
 
 SpaceTrash is a RTS roguelike inspired by Duskers.
 
-![alt text](https://github.com/adamwong246/SpaceTrash/demo.gif "Logo Title Text 1")
+![alt text](https://raw.githubusercontent.com/adamwong246/SpaceTrash/master/demo.gif "SpaceTrash")
