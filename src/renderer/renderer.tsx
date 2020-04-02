@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
+import initSubscriber from 'redux-subscriber';
 
 import store from "./redux/store";
 import { NEW_COMMAND, DRONE_ROTATE, SET_COMMAND_LINE_FOCUS } from "./redux/actionTypes.js"
@@ -23,43 +24,61 @@ window.setInterval(() => {
   console.log('tick')
   store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
 }
-, 1000);
+, 100);
 
+const subscribe = initSubscriber(store);
+const tock = subscribe('clock.time', state => {
+  console.log('tock')
 
-store.subscribe(() => {
-
-  const state = store.getState();
+  // const state = store.getState();
   const clock = state.clock
   const time = clock.time;
   const now = Date.now()
 
-  // console.log(now - time)
-  if ( true){
-    console.log('tock')
-    const quededCommands = state.drones.map(
-      (d) => d.commandQueue.filter(
-        (cq) => cq.timestamp < now
-      )
-    ).flat()
+  console.log('tock')
+  const quededCommands = state.drones.map(
+    (d) => d.commandQueue.filter(
+      (cq) => cq.timestamp < now
+    )
+  ).flat()
 
-    // console.log(quededCommands)
-
-    if (quededCommands.length){
-      store.dispatch({type: 'CLEAR_QUEUE', payload: time })
-      quededCommands.forEach((qc) => {
-        store.dispatch({type: qc.futureAction, payload: {id: qc.id} })
-      })
-
-    }
-
-
-
-
-    //
+  if (quededCommands.length){
+    store.dispatch({type: 'CLEAR_QUEUE', payload: time })
+    quededCommands.forEach((qc) => {
+      store.dispatch({type: qc.futureAction, payload: {id: qc.id} })
+    })
   }
 
 
 });
+
+// store.subscribe(() => {
+//
+//   const state = store.getState();
+//   const clock = state.clock
+//   const time = clock.time;
+//   const now = Date.now()
+//
+//   // console.log(now - time)
+//   if ( true){
+//     console.log('tock')
+//     const quededCommands = state.drones.map(
+//       (d) => d.commandQueue.filter(
+//         (cq) => cq.timestamp < now
+//       )
+//     ).flat()
+//
+//     // console.log(quededCommands)
+//
+//     if (quededCommands.length){
+//       store.dispatch({type: 'CLEAR_QUEUE', payload: time })
+//       quededCommands.forEach((qc) => {
+//         store.dispatch({type: qc.futureAction, payload: {id: qc.id} })
+//       })
+//
+//     }
+//   }
+// });
 
 document.body.onkeydown = (function(ev) {
   var key;

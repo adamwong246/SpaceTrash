@@ -3,6 +3,10 @@ import upgrades from '../data/upgrades.js';
 import rooms from '../data/rooms.js';
 import signals from '../data/signals.js';
 
+import {castSingleRay} from "../lib/raycast/castSingleRay.ts";
+import {getRays} from "../lib/raycast/getRays.ts";
+import {getMaterializedMap} from "../lib/raycast/getMaterializedMap.ts";
+
 export const getCurrentShip = store => {
   return {ship: store.ships.find((s) => s.id === store.currentShip)}
 }
@@ -96,12 +100,17 @@ export const getScriptEditorProps = store => {
   }
 }
 
-
 export const getMissionProps = store => {
+  const drones = Object.keys(store.drones).map((s) => store.drones[s])
+  const droneWithActiveVideo = store.drones.find((d) => d.id === store.droneWithActiveVideo)
+  const materializedMap = getMaterializedMap(store)
+
   return {
     currentShip: store.ships.find((s) => s.id === store.currentShip),
     boardedShip: store.ships.find((s) => s.id === store.boardedShip),
-    drones: Object.keys(store.drones).map((s) => store.drones[s]),
+    drones: drones,
+    materializedMap: materializedMap,
+    rays: getRays(materializedMap, droneWithActiveVideo)
   }
 };
 
@@ -130,14 +139,3 @@ export const getAppProps = store => {
 export const getTime = store => {
   return store.time
 }
-
-// export const gettStaleQuededCommands = store => {
-//   const drones = store.drones;
-//   const clock = store.clock;
-//   const time = clock.time;
-//   const lastTime = clock.lastTime
-//
-//   return {
-//     time, lastTime, drones
-//   }
-// }

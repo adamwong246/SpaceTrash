@@ -48,6 +48,7 @@
     "react-terminal-component": "^1.4.1",
     "react-typist": "^2.0.5",
     "redux-selector-subscribe": "^1.0.0",
+    "redux-subscriber": "^1.1.0",
     "safe-eval": "^0.4.1",
     "sass-loader": "^8.0.2",
     "scss-loader": "^0.0.1",

@@ -42,8 +42,65 @@ module.exports =  {
   const steps = parseInt(command[2]);
 
   Array.from(Array(steps).keys()).map((i) => {
-    log('DRONE_MOVE_FORWARD');
+    log('drone moved!');
     exec('DRONE_MOVE_FORWARD', {id: id});
+  }).join(' - ');
+  return('drone ' + id + ' is on auto pilot')
+}
+`,
+
+"left": `
+(command) => {
+  if (!command[1]){
+    return "Please give me the id of a drone. ex: left 3 5";
+  }
+  if (!command[2]){
+    return "Please give me a number of steps to move left. ex: left 3 5";
+  }
+  const id = parseInt(command[1]);
+  const steps = parseInt(command[2]);
+
+  Array.from(Array(steps).keys()).map((i) => {
+    log('drone moved!');
+    exec('DRONE_ROTATE_LEFT', {id: id});
+  }).join(' - ');
+  return('drone ' + id + ' is on auto pilot')
+}
+`,
+
+"back": `
+(command) => {
+  if (!command[1]){
+    return "Please give me the id of a drone. ex: back 3 5";
+  }
+  if (!command[2]){
+    return "Please give me a number of steps to move back. ex: back 3 5";
+  }
+  const id = parseInt(command[1]);
+  const steps = parseInt(command[2]);
+
+  Array.from(Array(steps).keys()).map((i) => {
+    log('drone moved!');
+    exec('DRONE_MOVE_BACK', {id: id});
+  }).join(' - ');
+  return('drone ' + id + ' is on auto pilot')
+}
+`,
+
+"right": `
+(command) => {
+  if (!command[1]){
+    return "Please give me the id of a drone. ex: right 3 5";
+  }
+  if (!command[2]){
+    return "Please give me a number of steps to move right. ex: right 3 5";
+  }
+  const id = parseInt(command[1]);
+  const steps = parseInt(command[2]);
+
+  Array.from(Array(steps).keys()).map((i) => {
+    log('drone moved!');
+    exec('DRONE_ROTATE_RIGHT', {id: id});
   }).join(' - ');
   return('drone ' + id + ' is on auto pilot')
 }

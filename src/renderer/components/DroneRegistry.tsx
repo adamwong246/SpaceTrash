@@ -9,7 +9,18 @@ const DroneRegistry = ( {drones} ) => (
       {drones.map((d) => {
         return (
           <li key={`drone-registry-${d.id}`}>
-            {JSON.stringify(d)}
+            #{d.id} - {d.name} x:{d.x} y:{d.y} d:{d.direction}
+
+            <ul>
+              {d.commandQueue.map((qc, qcNdx) => {
+                return (
+                  <li key={`drone-registry-command-${qcNdx}`}>
+                    {qc.futureAction} - {qc.timestamp}
+                  </li>
+                )
+              })}
+            </ul>
+
           </li>
         )
       })}
