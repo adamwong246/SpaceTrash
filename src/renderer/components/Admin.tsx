@@ -5,7 +5,7 @@ import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import {SET_EDITING_SHIP} from '../redux/actionTypes';
 import {getAdminProps} from "../redux/selectors";
 
-import Editor from './Editor.tsx';
+import AdminEditor from './AdminEditor.tsx';
 
 class Admin extends React.Component<{
   files: any[];
@@ -48,7 +48,7 @@ class Admin extends React.Component<{
 
       </TabPanel>
 
-      <TabPanel><Editor /></TabPanel>
+      <TabPanel><AdminEditor /></TabPanel>
     </Tabs>
     );
   }

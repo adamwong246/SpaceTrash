@@ -22,7 +22,7 @@ wrapper
 // document.write("node", process.versions.node)
 // document.write("chrome", process.versions.chrome)
 // document.write("electron", process.versions.electron)
-
+store.dispatch({type: SET_COMMAND_LINE_FOCUS, payload: {}})
 document.body.onkeydown = (function (ev) {
   var key;
   var isShift;
@@ -38,11 +38,6 @@ document.body.onkeydown = (function (ev) {
       case 16: // ignore shift key
         break;
       default:
-        // alert(key);
-        // do stuff here?
-        console.log(key)
-        // code 816 focus on command line
-        // debugger
         if (key === 186){
           store.dispatch({type: SET_COMMAND_LINE_FOCUS, payload: {}})
           event && event.preventDefault()

@@ -38,7 +38,15 @@ export const getShipInformationProps = store => {
   }
 }
 
-export const getBootProps = store => store.commandLine;
+export const getTerminalProps = store => store.computer.commandLine;
+
+export const getCommandLineProps = store => {
+  return{
+    commandLine: store.computer.commandLine,
+    scripts: store.computer.scripts
+  }
+};
+
 
 export const getManual = store => {
   return {
@@ -59,7 +67,7 @@ export const getAdminProps = store => {
   }
 }
 
-export const getEditorProps = store => {
+export const getAdminEditorProps = store => {
 
   const ship = store.ships.find((s) => s.id === store.editingShip)
   const fileContents = store.editingFile.length ? store.editingFile.reduce((mm, e) => mm[e], ship.files) : ""
@@ -73,6 +81,19 @@ export const getEditorProps = store => {
   }
 }
 
+export const getScriptEditorProps = store => {
+
+  // const script = store.scripts.find((s) => s.id === store.scriptEditingFile)
+  // const fileContents = store.scriptEditingFile.length ? store.scriptEditingFile.reduce((mm, e) => mm[e], store.computer.scripts) : ""
+  const scripts = store.computer.scripts
+  const file = store.scriptEditingFile[0]
+  const fileContents = scripts[file]
+  return {
+    scripts: store.computer.scripts,
+    editingFile: store.scriptEditingFile,
+    fileContents,
+  }
+}
 
 
 export const getMissionProps = store => {

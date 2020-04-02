@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { connect } from "react-redux";
-import { animateScroll } from "react-scroll";
 
-import {getBootProps} from "../redux/selectors";
+import {getTerminalProps} from "../redux/selectors";
 
 class Terminal extends React.Component<{
   logs: string[];
@@ -19,17 +18,6 @@ class Terminal extends React.Component<{
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidMount() {
-      this.scrollToBottom();
-  }
-  componentDidUpdate() {
-      this.scrollToBottom();
-  }
-  scrollToBottom() {
-      animateScroll.scrollToBottom({
-        containerId: "terminal"
-      });
-  }
 
   handleChange(event) {
     const {value} = event.target;
@@ -50,7 +38,7 @@ class Terminal extends React.Component<{
 
 
 const mapStateToProps = state => {
-  return getBootProps(state) ;
+  return getTerminalProps(state) ;
 };
 
 export default connect(mapStateToProps)(Terminal);

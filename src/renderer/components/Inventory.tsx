@@ -5,6 +5,7 @@ import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 
 import DroneRegistry from './DroneRegistry.tsx'
 import UpgradeRegistry from './UpgradeRegistry.tsx'
+import ScriptEditor from './ScriptEditor.tsx'
 
 export default class App extends React.Component<{}, {}> {
   render() {
@@ -34,7 +35,7 @@ export default class App extends React.Component<{}, {}> {
           DOWNLOADS
         </TabPanel>
         <TabPanel>
-          PROGRAMS
+          <ScriptEditor />
         </TabPanel>
       </Tabs>
     );

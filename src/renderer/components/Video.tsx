@@ -387,9 +387,9 @@ class Video extends React.Component<{materializedMap, drone}, {}>{
     this.initScreen();
     this.castRays(mapWidth, mapHeight, map, drone)
 
-    return (<div >
+    return (<div id="video" >
 
-			<p>#{drone.id} {drone.name} x:{drone.x} y:{drone.y} direction:{drone.direction}</p>
+
       <div id="screen">
       	<div id="floor"></div>
       	<div id="ceiling"></div>
@@ -422,14 +422,12 @@ class Video extends React.Component<{materializedMap, drone}, {}>{
 				</div>
       </div>
 
-      <div id="minimapcontainer">
-      	<canvas id="minimap"></canvas>
-      	<canvas id="minimapobjects"></canvas>
-      </div>
 
-      <div id="debug"></div>
-
-
+			<div id="video-info">
+				<p>#{drone.id} {drone.name}</p>
+				<p>x:{drone.x} y:{drone.y} direction:{drone.direction}</p>
+			</div>
+			
     </div>);
   }
 }

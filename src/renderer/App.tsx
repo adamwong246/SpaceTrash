@@ -20,56 +20,56 @@ export default class App extends React.Component<{
 }, {}> {
 
   render() {
-    return (<div >
+    return (<div className="crt" >
 
       <div id="content">
-      <Tabs>
-        <TabList>
-          <Tab>log</Tab>
-          <Tab>status</Tab>
-          <Tab>nav</Tab>
-          <Tab>mission</Tab>
-          <Tab>inventory</Tab>
-          <Tab>manual</Tab>
-          <Tab>admin</Tab>
-        </TabList>
+        <Tabs>
+          <TabList>
+            <Tab>log</Tab>
+            <Tab>status</Tab>
+            <Tab>nav</Tab>
+            <Tab>mission</Tab>
+            <Tab>inventory</Tab>
+            <Tab>manual</Tab>
+            <Tab>admin</Tab>
+          </TabList>
 
-        <TabPanel>
-          <Terminal/>
-        </TabPanel>
+          <TabPanel>
+            <Terminal/>
+          </TabPanel>
 
-        <TabPanel>
-          <ShipConfiguration/>
-        </TabPanel>
+          <TabPanel>
+            <ShipConfiguration/>
+          </TabPanel>
 
-        <TabPanel>
-          <Navigation/>
-        </TabPanel>
+          <TabPanel>
+            <Navigation/>
+          </TabPanel>
 
-        <TabPanel>
-          <Mission/>
-        </TabPanel>
+          <TabPanel>
+            <Mission/>
+          </TabPanel>
 
 
 
-        <TabPanel>
-          <Inventory/>
-        </TabPanel>
+          <TabPanel>
+            <Inventory/>
+          </TabPanel>
 
-        <TabPanel>
-          <Manual/>
-        </TabPanel>
+          <TabPanel>
+            <Manual/>
+          </TabPanel>
 
-        <TabPanel>
-          <Admin/>
-        </TabPanel>
+          <TabPanel>
+            <Admin/>
+          </TabPanel>
 
-      </Tabs>
+        </Tabs>
 
-      <div id="command-line" >
-      <CommandLine/></div>
+        <div id="command-line" >
+        <CommandLine/></div>
 
-</div>
+  </div>
 
     </div>);
   }

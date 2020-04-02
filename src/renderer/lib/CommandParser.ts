@@ -1,29 +1,64 @@
+var safeEval = require('safe-eval')
+
 import * as ActionTypes from "../redux/actionTypes";
 
 const actions = Object.keys(ActionTypes);
 
 export default {
-  parse: (dispatch, value) =>{
+  parse: (dispatch, value, scripts) => {
     const split = value.split(' ')
 
-    dispatch({type: ActionTypes.NEW_COMMAND, payload: `> ${value}`})
+    dispatch({ type: ActionTypes.NEW_COMMAND, payload: `> ${value}` })
 
-    if (split[0] === 'help'){
-      dispatch({type: ActionTypes.NEW_COMMAND, payload: "To list all system commands, try 'commands'.\nUse 'help [SYSTEM_COMMAND]'' for further information"})
+    if (split[0] === 'help') {
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload:"Try one of the following\n\nlogin\ncommands\nscripts\nsettings\nabout"})
       return;
-    } else if(split[0] === 'commands'){
-      dispatch({type: ActionTypes.NEW_COMMAND, payload: actions.join('\n')})
+    } else if (split[0] === 'commands') {
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: ActionTypes.USER_TYPES.join('\n') })
+      return;
+    } else if (split[0] === 'scripts') {
+      dispatch({ type: ActionTypes.SHOW_SCRIPTS, payload: {} })
+      return;
+    }else if (split[0] === 'about') {
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `
+Turing class---II
+Designation----Salvage
+Mission--------Dock with other space craft. Use your drones to gather the resources you need to survive.
+`})
       return;
     }
 
-    if (actions.includes(split[0])){
+    if(Object.keys(scripts).includes(split[0])){
+      const scriptName = split[0];
+      const scriptContents = scripts[scriptName]
+
+
+      try {
+        const context = {
+          foo: 'foo',
+          log: (x) => dispatch({ type: ActionTypes.NEW_COMMAND, payload: x })
+
+        }
+        var evaluated = safeEval(scriptContents, context)
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload: evaluated(split) })
+        return
+      }
+      catch(err) {
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `! ${err.message}` })
+        return ;
+      }
+
+    }
+
+
+    if (actions.includes(split[0])) {
       const foundCommand = split[0]
 
 
 
-      if (split[0] === ActionTypes.SET_VIDEO){
-        dispatch({type: ActionTypes.SET_VIDEO, payload: parseInt(split[1])})
-      } else if (split[0] === ActionTypes.TELEPORT){
+      if (split[0] === ActionTypes.SET_VIDEO) {
+        dispatch({ type: ActionTypes.SET_VIDEO, payload: parseInt(split[1]) })
+      } else if (split[0] === ActionTypes.TELEPORT) {
 
         dispatch(
           {
@@ -37,38 +72,50 @@ export default {
           }
         )
 
-      } else if (split[0] === ActionTypes.DRONE_MOVE){
+      } else if ([
+       ActionTypes.DRONE_MOVE_FORWARD_QUEUE, ActionTypes.DRONE_MOVE_BACK_QUEUE, ActionTypes.DRONE_ROTATE_RIGHT_QUEUE, ActionTypes.DRONE_ROTATE_LEFT_QUEUE
+      ].includes(split[0])){
+
         dispatch(
           {
-            type: ActionTypes.DRONE_MOVE,
-            payload: (
+            type: split[0],
+            payload:
               {
                 id: parseInt(split[1]),
                 step: parseFloat(split[2]),
               }
-            )
           }
-        )
-        dispatch({type: ActionTypes.SET_COMMAND_WARNING, payload: `Drone on autopilot`})
-        dispatch({type: ActionTypes.NEW_COMMAND, payload: `Drone on autopilot`})
-      } else if (split[0] === ActionTypes.DRONE_ROTATE){
-        dispatch(
-          {
-            type: ActionTypes.DRONE_ROTATE,
-            payload: (
-              {
-                id: parseInt(split[1]),
-                step: parseFloat(split[2]),
-              }
-            )
-          }
-        )
-        dispatch({type: ActionTypes.SET_COMMAND_WARNING, payload: `${parseInt(split[1])} rotating by ${parseInt(split[2])}`})
-        dispatch({type: ActionTypes.NEW_COMMAND, payload: `${parseInt(split[1])} rotating by ${parseInt(split[2])}`})
+        );
+
+        dispatch({ type: ActionTypes.SET_COMMAND_WARNING, payload: `drone on autopilot` })
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `drone on autopilot` })
+
+
+
       }
-    } else {
-      dispatch({type: ActionTypes.NEW_COMMAND, payload: `command "${value}" not found. Try "help"`})
-      dispatch({type: ActionTypes.SET_COMMAND_WARNING, payload: `failed to parse: "${value}"`})
+
+      else if ([
+        ActionTypes.DRONE_MOVE_FORWARD, ActionTypes.DRONE_MOVE_BACK, ActionTypes.DRONE_ROTATE_RIGHT, ActionTypes.DRONE_ROTATE_LEFT
+      ].includes(split[0])) {
+        dispatch(
+          {
+            type: split[0],
+            payload: (
+              {
+                id: parseInt(split[1])
+              }
+            )
+          }
+        )
+        dispatch({ type: ActionTypes.SET_COMMAND_WARNING, payload: `Drone moved` })
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Drone moved` })
+      }
+  } else {
+
+
+    dispatch({ type: ActionTypes.NEW_COMMAND, payload: `command "${value}" not found. Try "help"`
+})
+dispatch({ type: ActionTypes.SET_COMMAND_WARNING, payload: `failed to parse: "${value}"` })
     }
     //
 

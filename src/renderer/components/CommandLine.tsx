@@ -2,14 +2,15 @@ import * as React from 'react';
 import {connect} from "react-redux";
 
 import {NEW_COMMAND, SET_VIDEO, TELEPORT} from '../redux/actionTypes';
-import {getBootProps} from "../redux/selectors";
+import {getCommandLineProps} from "../redux/selectors";
 
 import CommandParser from '../lib/CommandParser.ts';
 
 class CommandLine extends React.Component<{
-  newCommand(value): null;
-  notification: string
-  focus: number
+  newCommand(value, scripts): null;
+  commandLine: any;
+  focus: number;
+  scripts: {};
 }, {
   value: string;
 }> {
@@ -42,14 +43,14 @@ class CommandLine extends React.Component<{
     }
 
   render() {
-    const notification = this.props.notification
+    const notification = this.props.commandLine.notification
 
     return (<div id="command-bar">
       {notification}
       <form onSubmit={(event) => {
         event.preventDefault()
         this.resetState()
-        this.props.newCommand(this.state.value)
+        this.props.newCommand(this.state.value, this.props.scripts)
       }}>
         <input
           ref={(input) => { this.commandLineInput = input; }}
@@ -60,12 +61,12 @@ class CommandLine extends React.Component<{
 };
 
 const mapStateToProps = state => {
-  return getBootProps(state);
+  return getCommandLineProps(state);
 };
 
 const mapActionsToProps = dispatch => {
   return {
-    newCommand: (value) => CommandParser.parse(dispatch, value)
+    newCommand: (value, scripts) => CommandParser.parse(dispatch, value, scripts)
   }
 };
 

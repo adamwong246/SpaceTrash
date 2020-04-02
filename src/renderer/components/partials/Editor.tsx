@@ -3,15 +3,14 @@ import * as React from 'react';
 import {connect} from "react-redux";
 import MonacoEditor from 'react-monaco-editor';
 
-import {SET_EDITING_FILE} from '../redux/actionTypes';
-import {getEditorProps} from "../redux/selectors";
-import FileTree from "./partials/FileTree.tsx";
+import {SET_EDITING_FILE} from '../../redux/actionTypes';
+import {getAdminEditorProps} from "../../redux/selectors";
+import FileTree from "./FileTree.tsx";
 
-class Editor extends React.Component<{
+export default class Editor extends React.Component<{
     fileContents: string;
     setEditingFile(): null;
     files: any[];
-    ship: any;
 }, {}> {
 
   editorDidMount(editor, monaco) {
@@ -31,15 +30,12 @@ class Editor extends React.Component<{
 
       <div id="editor">
         <div>
-          {this.props.ship.name}
           <FileTree path={[]} files={this.props.files} setEditingFile={this.props.setEditingFile}/>
-
         </div>
 
 
       <div id="monaco-editor">
         <button>Save</button>
-        <button>Compile</button>
       <MonacoEditor
         width="800"
         height="600"
@@ -56,18 +52,3 @@ class Editor extends React.Component<{
     );
   }
 }
-
-const mapStateToProps = state => {
-  return getEditorProps(state);
-};
-
-const mapActionsToProps = dispatch => {
-
-  return {
-    setEditingFile: (filePath) => {
-      dispatch({type: SET_EDITING_FILE, payload: filePath})
-    }
-  }
-};
-
-export default connect(mapStateToProps, mapActionsToProps)(Editor);
