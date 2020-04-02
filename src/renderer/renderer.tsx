@@ -6,6 +6,8 @@ import store from "./redux/store";
 import { NEW_COMMAND, DRONE_ROTATE, SET_COMMAND_LINE_FOCUS } from "./redux/actionTypes.js"
 import App from "./App.tsx"
 
+import {getTime} from './redux/selectors.js';
+
 const wrapper = document.getElementById("app");
 wrapper
   ? ReactDOM.render(<Provider store={store}>
@@ -15,7 +17,13 @@ wrapper
   </Provider >, wrapper)
   : false;
 
-store.dispatch({ type: SET_COMMAND_LINE_FOCUS, payload: {} })
+store.dispatch({ type: SET_COMMAND_LINE_FOCUS, payload: {} });
+
+window.setInterval(() => {
+  store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
+}
+, 1000);
+
 document.body.onkeydown = (function(ev) {
   var key;
   var isShift;

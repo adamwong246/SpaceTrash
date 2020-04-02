@@ -1,8 +1,9 @@
 import RayCastMap from "../lib/raycast/RayCastMap.ts";
 
 module.exports =  {
+  time: Date.now(),
   computer: {
-    crtEffect: true,
+    crtEffect: false,
     loggedIn:false,
     scripts: {
       "hello": `

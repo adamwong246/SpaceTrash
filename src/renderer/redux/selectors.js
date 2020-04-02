@@ -122,6 +122,11 @@ export const getSchematicProps = store => {
 export const getAppProps = store => {
   return {
     loggedIn: store.computer.loggedIn,
-    crtEffect: store.computer.crtEffect
+    crtEffect: store.computer.crtEffect,
+    time:store.time
   }
+}
+
+export const getTime = store => {
+  return store.time
 }

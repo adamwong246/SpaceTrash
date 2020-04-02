@@ -23,6 +23,7 @@ class App extends React.Component<{
   newCommand(command: string): any;
   loggedIn: boolean;
   crtEffect: boolean;
+  time: number;
 }, {}> {
 
   render() {
@@ -42,6 +43,7 @@ class App extends React.Component<{
                         <Tab>manual</Tab>
                         <Tab>admin</Tab>
               </>}
+              <span id="time">{this.props.time}</span>
 
 
           </TabList>
