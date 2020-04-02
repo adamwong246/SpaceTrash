@@ -5,9 +5,8 @@ import {emptyStrip} from "./constantsAndTypes.ts";
 
 const roomTypes = ['engineering', 'bridge', 'storage', 'drone', 'shop', 'airlock'];
 
-export const getMaterializedMap = store => {
-
-  const drones = Object.keys(store.drones).map((s) => store.drones[s]);
+export const getMaterializedMap = drones => {
+  console.log('getMaterializedMap')
   const shipMap = ship0.makeMap();
   const doors = shipMap.doors
   const maxX = roomTypes.reduce((mm, r) => {

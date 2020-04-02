@@ -3,6 +3,7 @@ import castRays from "./castRays.ts";
 import {emptyStrip, screenWidth, stripWidth, IStrip} from "./constantsAndTypes.ts"
 
 export const getRays = (map, drone) => {
+  console.log('getRays');
   const screenStrips: IStrip[] = [];
   for (var i=0;i<screenWidth;i+=stripWidth) {
     var strip = emptyStrip

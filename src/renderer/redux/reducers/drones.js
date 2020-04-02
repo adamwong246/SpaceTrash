@@ -70,7 +70,6 @@ export default function(dronesState = initialState, action) {
       const {
         id,
       } = action.payload;
-      console.log(action)
       return dronesState.map((d) => {
         if (d.id === id){
           return {

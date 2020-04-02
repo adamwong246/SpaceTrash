@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import initSubscriber from 'redux-subscriber';
+import {Promise} from "bluebird";
 
 import store from "./redux/store";
 import { NEW_COMMAND, DRONE_ROTATE, SET_COMMAND_LINE_FOCUS } from "./redux/actionTypes.js"
@@ -19,66 +20,6 @@ wrapper
   : false;
 
 store.dispatch({ type: SET_COMMAND_LINE_FOCUS, payload: {} });
-
-window.setInterval(() => {
-  console.log('tick')
-  store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
-}
-, 100);
-
-const subscribe = initSubscriber(store);
-const tock = subscribe('clock.time', state => {
-  console.log('tock')
-
-  // const state = store.getState();
-  const clock = state.clock
-  const time = clock.time;
-  const now = Date.now()
-
-  console.log('tock')
-  const quededCommands = state.drones.map(
-    (d) => d.commandQueue.filter(
-      (cq) => cq.timestamp < now
-    )
-  ).flat()
-
-  if (quededCommands.length){
-    store.dispatch({type: 'CLEAR_QUEUE', payload: time })
-    quededCommands.forEach((qc) => {
-      store.dispatch({type: qc.futureAction, payload: {id: qc.id} })
-    })
-  }
-
-
-});
-
-// store.subscribe(() => {
-//
-//   const state = store.getState();
-//   const clock = state.clock
-//   const time = clock.time;
-//   const now = Date.now()
-//
-//   // console.log(now - time)
-//   if ( true){
-//     console.log('tock')
-//     const quededCommands = state.drones.map(
-//       (d) => d.commandQueue.filter(
-//         (cq) => cq.timestamp < now
-//       )
-//     ).flat()
-//
-//     // console.log(quededCommands)
-//
-//     if (quededCommands.length){
-//       store.dispatch({type: 'CLEAR_QUEUE', payload: time })
-//       quededCommands.forEach((qc) => {
-//         store.dispatch({type: qc.futureAction, payload: {id: qc.id} })
-//       })
-//
-//     }
-//   }
-// });
 
 document.body.onkeydown = (function(ev) {
   var key;
@@ -102,4 +43,70 @@ document.body.onkeydown = (function(ev) {
         break;
     }
   }
+});
+
+
+///////////////////////////////////
+
+
+let tockPromise = new Promise((res, rej) => {
+  store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
+  res();
+});
+
+
+const clock = () => {
+  console.log('tick')
+
+  if (tockPromise.isPending()) {
+
+    Promise.resolve(tockPromise)
+  }
+  tockPromise = new Promise((res, rej) => {
+    store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
+    res();
+  });
+};
+
+// start the clock
+let tick = window.setInterval(clock, 1);
+
+
+let updatePromise = new Promise((res, rej) => {
+  store.dispatch({type: 'CLEAR_QUEUE', payload: Date.now() })
+  res();
+});
+
+// the main loop
+const subscribe = initSubscriber(store);
+const tock = subscribe('clock.time', state => {
+
+  if(state.clock.halted){
+
+  } else {
+
+    store.dispatch({type: 'HALT', payload: {} })
+
+    const now = Date.now()
+    const quededCommands = state.drones.map(
+      (d) => d.commandQueue.filter(
+        (cq) => cq.timestamp < now
+      )
+    ).flat()
+
+    store.dispatch({type: 'CLEAR_QUEUE', payload: now })
+
+    if (quededCommands.length){
+      quededCommands.forEach((qc) => {
+        store.dispatch({type: qc.futureAction, payload: {id: qc.id} })
+      })
+    }
+
+    store.dispatch({type: 'RESUME', payload: {} })
+
+
+  }
+
+
+
 });

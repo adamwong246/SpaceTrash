@@ -3,7 +3,8 @@ import RayCastMap from "../lib/raycast/RayCastMap.ts";
 module.exports =  {
   clock: {
     time: Date.now(),
-    lastTime: 0
+    lastTime: 0,
+    halted: false,
   },
   computer: {
     crtEffect: false,

@@ -5,7 +5,6 @@ export default class ShipInfo extends React.Component<{
   ship: any;
 }, {}>{
   render() {
-    console.log(this.props)
     const ship = this.props.ship;
     return (<div id="ship-info">
       Name: {ship.name}<br />

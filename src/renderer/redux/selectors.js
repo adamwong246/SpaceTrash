@@ -1,3 +1,5 @@
+import {createSelector} from "reselect";
+
 import threats from '../data/threats.js';
 import upgrades from '../data/upgrades.js';
 import rooms from '../data/rooms.js';
@@ -100,19 +102,57 @@ export const getScriptEditorProps = store => {
   }
 }
 
-export const getMissionProps = store => {
-  const drones = Object.keys(store.drones).map((s) => store.drones[s])
-  const droneWithActiveVideo = store.drones.find((d) => d.id === store.droneWithActiveVideo)
-  const materializedMap = getMaterializedMap(store)
+const getShipsSelector = (state) => state.ships
+const getCurrentShipIdSelector = (state) => state.currentShip
+const getBoardedShipIdSelector = (state) => state.boardedShip
 
-  return {
-    currentShip: store.ships.find((s) => s.id === store.currentShip),
-    boardedShip: store.ships.find((s) => s.id === store.boardedShip),
-    drones: drones,
-    materializedMap: materializedMap,
-    rays: getRays(materializedMap, droneWithActiveVideo)
+const getCurrentShipSelector = createSelector(
+  [getShipsSelector, getCurrentShipIdSelector],
+  (ships, current) => {
+    return ships.find((s) => s.id === current)
   }
-};
+);
+
+const getBoardedShipSelector = createSelector(
+  [getShipsSelector, getBoardedShipIdSelector],
+  (ships, boarded) => {
+    return ships.find((s) => s.id === boarded)
+  }
+);
+
+const getDronesSelector = (state) => state.drones;
+const getVideDroneIdSelector = (state) => state.droneWithActiveVideo;
+
+const getDronesAsListSelector = createSelector([getDronesSelector], (droneObject) => {
+  return Object.keys(droneObject).map((s) => droneObject[s])
+})
+
+const getVideoDrone = createSelector([getDronesAsListSelector, getVideDroneIdSelector], (drones, activeVideoId) => {
+  return drones.find((d) => d.id === activeVideoId)
+})
+
+const getMaterializedMapSelector = createSelector([getDronesAsListSelector], (drones) => {
+  return getMaterializedMap(drones);
+});
+
+const getRaysSelector = createSelector([
+  getMaterializedMapSelector,
+  getVideoDrone
+], (materializedMap, videoDrone) => {
+  return getRays(materializedMap, videoDrone)
+});
+
+export const getMissionProps = createSelector([
+  getCurrentShipSelector,
+  getBoardedShipSelector,
+  getDronesAsListSelector,
+  getMaterializedMapSelector,
+  getRaysSelector
+], (
+  currentShip, boardedShip, drones, materializedMap, rays
+) => {
+  return {currentShip, boardedShip, drones, materializedMap, rays};
+});
 
 export const getVideoProps = store => {
 

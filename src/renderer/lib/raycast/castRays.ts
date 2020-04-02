@@ -1,15 +1,8 @@
 import castSingleRay from "./castSingleRay.ts";
 import {stripWidth, viewDist, numRays} from "./constantsAndTypes.ts"
-// var stripWidth = 3;
-// var screenWidth = 320;
-// var screenHeight = 200;
-// var numRays = Math.ceil(screenWidth / stripWidth);
-// var fov = 60 * Math.PI / 180;
-// var viewDist = (screenWidth/2) / Math.tan((fov / 2));
-
-
 
 export default (mapWidth, mapHeight, map, player, screenStrips) => {
+  console.log('castRays');
   var stripIdx = 0;
   return Array.from(Array(numRays).keys()).map((i) => {
     // where on the screen does ray go through?

@@ -31,6 +31,21 @@ export default combineReducers({
           }
         }
 
+        case 'HALT': {
+          return {
+            ...clockState,
+            halted: true
+          }
+        }
+
+        case 'RESUME': {
+          return {
+            ...clockState,
+            halted: false
+          }
+        }
+
+
         default:
           return clockState;
       }
