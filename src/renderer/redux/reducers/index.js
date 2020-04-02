@@ -22,14 +22,17 @@ import {SHOW_SCRIPTS} from '../actionTypes.js';
 export default combineReducers({
   ships, currentShip, drones, upgrades, boardedShip, droneWithActiveVideo, computer, camera, threats,
   editingShip, editingFile, schematicCursor, scriptEditingFile,
-    time: (state = initialState, action) => {
+    clock: (clockState = initialState, action) => {
       switch (action.type) {
         case 'UPDATE_CLOCK': {
-          return Date.now()
+          return {
+            time: Date.now(),
+            lastTime: clockState.time
+          }
         }
 
         default:
-          return state;
+          return clockState;
       }
     }
 

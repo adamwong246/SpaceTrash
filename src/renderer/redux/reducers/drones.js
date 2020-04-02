@@ -10,11 +10,24 @@ import {
 
 const initialState = {};
 
-const moveStepSize = 1;
+const moveStepSize = 0.1;
 const rotateStepSize = 0.1;
 
-export default function(state = initialState, action) {
+export default function(dronesState = initialState, action) {
+  // console.log(action.type)
   switch (action.type) {
+
+    case 'CLEAR_QUEUE': {
+      const timeToClear = action.payload;
+      // console.log(action)
+
+      return dronesState.map((d) => {
+        return {
+          ...d,
+          commandQueue: d.commandQueue.filter((qc) => qc.timestamp > timeToClear)
+        }
+      })
+    }
 
     case DRONE_QUEUE: {
 
@@ -23,13 +36,14 @@ export default function(state = initialState, action) {
       } = action.payload;
       const id = action.payload.payload
 
-      return state.map((d) => {
+      return dronesState.map((d) => {
         if (d.id === id){
           const commands = d.commandQueue;
-          const lastTime = commands[commands.length ] ? commands[commands.length ].timestamp : Date.now()
+          const lastTime = commands[commands.length-1 ] ? commands[commands.length-1 ].timestamp : Date.now()
           const newCommand = {
             futureAction,
-            timestamp: lastTime + 1000
+            timestamp: lastTime + 1000,
+            id: id
           }
 
           return {
@@ -47,9 +61,9 @@ export default function(state = initialState, action) {
 
     case ADD_DRONE: {
       return {
-        ...state,
+        ...dronesState,
         drones: [
-          ...state.drones,
+          ...dronesState.drones,
           action.payload
         ]
       };
@@ -59,7 +73,8 @@ export default function(state = initialState, action) {
       const {
         id,
       } = action.payload;
-      return state.map((d) => {
+      console.log(action)
+      return dronesState.map((d) => {
         if (d.id === id){
           return {
             ...d,
@@ -77,7 +92,7 @@ export default function(state = initialState, action) {
         id,
       } = action.payload;
 
-      return state.map((d) => {
+      return dronesState.map((d) => {
         if (d.id === id){
           return {
             ...d,
@@ -95,7 +110,7 @@ export default function(state = initialState, action) {
         id,
       } = action.payload;
 
-      return state.map((d) => {
+      return dronesState.map((d) => {
         if (d.id === id){
           return {
             ...d,
@@ -112,7 +127,7 @@ export default function(state = initialState, action) {
         id,
       } = action.payload;
 
-      return state.map((d) => {
+      return dronesState.map((d) => {
         if (d.id === id){
           return {
             ...d,
@@ -126,6 +141,6 @@ export default function(state = initialState, action) {
 
     }
     default:
-      return state;
+      return dronesState;
   }
 }

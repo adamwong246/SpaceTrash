@@ -123,10 +123,21 @@ export const getAppProps = store => {
   return {
     loggedIn: store.computer.loggedIn,
     crtEffect: store.computer.crtEffect,
-    time:store.time
+    time: store.clock.time
   }
 }
 
 export const getTime = store => {
   return store.time
 }
+
+// export const gettStaleQuededCommands = store => {
+//   const drones = store.drones;
+//   const clock = store.clock;
+//   const time = clock.time;
+//   const lastTime = clock.lastTime
+//
+//   return {
+//     time, lastTime, drones
+//   }
+// }

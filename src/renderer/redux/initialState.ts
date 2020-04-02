@@ -1,10 +1,13 @@
 import RayCastMap from "../lib/raycast/RayCastMap.ts";
 
 module.exports =  {
-  time: Date.now(),
+  clock: {
+    time: Date.now(),
+    lastTime: 0
+  },
   computer: {
     crtEffect: false,
-    loggedIn:false,
+    loggedIn: 'hal',
     scripts: {
       "hello": `
   (x) => {

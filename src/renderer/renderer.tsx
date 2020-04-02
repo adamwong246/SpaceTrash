@@ -20,9 +20,46 @@ wrapper
 store.dispatch({ type: SET_COMMAND_LINE_FOCUS, payload: {} });
 
 window.setInterval(() => {
+  console.log('tick')
   store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
 }
 , 1000);
+
+
+store.subscribe(() => {
+
+  const state = store.getState();
+  const clock = state.clock
+  const time = clock.time;
+  const now = Date.now()
+
+  // console.log(now - time)
+  if ( true){
+    console.log('tock')
+    const quededCommands = state.drones.map(
+      (d) => d.commandQueue.filter(
+        (cq) => cq.timestamp < now
+      )
+    ).flat()
+
+    // console.log(quededCommands)
+
+    if (quededCommands.length){
+      store.dispatch({type: 'CLEAR_QUEUE', payload: time })
+      quededCommands.forEach((qc) => {
+        store.dispatch({type: qc.futureAction, payload: {id: qc.id} })
+      })
+
+    }
+
+
+
+
+    //
+  }
+
+
+});
 
 document.body.onkeydown = (function(ev) {
   var key;
