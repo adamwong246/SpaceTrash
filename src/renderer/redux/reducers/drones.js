@@ -4,16 +4,47 @@ import {
   DRONE_MOVE_BACK,
   DRONE_ROTATE_LEFT,
   DRONE_ROTATE_RIGHT,
-  TELEPORT
+  TELEPORT,
+  DRONE_QUEUE
 } from "../actionTypes";
 
 const initialState = {};
 
-const moveStepSize = 0.1;
+const moveStepSize = 1;
 const rotateStepSize = 0.1;
 
 export default function(state = initialState, action) {
   switch (action.type) {
+
+    case DRONE_QUEUE: {
+
+      const {
+        futureAction
+      } = action.payload;
+      const id = action.payload.payload
+
+      return state.map((d) => {
+        if (d.id === id){
+          const commands = d.commandQueue;
+          const lastTime = commands[commands.length ] ? commands[commands.length ].timestamp : Date.now()
+          const newCommand = {
+            futureAction,
+            timestamp: lastTime + 1000
+          }
+
+          return {
+            ...d,
+            commandQueue: [
+              ...d.commandQueue,
+              newCommand
+            ]
+          }
+        } else {
+          return d
+        }
+      })
+    }
+
     case ADD_DRONE: {
       return {
         ...state,
@@ -28,7 +59,6 @@ export default function(state = initialState, action) {
       const {
         id,
       } = action.payload;
-
       return state.map((d) => {
         if (d.id === id){
           return {

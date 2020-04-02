@@ -169,7 +169,7 @@ class Video extends React.Component<{materializedMap, drone}, {}>{
 			// console.log(wallX, wallY, map[wallY][wallX])
 			// is this point inside a wall block?
 			// if (map[wallY][wallX] > 0) {
-			console.log(map.get(wallX, wallY))
+			// console.log(map.get(wallX, wallY))
 			if (map.get(wallX, wallY).type === 'wall') {
 
 				var distX = x - player.x;
@@ -327,7 +327,7 @@ class Video extends React.Component<{materializedMap, drone}, {}>{
         }
       }
 
-			console.log('setting strip:', stripIdx, newStripToModify)
+			// console.log('setting strip:', stripIdx, newStripToModify)
 			this.screenStrips[stripIdx] = newStripToModify;
 
 		}
@@ -427,7 +427,7 @@ class Video extends React.Component<{materializedMap, drone}, {}>{
 				<p>#{drone.id} {drone.name}</p>
 				<p>x:{drone.x} y:{drone.y} direction:{drone.direction}</p>
 			</div>
-			
+
     </div>);
   }
 }

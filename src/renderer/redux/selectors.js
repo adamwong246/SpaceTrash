@@ -43,7 +43,8 @@ export const getTerminalProps = store => store.computer.commandLine;
 export const getCommandLineProps = store => {
   return{
     commandLine: store.computer.commandLine,
-    scripts: store.computer.scripts
+    scripts: store.computer.scripts,
+    loggedIn: store.computer.loggedIn
   }
 };
 
@@ -115,5 +116,12 @@ export const getVideoProps = store => {
 export const getSchematicProps = store => {
   return {
     schematicCursor: store.schematicCursor
+  }
+}
+
+export const getAppProps = store => {
+  return {
+    loggedIn: store.computer.loggedIn,
+    crtEffect: store.computer.crtEffect
   }
 }

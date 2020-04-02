@@ -5,18 +5,36 @@ import * as ActionTypes from "../redux/actionTypes";
 const actions = Object.keys(ActionTypes);
 
 export default {
-  parse: (dispatch, value, scripts) => {
+  parse: (dispatch, value, scripts, loggedIn) => {
+    console.log(loggedIn)
     const split = value.split(' ')
+    console.log(split[0])
 
-    dispatch({ type: ActionTypes.NEW_COMMAND, payload: `> ${value}` })
+    dispatch({ type: ActionTypes.NEW_COMMAND, payload: `< ${value}` })
 
-    if (split[0] === 'help') {
-      dispatch({ type: ActionTypes.NEW_COMMAND, payload:"Try one of the following\n\nlogin\ncommands\nscripts\nsettings\nabout"})
+    if (split[0] === 'login') {
+      if (!split[1]){
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Please provide a name. ex: "login hal"` })
+        return;
+      } else {
+        dispatch({ type: ActionTypes.LOGIN, payload: split[1] })
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `logging in as ${split[1]}` })
+        return
+      }
+    }
+    else if (split[0] === 'help') {
+
+      if (loggedIn){
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload:"Try one of the following: \n\n'logout'\n'commands'\n'scripts'\n'settings'\n'about'"})
+      } else {
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload:"Try one of the following: \n\n'login'\n'settings'\n'about'"})
+      }
+
       return;
-    } else if (split[0] === 'commands') {
+    } else if (split[0] === 'commands' && loggedIn) {
       dispatch({ type: ActionTypes.NEW_COMMAND, payload: ActionTypes.USER_TYPES.join('\n') })
       return;
-    } else if (split[0] === 'scripts') {
+    } else if (split[0] === 'scripts' && loggedIn) {
       dispatch({ type: ActionTypes.SHOW_SCRIPTS, payload: {} })
       return;
     }else if (split[0] === 'about') {
@@ -35,16 +53,21 @@ Mission--------Dock with other space craft. Use your drones to gather the resour
 
       try {
         const context = {
-          foo: 'foo',
+          exec: (action, payload) => {
+            dispatch({ type: ActionTypes.DRONE_QUEUE, payload: {futureAction: action, payload: payload.id} })
+          },
           log: (x) => dispatch({ type: ActionTypes.NEW_COMMAND, payload: x })
 
         }
         var evaluated = safeEval(scriptContents, context)
-        dispatch({ type: ActionTypes.NEW_COMMAND, payload: evaluated(split) })
+        const ran = evaluated(split)
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `> ${ran}`})
+        dispatch({ type: ActionTypes.SET_COMMAND_WARNING, payload:  ran })
         return
       }
       catch(err) {
         dispatch({ type: ActionTypes.NEW_COMMAND, payload: `! ${err.message}` })
+        dispatch({ type: ActionTypes.SET_COMMAND_WARNING, payload:  `! ${err.message}` })
         return ;
       }
 
@@ -111,13 +134,10 @@ Mission--------Dock with other space craft. Use your drones to gather the resour
         dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Drone moved` })
       }
   } else {
+    dispatch({ type: ActionTypes.NEW_COMMAND, payload: `command "${value}" not found. Try "help"`})
+    dispatch({ type: ActionTypes.SET_COMMAND_WARNING, payload: `failed to parse: "${value}"` })
+  }
 
-
-    dispatch({ type: ActionTypes.NEW_COMMAND, payload: `command "${value}" not found. Try "help"`
-})
-dispatch({ type: ActionTypes.SET_COMMAND_WARNING, payload: `failed to parse: "${value}"` })
-    }
-    //
 
   }
 }

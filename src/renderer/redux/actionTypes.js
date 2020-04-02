@@ -6,6 +6,7 @@ export const DRONE_ROTATE_RIGHT = "DRONE_ROTATE_RIGHT"
 
 // builds a list of commands to execute over time.
 export const DRONE_QUEUE = "DRONE_QUEUE"
+export const LOGIN = "LOGIN"
 
 // show the available scripts in the log
 export const SHOW_SCRIPTS = "SHOW_SCRIPTS";

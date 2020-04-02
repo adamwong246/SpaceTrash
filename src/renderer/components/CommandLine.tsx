@@ -7,10 +7,11 @@ import {getCommandLineProps} from "../redux/selectors";
 import CommandParser from '../lib/CommandParser.ts';
 
 class CommandLine extends React.Component<{
-  newCommand(value, scripts): null;
+  newCommand(value, scripts, loggedIn): null;
   commandLine: any;
   focus: number;
   scripts: {};
+  loggedIn: boolean;
 }, {
   value: string;
 }> {
@@ -50,7 +51,7 @@ class CommandLine extends React.Component<{
       <form onSubmit={(event) => {
         event.preventDefault()
         this.resetState()
-        this.props.newCommand(this.state.value, this.props.scripts)
+        this.props.newCommand(this.state.value, this.props.scripts, this.props.loggedIn)
       }}>
         <input
           ref={(input) => { this.commandLineInput = input; }}
@@ -66,7 +67,7 @@ const mapStateToProps = state => {
 
 const mapActionsToProps = dispatch => {
   return {
-    newCommand: (value, scripts) => CommandParser.parse(dispatch, value, scripts)
+    newCommand: (value, scripts, loggedIn) => CommandParser.parse(dispatch, value, scripts, loggedIn)
   }
 };
 

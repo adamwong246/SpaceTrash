@@ -2,6 +2,8 @@ import RayCastMap from "../lib/raycast/RayCastMap.ts";
 
 module.exports =  {
   computer: {
+    crtEffect: true,
+    loggedIn:false,
     scripts: {
       "hello": `
   (x) => {
@@ -27,18 +29,25 @@ module.exports =  {
 "forward": `
 (command) => {
   if (!command[1]){
-    return "Please give me a number of steps to move forward. ex: forward 3";
+    return "Please give me the id of a drone. ex: forward 3 5";
   }
-  return Array.from(Array(parseInt(command[1])).keys()).map((i) => {
-    log('foobar')
-    return(i + foo);
+  if (!command[2]){
+    return "Please give me a number of steps to move forward. ex: forward 3 5";
+  }
+  const id = parseInt(command[1]);
+  const steps = parseInt(command[2]);
+
+  Array.from(Array(steps).keys()).map((i) => {
+    log('DRONE_MOVE_FORWARD');
+    exec('DRONE_MOVE_FORWARD', {id: id});
   }).join(' - ');
+  return('drone ' + id + ' is on auto pilot')
 }
 `,
 
   },
     commandLine: {
-      notification: 'type commands here',
+      notification: '_↓ type commands below. Press \':\' to focus ↓_',
       logs: [
         'booting Space Trash v0...',
         'Adam Wong 2020'

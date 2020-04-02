@@ -13,6 +13,9 @@ class ShipConfiguration extends React.Component<{
     return (<table>
       <tbody>
         <tr>
+          <td>Logged in as Adam</td>
+        </tr>
+        <tr>
           <td>
             <ShipInfo ship={this.props.ship} />
             Drone capacity: 4<br/>

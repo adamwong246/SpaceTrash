@@ -1,9 +1,17 @@
-import { NEW_COMMAND, SET_COMMAND_WARNING, SET_COMMAND_LINE_FOCUS, SHOW_SCRIPTS } from "../actionTypes";
+import { NEW_COMMAND, SET_COMMAND_WARNING, SET_COMMAND_LINE_FOCUS, SHOW_SCRIPTS, LOGIN } from "../actionTypes";
 
 const initialState = {};
 
 export default function(computerState = initialState, action) {
   switch (action.type) {
+    case LOGIN: {
+      return {
+        ...computerState,
+        loggedIn: action.payload
+
+      }
+    }
+
     case NEW_COMMAND: {
 
       return {

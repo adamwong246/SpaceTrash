@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { connect } from "react-redux";
 
-import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import Admin from './components/Admin.tsx'
 import CommandLine from './components/CommandLine.tsx'
@@ -12,65 +13,79 @@ import ShipInformation from './components/ShipInformation.tsx'
 import Terminal from './components/Terminal.tsx'
 import Mission from './components/Mission.tsx';
 
+import {getAppProps} from './redux/selectors.js';
+
 require('react-tabs/style/react-tabs.css');
 require("./style/style.css");
+require("./style/crt.css");
 
-export default class App extends React.Component<{
+class App extends React.Component<{
   newCommand(command: string): any;
+  loggedIn: boolean;
+  crtEffect: boolean;
 }, {}> {
 
   render() {
-    return (<div className="crt" >
+    return (<div className={this.props.crtEffect ?  "crt" : ""} >
 
       <div id="content">
         <Tabs>
           <TabList>
             <Tab>log</Tab>
-            <Tab>status</Tab>
-            <Tab>nav</Tab>
-            <Tab>mission</Tab>
-            <Tab>inventory</Tab>
-            <Tab>manual</Tab>
-            <Tab>admin</Tab>
+
+            {this.props.loggedIn &&
+              <>
+                <Tab>status</Tab>
+                        <Tab>nav</Tab>
+                        <Tab>mission</Tab>
+                        <Tab>inventory</Tab>
+                        <Tab>manual</Tab>
+                        <Tab>admin</Tab>
+              </>}
+
+
           </TabList>
 
           <TabPanel>
-            <Terminal/>
+            <Terminal />
           </TabPanel>
 
           <TabPanel>
-            <ShipConfiguration/>
+            <ShipConfiguration />
           </TabPanel>
 
           <TabPanel>
-            <Navigation/>
+            <Navigation />
           </TabPanel>
 
           <TabPanel>
-            <Mission/>
-          </TabPanel>
-
-
-
-          <TabPanel>
-            <Inventory/>
+            <Mission />
           </TabPanel>
 
           <TabPanel>
-            <Manual/>
+            <Inventory />
           </TabPanel>
 
           <TabPanel>
-            <Admin/>
+            <Manual />
+          </TabPanel>
+
+          <TabPanel>
+            <Admin />
           </TabPanel>
 
         </Tabs>
 
-        <div id="command-line" >
-        <CommandLine/></div>
+        <div id="command-line" ><CommandLine /></div>
 
-  </div>
+      </div>
 
     </div>);
   }
 }
+
+const mapStateToProps = state => {
+  return getAppProps(state);
+};
+
+export default connect(mapStateToProps)(App);
