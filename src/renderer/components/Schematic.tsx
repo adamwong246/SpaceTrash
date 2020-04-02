@@ -20,7 +20,7 @@ const Cell = ({x, y, map, drones, onHover}) => {
   }
 
   drones.forEach((drone, i) => {
-    if (drone.x + 1 === x && drone.y +1=== y){
+    if (Math.round(drone.x) + 1 === x && Math.round(drone.y) +1=== y){
       char = "X"
       mapCell = {type: 'floor', contents: [drone]}
     }
@@ -46,12 +46,10 @@ class Schematic extends React.Component<{
     return (<div id="schematic">
 
     <div id="schematic-info">
-      {schematicCursor.x}, {schematicCursor.y}
-      <br/>
-      ({schematicCursor.mapCell.type})
+      {schematicCursor.x}, {schematicCursor.y}: {schematicCursor.mapCell.type}
       <ul>
         {(schematicCursor.mapCell.contents || []).map((c) => {
-          return (<li>{c.name}</li>)
+          return (<li>{c.id} {c.name}</li>)
         })}
       </ul>
     </div>

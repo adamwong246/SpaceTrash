@@ -4,6 +4,7 @@ import rootReducer from "./reducers";
 import RayCastMap from "../lib/raycast/RayCastMap.ts"
 
 export default createStore(rootReducer, {
+
   schematicCursor:{
     x: 0, y: 0, mapCell: {}
   },
@@ -68,17 +69,17 @@ export default createStore(rootReducer, {
     {
       id: 0, name: "Larry",
       upgrades: [0, 1],
-      x: 0, y: 0, direction: 3
+      x: 7, y: 12, direction: 0
     },
     {
       id: 1, name:  "Curly",
       upgrades: [2, 3, 4],
-      x: 0, y: 1, direction: 6
+      x: 6, y: 11, direction: 6
     },
     {
       id: 2,name:  "Moe",
       upgrades: [5],
-      x: 0, y: 2, direction: 9
+      x: 5, y: 11, direction: 9
     }
   ],
   droneWithActiveVideo: 0,
@@ -88,6 +89,7 @@ export default createStore(rootReducer, {
       'booting Space Trash v0...',
       'Adam Wong 2020'
     ],
+    focus: Date.now(),
   },
   camera: {
     x: 0, //left

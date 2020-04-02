@@ -9,9 +9,13 @@ import CommandParser from '../lib/CommandParser.ts';
 class CommandLine extends React.Component<{
   newCommand(value): null;
   notification: string
+  focus: number
 }, {
   value: string;
 }> {
+
+    commandLineInput;
+
     constructor(a) {
       super(a);
 
@@ -20,6 +24,10 @@ class CommandLine extends React.Component<{
       };
 
       this.handleChange = this.handleChange.bind(this);
+    }
+
+    componentWillReceiveProps(){
+      this.commandLineInput.focus();
     }
 
     handleChange(event) {
@@ -43,7 +51,9 @@ class CommandLine extends React.Component<{
         this.resetState()
         this.props.newCommand(this.state.value)
       }}>
-        <input id="command-line" type="text" value={this.state.value} onChange={this.handleChange}/>
+        <input
+          ref={(input) => { this.commandLineInput = input; }}
+          id="command-line" type="text" value={this.state.value} onChange={this.handleChange}/>
       </form >
     </div>);
   }

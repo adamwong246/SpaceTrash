@@ -26,9 +26,12 @@ export default function(state = initialState, action) {
 
       return state.map((d) => {
         if (d.id === id){
+
+
           return {
             ...d,
-            x: d.x + step
+            x: d.x + Math.cos(d.direction) * step,
+            y: d.y + Math.sin(d.direction) * step,
           }
         } else {
           return d
@@ -37,12 +40,17 @@ export default function(state = initialState, action) {
     }
     case DRONE_ROTATE: {
       const {
-        id
+        id, step
       } = action.payload;
-      return state.map((d, ndx) => {
-        return {
-          ...d,
-          direction: id === d.id ? d.direction + 1 : d.direction
+      // debugger
+      return state.map((d) => {
+        if (d.id === id){
+          return {
+            ...d,
+            direction: d.direction + step
+          }
+        } else {
+          return d
         }
       })
     }

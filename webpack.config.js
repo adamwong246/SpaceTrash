@@ -47,7 +47,7 @@ const commonConfig = {
 
   plugins: [
     new CopyWebpackPlugin([
-      {from:'./src/images',to:'images'}
+      {from:'./src/renderer/images',to:'images'}
     ]),
   ]
 };

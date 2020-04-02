@@ -7,7 +7,7 @@ import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux'
 import store from "./redux/store";
 
-import {NEW_COMMAND, DRONE_ROTATE} from "./redux/actionTypes.js"
+import {NEW_COMMAND, DRONE_ROTATE, SET_COMMAND_LINE_FOCUS} from "./redux/actionTypes.js"
 import App from "./App.tsx"
 
 const wrapper = document.getElementById("app");
@@ -23,24 +23,31 @@ wrapper
 // document.write("chrome", process.versions.chrome)
 // document.write("electron", process.versions.electron)
 
-// document.body.onkeydown = (function (ev) {
-//   var key;
-//   var isShift;
-//   if (window.event) {
-//     key = (window.event as KeyboardEvent).keyCode;
-//     isShift = !!(window.event as KeyboardEvent).shiftKey; // typecast to boolean
-//   } else {
-//     key = ev.which;
-//     isShift = !!ev.shiftKey;
-//   }
-//   if ( isShift ) {
-//     switch (key) {
-//       case 16: // ignore shift key
-//         break;
-//       default:
-//         alert(key);
-//         // do stuff here? code 816
-//         break;
-//     }
-//   }
-// });
+document.body.onkeydown = (function (ev) {
+  var key;
+  var isShift;
+  if (window.event) {
+    key = (window.event as KeyboardEvent).keyCode;
+    isShift = !!(window.event as KeyboardEvent).shiftKey; // typecast to boolean
+  } else {
+    key = ev.which;
+    isShift = !!ev.shiftKey;
+  }
+  if ( isShift ) {
+    switch (key) {
+      case 16: // ignore shift key
+        break;
+      default:
+        // alert(key);
+        // do stuff here?
+        console.log(key)
+        // code 816 focus on command line
+        // debugger
+        if (key === 186){
+          store.dispatch({type: SET_COMMAND_LINE_FOCUS, payload: {}})
+          event && event.preventDefault()
+        }
+        break;
+    }
+  }
+});

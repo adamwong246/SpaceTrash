@@ -1,4 +1,4 @@
-import { NEW_COMMAND, SET_COMMAND_WARNING } from "../actionTypes";
+import { NEW_COMMAND, SET_COMMAND_WARNING, SET_COMMAND_LINE_FOCUS } from "../actionTypes";
 
 const initialState = {};
 
@@ -10,7 +10,7 @@ export default function(state = initialState, action) {
         ...state,
         logs: [
           ...state.logs,
-          action.payload
+          ...action.payload.split('\n')
         ]
       }
     }
@@ -21,6 +21,15 @@ export default function(state = initialState, action) {
         notification: action.payload
       }
     }
+
+    case SET_COMMAND_LINE_FOCUS: {
+      const { id, content } = action.payload;
+      return {
+        ...state,
+        focus: Date.now()
+      }
+    }
+
     default:
       return state;
   }

@@ -128,3 +128,32 @@ ul{
 table td{
   border: 1px solid green;
 }
+
+#screen{
+  position: relative;
+  width: 320px;
+  height: 200px;
+  border: 1px solid black;
+  overflow: hidden;
+}
+
+#ceiling {
+  position: absolute;
+  width: 320px;
+  height: 100px;
+  background-color: rgb(80,80,80);
+  z-index: -10000000;
+}
+
+#floor {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(128,128,128);
+  z-index: -10000000;
+}
+
+#terminal p {
+  padding: 0px;
+  margin: 0px;
+}

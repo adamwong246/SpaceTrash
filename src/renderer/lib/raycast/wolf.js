@@ -144,15 +144,15 @@ function init() {
 	bindKeys();
 
 	initScreen();
-
-	initSprites();
-
-	initEnemies();
-
-	drawMiniMap();
-
-	gameCycle();
-	renderCycle();
+  // 
+	// initSprites();
+  //
+	// initEnemies();
+  //
+	// drawMiniMap();
+  //
+	// gameCycle();
+	// renderCycle();
 }
 
 var enemies = [];
