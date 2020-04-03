@@ -46,7 +46,9 @@ class Schematic extends React.Component<{
     return (<div id="schematic">
 
     <div id="schematic-info">
-      {schematicCursor.x}, {schematicCursor.y}: {schematicCursor.mapCell.type}
+      {schematicCursor.x}, {schematicCursor.y}
+      <br/>
+      {schematicCursor.mapCell.type}
       <ul>
         {(schematicCursor.mapCell.contents || []).map((c) => {
           return (<li>{c.id} {c.name}</li>)

@@ -12,6 +12,7 @@ import ShipConfiguration from './components/ShipConfiguration.tsx'
 import ShipInformation from './components/ShipInformation.tsx'
 import Terminal from './components/Terminal.tsx'
 import Mission from './components/Mission.tsx';
+import Time from './components/Time.tsx';
 
 import {getAppProps} from './redux/selectors.js';
 
@@ -20,13 +21,12 @@ require("./style/style.css");
 require("./style/crt.css");
 
 class App extends React.Component<{
-  newCommand(command: string): any;
   loggedIn: boolean;
   crtEffect: boolean;
-  time: number;
 }, {}> {
 
   render() {
+    console.log("<App/>")
     return (<div className={this.props.crtEffect ?  "crt" : ""} >
 
       <div id="content">
@@ -43,7 +43,8 @@ class App extends React.Component<{
                         <Tab>manual</Tab>
                         <Tab>admin</Tab>
               </>}
-              <span id="time">{this.props.time}</span>
+
+              <Time/>
 
 
           </TabList>

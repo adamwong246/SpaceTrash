@@ -1,13 +1,14 @@
-import ship0 from "../ship0.ts";
+
 import RayCastMap from "./RayCastMap.ts"
 
 import {emptyStrip} from "./constantsAndTypes.ts";
 
 const roomTypes = ['engineering', 'bridge', 'storage', 'drone', 'shop', 'airlock'];
 
-export const getMaterializedMap = drones => {
+export const getMaterializedMap = (drones, shipMap) => {
   console.log('getMaterializedMap')
-  const shipMap = ship0.makeMap();
+  // const shipMap = ship0.makeMap();
+  // const shipMap = ship.makeMap()
   const doors = shipMap.doors
   const maxX = roomTypes.reduce((mm, r) => {
     mm = shipMap[r].x2 > mm ? shipMap[r].x2 : mm

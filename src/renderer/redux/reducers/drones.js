@@ -10,7 +10,8 @@ import {
 
 const initialState = {};
 
-const moveStepSize = 0.2;
+const WAIT_TIME = 100;
+const moveStepSize = 0.1;
 const rotateStepSize = 0.1;
 
 export default function(dronesState = initialState, action) {
@@ -39,7 +40,7 @@ export default function(dronesState = initialState, action) {
           const lastTime = commands[commands.length-1 ] ? commands[commands.length-1 ].timestamp : Date.now()
           const newCommand = {
             futureAction,
-            timestamp: lastTime + 100,
+            timestamp: lastTime + WAIT_TIME,
             id: id
           }
 

@@ -1,14 +1,17 @@
 import {stripWidth, screenHeight, twoPI, screenWidth} from "./constantsAndTypes.ts"
 
+import {IStrip, emptyStrip} from "./constantsAndTypes.ts"
+
 var numRays = Math.ceil(screenWidth / stripWidth);
 var fov = 60 * Math.PI / 180;
 var viewDist = (screenWidth/2) / Math.tan((fov / 2));
+
 export default  (
   rayAngle, stripIdx,
   mapWidth, mapHeight, map,
   player: {direction: number, x: number, y: number },
   screenStrips
-) => {
+): IStrip => {
 
   console.log('castSingleRay');
   // first make sure the angle is between 0 and 360 degrees
@@ -224,5 +227,7 @@ export default  (
     // console.log('setting strip:', stripIdx, newStripToModify)
     return screenStrips[stripIdx] = newStripToModify;
 
+  } else{
+    return emptyStrip;
   }
 };

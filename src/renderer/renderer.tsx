@@ -8,8 +8,6 @@ import store from "./redux/store";
 import { NEW_COMMAND, DRONE_ROTATE, SET_COMMAND_LINE_FOCUS } from "./redux/actionTypes.js"
 import App from "./App.tsx"
 
-import {getTime} from './redux/selectors.js';
-
 const wrapper = document.getElementById("app");
 wrapper
   ? ReactDOM.render(<Provider store={store}>
@@ -56,7 +54,7 @@ let tockPromise = new Promise((res, rej) => {
 
 
 const clock = () => {
-  console.log('tick')
+  // console.log('tick')
 
   if (tockPromise.isPending()) {
 
@@ -72,10 +70,10 @@ const clock = () => {
 let tick = window.setInterval(clock, 1);
 
 
-let updatePromise = new Promise((res, rej) => {
-  store.dispatch({type: 'CLEAR_QUEUE', payload: Date.now() })
-  res();
-});
+// let updatePromise = new Promise((res, rej) => {
+//   store.dispatch({type: 'CLEAR_QUEUE', payload: Date.now() })
+//   res();
+// });
 
 // the main loop
 const subscribe = initSubscriber(store);
@@ -94,19 +92,15 @@ const tock = subscribe('clock.time', state => {
       )
     ).flat()
 
-    store.dispatch({type: 'CLEAR_QUEUE', payload: now })
+
 
     if (quededCommands.length){
+      store.dispatch({type: 'CLEAR_QUEUE', payload: now })
       quededCommands.forEach((qc) => {
         store.dispatch({type: qc.futureAction, payload: {id: qc.id} })
       })
     }
 
     store.dispatch({type: 'RESUME', payload: {} })
-
-
   }
-
-
-
 });

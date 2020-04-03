@@ -1,7 +1,15 @@
 import castSingleRay from "./castSingleRay.ts";
 import {stripWidth, viewDist, numRays} from "./constantsAndTypes.ts"
 
-export default (mapWidth, mapHeight, map, player, screenStrips) => {
+import {IStrip} from "./constantsAndTypes.ts"
+
+export default (
+  mapWidth: number,
+  mapHeight: number,
+  map: any,
+  player: any,
+  screenStrips: IStrip[]
+): IStrip[] => {
   console.log('castRays');
   var stripIdx = 0;
   return Array.from(Array(numRays).keys()).map((i) => {
@@ -22,5 +30,5 @@ export default (mapWidth, mapHeight, map, player, screenStrips) => {
       player,
       screenStrips
     );
-  })
+  }).filter((x) => x)
 }

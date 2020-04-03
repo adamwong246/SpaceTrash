@@ -4,10 +4,16 @@ import threats from '../data/threats.js';
 import upgrades from '../data/upgrades.js';
 import rooms from '../data/rooms.js';
 import signals from '../data/signals.js';
+import castRays from "../lib/raycast/castRays.ts";
+
+import {emptyStrip, screenWidth, stripWidth, IStrip} from "../lib/raycast/constantsAndTypes.ts"
 
 import {castSingleRay} from "../lib/raycast/castSingleRay.ts";
-import {getRays} from "../lib/raycast/getRays.ts";
 import {getMaterializedMap} from "../lib/raycast/getMaterializedMap.ts";
+
+import ship0 from "../lib/ship0.ts";
+
+// const shipMap = ship0.makeMap();
 
 export const getCurrentShip = store => {
   return {ship: store.ships.find((s) => s.id === store.currentShip)}
@@ -102,9 +108,28 @@ export const getScriptEditorProps = store => {
   }
 }
 
-const getShipsSelector = (state) => state.ships
-const getCurrentShipIdSelector = (state) => state.currentShip
-const getBoardedShipIdSelector = (state) => state.boardedShip
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+const baseSelector = (state => state)
+
+const getShipsSelector = createSelector([baseSelector], state => state.ships)
+const getCurrentShipIdSelector = createSelector([baseSelector], state => state.currentShip)
+const getBoardedShipIdSelector = createSelector([baseSelector], state => state.boardedShip)
+const getDronesSelector = createSelector([baseSelector], base => base.drones);
+const getDronesAsListSelector = createSelector([getDronesSelector], (droneObject) => {
+  console.log('getDronesAsListSelector')
+  return Object.keys(droneObject).map((s) => droneObject[s])
+})
+const dronesJustWithCQSelector = createSelector([getDronesAsListSelector], (drones) => {
+  return drones.map((d) => {
+    return {
+      x: d.x,
+      y: d.y,
+      name: d.name,
+      direction: d.direction
+    }
+  })
+})
 
 const getCurrentShipSelector = createSelector(
   [getShipsSelector, getCurrentShipIdSelector],
@@ -120,62 +145,96 @@ const getBoardedShipSelector = createSelector(
   }
 );
 
-const getDronesSelector = (state) => state.drones;
-const getVideDroneIdSelector = (state) => state.droneWithActiveVideo;
+const getVideDroneIdSelector = createSelector([baseSelector], (base) => base.droneWithActiveVideo);
 
-const getDronesAsListSelector = createSelector([getDronesSelector], (droneObject) => {
-  return Object.keys(droneObject).map((s) => droneObject[s])
-})
-
-const getVideoDrone = createSelector([getDronesAsListSelector, getVideDroneIdSelector], (drones, activeVideoId) => {
+export const getVideoDrone = createSelector([getDronesAsListSelector, getVideDroneIdSelector], (drones, activeVideoId) => {
   return drones.find((d) => d.id === activeVideoId)
 })
 
-const getMaterializedMapSelector = createSelector([getDronesAsListSelector], (drones) => {
-  return getMaterializedMap(drones);
+const getDronesPositionAsIntergersSelector = createSelector([getDronesAsListSelector], (droneList) => {
+  console.log('getDronesPositionAsIntergersSelector')
+
+  return droneList.map((d) => {
+    return {
+      x: Math.round(d.x),
+      y: Math.round(d.y)
+    }
+  })
+})
+
+const getShipMapSelector = createSelector([], () => {
+  console.log('getShipMapSelector')
+  return ship0.makeMap()
+} );
+
+export const getMaterializedMapSelector = createSelector([
+  getDronesPositionAsIntergersSelector,
+  getShipMapSelector
+], (drones, shipMap) => {
+  return getMaterializedMap([{x:0,y:0}],shipMap );
 });
 
-const getRaysSelector = createSelector([
-  getMaterializedMapSelector,
-  getVideoDrone
-], (materializedMap, videoDrone) => {
-  return getRays(materializedMap, videoDrone)
-});
 
 export const getMissionProps = createSelector([
   getCurrentShipSelector,
   getBoardedShipSelector,
   getDronesAsListSelector,
   getMaterializedMapSelector,
-  getRaysSelector
 ], (
-  currentShip, boardedShip, drones, materializedMap, rays
+  currentShip, boardedShip, drones, materializedMap
 ) => {
-  return {currentShip, boardedShip, drones, materializedMap, rays};
+  return {currentShip, boardedShip, drones, materializedMap};
 });
 
-export const getVideoProps = store => {
 
+
+const getRaysSelector = createSelector([
+ getMaterializedMapSelector, getVideoDrone
+], (
+ map,
+ drone
+) => {
+ console.log('getRays');
+ const screenStrips = [];
+ for (var i=0;i<screenWidth;i+=stripWidth) {
+   var strip = emptyStrip
+   strip.style.position = "absolute";
+   strip.style.height = 0;//"0px";
+   strip.style.left = strip.style.top = 0;//"0px";
+   strip.style.src = "walls_3.png";
+   screenStrips.push(strip);
+ }
+ return castRays(
+   map.sizeX,
+   map.sizeY,
+   map,
+   drone,
+   screenStrips)
+});
+
+export const getVideoProps = createSelector([getVideoDrone, getRaysSelector], (videoDrone, rays) => {
   return {
-    drone: store.drones.find((d) => d.id === store.droneWithActiveVideo),
-    camera: store.camera
+    drone: videoDrone,
+    rays
   }
-}
+});
 
-export const getSchematicProps = store => {
+export const getSchematicProps = createSelector([baseSelector], (base) => {
   return {
-    schematicCursor: store.schematicCursor
+    schematicCursor: base.schematicCursor
   }
-}
+})
 
-export const getAppProps = store => {
+export const getTimeProps = createSelector([baseSelector], store => {
+  return {
+    time: store.clock.time
+  };
+})
+
+
+export const getAppProps = createSelector([baseSelector], (store) => {
   return {
     loggedIn: store.computer.loggedIn,
-    crtEffect: store.computer.crtEffect,
-    time: store.clock.time
+    crtEffect: store.computer.crtEffect
   }
-}
-
-export const getTime = store => {
-  return store.time
-}
+})
