@@ -46,9 +46,9 @@ const commonConfig = {
   },
 
   plugins: [
-    new CopyWebpackPlugin([
-      {from:'./src/renderer/images',to:'images'}
-    ]),
+    // new CopyWebpackPlugin([
+    //   {from:'./src/renderer/images',to:'images'}
+    // ]),
   ]
 };
 // #endregion
@@ -65,18 +65,28 @@ const commonConfig = {
 //   ];
 
 const mainConfig = lodash.cloneDeep(commonConfig);
-mainConfig.entry = './src/main/main.ts';
+mainConfig.entry = './src/main/main.js';
 mainConfig.target = 'electron-main';
 mainConfig.output.filename = 'main.bundle.js';
-mainConfig.plugins = [...commonConfig.plugins,
-  new CopyPkgJsonPlugin({
-    remove: ['scripts', 'devDependencies', 'build'],
-    replace: {
-      main: './main.bundle.js',
-      scripts: { start: 'electron ./main.bundle.js' },
-      postinstall: 'electron-builder install-app-deps',
-    },
-  }),
+mainConfig.plugins = [
+  ...commonConfig.plugins,
+
+  new CopyWebpackPlugin([
+    {from:'./src/main/preload.js',to:'preload.js'},
+    {from:'./src/server/server-dev.html',to:'server-dev.html'},
+    {from:'./src/server/server.js',to:'server.js'},
+    {from:'./src/server/server-handlers.js',to:'server-handlers.js'},
+    {from:'./src/server/server-ipc.js',to:'server-ipc.js'}
+  ]),
+
+  // new CopyPkgJsonPlugin({
+  //   remove: ['scripts', 'devDependencies', 'build'],
+  //   replace: {
+  //     main: './main.bundle.js',
+  //     scripts: { start: 'electron ./main.bundle.js' },
+  //     postinstall: 'electron-builder install-app-deps',
+  //   },
+  // }),
 ];
 
 const rendererConfig = lodash.cloneDeep(commonConfig);

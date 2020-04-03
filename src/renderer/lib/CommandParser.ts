@@ -2,6 +2,8 @@ const safeEval = require('safe-eval')
 
 import * as ActionTypes from "../redux/actionTypes";
 
+import {send} from "../client-ipc.js";
+
 const actions = Object.keys(ActionTypes);
 
 const settingsFailMessage = { type: ActionTypes.NEW_COMMAND, payload: `Please provide a key and value.\n ex:\n settings crt on\n settings crt off\n settings theme [you favorite color]\n`}
@@ -11,6 +13,36 @@ export default {
     const split = value.split(' ')
 
     dispatch({ type: ActionTypes.NEW_COMMAND, payload: `< ${value}` })
+
+    if (split[0] === 'ping') {
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Pinging server...` })
+      send('ping', {}).then((v) => {
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `${v}` })
+      }).catch((e) => {
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Ping failed: ${e}` })
+      }).finally(() => {
+        // dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Ping finally complete` })
+      })
+      return
+    }
+
+    if (split[0] === 'factorial') {
+      if (split[1]){
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Computing expensive factorial` })
+        send('make-factorial', { num: parseInt(split[1]) }).then((v) => {
+          dispatch({ type: ActionTypes.NEW_COMMAND, payload: `${v}` })
+        }).catch((e) => {
+          dispatch({ type: ActionTypes.NEW_COMMAND, payload: `factorial failed: ${e}` })
+        }).finally(() => {
+          // dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Ping finally complete` })
+        })
+      } else {
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Please enter a number. ex "factorial 5"` })
+      }
+
+      return
+    }
+
 
     if (split[0] === 'login') {
       if (!split[1]){
