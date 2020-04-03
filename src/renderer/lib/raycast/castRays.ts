@@ -10,7 +10,6 @@ export default (
   player: any,
   screenStrips: IStrip[]
 ): IStrip[] => {
-  console.log('castRays');
   var stripIdx = 0;
   return Array.from(Array(numRays).keys()).map((i) => {
     // where on the screen does ray go through?

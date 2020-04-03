@@ -13,7 +13,6 @@ export default  (
   screenStrips
 ): IStrip => {
 
-  console.log('castSingleRay');
   // first make sure the angle is between 0 and 360 degrees
   rayAngle %= twoPI;
   if (rayAngle < 0) rayAngle += twoPI;

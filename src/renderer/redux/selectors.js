@@ -194,14 +194,13 @@ const getRaysSelector = createSelector([
  map,
  drone
 ) => {
- console.log('getRays');
  const screenStrips = [];
  for (var i=0;i<screenWidth;i+=stripWidth) {
    var strip = emptyStrip
    strip.style.position = "absolute";
    strip.style.height = 0;//"0px";
    strip.style.left = strip.style.top = 0;//"0px";
-   strip.style.src = "walls_3.png";
+   strip.style.src = "images/walls_3.png";
    screenStrips.push(strip);
  }
  return castRays(
