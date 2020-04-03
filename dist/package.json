@@ -1,0 +1,58 @@
+{
+	"name": "electron-react-typescript-webpack-boilerplate",
+	"version": "2.0.2",
+	"description": "Pre-configured boilerplate for Electron + React + TypeScript",
+	"main": "./main.bundle.js",
+	"author": "Wing Chau @Devtography",
+	"license": "MIT",
+	"dependencies": {
+		"@types/node-sass": "^4.11.0",
+		"@types/react": "^16.9.13",
+		"@types/react-dom": "^16.9.4",
+		"bluebird": "^3.7.2",
+		"copy-webpack-plugin": "^5.1.1",
+		"css-modules-typescript-loader": "^4.0.0",
+		"electron-is-dev": "^1.1.0",
+		"electron-window-manager": "^1.0.6",
+		"html-loader": "^1.0.0",
+		"javascript-terminal": "^1.0.3",
+		"node-ipc": "^9.1.1",
+		"node-sass": "^4.13.1",
+		"react": "^16.12.0",
+		"react-dom": "^16.12.0",
+		"react-monaco-editor": "^0.35.0",
+		"react-redux": "^7.2.0",
+		"react-router-dom": "^5.1.2",
+		"react-tabs": "^3.1.0",
+		"react-terminal-component": "^1.4.1",
+		"react-typist": "^2.0.5",
+		"redux-selector-subscribe": "^1.0.0",
+		"redux-subscriber": "^1.1.0",
+		"reselect": "^4.0.0",
+		"safe-eval": "^0.4.1",
+		"sass-loader": "^8.0.2",
+		"scss-loader": "^0.0.1",
+		"typings-for-css-modules-loader": "^1.7.0",
+		"uuid": "^7.0.3",
+		"webpack-dev-server": "^3.10.3"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Devtography/electron-react-typescript-webpack-boilerplate"
+	},
+	"keywords": [
+		"boilerplate",
+		"Electron",
+		"React",
+		"Typescript",
+		"Webpack"
+	],
+	"bugs": {
+		"url": "https://github.com/Devtography/electron-react-typescript-webpack-boilerplate/issues"
+	},
+	"homepage": "https://github.com/Devtography/electron-react-typescript-webpack-boilerplate#readme",
+	"scripts": {
+		"start": "electron ./main.bundle.js"
+	},
+	"postinstall": "electron-builder install-app-deps"
+}
