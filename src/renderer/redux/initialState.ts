@@ -8,6 +8,7 @@ module.exports =  {
   },
   computer: {
     crtEffect: false,
+    theme: 'green',
     loggedIn: 'hal',
     scripts: {
       "hello": `

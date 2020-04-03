@@ -4,6 +4,8 @@ import * as ActionTypes from "../redux/actionTypes";
 
 const actions = Object.keys(ActionTypes);
 
+const settingsFailMessage = { type: ActionTypes.NEW_COMMAND, payload: `Please provide a key and value.\n ex:\n settings crt on\n settings crt off\n settings theme [you favorite color]\n`}
+
 export default {
   parse: (dispatch, value, scripts, loggedIn) => {
     const split = value.split(' ')
@@ -18,6 +20,35 @@ export default {
         dispatch({ type: ActionTypes.LOGIN, payload: split[1] })
         dispatch({ type: ActionTypes.NEW_COMMAND, payload: `logging in as ${split[1]}` })
         return
+      }
+    }
+    else if (split[0] === 'settings') {
+      if (!split[1] || !split[2]){
+        dispatch(settingsFailMessage)
+        return;
+      } else {
+
+        if (split[1] === 'crt'){
+
+          if (split[2] === 'on'){
+              dispatch({ type: ActionTypes.CRT, payload: true })
+              return
+          } else if (split[2] === 'off'){
+            dispatch({ type: ActionTypes.CRT, payload: false })
+            return
+          } else{
+            dispatch(settingsFailMessage)
+            return
+          }
+
+        } else if (split[1] === 'theme'){
+          dispatch({ type: ActionTypes.THEME, payload: split[2] })
+          return
+        } else {
+          dispatch(settingsFailMessage)
+          return
+        }
+
       }
     }
     else if (split[0] === 'help') {

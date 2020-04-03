@@ -1,9 +1,26 @@
-import { NEW_COMMAND, SET_COMMAND_WARNING, SET_COMMAND_LINE_FOCUS, SHOW_SCRIPTS, LOGIN } from "../actionTypes";
+import { CRT, THEME, NEW_COMMAND, SET_COMMAND_WARNING, SET_COMMAND_LINE_FOCUS, SHOW_SCRIPTS, LOGIN } from "../actionTypes";
 
 const initialState = {};
 
 export default function(computerState = initialState, action) {
   switch (action.type) {
+
+    case CRT: {
+      return {
+        ...computerState,
+        crtEffect: action.payload
+
+      }
+    }
+
+    case THEME: {
+      return {
+        ...computerState,
+        theme: action.payload
+
+      }
+    }
+
     case LOGIN: {
       return {
         ...computerState,
