@@ -1,29 +1,8 @@
-// const { app, BrowserWindow } = require('electron')
-let path = require("path");
-//
-// function createWindow () {
-//   // Create the browser window.
-//   let win = new BrowserWindow({
-//     width: 800,
-//     height: 600,
-//     webPreferences: {
-//       nodeIntegration: true,
-//       preload: path.resolve('dist', 'preload.js'),
-//     },
-//     title: "SpaceTrash v0"
-//   })
-//
-//   // and load the index.html of the app.
-//   win.loadFile('index.html')
-// }
-//
-// app.whenReady().then(createWindow)
-
-let electron = require('electron')
-let { app, BrowserWindow } = require('electron')
-let { fork } = require('child_process')
-let findOpenSocket = require('./find-open-socket')
-let isDev = require('electron-is-dev')
+import path from 'path';
+import electron, {app, BrowserWindow} from 'electron';
+import fork from 'child_process';
+import findOpenSocket from './find-open-socket';
+import isDev from 'electron-is-dev';
 
 let clientWin
 let serverWin
@@ -84,7 +63,7 @@ function createBackgroundProcess(socketName) {
     '--subprocess',
     app.getVersion(),
     socketName
-  ])
+  ]);
 
   serverProcess.on('message', msg => {
     console.log(msg)
@@ -92,7 +71,7 @@ function createBackgroundProcess(socketName) {
 }
 
 app.on('ready', async () => {
-  serverSocket = await findOpenSocket()
+  const serverSocket = await findOpenSocket()
 
   createWindow(serverSocket)
 

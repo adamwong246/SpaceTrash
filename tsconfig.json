@@ -9,7 +9,8 @@
       "@main/*": ["src/main/*"],
       "@lib/*": ["src/lib/*"],
       "@renderer*/": ["src/renderer/*"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@utilz/*": ["src/server/*"],
     },
     "module": "commonjs",
     "moduleResolution": "node",

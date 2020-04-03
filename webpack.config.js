@@ -46,9 +46,7 @@ const commonConfig = {
   },
 
   plugins: [
-    // new CopyWebpackPlugin([
-    //   {from:'./src/renderer/images',to:'images'}
-    // ]),
+
   ]
 };
 // #endregion
@@ -73,10 +71,10 @@ mainConfig.plugins = [
 
   new CopyWebpackPlugin([
     {from:'./src/main/preload.js',to:'preload.js'},
-    {from:'./src/server/server-dev.html',to:'server-dev.html'},
-    {from:'./src/server/server.js',to:'server.js'},
-    {from:'./src/server/server-handlers.js',to:'server-handlers.js'},
-    {from:'./src/server/server-ipc.js',to:'server-ipc.js'}
+    {from:'./src/main/server/server-dev.html',to:'server-dev.html'},
+    {from:'./src/main/server/server.js',to:'server.js'},
+    {from:'./src/main/server/server-handlers.js',to:'server-handlers.js'},
+    {from:'./src/main/server/server-ipc.js',to:'server-ipc.js'},
   ]),
 
   // new CopyPkgJsonPlugin({
@@ -93,10 +91,14 @@ const rendererConfig = lodash.cloneDeep(commonConfig);
 rendererConfig.entry = './src/renderer/renderer.tsx';
 rendererConfig.target = 'electron-renderer';
 rendererConfig.output.filename = 'renderer.bundle.js';
-rendererConfig.plugins = [...commonConfig.plugins,
+rendererConfig.plugins = [
+  ...commonConfig.plugins,
   new HtmlWebpackPlugin({
     template: path.resolve(__dirname, 'src/renderer/index.html'),
   }),
+  new CopyWebpackPlugin([
+    {from:'./src/renderer/images',to:'images'}
+  ]),
 ];
 
 module.exports = [

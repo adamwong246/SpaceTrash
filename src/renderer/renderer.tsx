@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import initSubscriber from 'redux-subscriber';
 import {Promise} from "bluebird";
 
+import {send} from "./client-ipc.js";
 import store from "./redux/store";
 import { NEW_COMMAND, DRONE_ROTATE, SET_COMMAND_LINE_FOCUS } from "./redux/actionTypes.js"
 import App from "./App.tsx"
@@ -17,8 +18,10 @@ wrapper
   </Provider >, wrapper)
   : false;
 
+// set the focus to the command bar on boot
 store.dispatch({ type: SET_COMMAND_LINE_FOCUS, payload: {} });
 
+// listen for keypresses to shift+':'
 document.body.onkeydown = (function(ev) {
   var key;
   var isShift;
@@ -44,14 +47,15 @@ document.body.onkeydown = (function(ev) {
 });
 
 
-///////////////////////////////////
+const subscribe = initSubscriber(store);
 
+// Listen to the clock and run queded commnads
+//////////////////////////////////////////////////////////////////////
 
 let tockPromise = new Promise((res, rej) => {
   store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
   res();
 });
-
 
 const clock = () => {
   // console.log('tick')
@@ -69,14 +73,6 @@ const clock = () => {
 // start the clock
 let tick = window.setInterval(clock, 1);
 
-
-// let updatePromise = new Promise((res, rej) => {
-//   store.dispatch({type: 'CLEAR_QUEUE', payload: Date.now() })
-//   res();
-// });
-
-// the main loop
-const subscribe = initSubscriber(store);
 const tock = subscribe('clock.time', state => {
 
   if(state.clock.halted){
@@ -86,7 +82,7 @@ const tock = subscribe('clock.time', state => {
     store.dispatch({type: 'HALT', payload: {} })
 
     const now = Date.now()
-    const quededCommands = state.drones.map(
+    const quededCommands = state.world.drones.map(
       (d) => d.commandQueue.filter(
         (cq) => cq.timestamp < now
       )
@@ -103,4 +99,21 @@ const tock = subscribe('clock.time', state => {
 
     store.dispatch({type: 'RESUME', payload: {} })
   }
+});
+
+
+// Listen for changes to world and send them over IPC to server
+//////////////////////////////////////////////////////////////////////
+
+subscribe('world', state => {
+  console.log('world updated')
+
+  send('video', state.world ).then((v) => {
+    console.log('then video')
+  }).catch((e) => {
+    console.log('catch video')
+  }).finally(() => {
+    console.log('finall video')
+  })
+
 });

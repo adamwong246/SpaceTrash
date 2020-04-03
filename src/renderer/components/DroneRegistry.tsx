@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from "react-redux";
 
-import { getDrones } from "../redux/selectors";
+import { getDronesRegistry } from "../redux/selectors";
 
 const DroneRegistry = ( {drones} ) => (
   <div id="drone-Registery">
@@ -29,7 +29,7 @@ const DroneRegistry = ( {drones} ) => (
 );
 
 const mapStateToProps = state => {
-  return getDrones(state) ;
+  return getDronesRegistry(state) ;
 };
 
 export default connect(mapStateToProps)(DroneRegistry);
