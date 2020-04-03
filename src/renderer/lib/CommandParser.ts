@@ -1,4 +1,4 @@
-var safeEval = require('safe-eval')
+const safeEval = require('safe-eval')
 
 import * as ActionTypes from "../redux/actionTypes";
 

@@ -44,7 +44,6 @@ module.exports =  {
   const steps = parseInt(command[2]);
 
   Array.from(Array(steps).keys()).map((i) => {
-    log('drone moved!');
     exec('DRONE_MOVE_FORWARD', {id: id});
   }).join(' - ');
   return('drone ' + id + ' is on auto pilot')
@@ -63,7 +62,6 @@ module.exports =  {
   const steps = parseInt(command[2]);
 
   Array.from(Array(steps).keys()).map((i) => {
-    log('drone moved!');
     exec('DRONE_ROTATE_LEFT', {id: id});
   }).join(' - ');
   return('drone ' + id + ' is on auto pilot')
@@ -82,7 +80,6 @@ module.exports =  {
   const steps = parseInt(command[2]);
 
   Array.from(Array(steps).keys()).map((i) => {
-    log('drone moved!');
     exec('DRONE_MOVE_BACK', {id: id});
   }).join(' - ');
   return('drone ' + id + ' is on auto pilot')
@@ -101,7 +98,6 @@ module.exports =  {
   const steps = parseInt(command[2]);
 
   Array.from(Array(steps).keys()).map((i) => {
-    log('drone moved!');
     exec('DRONE_ROTATE_RIGHT', {id: id});
   }).join(' - ');
   return('drone ' + id + ' is on auto pilot')
