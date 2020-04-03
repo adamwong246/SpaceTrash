@@ -23,11 +23,30 @@ require("./style/crt.css");
 class App extends React.Component<{
   loggedIn: boolean;
   crtEffect: boolean;
+  theme: string
 }, {}> {
 
   render() {
     console.log("<App/>")
     return (<div className={this.props.crtEffect ?  "crt" : ""} >
+
+      <style>
+
+      {
+        `
+        body { color: ${this.props.theme}; }
+        #command-bar{background-color: ${this.props.theme};}
+        input#command-line{color: ${this.props.theme};border: 1px solid ${this.props.theme};}
+        #schematic #grid .schematic-cursor-highlight{border: 1px solid ${this.props.theme}}
+        #content .react-tabs__tab-list{border-bottom: 1px solid ${this.props.theme};}
+        .react-tabs__tab.react-tabs__tab--selected{background-color: ${this.props.theme};}
+        .react-tabs__tab-panel.react-tabs__tab-panel--selected{border: 1px solid ${this.props.theme};}
+        .react-tabs__tab {border: 1px dotted ${this.props.theme};}
+        hr {border: 1px solid ${this.props.theme};}
+        table td{border: 1px solid ${this.props.theme};}
+        `
+      }
+      </style>
 
       <div id="content">
         <Tabs>

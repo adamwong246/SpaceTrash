@@ -235,6 +235,7 @@ export const getTimeProps = createSelector([baseSelector], store => {
 export const getAppProps = createSelector([baseSelector], (store) => {
   return {
     loggedIn: store.computer.loggedIn,
-    crtEffect: store.computer.crtEffect
+    crtEffect: store.computer.crtEffect,
+    theme: store.computer.theme
   }
 })
