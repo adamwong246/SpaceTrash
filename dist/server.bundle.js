@@ -1770,7 +1770,7 @@ const wallCell = {
 function RayCastMap(x, y) {
     this.sizeX = x + 2;
     this.sizeY = y + 2;
-    console.log("new RayCastMap", x, y);
+    // console.log("new RayCastMap", x, y)
     this.wallGrid = Array.from(Array(this.sizeY), () => new Array(this.sizeX));
     for (let x2 = 0; x2 < this.sizeX; x2++) {
         for (let y2 = 0; y2 < this.sizeY; y2++) {
@@ -1867,6 +1867,7 @@ RayCastMap.prototype.get = function (x, y) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ABSOLLUTE = 'absolute';
 ;
 exports.emptyStyle = {
     clip: '',
@@ -1889,7 +1890,7 @@ exports.screenWidth = 320;
 exports.screenHeight = 200;
 var useSingleTexture = false;
 var fov = 60 * Math.PI / 180;
-exports.stripWidth = 3;
+exports.stripWidth = 1;
 exports.numRays = Math.ceil(exports.screenWidth / exports.stripWidth);
 var numTextures = 4;
 var wallTextures = [
@@ -1938,229 +1939,6 @@ exports.default = {
                 { x: 50, y: 2 },
             ]
         });
-    }
-};
-
-
-/***/ }),
-
-/***/ "./src/server/castRays.ts":
-/*!********************************!*\
-  !*** ./src/server/castRays.ts ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const castSingleRay_ts_1 = __webpack_require__(/*! ./raycast/castSingleRay.ts */ "./src/server/raycast/castSingleRay.ts");
-const constantsAndTypes_ts_1 = __webpack_require__(/*! ../lib/raycast/constantsAndTypes.ts */ "./src/lib/raycast/constantsAndTypes.ts");
-exports.default = (mapWidth, mapHeight, map, player, screenStrips) => {
-    var stripIdx = 0;
-    return Array.from(Array(constantsAndTypes_ts_1.numRays).keys()).map((i) => {
-        // where on the screen does ray go through?
-        var rayScreenPos = (-constantsAndTypes_ts_1.numRays / 2 + i) * constantsAndTypes_ts_1.stripWidth;
-        // the distance from the viewer to the point on the screen, simply Pythagoras.
-        var rayViewDist = Math.sqrt(rayScreenPos * rayScreenPos + constantsAndTypes_ts_1.viewDist * constantsAndTypes_ts_1.viewDist);
-        // the angle of the ray, relative to the viewing direction.
-        // right triangle: a = sin(A) * c
-        var rayAngle = Math.asin(rayScreenPos / rayViewDist);
-        return castSingleRay_ts_1.default(player.direction + rayAngle, // add the players viewing direction to get the angle in world space
-        stripIdx++, mapWidth, mapHeight, map, player, screenStrips);
-    }).filter((x) => x);
-};
-
-
-/***/ }),
-
-/***/ "./src/server/raycast/castSingleRay.ts":
-/*!*********************************************!*\
-  !*** ./src/server/raycast/castSingleRay.ts ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const constantsAndTypes_ts_1 = __webpack_require__(/*! ../../lib/raycast/constantsAndTypes.ts */ "./src/lib/raycast/constantsAndTypes.ts");
-var numRays = Math.ceil(constantsAndTypes_ts_1.screenWidth / constantsAndTypes_ts_1.stripWidth);
-var fov = 60 * Math.PI / 180;
-var viewDist = (constantsAndTypes_ts_1.screenWidth / 2) / Math.tan((fov / 2));
-exports.default = (rayAngle, stripIdx, mapWidth, mapHeight, map, player, screenStrips) => {
-    // first make sure the angle is between 0 and 360 degrees
-    rayAngle %= constantsAndTypes_ts_1.twoPI;
-    if (rayAngle < 0)
-        rayAngle += constantsAndTypes_ts_1.twoPI;
-    // moving right/left? up/down? Determined by which quadrant the angle is in.
-    var right = (rayAngle > constantsAndTypes_ts_1.twoPI * 0.75 || rayAngle < constantsAndTypes_ts_1.twoPI * 0.25);
-    var up = (rayAngle < 0 || rayAngle > Math.PI);
-    var wallType = 0;
-    // only do these once
-    var angleSin = Math.sin(rayAngle);
-    var angleCos = Math.cos(rayAngle);
-    var dist = 0; // the distance to the block we hit
-    var xHit = 0; // the x and y coord of where the ray hit the block
-    var yHit = 0;
-    var xWallHit = 0;
-    var yWallHit = 0;
-    var textureX; // the x-coord on the texture of the block, ie. what part of the texture are we going to render
-    var wallX; // the (x,y) map coords of the block
-    var wallY;
-    var wallIsShaded = false;
-    var wallIsHorizontal = false;
-    // first check against the vertical map/wall lines
-    // we do this by moving to the right or left edge of the block we're standing in
-    // and then moving in 1 map unit steps horizontally. The amount we have to move vertically
-    // is determined by the slope of the ray, which is simply defined as sin(angle) / cos(angle).
-    var slope = angleSin / angleCos; // the slope of the straight line made by the ray
-    var dXVer = right ? 1 : -1; // we move either 1 map unit to the left or right
-    var dYVer = dXVer * slope; // how much to move up or down
-    var x = right ? Math.ceil(player.x) : Math.floor(player.x); // starting horizontal position, at one of the edges of the current map block
-    var y = player.y + (x - player.x) * slope; // starting vertical position. We add the small horizontal step we just made, multiplied by the slope.
-    while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
-        const wallX = (x + (right ? 0 : -1)) >> 0;
-        const wallY = (y) >> 0;
-        // if (spriteMap[wallY][wallX] && !spriteMap[wallY][wallX].visible) {
-        // 	spriteMap[wallY][wallX].visible = true;
-        // 	visibleSprites.push(spriteMap[wallY][wallX]);
-        // }
-        // console.log(wallX, wallY, map[wallY][wallX])
-        // is this point inside a wall block?
-        // if (map[wallY][wallX] > 0) {
-        // console.log(map.get(wallX, wallY))
-        if (map.get(wallX, wallY).type === 'wall') {
-            var distX = x - player.x;
-            var distY = y - player.y;
-            dist = distX * distX + distY * distY; // the distance from the player to this point, squared.
-            // wallType = map[wallY][wallX]; // we'll remember the type of wall we hit for later
-            textureX = y % 1; // where exactly are we on the wall? textureX is the x coordinate on the texture that we'll use later when texturing the wall.
-            if (!right)
-                textureX = 1 - textureX; // if we're looking to the left side of the map, the texture should be reversed
-            xHit = x; // save the coordinates of the hit. We only really use these to draw the rays on minimap.
-            yHit = y;
-            xWallHit = wallX;
-            yWallHit = wallY;
-            // make horizontal walls shaded
-            wallIsShaded = true;
-            wallIsHorizontal = true;
-            break;
-        }
-        x = x + dXVer;
-        y = y + dYVer;
-    }
-    // now check against horizontal lines. It's basically the same, just "turned around".
-    // the only difference here is that once we hit a map block,
-    // we check if there we also found one in the earlier, vertical run. We'll know that if dist != 0.
-    // If so, we only register this hit if this distance is smaller.
-    var slope = angleCos / angleSin;
-    var dYHor = up ? -1 : 1;
-    var dXHor = dYHor * slope;
-    var y = up ? Math.floor(player.y) : Math.ceil(player.y);
-    var x = player.x + (y - player.y) * slope;
-    while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
-        const wallY = (y + (up ? -1 : 0)) >> 0;
-        const wallX = (x) >> 0;
-        // if (spriteMap[wallY][wallX] && !spriteMap[wallY][wallX].visible) {
-        // 	spriteMap[wallY][wallX].visible = true;
-        // 	visibleSprites.push(spriteMap[wallY][wallX]);
-        // }
-        // if (map[wallY][wallX] > 0) {
-        if (map.get(wallX, wallY).type === 'wall') {
-            var distX = x - player.x;
-            var distY = y - player.y;
-            var blockDist = distX * distX + distY * distY;
-            if (!dist || blockDist < dist) {
-                dist = blockDist;
-                xHit = x;
-                yHit = y;
-                xWallHit = wallX;
-                yWallHit = wallY;
-                // wallType = map[wallY][wallX];
-                // wallType = map.get(wallX, wallY);
-                textureX = x % 1;
-                if (up)
-                    textureX = 1 - textureX;
-                wallIsShaded = false;
-            }
-            break;
-        }
-        x = x + dXHor;
-        y = y + dYHor;
-    }
-    if (dist) {
-        //drawRay(xHit, yHit);
-        const newStrip = screenStrips[stripIdx];
-        const newStripStyle = screenStrips[stripIdx].style;
-        dist = Math.sqrt(dist);
-        // use perpendicular distance to adjust for fish eye
-        // distorted_dist = correct_dist / cos(relative_angle_of_ray)
-        dist = dist * Math.cos(player.direction - rayAngle);
-        // now calc the position, height and width of the wall strip
-        // "real" wall height in the game world is 1 unit, the distance from the player to the screen is viewDist,
-        // thus the height on the screen is equal to wall_height_real * viewDist / dist
-        var height = Math.round(viewDist / dist);
-        // width is the same, but we have to stretch the texture to a factor of stripWidth to make it fill the strip correctly
-        var width = height * constantsAndTypes_ts_1.stripWidth;
-        // top placement is easy since everything is centered on the x-axis, so we simply move
-        // it half way down the screen and then half the wall height back up.
-        var top = Math.round((constantsAndTypes_ts_1.screenHeight - height) / 2);
-        var imgTop = 0;
-        // var style: IStyle = newStrip.style;
-        // var oldStyles: IStyle = newStrip.oldStyles;
-        // var styleHeight = 0;
-        // if (useSingleTexture) {
-        // 	// then adjust the top placement according to which wall texture we need
-        // 	imgTop = (height * (wallType-1))>>0;
-        // 	styleHeight = (height * numTextures)>>0;
-        // } else {
-        //
-        // 	newStripStyle.src = wallTextures[wallType-1];
-        // 	// if (oldStyles.src != styleSrc) {
-        // 	//
-        // 	// 	// oldStyles.src = styleSrc
-        // 	// }
-        // 	styleHeight = height;
-        // }
-        newStripStyle.height = height;
-        var texX = Math.round(textureX * width);
-        if (texX > width - constantsAndTypes_ts_1.stripWidth)
-            texX = width - constantsAndTypes_ts_1.stripWidth;
-        texX += (wallIsShaded ? width : 0);
-        newStripStyle.width = (width * 2) >> 0;
-        newStripStyle.top = top - imgTop;
-        newStripStyle.left = stripIdx * constantsAndTypes_ts_1.stripWidth - texX;
-        newStripStyle.clip = "rect(" + imgTop + "px, " + (texX + constantsAndTypes_ts_1.stripWidth) + "px, " + (imgTop + height) + "px, " + texX + "px)";
-        // if (oldStyles.clip != styleClip) {
-        // 	style.clip = styleClip;
-        // 	oldStyles.clip = styleClip;
-        // }
-        //
-        // var dwx = xWallHit - player.x;
-        // var dwy = yWallHit - player.y;
-        // var wallDist = dwx*dwx + dwy*dwy;
-        // var styleZIndex = -(wallDist*1000)>>0;
-        // if (styleZIndex != oldStyles.zIndex) {
-        // 	newStrip.style.zIndex = styleZIndex;
-        // 	oldStyles.zIndex = styleZIndex;
-        // }
-        var dwx = xWallHit - player.x;
-        var dwy = yWallHit - player.y;
-        var wallDist = dwx * dwx + dwy * dwy;
-        newStripStyle.zIndex = -(wallDist * 1000) >> 0;
-        const newStripToModify = {
-            ...screenStrips[stripIdx],
-            style: {
-                ...newStripStyle,
-                ...screenStrips[stripIdx].style
-            }
-        };
-        // console.log('setting strip:', stripIdx, newStripToModify)
-        return screenStrips[stripIdx] = newStripToModify;
-    }
-    else {
-        return constantsAndTypes_ts_1.emptyStrip;
     }
 };
 
@@ -2228,6 +2006,182 @@ exports.default = (drones, shipMap) => {
 
 /***/ }),
 
+/***/ "./src/server/raycast/getRay.ts":
+/*!**************************************!*\
+  !*** ./src/server/raycast/getRay.ts ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const constantsAndTypes_ts_1 = __webpack_require__(/*! ../../lib/raycast/constantsAndTypes.ts */ "./src/lib/raycast/constantsAndTypes.ts");
+var numRays = Math.ceil(constantsAndTypes_ts_1.screenWidth / constantsAndTypes_ts_1.stripWidth);
+var fov = 60 * Math.PI / 180;
+var viewDist = (constantsAndTypes_ts_1.screenWidth / 2) / Math.tan((fov / 2));
+exports.default = (rayAngle, map, player, stripIdx) => {
+    const mapWidth = map.sizeX;
+    const mapHeight = map.sizeY;
+    const newStripStyle = {
+        id: stripIdx,
+        style: {
+            position: constantsAndTypes_ts_1.ABSOLLUTE,
+            src: "images/walls_3.png",
+            height: 0, width: 0, left: 0, top: 0, zIndex: 0, clip: ""
+        }
+    };
+    // first make sure the angle is between 0 and 360 degrees
+    rayAngle %= constantsAndTypes_ts_1.twoPI;
+    if (rayAngle < 0)
+        rayAngle += constantsAndTypes_ts_1.twoPI;
+    // moving right/left? up/down? Determined by which quadrant the angle is in.
+    var right = (rayAngle > constantsAndTypes_ts_1.twoPI * 0.75 || rayAngle < constantsAndTypes_ts_1.twoPI * 0.25);
+    var up = (rayAngle < 0 || rayAngle > Math.PI);
+    var wallType = 0;
+    // only do these once
+    var angleSin = Math.sin(rayAngle);
+    var angleCos = Math.cos(rayAngle);
+    var dist = 0; // the distance to the block we hit
+    var xHit = 0; // the x and y coord of where the ray hit the block
+    var yHit = 0;
+    var xWallHit = 0;
+    var yWallHit = 0;
+    var textureX; // the x-coord on the texture of the block, ie. what part of the texture are we going to render
+    var wallX; // the (x,y) map coords of the block
+    var wallY;
+    var wallIsShaded = false;
+    var wallIsHorizontal = false;
+    // first check against the vertical map/wall lines
+    // we do this by moving to the right or left edge of the block we're standing in
+    // and then moving in 1 map unit steps horizontally. The amount we have to move vertically
+    // is determined by the slope of the ray, which is simply defined as sin(angle) / cos(angle).
+    var slope = angleSin / angleCos; // the slope of the straight line made by the ray
+    var dXVer = right ? 1 : -1; // we move either 1 map unit to the left or right
+    var dYVer = dXVer * slope; // how much to move up or down
+    var x = right ? Math.ceil(player.x) : Math.floor(player.x); // starting horizontal position, at one of the edges of the current map block
+    var y = player.y + (x - player.x) * slope; // starting vertical position. We add the small horizontal step we just made, multiplied by the slope.
+    while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
+        const wallX = (x + (right ? 0 : -1)) >> 0;
+        const wallY = (y) >> 0;
+        if (map.get(wallX, wallY).type === 'wall') {
+            var distX = x - player.x;
+            var distY = y - player.y;
+            dist = distX * distX + distY * distY; // the distance from the player to this point, squared.
+            textureX = y % 1; // where exactly are we on the wall? textureX is the x coordinate on the texture that we'll use later when texturing the wall.
+            if (!right)
+                textureX = 1 - textureX; // if we're looking to the left side of the map, the texture should be reversed
+            xHit = x; // save the coordinates of the hit. We only really use these to draw the rays on minimap.
+            yHit = y;
+            xWallHit = wallX;
+            yWallHit = wallY;
+            // make horizontal walls shaded
+            wallIsShaded = true;
+            wallIsHorizontal = true;
+            break;
+        }
+        x = x + dXVer;
+        y = y + dYVer;
+    }
+    // now check against horizontal lines. It's basically the same, just "turned around".
+    // the only difference here is that once we hit a map block,
+    // we check if there we also found one in the earlier, vertical run. We'll know that if dist != 0.
+    // If so, we only register this hit if this distance is smaller.
+    var slope = angleCos / angleSin;
+    var dYHor = up ? -1 : 1;
+    var dXHor = dYHor * slope;
+    var y = up ? Math.floor(player.y) : Math.ceil(player.y);
+    var x = player.x + (y - player.y) * slope;
+    while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
+        const wallY = (y + (up ? -1 : 0)) >> 0;
+        const wallX = (x) >> 0;
+        if (map.get(wallX, wallY).type === 'wall') {
+            var distX = x - player.x;
+            var distY = y - player.y;
+            var blockDist = distX * distX + distY * distY;
+            if (!dist || blockDist < dist) {
+                dist = blockDist;
+                xHit = x;
+                yHit = y;
+                xWallHit = wallX;
+                yWallHit = wallY;
+                textureX = x % 1;
+                if (up)
+                    textureX = 1 - textureX;
+                wallIsShaded = false;
+            }
+            break;
+        }
+        x = x + dXHor;
+        y = y + dYHor;
+    }
+    if (dist) {
+        dist = Math.sqrt(dist);
+        // use perpendicular distance to adjust for fish eye
+        // distorted_dist = correct_dist / cos(relative_angle_of_ray)
+        dist = dist * Math.cos(player.direction - rayAngle);
+        // now calc the position, height and width of the wall strip
+        // "real" wall height in the game world is 1 unit, the distance from the player to the screen is viewDist,
+        // thus the height on the screen is equal to wall_height_real * viewDist / dist
+        var height = Math.round(viewDist / dist);
+        // width is the same, but we have to stretch the texture to a factor of stripWidth to make it fill the strip correctly
+        var width = height * constantsAndTypes_ts_1.stripWidth;
+        // top placement is easy since everything is centered on the x-axis, so we simply move
+        // it half way down the screen and then half the wall height back up.
+        var top = Math.round((constantsAndTypes_ts_1.screenHeight - height) / 2);
+        var imgTop = 0;
+        var texX = Math.round(textureX * width);
+        if (texX > width - constantsAndTypes_ts_1.stripWidth)
+            texX = width - constantsAndTypes_ts_1.stripWidth;
+        texX += (wallIsShaded ? width : 0);
+        newStripStyle.style.height = height;
+        newStripStyle.style.width = (width * 2) >> 0;
+        newStripStyle.style.top = top - imgTop;
+        newStripStyle.style.left = stripIdx * constantsAndTypes_ts_1.stripWidth - texX;
+        newStripStyle.style.clip = "rect(" + imgTop + "px, " + (texX + constantsAndTypes_ts_1.stripWidth) + "px, " + (imgTop + height) + "px, " + texX + "px)";
+        var dwx = xWallHit - player.x;
+        var dwy = yWallHit - player.y;
+        var wallDist = dwx * dwx + dwy * dwy;
+        newStripStyle.style.zIndex = -(wallDist * 1000) >> 0;
+        return newStripStyle;
+    }
+    else {
+        return newStripStyle;
+    }
+};
+
+
+/***/ }),
+
+/***/ "./src/server/raycast/getRays.ts":
+/*!***************************************!*\
+  !*** ./src/server/raycast/getRays.ts ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const getRay_ts_1 = __webpack_require__(/*! ../raycast/getRay.ts */ "./src/server/raycast/getRay.ts");
+const constantsAndTypes_ts_1 = __webpack_require__(/*! ../../lib/raycast/constantsAndTypes.ts */ "./src/lib/raycast/constantsAndTypes.ts");
+exports.default = (map, player) => {
+    return Array.from(Array(constantsAndTypes_ts_1.numRays).keys()).map((i) => {
+        // where on the screen does ray go through?
+        var rayScreenPos = (-constantsAndTypes_ts_1.numRays / 2 + i) * constantsAndTypes_ts_1.stripWidth;
+        // the distance from the viewer to the point on the screen, simply Pythagoras.
+        var rayViewDist = Math.sqrt(rayScreenPos * rayScreenPos + constantsAndTypes_ts_1.viewDist * constantsAndTypes_ts_1.viewDist);
+        // the angle of the ray, relative to the viewing direction.
+        // right triangle: a = sin(A) * c
+        var rayAngle = Math.asin(rayScreenPos / rayViewDist);
+        return getRay_ts_1.default(player.direction + rayAngle, // add the players viewing direction to get the angle in world space
+        map, player, i);
+    });
+};
+
+
+/***/ }),
+
 /***/ "./src/server/server-handlers.js":
 /*!***************************************!*\
   !*** ./src/server/server-handlers.js ***!
@@ -2239,8 +2193,8 @@ exports.default = (drones, shipMap) => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _raycast_getMaterializedMap_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./raycast/getMaterializedMap.ts */ "./src/server/raycast/getMaterializedMap.ts");
 /* harmony import */ var _raycast_getMaterializedMap_ts__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_raycast_getMaterializedMap_ts__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _castRays_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./castRays.ts */ "./src/server/castRays.ts");
-/* harmony import */ var _castRays_ts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_castRays_ts__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _raycast_getRays_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./raycast/getRays.ts */ "./src/server/raycast/getRays.ts");
+/* harmony import */ var _raycast_getRays_ts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_raycast_getRays_ts__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _lib_ship0_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/ship0.ts */ "./src/lib/ship0.ts");
 /* harmony import */ var _lib_ship0_ts__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_lib_ship0_ts__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _lib_raycast_constantsAndTypes_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/raycast/constantsAndTypes.ts */ "./src/lib/raycast/constantsAndTypes.ts");
@@ -2274,26 +2228,27 @@ handlers['ping'] = async () => {
 }
 
 handlers['materializeMap'] = async ({drones, ship, droneWithActiveVideoId}) => {
-  console.log('materializeMap')
+  // console.log('materializeMap')
   // console.log(drones, ship0, droneWithActiveVideoId)
   const materializeMap = _raycast_getMaterializedMap_ts__WEBPACK_IMPORTED_MODULE_0___default()(drones, _lib_ship0_ts__WEBPACK_IMPORTED_MODULE_2___default.a.makeMap() )
-
-  const screenStrips = [];
-  for (var i=0;i<_lib_raycast_constantsAndTypes_ts__WEBPACK_IMPORTED_MODULE_3__["screenWidth"];i+=_lib_raycast_constantsAndTypes_ts__WEBPACK_IMPORTED_MODULE_3__["stripWidth"]) {
-    var strip = _lib_raycast_constantsAndTypes_ts__WEBPACK_IMPORTED_MODULE_3__["emptyStrip"]
-    strip.style.position = "absolute";
-    strip.style.height = 0;//"0px";
-    strip.style.left = strip.style.top = 0;//"0px";
-    strip.style.src = "images/walls_3.png";
-    screenStrips.push(strip);
-  }
-  const rays = _castRays_ts__WEBPACK_IMPORTED_MODULE_1___default()(
-    materializeMap.sizeX,
-    materializeMap.sizeY,
-    materializeMap,
-    drones.find((d) => d.id === droneWithActiveVideoId),
-    screenStrips
-  );
+  const screenStrips = _raycast_getRays_ts__WEBPACK_IMPORTED_MODULE_1___default()(materializeMap, drones.find((d) => d.id === droneWithActiveVideoId))
+  // console.log(screenStrips)
+  // const screenStrips = [];
+  // for (var i=0;i<screenWidth;i+=stripWidth) {
+  //   var strip = emptyStrip
+  //   strip.style.position = "absolute";
+  //   strip.style.height = 0;//"0px";
+  //   strip.style.left = strip.style.top = 0;//"0px";
+  //   strip.style.src = "images/walls_3.png";
+  //   screenStrips.push(strip);
+  // }
+  // const rays = castRays(
+  //   materializeMap.sizeX,
+  //   materializeMap.sizeY,
+  //   materializeMap,
+  //   drones.find((d) => d.id === droneWithActiveVideoId),
+  //   screenStrips
+  // );
 
     return {
       materializeMap,

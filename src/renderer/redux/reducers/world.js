@@ -10,9 +10,9 @@ import {
 
 const initialState = {};
 
-const WAIT_TIME = 100;
-const moveStepSize = 0.5;
-const rotateStepSize = .1;
+const WAIT_TIME = 50;
+const moveStepSize = 0.15;
+const rotateStepSize = .05;
 
 export default function(worldState = initialState, action) {
   switch (action.type) {

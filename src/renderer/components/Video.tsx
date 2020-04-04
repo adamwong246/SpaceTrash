@@ -15,11 +15,7 @@ class Video extends React.Component<{rays, drone}, {}>{
 
     const {drone} = this.props;
     const rays = this.props.rays.screen;
-    console.log(rays.length)
-
     return (<div id="video" >
-
-
       <div id="screen">
       	<div id="floor"></div>
       	<div id="ceiling"></div>

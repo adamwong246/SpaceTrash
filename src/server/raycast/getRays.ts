@@ -1,15 +1,12 @@
-import castSingleRay from "./raycast/castSingleRay.ts";
+import getRay from "../raycast/getRay.ts";
 
-import {stripWidth, viewDist, numRays, IStrip} from "../lib/raycast/constantsAndTypes.ts"
+import {stripWidth, viewDist, numRays, IStrip} from "../../lib/raycast/constantsAndTypes.ts"
 
 export default  (
-  mapWidth: number,
-  mapHeight: number,
   map: any,
   player: any,
-  screenStrips: IStrip[]
 ): IStrip[] => {
-  var stripIdx = 0;
+
   return Array.from(Array(numRays).keys()).map((i) => {
     // where on the screen does ray go through?
     var rayScreenPos = (-numRays/2 + i) * stripWidth;
@@ -21,12 +18,11 @@ export default  (
     // right triangle: a = sin(A) * c
     var rayAngle = Math.asin(rayScreenPos / rayViewDist);
 
-    return castSingleRay(
+    return getRay(
       player.direction + rayAngle, 	// add the players viewing direction to get the angle in world space
-      stripIdx++,
-      mapWidth, mapHeight, map,
+      map,
       player,
-      screenStrips
+      i
     );
-  }).filter((x) => x)
+  })
 }

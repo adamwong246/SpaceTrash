@@ -1,4 +1,6 @@
-type IPosition = "absolute" | "-moz-initial" | "inherit" | "initial" | "revert" | "unset" | "-webkit-sticky" | "fixed" | "relative" | "static" | "sticky" | undefined;
+export const ABSOLLUTE = 'absolute';
+
+export type IPosition = 'absolute' | "-moz-initial" | "inherit" | "initial" | "revert" | "unset" | "-webkit-sticky" | "fixed" | "relative" | "static" | "sticky" | undefined;
 
 export interface IStyle {
 	clip: string;
@@ -46,7 +48,7 @@ export const screenHeight = 200;
 var useSingleTexture = false;
 var fov = 60 * Math.PI / 180;
 
-export const stripWidth = 3;
+export const stripWidth = 1;
 
 export const numRays = Math.ceil(screenWidth / stripWidth);
 var numTextures = 4;

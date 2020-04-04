@@ -1,16 +1,28 @@
-import {IStrip, emptyStrip, stripWidth, screenHeight, twoPI, screenWidth} from "../../lib/raycast/constantsAndTypes.ts"
-
+import {ABSOLLUTE, IPosition, IStrip, emptyStrip, stripWidth, screenHeight, twoPI, screenWidth} from "../../lib/raycast/constantsAndTypes.ts"
 
 var numRays = Math.ceil(screenWidth / stripWidth);
 var fov = 60 * Math.PI / 180;
 var viewDist = (screenWidth/2) / Math.tan((fov / 2));
 
 export default  (
-  rayAngle, stripIdx,
-  mapWidth, mapHeight, map,
+  rayAngle,
+  map,
   player: {direction: number, x: number, y: number },
-  screenStrips
+  stripIdx
 ): IStrip => {
+
+  const mapWidth = map.sizeX;
+  const mapHeight = map.sizeY;
+
+
+  const newStripStyle = {
+    id: stripIdx,
+    style: {
+      position: ABSOLLUTE as IPosition,
+      src: "images/walls_3.png",
+      height: 0, width: 0, left: 0, top: 0, zIndex: 0, clip: ""
+    }
+  }
 
   // first make sure the angle is between 0 and 360 degrees
   rayAngle %= twoPI;
@@ -56,22 +68,12 @@ export default  (
     const wallX: number = (x + (right ? 0 : -1))>>0;
     const wallY: number = (y)>>0;
 
-    // if (spriteMap[wallY][wallX] && !spriteMap[wallY][wallX].visible) {
-    // 	spriteMap[wallY][wallX].visible = true;
-    // 	visibleSprites.push(spriteMap[wallY][wallX]);
-    // }
-
-    // console.log(wallX, wallY, map[wallY][wallX])
-    // is this point inside a wall block?
-    // if (map[wallY][wallX] > 0) {
-    // console.log(map.get(wallX, wallY))
     if (map.get(wallX, wallY).type === 'wall') {
 
       var distX = x - player.x;
       var distY = y - player.y;
       dist = distX*distX + distY*distY;	// the distance from the player to this point, squared.
 
-      // wallType = map[wallY][wallX]; // we'll remember the type of wall we hit for later
       textureX = y % 1;	// where exactly are we on the wall? textureX is the x coordinate on the texture that we'll use later when texturing the wall.
       if (!right) textureX = 1 - textureX; // if we're looking to the left side of the map, the texture should be reversed
 
@@ -106,12 +108,6 @@ export default  (
     const wallY: number = (y + (up ? -1 : 0))>>0;
     const wallX: number = (x)>>0;
 
-    // if (spriteMap[wallY][wallX] && !spriteMap[wallY][wallX].visible) {
-    // 	spriteMap[wallY][wallX].visible = true;
-    // 	visibleSprites.push(spriteMap[wallY][wallX]);
-    // }
-
-    // if (map[wallY][wallX] > 0) {
     if (map.get(wallX, wallY).type === 'wall') {
       var distX = x - player.x;
       var distY = y - player.y;
@@ -122,9 +118,6 @@ export default  (
         yHit = y;
         xWallHit = wallX;
         yWallHit = wallY;
-
-        // wallType = map[wallY][wallX];
-        // wallType = map.get(wallX, wallY);
         textureX = x % 1;
         if (up) textureX = 1 - textureX;
 
@@ -137,10 +130,6 @@ export default  (
   }
 
   if (dist) {
-    //drawRay(xHit, yHit);
-    const newStrip = screenStrips[stripIdx];
-    const newStripStyle = screenStrips[stripIdx].style;
-
     dist = Math.sqrt(dist);
 
     // use perpendicular distance to adjust for fish eye
@@ -162,70 +151,26 @@ export default  (
     var top = Math.round((screenHeight - height) / 2);
 
     var imgTop = 0;
-
-    // var style: IStyle = newStrip.style;
-    // var oldStyles: IStyle = newStrip.oldStyles;
-
-    // var styleHeight = 0;
-    // if (useSingleTexture) {
-    // 	// then adjust the top placement according to which wall texture we need
-    // 	imgTop = (height * (wallType-1))>>0;
-    // 	styleHeight = (height * numTextures)>>0;
-    // } else {
-    //
-    // 	newStripStyle.src = wallTextures[wallType-1];
-    // 	// if (oldStyles.src != styleSrc) {
-    // 	//
-    // 	// 	// oldStyles.src = styleSrc
-    // 	// }
-    // 	styleHeight = height;
-    // }
-
-    newStripStyle.height = height
-
     var texX = Math.round(textureX*width);
 
     if (texX > width - stripWidth)
       texX = width - stripWidth;
     texX += (wallIsShaded ? width : 0);
 
-
-    newStripStyle.width = (width*2)>>0;
-    newStripStyle.top = top - imgTop;
-    newStripStyle.left = stripIdx*stripWidth - texX;
-
-    newStripStyle.clip = "rect(" + imgTop + "px, " + (texX + stripWidth)  + "px, " + (imgTop + height) + "px, " + texX + "px)";
-    // if (oldStyles.clip != styleClip) {
-    // 	style.clip = styleClip;
-    // 	oldStyles.clip = styleClip;
-    // }
-    //
-    // var dwx = xWallHit - player.x;
-    // var dwy = yWallHit - player.y;
-    // var wallDist = dwx*dwx + dwy*dwy;
-    // var styleZIndex = -(wallDist*1000)>>0;
-    // if (styleZIndex != oldStyles.zIndex) {
-    // 	newStrip.style.zIndex = styleZIndex;
-    // 	oldStyles.zIndex = styleZIndex;
-    // }
+    newStripStyle.style.height = height
+    newStripStyle.style.width = (width*2)>>0;
+    newStripStyle.style.top = top - imgTop;
+    newStripStyle.style.left = stripIdx*stripWidth - texX;
+    newStripStyle.style.clip = "rect(" + imgTop + "px, " + (texX + stripWidth)  + "px, " + (imgTop + height) + "px, " + texX + "px)";
 
     var dwx = xWallHit - player.x;
     var dwy = yWallHit - player.y;
     var wallDist = dwx*dwx + dwy*dwy;
-    newStripStyle.zIndex = -(wallDist*1000)>>0;
+    newStripStyle.style.zIndex = -(wallDist*1000)>>0;
 
-    const newStripToModify = {
-      ...screenStrips[stripIdx],
-      style: {
-        ...newStripStyle,
-        ...screenStrips[stripIdx].style
-      }
-    }
+    return newStripStyle
 
-    // console.log('setting strip:', stripIdx, newStripToModify)
-    return screenStrips[stripIdx] = newStripToModify;
-
-  } else{
-    return emptyStrip;
+  } else {
+    return newStripStyle
   }
 };

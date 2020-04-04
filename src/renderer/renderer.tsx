@@ -106,8 +106,6 @@ const tock = subscribe('clock.time', state => {
 let updatePromise = Promise.resolve();
 
 subscribe('world', state => {
-  console.log('world')
-
   if(state.clock.halted){
 
   } else {
@@ -119,6 +117,7 @@ subscribe('world', state => {
         ship: state.world.ship,
         droneWithActiveVideoId: state.droneWithActiveVideo
         } ).then((v) => {
+          console.log(v.screenStrips)
         store.dispatch({type: 'SET_MATERIALIZED_WORLD', payload: {map: v.materializeMap, screen: v.screenStrips}})
       }).catch((e) => {
         console.error(e)
