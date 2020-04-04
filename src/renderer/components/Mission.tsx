@@ -9,20 +9,19 @@ import Schematic from './Schematic.tsx'
 import { getMissionProps } from "../redux/selectors";
 
 class Mission extends React.Component<{
-  ship, drones, setSchemaCursor, schematicCursor, materializedMap
+  ship, drones, setSchemaCursor, schematicCursor, materializedWorld
 }, {}>{
 
   render() {
-    console.log('<Mission>')
-    const {drones, materializedMap} = this.props;
+    const {drones, materializedWorld} = this.props;
     return (
         <Tabs>
           <TabList>
             <Tab>schematic</Tab>
             <Tab>video</Tab>
           </TabList>
-          <TabPanel><Schematic  drones={drones} materializedMap={materializedMap}/></TabPanel>
-          <TabPanel><Video  drones={drones} /></TabPanel>
+          <TabPanel><Schematic  drones={drones} materializedMap={materializedWorld.map}/></TabPanel>
+          <TabPanel><Video  drones={drones}  rays={materializedWorld.screenStrips} /></TabPanel>
         </Tabs>
     );
   }

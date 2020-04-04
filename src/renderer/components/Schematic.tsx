@@ -8,7 +8,7 @@ const Cell = ({x, y, map, drones, onHover}) => {
 
   let char = '?';
 
-  let mapCell = map.get(x, y);
+  let mapCell = map.wallGrid[y][x];
   if(mapCell){
     if (mapCell.type === 'floor'){
       char = '_'

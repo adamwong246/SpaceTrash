@@ -13,18 +13,16 @@ class Video extends React.Component<{rays, drone}, {}>{
 
   render(){
 
-    const {drone, rays} = this.props;
-    console.log('<Video>')
+    const {drone} = this.props;
+    const rays = this.props.rays.screen;
     return (<div id="video" >
-
-
       <div id="screen">
       	<div id="floor"></div>
       	<div id="ceiling"></div>
 
 				<div>
 					{
-						this.props.rays.map((r, ndx) => {
+						rays.map((r, ndx) => {
 							if (r){
 								/** @type {React.CSSProperties} */
 								const style= {

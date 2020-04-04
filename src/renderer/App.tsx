@@ -28,7 +28,6 @@ class App extends React.Component<{
 }, {}> {
 
   render() {
-    console.log("<App/>")
     return (<div className={this.props.crtEffect ?  "crt" : ""} >
 
       <style>

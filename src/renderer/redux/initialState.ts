@@ -1,4 +1,6 @@
-import RayCastMap from "../lib/raycast/RayCastMap.ts";
+import RayCastMap from "../../lib/raycast/RayCastMap.ts";
+// import {IStrip} from "../lib/raycast/constantsAndTypes";
+import ship from "../../lib/ship0.ts";
 
 module.exports =  {
   clock: {
@@ -9,7 +11,7 @@ module.exports =  {
   computer: {
     crtEffect: false,
     theme: 'green',
-    loggedIn: false,
+    loggedIn: 'hal',
     scripts: {
       "hello": `
   (x) => {
@@ -178,35 +180,6 @@ module.exports =  {
   boardedShip: 1,
   editingShip: 0,
   editingFile: [],
-  drones: [
-    {
-      id: 0,
-      name: "Larry",
-      upgrades: [0, 1],
-      x: 7,
-      y: 12,
-      direction: 0,
-      commandQueue: []
-    },
-    {
-      id: 1,
-      name: "Curly",
-      upgrades: [2, 3, 4],
-      x: 6,
-      y: 11,
-      direction: 6,
-      commandQueue: []
-    },
-    {
-      id: 2,
-      name: "Moe",
-      upgrades: [5],
-      x: 5,
-      y: 11,
-      direction: 9,
-      commandQueue: []
-    }
-  ],
   droneWithActiveVideo: 0,
   camera: {
     x: 0, //left
@@ -219,4 +192,41 @@ module.exports =  {
   },
   scriptEditingFile: ['foo'],
 
+  world: {
+    drones: [
+      {
+        id: 0,
+        name: "Larry",
+        upgrades: [0, 1],
+        x: 7,
+        y: 12,
+        direction: 0,
+        commandQueue: []
+      },
+      {
+        id: 1,
+        name: "Curly",
+        upgrades: [2, 3, 4],
+        x: 6,
+        y: 11,
+        direction: 6,
+        commandQueue: []
+      },
+      {
+        id: 2,
+        name: "Moe",
+        upgrades: [5],
+        x: 5,
+        y: 11,
+        direction: 9,
+        commandQueue: []
+      }
+    ],
+    ship
+  },
+
+  materializedWorld: {
+    map: {},
+    screen: []
+  }
 };

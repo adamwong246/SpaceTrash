@@ -2,8 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import initSubscriber from 'redux-subscriber';
-import {Promise} from "bluebird";
+import * as Promise from "bluebird";
 
+import {send} from "./client-ipc.js";
 import store from "./redux/store";
 import { NEW_COMMAND, DRONE_ROTATE, SET_COMMAND_LINE_FOCUS } from "./redux/actionTypes.js"
 import App from "./App.tsx"
@@ -17,8 +18,10 @@ wrapper
   </Provider >, wrapper)
   : false;
 
+// set the focus to the command bar on boot
 store.dispatch({ type: SET_COMMAND_LINE_FOCUS, payload: {} });
 
+// listen for keypresses to shift+':'
 document.body.onkeydown = (function(ev) {
   var key;
   var isShift;
@@ -44,18 +47,17 @@ document.body.onkeydown = (function(ev) {
 });
 
 
-///////////////////////////////////
+const subscribe = initSubscriber(store);
 
+// Listen to the clock and run queded commnads
+//////////////////////////////////////////////////////////////////////
 
 let tockPromise = new Promise((res, rej) => {
   store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
   res();
 });
 
-
 const clock = () => {
-  // console.log('tick')
-
   if (tockPromise.isPending()) {
 
     Promise.resolve(tockPromise)
@@ -69,14 +71,6 @@ const clock = () => {
 // start the clock
 let tick = window.setInterval(clock, 1);
 
-
-// let updatePromise = new Promise((res, rej) => {
-//   store.dispatch({type: 'CLEAR_QUEUE', payload: Date.now() })
-//   res();
-// });
-
-// the main loop
-const subscribe = initSubscriber(store);
 const tock = subscribe('clock.time', state => {
 
   if(state.clock.halted){
@@ -86,7 +80,7 @@ const tock = subscribe('clock.time', state => {
     store.dispatch({type: 'HALT', payload: {} })
 
     const now = Date.now()
-    const quededCommands = state.drones.map(
+    const quededCommands = state.world.drones.map(
       (d) => d.commandQueue.filter(
         (cq) => cq.timestamp < now
       )
@@ -103,4 +97,43 @@ const tock = subscribe('clock.time', state => {
 
     store.dispatch({type: 'RESUME', payload: {} })
   }
+});
+
+
+// Listen for changes to world and send them over IPC to server
+//////////////////////////////////////////////////////////////////////
+
+let updatePromise = Promise.resolve();
+
+subscribe('world', state => {
+  if(state.clock.halted){
+
+  } else {
+
+    store.dispatch({type: 'HALT', payload: {} })
+
+    updatePromise = send('materializeMap', {
+        drones: state.world.drones,
+        ship: state.world.ship,
+        droneWithActiveVideoId: state.droneWithActiveVideo
+        } ).then((v) => {
+          console.log(v.screenStrips)
+        store.dispatch({type: 'SET_MATERIALIZED_WORLD', payload: {map: v.materializeMap, screen: v.screenStrips}})
+      }).catch((e) => {
+        console.error(e)
+      }).finally(() => {
+          store.dispatch({type: 'RESUME', payload: {} })
+      })
+
+
+  }
+
+  // console.log(updatePromise)
+  // if (updatePromise.isFulfilled()) {
+
+  // } else {
+  //
+  // }
+
+
 });
