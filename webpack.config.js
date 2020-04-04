@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const lodash = require('lodash');
 const CopyPkgJsonPlugin = require('copy-pkg-json-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -53,16 +54,19 @@ const commonConfig = {
 };
 // #endregion
 
-// const webConfig = lodash.cloneDeep(commonConfig);
-// webConfig.entry = './src/renderer/renderer.tsx';
-// webConfig.output.filename = 'index_bundle.js';
-// webConfig.plugins = [...commonConfig.plugins,
-//     new HtmlWebpackPlugin({
-//       template: "./src/renderer/index.html",
-//       filename: "./index.html"
-//     }),
-//
-//   ];
+const webConfig = lodash.cloneDeep(commonConfig);
+webConfig.entry = './src/renderer/renderer.tsx';
+webConfig.output.filename = 'demo_bundle.js';
+webConfig.plugins = [...commonConfig.plugins,
+    new HtmlWebpackPlugin({
+      template: "./src/renderer/index.html",
+      filename: "./index.html"
+    }),
+
+    new webpack.DefinePlugin({
+      __MODE__: 'demo'
+    })
+  ];
 
 const mainConfig = lodash.cloneDeep(commonConfig);
 mainConfig.entry = './src/main/main.js';
@@ -97,10 +101,13 @@ rendererConfig.plugins = [...commonConfig.plugins,
   new HtmlWebpackPlugin({
     template: path.resolve(__dirname, 'src/renderer/index.html'),
   }),
+  new webpack.DefinePlugin({
+    __MODE__: 'full'
+  })
 ];
 
 module.exports = [
-  // webConfig,
-  mainConfig,
-  rendererConfig
+  webConfig,
+  // mainConfig,
+  // rendererConfig
 ];

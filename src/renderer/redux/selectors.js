@@ -52,13 +52,7 @@ export const getShipInformationProps = store => {
 
 export const getTerminalProps = store => store.computer.commandLine;
 
-export const getCommandLineProps = store => {
-  return{
-    commandLine: store.computer.commandLine,
-    scripts: store.computer.scripts,
-    loggedIn: store.computer.loggedIn
-  }
-};
+
 
 
 export const getManual = store => {
@@ -230,11 +224,22 @@ export const getTimeProps = createSelector([baseSelector], store => {
   };
 })
 
+const modeSelector = createSelector([], () => 'demo')
 
-export const getAppProps = createSelector([baseSelector], (store) => {
+export const getAppProps = createSelector([baseSelector, modeSelector], (base, mode) => {
   return {
-    loggedIn: store.computer.loggedIn,
-    crtEffect: store.computer.crtEffect,
-    theme: store.computer.theme
+    loggedIn: base.computer.loggedIn,
+    crtEffect: base.computer.crtEffect,
+    theme: base.computer.theme,
+    mode
+  }
+})
+
+export const commandLinePropsSelector = createSelector([baseSelector, modeSelector], (base, mode) => {
+  return{
+    commandLine: base.computer.commandLine,
+    scripts: base.computer.scripts,
+    loggedIn: base.computer.loggedIn,
+    demoMode: mode === 'demo'
   }
 })

@@ -23,7 +23,8 @@ require("./style/crt.css");
 class App extends React.Component<{
   loggedIn: boolean;
   crtEffect: boolean;
-  theme: string
+  theme: string;
+  mode: string;
 }, {}> {
 
   render() {
@@ -49,54 +50,54 @@ class App extends React.Component<{
       </style>
 
       <div id="content">
-        <Tabs>
-          <TabList>
-            <Tab>log</Tab>
 
-            {this.props.loggedIn &&
-              <>
-                <Tab>status</Tab>
-                        <Tab>nav</Tab>
-                        <Tab>mission</Tab>
-                        <Tab>inventory</Tab>
-                        <Tab>manual</Tab>
-                        <Tab>admin</Tab>
-              </>}
+        {
+          this.props.loggedIn &&
+
+          <Tabs>
+            <TabList>
+              <Tab>log</Tab>
+              <Tab>status</Tab>
+              <Tab>nav</Tab>
+              <Tab>mission</Tab>
+              <Tab>inventory</Tab>
+              <Tab>manual</Tab>
+              <Tab>admin</Tab>
+              <Tab>manual</Tab>
 
               <Time/>
+            </TabList>
+            <TabPanel><Terminal /></TabPanel>
+            <TabPanel><ShipConfiguration /></TabPanel>
+            <TabPanel><Navigation /></TabPanel>
+            <TabPanel><Mission /></TabPanel>
+            <TabPanel><Inventory /></TabPanel>
+            <TabPanel><Manual /></TabPanel>
+            <TabPanel><Admin /></TabPanel>
+          </Tabs>
+
+        }
+
+        {
+          (!this.props.loggedIn || this.props.mode === 'demo') &&
 
 
-          </TabList>
+          <Tabs>
+            <TabList>
+              <Tab>log</Tab>
+              <Tab>manual</Tab>
 
-          <TabPanel>
-            <Terminal />
-          </TabPanel>
+              <Time/>
+            </TabList>
+            <TabPanel><Terminal /></TabPanel>
+            <TabPanel><Manual /></TabPanel>
+          </Tabs>
 
-          <TabPanel>
-            <ShipConfiguration />
-          </TabPanel>
+        }
 
-          <TabPanel>
-            <Navigation />
-          </TabPanel>
 
-          <TabPanel>
-            <Mission />
-          </TabPanel>
 
-          <TabPanel>
-            <Inventory />
-          </TabPanel>
 
-          <TabPanel>
-            <Manual />
-          </TabPanel>
-
-          <TabPanel>
-            <Admin />
-          </TabPanel>
-
-        </Tabs>
 
         <div id="command-line" ><CommandLine /></div>
 

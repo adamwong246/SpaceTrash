@@ -9,7 +9,7 @@ const actions = Object.keys(ActionTypes);
 const settingsFailMessage = { type: ActionTypes.NEW_COMMAND, payload: `Please provide a key and value.\n ex:\n settings crt on\n settings crt off\n settings theme [you favorite color]\n`}
 
 export default {
-  parse: (dispatch, value, scripts, loggedIn) => {
+  parse: (dispatch, value, scripts, loggedIn, demoMode) => {
     const split = value.split(' ')
 
     dispatch({ type: ActionTypes.NEW_COMMAND, payload: `< ${value}` })
@@ -45,14 +45,21 @@ export default {
 
 
     if (split[0] === 'login') {
-      if (!split[1]){
-        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Please provide a name. ex: "login hal"` })
-        return;
-      } else {
-        dispatch({ type: ActionTypes.LOGIN, payload: split[1] })
-        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `logging in as ${split[1]}` })
+
+      if (demoMode){
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `* USER ACOUNTS DISABLED. PLEASE TRY AGAIN LATER *` })
         return
+      } else {
+        if (!split[1]){
+          dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Please provide a name. ex: "login hal"` })
+          return;
+        } else {
+          dispatch({ type: ActionTypes.LOGIN, payload: split[1] })
+          dispatch({ type: ActionTypes.NEW_COMMAND, payload: `logging in as ${split[1]}` })
+          return
+        }
       }
+
     }
     else if (split[0] === 'settings') {
       if (!split[1] || !split[2]){
@@ -88,7 +95,7 @@ export default {
       if (loggedIn){
         dispatch({ type: ActionTypes.NEW_COMMAND, payload:"Try one of the following: \n\n'logout'\n'commands'\n'scripts'\n'settings'\n'about'"})
       } else {
-        dispatch({ type: ActionTypes.NEW_COMMAND, payload:"Try one of the following: \n\n'login'\n'settings'\n'about'"})
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload:"Try one of the following: \n\n'login'\n'about'\n'settings'"})
       }
 
       return;
@@ -100,9 +107,10 @@ export default {
       return;
     }else if (split[0] === 'about') {
       dispatch({ type: ActionTypes.NEW_COMMAND, payload: `
-Turing class---II
-Designation----Salvage
-Mission--------Dock with other space craft. Use your drones to gather the resources you need to survive.
+Turing class: II
+Designation: Salvage
+Mission: Dock with other space craft. Use your drones to gather the resources you need to survive.
+Launch date: ?
 `})
       return;
     }

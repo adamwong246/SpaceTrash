@@ -2,16 +2,17 @@ import * as React from 'react';
 import {connect} from "react-redux";
 
 import {NEW_COMMAND, SET_VIDEO, TELEPORT} from '../redux/actionTypes';
-import {getCommandLineProps} from "../redux/selectors";
+import {commandLinePropsSelector} from "../redux/selectors";
 
 import CommandParser from '../lib/CommandParser.ts';
 
 class CommandLine extends React.Component<{
-  newCommand(value, scripts, loggedIn): null;
+  newCommand(value, scripts, loggedIn, demoMode): null;
   commandLine: any;
   focus: number;
   scripts: {};
   loggedIn: boolean;
+  demoMode: boolean;
 }, {
   value: string;
 }> {
@@ -51,23 +52,25 @@ class CommandLine extends React.Component<{
       <form onSubmit={(event) => {
         event.preventDefault()
         this.resetState()
-        this.props.newCommand(this.state.value, this.props.scripts, this.props.loggedIn)
+        this.props.newCommand(this.state.value, this.props.scripts, this.props.loggedIn, this.props.demoMode)
       }}>
         <input
+          autoComplete={'off'}
           ref={(input) => { this.commandLineInput = input; }}
           id="command-line" type="text" value={this.state.value} onChange={this.handleChange}/>
       </form >
     </div>);
+
   }
 };
 
 const mapStateToProps = state => {
-  return getCommandLineProps(state);
+  return commandLinePropsSelector(state);
 };
 
 const mapActionsToProps = dispatch => {
   return {
-    newCommand: (value, scripts, loggedIn) => CommandParser.parse(dispatch, value, scripts, loggedIn)
+    newCommand: (value, scripts, loggedIn, demoMode) => CommandParser.parse(dispatch, value, scripts, loggedIn, demoMode)
   }
 };
 

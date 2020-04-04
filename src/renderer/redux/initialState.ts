@@ -9,7 +9,7 @@ module.exports =  {
   computer: {
     crtEffect: false,
     theme: 'green',
-    loggedIn: 'hal',
+    loggedIn: false,
     scripts: {
       "hello": `
   (x) => {
@@ -108,8 +108,10 @@ module.exports =  {
     commandLine: {
       notification: '_↓ type commands below. Press \':\' to focus ↓_',
       logs: [
-        'booting Space Trash v0...',
-        'Adam Wong 2020'
+        'booting...',
+        '',
+        '== Space Trash v0.0.1 ==',
+        '-- a Duskers-like clone --'
       ],
       focus: Date.now(),
     },
