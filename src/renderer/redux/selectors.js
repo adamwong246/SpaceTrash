@@ -190,9 +190,9 @@ export const getMissionProps = createSelector([
   getDronesAsListSelector,
   materializedWorldSelector,
 ], (
-  currentShip, boardedShip, drones, materializedMap
+  currentShip, boardedShip, drones, materializedWorld
 ) => {
-  return {currentShip, boardedShip, drones, materializedMap};
+  return {currentShip, boardedShip, drones, materializedWorld};
 });
 
 

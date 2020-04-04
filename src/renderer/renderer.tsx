@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import initSubscriber from 'redux-subscriber';
-import {Promise} from "bluebird";
+import * as Promise from "bluebird";
 
 import {send} from "./client-ipc.js";
 import store from "./redux/store";
@@ -58,8 +58,6 @@ let tockPromise = new Promise((res, rej) => {
 });
 
 const clock = () => {
-  // console.log('tick')
-
   if (tockPromise.isPending()) {
 
     Promise.resolve(tockPromise)
@@ -105,15 +103,38 @@ const tock = subscribe('clock.time', state => {
 // Listen for changes to world and send them over IPC to server
 //////////////////////////////////////////////////////////////////////
 
-subscribe('world', state => {
-  console.log('world updated')
+let updatePromise = Promise.resolve();
 
-  send('video', state.world ).then((v) => {
-    console.log('then video')
-  }).catch((e) => {
-    console.log('catch video')
-  }).finally(() => {
-    console.log('finall video')
-  })
+subscribe('world', state => {
+  console.log('world')
+
+  if(state.clock.halted){
+
+  } else {
+
+    store.dispatch({type: 'HALT', payload: {} })
+
+    updatePromise = send('materializeMap', {
+        drones: state.world.drones,
+        ship: state.world.ship,
+        droneWithActiveVideoId: state.droneWithActiveVideo
+        } ).then((v) => {
+        store.dispatch({type: 'SET_MATERIALIZED_WORLD', payload: {map: v.materializeMap, screen: v.screenStrips}})
+      }).catch((e) => {
+        console.error(e)
+      }).finally(() => {
+          store.dispatch({type: 'RESUME', payload: {} })
+      })
+
+
+  }
+
+  // console.log(updatePromise)
+  // if (updatePromise.isFulfilled()) {
+
+  // } else {
+  //
+  // }
+
 
 });

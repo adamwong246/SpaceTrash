@@ -11,8 +11,8 @@ import {
 const initialState = {};
 
 const WAIT_TIME = 100;
-const moveStepSize = 0.1;
-const rotateStepSize = 0.1;
+const moveStepSize = 0.5;
+const rotateStepSize = .1;
 
 export default function(worldState = initialState, action) {
   switch (action.type) {
@@ -39,7 +39,7 @@ export default function(worldState = initialState, action) {
       const id = action.payload.payload
 
       return {
-        worldState,
+        ...worldState,
         drones: worldState.drones.map((d) => {
           if (d.id === id) {
             const commands = d.commandQueue;
@@ -85,15 +85,15 @@ export default function(worldState = initialState, action) {
       // })
     }
 
-    case ADD_DRONE: {
-      return {
-        ...dronesState,
-        drones: [
-          ...dronesState.drones,
-          action.payload
-        ]
-      };
-    }
+    // case ADD_DRONE: {
+    //   return {
+    //     ...dronesState,
+    //     drones: [
+    //       ...dronesState.drones,
+    //       action.payload
+    //     ]
+    //   };
+    // }
 
     case DRONE_MOVE_FORWARD: {
       const {
@@ -101,7 +101,7 @@ export default function(worldState = initialState, action) {
       } = action.payload;
 
       return {
-        worldState,
+        ...worldState,
         drones: worldState.drones.map((d) => {
           if (d.id === id) {
             return {
@@ -132,17 +132,20 @@ export default function(worldState = initialState, action) {
         id,
       } = action.payload;
 
-      return dronesState.map((d) => {
-        if (d.id === id) {
-          return {
-            ...d,
-            x: d.x - Math.cos(d.direction) * moveStepSize,
-            y: d.y - Math.sin(d.direction) * moveStepSize,
+      return {
+        ...worldState,
+        drones: worldState.drones.map((d) => {
+          if (d.id === id) {
+            return {
+              ...d,
+              x: d.x - Math.cos(d.direction) * moveStepSize,
+              y: d.y - Math.sin(d.direction) * moveStepSize,
+            }
+          } else {
+            return d
           }
-        } else {
-          return d
-        }
-      })
+        })
+      }
     }
 
     case DRONE_ROTATE_RIGHT: {
@@ -150,36 +153,78 @@ export default function(worldState = initialState, action) {
         id,
       } = action.payload;
 
-      return dronesState.map((d) => {
-        if (d.id === id) {
-          return {
-            ...d,
-            direction: d.direction + rotateStepSize
+      return {
+        ...worldState,
+        drones: worldState.drones.map((d) => {
+          if (d.id === id) {
+            return {
+              ...d,
+              direction: d.direction + rotateStepSize
+            }
+          } else {
+            return d
           }
-        } else {
-          return d
-        }
-      })
+        })
+      }
     }
+
+    // case DRONE_ROTATE_RIGHT: {
+    //   const {
+    //     id,
+    //   } = action.payload;
+    //   debugger
+    //   return {
+    //     ...worldState,
+    //     drones: worldState.drones.map((d) => {
+    //       if (d.id === id) {
+    //         return {
+    //           ...d,
+    //           direction: d.direction + rotateStepSize
+    //         }
+    //       } else {
+    //         return d
+    //       }
+    //     })
+    //   }
+    // }
 
     case DRONE_ROTATE_LEFT: {
       const {
         id,
       } = action.payload;
 
-      return dronesState.map((d) => {
-        if (d.id === id) {
-          return {
-            ...d,
-            direction: d.direction - rotateStepSize
+      return {
+        ...worldState,
+        drones: worldState.drones.map((d) => {
+          if (d.id === id) {
+            return {
+              ...d,
+              direction: d.direction - rotateStepSize
+            }
+          } else {
+            return d
           }
-        } else {
-          return d
-        }
-      })
-
-
+        })
+      }
     }
+
+    // case DRONE_ROTATE_LEFT: {
+    //   const {
+    //     id,
+    //   } = action.payload;
+    //
+    //   drones: worldState.drones.map((d) => {
+    //     if (d.id === id) {
+    //       return {
+    //         ...d,
+    //         direction: d.direction - rotateStepSize
+    //       }
+    //     } else {
+    //       return d
+    //     }
+    //   })
+
+
     default:
       return worldState;
   }

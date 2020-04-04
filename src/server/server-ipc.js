@@ -1,4 +1,5 @@
-const ipc = require('node-ipc')
+// const ipc = require('node-ipc')
+import ipc from "node-ipc";
 
 function init(socketName, handlers) {
   ipc.config.id = socketName
@@ -47,4 +48,4 @@ function send(name, args) {
   ipc.server.broadcast('message', JSON.stringify({ type: 'push', name, args }))
 }
 
-module.exports = { init, send }
+export default { init, send }

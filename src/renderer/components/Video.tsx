@@ -13,8 +13,10 @@ class Video extends React.Component<{rays, drone}, {}>{
 
   render(){
 
-    const {drone, rays} = this.props;
-    console.log('<Video>')
+    const {drone} = this.props;
+    const rays = this.props.rays.screen;
+    console.log(rays.length)
+
     return (<div id="video" >
 
 
@@ -24,7 +26,7 @@ class Video extends React.Component<{rays, drone}, {}>{
 
 				<div>
 					{
-						this.props.rays.map((r, ndx) => {
+						rays.map((r, ndx) => {
 							if (r){
 								/** @type {React.CSSProperties} */
 								const style= {

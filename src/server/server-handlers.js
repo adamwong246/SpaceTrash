@@ -1,8 +1,7 @@
-// const getMaterializedMap = require('./raycast/getMaterializedMap.ts').getMaterializedMap;
-// import {getMaterializedMap} from './raycast/getMaterializedMap.ts';
-// import {castRays} from './raycast/castRays.ts';
-const castRays = require("./castRays.js")
-
+import getMaterializedMap from "./raycast/getMaterializedMap.ts";
+import castRays from "./castRays.ts"
+import ship0 from "../lib/ship0.ts"
+import {screenWidth, emptyStrip, stripWidth} from "../lib/raycast/constantsAndTypes.ts"
 
 let handlers = {}
 
@@ -27,8 +26,10 @@ handlers['ping'] = async () => {
   return 'pong'
 }
 
-handlers['video'] = async (world) => {
-  // const maeterializeMap = getMaterializedMap(drones,shipMap )
+handlers['materializeMap'] = async ({drones, ship, droneWithActiveVideoId}) => {
+  console.log('materializeMap')
+  // console.log(drones, ship0, droneWithActiveVideoId)
+  const materializeMap = getMaterializedMap(drones, ship0.makeMap() )
 
   const screenStrips = [];
   for (var i=0;i<screenWidth;i+=stripWidth) {
@@ -39,15 +40,18 @@ handlers['video'] = async (world) => {
     strip.style.src = "images/walls_3.png";
     screenStrips.push(strip);
   }
-  // const rays = return castRays(
-  //   map.sizeX,
-  //   map.sizeY,
-  //   map,
-  //   drone,
-  //   screenStrips)
-  //
-  //   return rays
-  return [];
+  const rays = castRays(
+    materializeMap.sizeX,
+    materializeMap.sizeY,
+    materializeMap,
+    drones.find((d) => d.id === droneWithActiveVideoId),
+    screenStrips
+  );
+
+    return {
+      materializeMap,
+      screenStrips
+    }
 }
 
-module.exports = handlers
+export default handlers

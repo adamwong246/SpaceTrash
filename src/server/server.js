@@ -1,5 +1,8 @@
-let serverHandlers = require('./server-handlers')
-let ipc = require('./server-ipc')
+// let serverHandlers = require('./server-handlers')
+// let ipc = require('./server-ipc')
+
+import  serverHandlers from "./server-handlers";
+import  ipc from "./server-ipc";
 
 console.log('server.js')
 console.log(process.argv)

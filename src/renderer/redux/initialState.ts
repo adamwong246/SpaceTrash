@@ -1,6 +1,6 @@
 import RayCastMap from "../../lib/raycast/RayCastMap.ts";
 // import {IStrip} from "../lib/raycast/constantsAndTypes";
-import ship from "../lib/ship0.ts";
+import ship from "../../lib/ship0.ts";
 
 module.exports =  {
   clock: {
