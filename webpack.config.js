@@ -71,10 +71,10 @@ mainConfig.plugins = [
 
   new CopyWebpackPlugin([
     {from:'./src/main/preload.js',to:'preload.js'},
-    {from:'./src/main/server/server-dev.html',to:'server-dev.html'},
-    {from:'./src/main/server/server.js',to:'server.js'},
-    {from:'./src/main/server/server-handlers.js',to:'server-handlers.js'},
-    {from:'./src/main/server/server-ipc.js',to:'server-ipc.js'},
+    // {from:'./src/main/server/server-dev.html',to:'server-dev.html'},
+    // {from:'./src/main/server/server.js',to:'server.js'},
+    // {from:'./src/main/server/server-handlers.js',to:'server-handlers.js'},
+    // {from:'./src/main/server/server-ipc.js',to:'server-ipc.js'},
   ]),
 
   // new CopyPkgJsonPlugin({
@@ -101,8 +101,15 @@ rendererConfig.plugins = [
   ]),
 ];
 
+const serverConfig = lodash.cloneDeep(commonConfig);
+serverConfig.entry = './src/server/server.js';
+serverConfig.target = 'node';
+serverConfig.output.filename = 'server.bundle.js';
+serverConfig.output.publicPath = __dirname
+
 module.exports = [
   // webConfig,
   mainConfig,
-  rendererConfig
+  rendererConfig,
+  serverConfig
 ];

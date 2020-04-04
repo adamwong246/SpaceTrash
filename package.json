@@ -58,7 +58,8 @@
     "scss-loader": "^0.0.1",
     "typings-for-css-modules-loader": "^1.7.0",
     "uuid": "^7.0.3",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "webpack-fork-loader": "^1.0.1"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",

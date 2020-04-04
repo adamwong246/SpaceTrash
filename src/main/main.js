@@ -1,6 +1,6 @@
 import path from 'path';
 import electron, {app, BrowserWindow} from 'electron';
-import fork from 'child_process';
+import {fork} from 'child_process';
 import findOpenSocket from './find-open-socket';
 import isDev from 'electron-is-dev';
 
@@ -31,42 +31,48 @@ function createWindow(socketName) {
   })
 }
 
-function createBackgroundWindow(socketName) {
-  const win = new BrowserWindow({
-    x: 500,
-    y: 300,
-    width: 700,
-    height: 500,
-    show: true,
-    webPreferences: {
-      nodeIntegration: true
-    }
-  })
-
-  // const p = path.resolve('dist', 'server-devz.html')
-  // console.log(p)
-  // // win.loadURL(`file://${__dirname}server-dev.html`)
-  // // win.loadURL(path.resolve('dist', 'server-dev.html'))
-  // // win.loadURL('server-dev.html')
-  // win.loadURL(p)
-  win.loadFile('server-dev.html')
-
-  win.webContents.on('did-finish-load', () => {
-    win.webContents.send('set-socket', { name: socketName })
-  })
-
-  serverWin = win
-}
+// function createBackgroundWindow(socketName) {
+//   const win = new BrowserWindow({
+//     x: 500,
+//     y: 300,
+//     width: 700,
+//     height: 500,
+//     show: true,
+//     webPreferences: {
+//       nodeIntegration: true
+//     }
+//   })
+//
+//   // const p = path.resolve('dist', 'server-devz.html')
+//   // console.log(p)
+//   // // win.loadURL(`file://${__dirname}server-dev.html`)
+//   // // win.loadURL(path.resolve('dist', 'server-dev.html'))
+//   // // win.loadURL('server-dev.html')
+//   // win.loadURL(p)
+//   win.loadFile('server-dev.html')
+//
+//   win.webContents.on('did-finish-load', () => {
+//     win.webContents.send('set-socket', { name: socketName })
+//   })
+//
+//   serverWin = win
+// }
 
 function createBackgroundProcess(socketName) {
-  serverProcess = fork(__dirname + '/server.js', [
+  console.log('createBackgroundProcess')
+  const bundlePath = '/Users/adam/Programming/electron-react-typescript-webpack-boilerplate/dist/server.bundle.js';
+  console.log(bundlePath);
+  console.log(socketName);
+  const args = [
     '--subprocess',
     app.getVersion(),
     socketName
-  ]);
+  ];
+  console.log(args)
+  serverProcess = fork(bundlePath, args);
 
   serverProcess.on('message', msg => {
-    console.log(msg)
+    console.log('message: ', msg)
   })
 }
 
@@ -75,11 +81,12 @@ app.on('ready', async () => {
 
   createWindow(serverSocket)
 
-  if (isDev) {
-    createBackgroundWindow(serverSocket)
-  } else {
-    createBackgroundProcess(serverSocket)
-  }
+  createBackgroundProcess(serverSocket)
+  // if (isDev) {
+  //   createBackgroundWindow(serverSocket)
+  // } else {
+  //   createBackgroundProcess(serverSocket)
+  // }
 })
 
 app.on('before-quit', () => {
