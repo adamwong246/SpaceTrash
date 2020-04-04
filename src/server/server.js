@@ -1,12 +1,12 @@
-// let serverHandlers = require('./server-handlers')
-// let ipc = require('./server-ipc')
+let serverHandlers = require('./server-handlers')
+let ipc = require('./server-ipc')
 
 console.log('server.js')
 console.log(process.argv)
 let socketName = process.argv[4]
 
-module.exports =  () => console.log("foo")
-// ipc.init(socketName, serverHandlers)
+
+ipc.init(socketName, serverHandlers)
 
 // let isDev, version
 //
