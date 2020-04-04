@@ -180,7 +180,7 @@ module.exports =  {
   boardedShip: 1,
   editingShip: 0,
   editingFile: [],
-  droneWithActiveVideo: 0,
+
   camera: {
     x: 0, //left
     y: 1000, // up
@@ -193,6 +193,8 @@ module.exports =  {
   scriptEditingFile: ['foo'],
 
   world: {
+    initial: true,
+    droneWithActiveVideo: false,
     drones: [
       {
         id: 0,
@@ -200,25 +202,25 @@ module.exports =  {
         upgrades: [0, 1],
         x: 7,
         y: 12,
-        direction: 0,
+        direction: -1,
         commandQueue: []
       },
       {
         id: 1,
         name: "Curly",
         upgrades: [2, 3, 4],
-        x: 6,
-        y: 11,
-        direction: 6,
+        x: 8,
+        y: 12,
+        direction: -1,
         commandQueue: []
       },
       {
         id: 2,
         name: "Moe",
         upgrades: [5],
-        x: 5,
-        y: 11,
-        direction: 9,
+        x: 9,
+        y: 12,
+        direction: -1,
         commandQueue: []
       }
     ],

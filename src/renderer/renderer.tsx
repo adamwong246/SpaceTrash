@@ -115,25 +115,16 @@ subscribe('world', state => {
     updatePromise = send('materializeMap', {
         drones: state.world.drones,
         ship: state.world.ship,
-        droneWithActiveVideoId: state.droneWithActiveVideo
+        droneWithActiveVideoId: state.world.droneWithActiveVideo
         } ).then((v) => {
-          console.log(v.screenStrips)
         store.dispatch({type: 'SET_MATERIALIZED_WORLD', payload: {map: v.materializeMap, screen: v.screenStrips}})
       }).catch((e) => {
         console.error(e)
       }).finally(() => {
           store.dispatch({type: 'RESUME', payload: {} })
       })
-
-
   }
 
-  // console.log(updatePromise)
-  // if (updatePromise.isFulfilled()) {
-
-  // } else {
-  //
-  // }
-
-
 });
+
+store.dispatch({type: 'SET_VIDEO', payload: 0})

@@ -5,11 +5,28 @@ import { getUpgrades } from "../redux/selectors";
 
 const UpgradeRegistry = ( {upgrades} ) => (
   <div id="upgrade-Registery">
-    <ul>
+
+
+    <table><tbody>
+
+
+
+
       {upgrades.map((s) => {
-        return (<li key={`upgrade-registry-${s.id}`}>{s.name}</li>)
+        return (
+          <tr key={`upgrade-registry-${s.id}`}>
+            <td>#{s.id}</td>
+            <td>{s.name}</td>
+            <td>drone #{s.droneId}</td>
+          </tr>
+        )
       })}
-    </ul>
+
+
+
+
+    </tbody></table>
+
   </div>
 );
 

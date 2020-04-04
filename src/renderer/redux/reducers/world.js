@@ -17,6 +17,14 @@ const rotateStepSize = .05;
 export default function(worldState = initialState, action) {
   switch (action.type) {
 
+    case 'SET_VIDEO': {
+
+      return {
+        ...worldState,
+        droneWithActiveVideo: action.payload
+      }
+    }
+
     case 'CLEAR_QUEUE': {
       const timeToClear = action.payload;
       return {
@@ -28,7 +36,6 @@ export default function(worldState = initialState, action) {
           }
         })
       }
-
     }
 
     case DRONE_QUEUE: {

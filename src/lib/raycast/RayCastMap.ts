@@ -23,7 +23,6 @@ const wallCell: IMapCell = {
 export default function RayCastMap(x, y) {
   this.sizeX = x + 2;
   this.sizeY = y + 2;
-  // console.log("new RayCastMap", x, y)
   this.wallGrid = Array.from(Array(this.sizeY), () => new Array(this.sizeX))
 
   for (let x2 = 0; x2 < this.sizeX; x2++){

@@ -16,43 +16,68 @@ class Video extends React.Component<{rays, drone}, {}>{
     const {drone} = this.props;
     const rays = this.props.rays.screen;
     return (<div id="video" >
-      <div id="screen">
-      	<div id="floor"></div>
-      	<div id="ceiling"></div>
 
-				<div>
-					{
-						rays.map((r, ndx) => {
-							if (r){
-								/** @type {React.CSSProperties} */
-								const style= {
-									position: 'absolute',
-									height: r.style.height,
-									top: r.style.top,
-									left: r.style.left,
-									width: r.style.width,
-									clip: r.style.clip,
-									zIndex: r.style.zIndex
-								} as any
-								return (
-									<img
-										key={`strip-${ndx}`}
-										src={r.style.src}
-										style={style}
-									/>
-								)
-							}
+      <table>
+        <tr>
+          <td>
+          <div id="screen">
+          	<div id="floor"></div>
+          	<div id="ceiling"></div>
 
-						})
-					}
-				</div>
-      </div>
+    				<div>
+    					{
+    						rays.map((r, ndx) => {
+    							if (r){
+    								/** @type {React.CSSProperties} */
+    								const style= {
+    									position: 'absolute',
+    									height: r.style.height,
+    									top: r.style.top,
+    									left: r.style.left,
+    									width: r.style.width,
+    									clip: r.style.clip,
+    									zIndex: r.style.zIndex
+    								} as any
+    								return (
+    									<img
+    										key={`strip-${ndx}`}
+    										src={r.style.src}
+    										style={style}
+    									/>
+    								)
+    							}
+
+    						})
+    					}
+    				</div>
+          </div>
+          </td>
+          <td>
+          <p>EXPLOSION: 0%</p>
+          <p>RADIATION: 0%</p>
+          <p>EMP: 0%</p>
+
+          </td>
+        </tr>
+        <tr>
+        <td>
+
+        <div id="video-info">
+          <p># {drone.id} aka {drone.name}</p>
+          <p>x: {drone.x} </p>
+          <p>y: {drone.y} </p>
+          <p>dir :{drone.direction}</p>
+        </div>
+
+        </td>
+        <td></td>
+        </tr>
+      </table>
 
 
-			<div id="video-info">
-				<p>#{drone.id} {drone.name}</p>
-				<p>x:{drone.x} y:{drone.y} direction:{drone.direction}</p>
-			</div>
+
+
+
 
     </div>);
   }

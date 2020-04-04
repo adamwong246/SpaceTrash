@@ -12,31 +12,75 @@ export default class App extends React.Component<{}, {}> {
     return (
       <Tabs>
         <TabList>
-          <Tab>drones</Tab>
-          <Tab>upgrades</Tab>
-          <Tab>fuel</Tab>
-          <Tab>scrap</Tab>
-          <Tab>chests</Tab>
-          <Tab>downloads</Tab>
+          <Tab>small items</Tab>
+          <Tab>medium items</Tab>
+          <Tab>large items</Tab>
           <Tab>programs</Tab>
         </TabList>
-        <TabPanel><DroneRegistry/></TabPanel>
-        <TabPanel><UpgradeRegistry/></TabPanel>
+
         <TabPanel>
-          FUEL
+
+          <Tabs>
+            <TabList>
+              <Tab>SCRAP</Tab>
+              <Tab>FUEL</Tab>
+              <Tab>UPGRADEs</Tab>
+              <Tab>BLACKBOXes</Tab>
+            </TabList>
+
+            <TabPanel>SCRAP</TabPanel>
+            <TabPanel>FUEL</TabPanel>
+            <TabPanel><UpgradeRegistry/></TabPanel>
+            <TabPanel>BLACKBOXes</TabPanel>
+
+          </Tabs>
+
+
         </TabPanel>
+
         <TabPanel>
-          SCRAP
+          <Tabs>
+            <TabList>
+              <Tab>CHESTs</Tab>
+              <Tab>DRONEs</Tab>
+            </TabList>
+
+            <TabPanel>CHESTS</TabPanel>
+            <TabPanel><DroneRegistry/></TabPanel>
+          </Tabs>
+
         </TabPanel>
+
         <TabPanel>
-          CHESTS
+          <Tabs>
+            <TabList>
+              <Tab>PORT</Tab>
+              <Tab>CORE</Tab>
+              <Tab>DOOR</Tab>
+              <Tab>TERMINAL</Tab>
+              <Tab>DATABASE</Tab>
+              <Tab>DRONE_DOCK</Tab>
+              <Tab>CHEST_MOUNT</Tab>
+              <Tab>SENTRY</Tab>
+              <Tab>FABRICATOR</Tab>
+            </TabList>
+            <TabPanel/>
+            <TabPanel/>
+            <TabPanel/>
+            <TabPanel/>
+            <TabPanel/>
+            <TabPanel/>
+            <TabPanel/>
+            <TabPanel/>
+            <TabPanel/>
+          </Tabs>
         </TabPanel>
-        <TabPanel>
-          DOWNLOADS
-        </TabPanel>
+
+
         <TabPanel>
           <ScriptEditor />
         </TabPanel>
+
       </Tabs>
     );
   }

@@ -38,11 +38,11 @@ export const getShips = store => {
 //   }
 // }
 
-export const getUpgrades = store => {
-  return {
-    upgrades: Object.keys(store.upgrades).map((s) => store.upgrades[s])
-  }
-}
+// export const getUpgrades = store => {
+//   return {
+//     upgrades: Object.keys(store.upgrades).map((s) => store.upgrades[s])
+//   }
+// }
 
 export const getShipInformationProps = store => {
   return {
@@ -113,7 +113,7 @@ const getWorldSelector = createSelector([baseSelector], base => base.world);
 const materializedWorldSelector = createSelector([baseSelector], base => base.materializedWorld);
 
 const getDronesSelector = createSelector([getWorldSelector], world => world.drones);
-
+const upgradesSelector = createSelector([],()  => upgrades);
 
 const getDronesAsListSelector = createSelector([getDronesSelector], (droneObject) => {
   return Object.keys(droneObject).map((s) => droneObject[s])
@@ -148,7 +148,7 @@ const getBoardedShipSelector = createSelector(
   }
 );
 
-const getVideDroneIdSelector = createSelector([baseSelector], (base) => base.droneWithActiveVideo);
+const getVideDroneIdSelector = createSelector([baseSelector], (base) => base.world.droneWithActiveVideo);
 
 export const getVideoDrone = createSelector([getDronesAsListSelector, getVideDroneIdSelector], (drones, activeVideoId) => {
   return drones.find((d) => d.id === activeVideoId)
@@ -237,3 +237,32 @@ export const commandLinePropsSelector = createSelector([baseSelector, modeSelect
     demoMode: mode === 'demo'
   }
 })
+
+export const getUpgrades = createSelector([getDronesAsListSelector, upgradesSelector], (drones, upgrades) => {
+  return {
+    upgrades: drones.reduce((mm, drone) => {
+      return [
+        ...mm,
+        drone.upgrades.map((upgradeId) =>{
+          console.log(upgradeId)
+          return {
+            ...upgrades[upgradeId ],
+            droneId: drone.id
+          }
+        })
+      ]
+    }, []).flat()
+  }
+  // return {upgrades: drones
+  //   .map((d) => {droneId: d, upgrades: d.upgrades})
+  //   .flat()
+  //   .map((u) => {
+  //     return {id: u}
+  //   })}
+})
+//
+// store => {
+//   return {
+//     upgrades: Object.keys(store.upgrades).map((s) => store.upgrades[s])
+//   }
+// }

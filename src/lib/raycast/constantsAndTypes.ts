@@ -48,7 +48,7 @@ export const screenHeight = 200;
 var useSingleTexture = false;
 var fov = 60 * Math.PI / 180;
 
-export const stripWidth = 1;
+export const stripWidth = 3;
 
 export const numRays = Math.ceil(screenWidth / stripWidth);
 var numTextures = 4;
