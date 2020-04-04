@@ -55,6 +55,7 @@ const commonConfig = {
 // #endregion
 
 const webConfig = lodash.cloneDeep(commonConfig);
+webConfig.output= { path: srcPaths('.'), publicPath: '' },
 webConfig.entry = './src/renderer/renderer.tsx';
 webConfig.output.filename = 'demo_bundle.js';
 webConfig.plugins = [...commonConfig.plugins,
