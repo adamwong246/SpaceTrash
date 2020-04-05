@@ -57,7 +57,7 @@ class Video extends React.Component<{rays, drone}, {}>{
           <td>
 
           <svg height="500" width="500">
-            <circle cx="250" cy="250" r="250" stroke="green" strokeWidth="3" fill="black" />
+            <circle cx="250" cy="250" r="250" stroke="green" strokeWidth="3" fill="gray" />
 
             <line
               key={`ray-min`}

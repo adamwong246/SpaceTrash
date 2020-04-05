@@ -35,9 +35,9 @@ export default (drones, shipMap) => {
       return mm
     }, 0)
 
-    const materializedMap = new RayCastMap(
-      Math.max(maxX, maxXd, maxXdr) + 1, Math.max(maxY, maxYd, maxYdr)
-    )
+    const x = Math.round(Math.max(maxX, maxXd, maxXdr, 1) + 1)
+    const y = Math.round(Math.max(maxY, maxYd, maxYdr, 1))
+    const materializedMap = new RayCastMap(x, y)
 
     roomTypes.forEach((room, ndx) => {
       for (let x = shipMap[room].x; x < shipMap[room].x2; x++) {
