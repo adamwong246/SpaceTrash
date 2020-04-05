@@ -52,10 +52,28 @@ const subscribe = initSubscriber(store);
 // Listen to the clock and run queded commnads
 //////////////////////////////////////////////////////////////////////
 
+let tockPromise = new Promise((res, rej) => {
+  store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
+  res();
+});
+
+const clock = () => {
+  if (tockPromise.isPending()) {
+
+    Promise.resolve(tockPromise)
+  }
+  tockPromise = new Promise((res, rej) => {
+    store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
+    res();
+  });
+};
+
 // start the clock
 let tick = window.setInterval(clock, 1);
 
-const tock = subscribe('clock.time', state => {
+let updatePromise = Promise.resolve();
+
+const tock = subscribe('world', state => {
 
   if(state.clock.halted){
 
@@ -70,45 +88,27 @@ const tock = subscribe('clock.time', state => {
       )
     ).flat()
 
-
-
-    if (quededCommands.length){
-      store.dispatch({type: 'CLEAR_QUEUE', payload: now })
-      quededCommands.forEach((qc) => {
-        store.dispatch({type: qc.futureAction, payload: {id: qc.id} })
-      })
-    }
-
-    store.dispatch({type: 'RESUME', payload: {} })
-  }
-});
-
-
-// Listen for changes to world and send them over IPC to server
-//////////////////////////////////////////////////////////////////////
-
-let updatePromise = Promise.resolve();
-
-subscribe('world', state => {
-  if(state.clock.halted){
-
-  } else {
-
-    store.dispatch({type: 'HALT', payload: {} })
+    // apply all the queded commands
+    // if (quededCommands.length){
+    //   quededCommands.forEach((qc) => {
+    //     store.dispatch({type: qc.futureAction, payload: {id: qc.id} })
+    //   })
+    // }
 
     updatePromise = send('materializeMap', {
-        drones: state.world.drones,
-        ship: state.world.ship,
-        droneWithActiveVideoId: state.world.droneWithActiveVideo
-        } ).then((v) => {
-        store.dispatch({type: 'SET_MATERIALIZED_WORLD', payload: {map: v.materializeMap, screen: v.screenStrips}})
-      }).catch((e) => {
-        console.error(e)
-      }).finally(() => {
-          store.dispatch({type: 'RESUME', payload: {} })
-      })
+      drones: state.world.drones,
+      ship: state.world.ship,
+      droneWithActiveVideoId: state.world.droneWithActiveVideo
+    } ).then((v) => {
+      store.dispatch({type: 'SET_MATERIALIZED_WORLD', payload: {map: v.materializeMap, screen: v.screenStrips}})
+      store.dispatch({type: 'CLEAR_QUEUE', payload: now })
+    }).catch((e) => {
+      console.error(e)
+    }).finally(() => {
+        store.dispatch({type: 'RESUME', payload: {} })
+    })
   }
-
 });
+
 
 store.dispatch({type: 'SET_VIDEO', payload: 0})
