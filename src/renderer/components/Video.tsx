@@ -20,7 +20,7 @@ class Video extends React.Component<{rays, drone}, {}>{
     const rays = this.props.rays.screen;
     const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0)
     return (<div id="video" >
-
+      #{drone.id} {drone.name}
       <table>
         <tr>
           <td>
@@ -111,29 +111,16 @@ class Video extends React.Component<{rays, drone}, {}>{
 
           </td>
 
-        </tr>
-        <tr>
-        <td>
+          <td>
 
-        <div id="video-info">
-          <p># {drone.id} aka {drone.name}</p>
-          <p>x: {drone.x} </p>
-          <p>y: {drone.y} </p>
-          <p>dir :{drone.direction}</p>
           <p>EXPLOSION: 0%</p>
           <p>RADIATION: 0%</p>
           <p>EMP: 0%</p>
-        </div>
 
-        </td>
-        <td>
+          </td>
 
-        <p>EXPLOSION: 0%</p>
-        <p>RADIATION: 0%</p>
-        <p>EMP: 0%</p>
-
-        </td>
         </tr>
+
       </table>
 
 

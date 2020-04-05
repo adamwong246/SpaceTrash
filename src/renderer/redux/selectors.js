@@ -218,7 +218,7 @@ export const getTimeProps = createSelector([baseSelector], store => {
   };
 })
 
-const modeSelector = createSelector([], () => __MODE__)
+const modeSelector = createSelector([], () => 'full')
 const loggedInSelectors = createSelector([baseSelector, modeSelector], (base, mode) => {
   if (mode === 'demo'){
     return false
