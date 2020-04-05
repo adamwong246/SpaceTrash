@@ -52,6 +52,22 @@ const subscribe = initSubscriber(store);
 // Listen to the clock and run queded commnads
 //////////////////////////////////////////////////////////////////////
 
+let tockPromise = new Promise((res, rej) => {
+  store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
+  res();
+});
+
+const clock = () => {
+  if (tockPromise.isPending()) {
+
+    Promise.resolve(tockPromise)
+  }
+  tockPromise = new Promise((res, rej) => {
+    store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
+    res();
+  });
+};
+
 // start the clock
 let tick = window.setInterval(clock, 1);
 
