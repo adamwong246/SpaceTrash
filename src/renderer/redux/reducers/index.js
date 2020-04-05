@@ -4,7 +4,6 @@ import boardedShip from "./boardedShip";
 import camera from "./camera";
 import computer from "./computer";
 import currentShip from "./currentShip";
-import world from "./world.js";
 import ships from "./ships";
 import upgrades from "./upgrades";
 import threats from "./threats.js";
@@ -12,36 +11,38 @@ import editingShip from "./editingShip.js"
 import editingFile from "./editingFile.js"
 import schematicCursor from "./schematicCursor.ts"
 import scriptEditingFile from "./scriptEditingFile.ts"
-import scripts from "./scripts.ts";
-import materializedWorld from "./materializedWorld.ts";
-
-import initialState from "../initialState.ts";
-
-import {SHOW_SCRIPTS} from '../actionTypes.js';
+import idealizedWorld from "./idealizedWorld.ts";
+import realizedWorld from "./realizedWorld.ts";
 
 export default combineReducers({
-  ships, currentShip, world, upgrades, boardedShip, computer, camera, threats,
-  editingShip, editingFile, schematicCursor, scriptEditingFile, materializedWorld,
-    clock: (clockState = initialState, action) => {
+  ships, currentShip, upgrades, boardedShip, computer, camera, threats,
+  editingShip, editingFile, schematicCursor, scriptEditingFile,
+  idealizedWorld, realizedWorld,
+  drones : (doneState = {}) => {
+    return doneState
+  },
+  clock: (clockState = {}, action) => {
       switch (action.type) {
         case 'UPDATE_CLOCK': {
           return {
-            time: Date.now(),
-            lastTime: clockState.time
+            ...clockState,
+            time: Date.now()
           }
         }
 
         case 'HALT': {
           return {
             ...clockState,
-            halted: true
+            halted: true,
+            lastTime: Date.now()
           }
         }
 
         case 'RESUME': {
           return {
             ...clockState,
-            halted: false
+            halted: false,
+            lastTime: clockState.lastTime
           }
         }
 
@@ -50,8 +51,4 @@ export default combineReducers({
           return clockState;
       }
     }
-
-
-
-
 });

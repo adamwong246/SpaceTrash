@@ -73,42 +73,54 @@ let tick = window.setInterval(clock, 1);
 
 let updatePromise = Promise.resolve();
 
-const tock = subscribe('world', state => {
+const tock = subscribe('clock.time', state => {
 
-  if(state.clock.halted){
+  // console.log("tick. halted? ", state.clock.halted)
+  const now = Date.now();
 
-  } else {
+  if (!state.clock.halted){
 
     store.dispatch({type: 'HALT', payload: {} })
 
-    const now = Date.now()
-    const quededCommands = state.world.drones.map(
-      (d) => d.commandQueue.filter(
-        (cq) => cq.timestamp < now
-      )
-    ).flat()
-
-    // apply all the queded commands
-    // if (quededCommands.length){
-    //   quededCommands.forEach((qc) => {
-    //     store.dispatch({type: qc.futureAction, payload: {id: qc.id} })
-    //   })
-    // }
-
-    updatePromise = send('materializeMap', {
-      drones: state.world.drones,
-      ship: state.world.ship,
-      droneWithActiveVideoId: state.world.droneWithActiveVideo
-    } ).then((v) => {
-      store.dispatch({type: 'SET_MATERIALIZED_WORLD', payload: {map: v.materializeMap, screen: v.screenStrips}})
-      store.dispatch({type: 'CLEAR_QUEUE', payload: now })
-    }).catch((e) => {
-      console.error(e)
-    }).finally(() => {
-        store.dispatch({type: 'RESUME', payload: {} })
+    const drones = state.drones.map((drone) => {
+      const idealDrone= state.idealizedWorld.drones.find((idealDrone) => idealDrone.id === drone.id)
+      const realDrone = state.realizedWorld.drones.find((realDrone) => realDrone.id === drone.id)
+      return {
+        ...drone,
+        x: realDrone.x || idealDrone.x,
+        y: realDrone.y || idealDrone.y,
+        direction: realDrone.direction || idealDrone.direction,
+        commandQueue: idealDrone.commandQueue.filter((cq) => cq.timestamp < now )
+      }
     })
+
+
+    const commands = drones.map((drone) => drone.commandQueue).flat()
+    // console.log(commands)
+    if (commands.length){
+      updatePromise = send('materializeMap', drones )
+      .then((materializedWorld) => {
+        console.log('materializedWorld', materializedWorld)
+        store.dispatch({type: 'SET_MATERIALIZED_WORLD', payload: materializedWorld})
+        store.dispatch({type: 'CLEAR_QUEUE', payload: now })
+      }).catch((e) => {
+        console.error(e)
+      }).finally(() => {
+          store.dispatch({type: 'RESUME', payload: {} })
+      })
+    } else {
+        store.dispatch({type: 'RESUME', payload: {} })
+    }
+  } else {
+
   }
+
+
+
+
 });
 
 
 store.dispatch({type: 'SET_VIDEO', payload: 0})
+
+// store.dispatch({type: 'IDEALIZE_DRONES', payload: {}})

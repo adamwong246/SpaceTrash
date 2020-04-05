@@ -11,9 +11,10 @@ export default  (
   stripIdx
 ): IStrip => {
 
+  // console.log('getRay', rayAngle)
+
   const mapWidth = map.sizeX;
   const mapHeight = map.sizeY;
-
 
   const newStripStyle = {
     id: stripIdx,
@@ -66,6 +67,7 @@ export default  (
   var y = player.y + (x - player.x) * slope;			// starting vertical position. We add the small horizontal step we just made, multiplied by the slope.
 
   while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
+    // console.log(x, y)
     const wallX: number = (x + (right ? 0 : -1))>>0;
     const wallY: number = (y)>>0;
 
@@ -109,6 +111,7 @@ export default  (
     const wallY: number = (y + (up ? -1 : 0))>>0;
     const wallX: number = (x)>>0;
 
+    // console.log(wallX, wallY, map.get(wallX, wallY).type)
     if (map.get(wallX, wallY).type === 'wall') {
       var distX = x - player.x;
       var distY = y - player.y;
@@ -131,6 +134,7 @@ export default  (
   }
 
   if (dist) {
+    // console.log('dist', dist)
     newStripStyle.rayDistance = dist
     dist = Math.sqrt(dist);
 
@@ -179,6 +183,7 @@ export default  (
     return newStripStyle
 
   } else {
+    // console.log('no dist')
     return newStripStyle
   }
 };

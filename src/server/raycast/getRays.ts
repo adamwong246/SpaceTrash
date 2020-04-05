@@ -1,12 +1,12 @@
-import getRay from "../raycast/getRay.ts";
+import getRay from "./getRay.ts";
 
 import {stripWidth, viewDist, numRays, IStrip} from "../../lib/raycast/constantsAndTypes.ts"
 
 export default  (
   map: any,
-  player: any,
+  drone: any,
 ): IStrip[] => {
-
+  // console.log('getRays', drone)
   return Array.from(Array(numRays).keys()).map((i) => {
     // where on the screen does ray go through?
     var rayScreenPos = (-numRays/2 + i) * stripWidth;
@@ -19,9 +19,9 @@ export default  (
     var rayAngle = Math.asin(rayScreenPos / rayViewDist);
 
     return getRay(
-      player.direction + rayAngle, 	// add the players viewing direction to get the angle in world space
+      drone.direction + rayAngle, 	// add the players viewing direction to get the angle in world space
       map,
-      player,
+      drone,
       i
     );
   })

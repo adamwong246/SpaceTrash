@@ -50,7 +50,7 @@ export const screenHeight = 200;
 var useSingleTexture = false;
 var fov = 60 * Math.PI / 180;
 
-export const stripWidth = 3;
+export const stripWidth = 1;
 
 export const numRays = Math.ceil(screenWidth / stripWidth);
 
@@ -64,3 +64,6 @@ var wallTextures = [
 
 export const viewDist = (screenWidth/2) / Math.tan((fov / 2));
 export const twoPI = Math.PI * 2;
+
+export const moveStepSize = 0.15;
+export const rotateStepSize = .05;

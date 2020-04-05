@@ -69,7 +69,7 @@ function createBackgroundProcess(socketName) {
     socketName
   ];
   console.log(args)
-  serverProcess = fork(bundlePath, args);
+  // serverProcess = fork(bundlePath, args);
 
   serverProcess.on('message', msg => {
     console.log('message: ', msg)

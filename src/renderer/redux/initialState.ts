@@ -2,12 +2,37 @@ import RayCastMap from "../../lib/raycast/RayCastMap.ts";
 // import {IStrip} from "../lib/raycast/constantsAndTypes";
 import ship from "../../lib/ship0.ts";
 
-module.exports =  {
-  clock: {
-    time: Date.now(),
-    lastTime: 0,
-    halted: false,
-  },
+const drones = [
+    {
+      id: 0,
+      name: "Larry",
+      upgrades: [0, 1],
+      x: 7,
+      y: 12,
+      direction: -1,
+      commandQueue: []
+    },
+    {
+      id: 1,
+      name: "Curly",
+      upgrades: [2, 3, 4],
+      x: 8,
+      y: 12,
+      direction: -1,
+      commandQueue: []
+    },
+    {
+      id: 2,
+      name: "Moe",
+      upgrades: [5],
+      x: 9,
+      y: 12,
+      direction: -1,
+      commandQueue: []
+    }
+  ];
+
+export default {
   computer: {
     crtEffect: false,
     theme: 'green',
@@ -22,7 +47,7 @@ module.exports =  {
   }
   `,
 
-  "foo0": `
+      "foo0": `
   (command) => {
     if (!command[1]){
       return "Please give me a number of foos to print. ex: foo0 3";
@@ -34,7 +59,7 @@ module.exports =  {
   }
 `,
 
-"forward": `
+      "forward": `
 (command) => {
   if (!command[1]){
     return "Please give me the id of a drone. ex: forward 3 5";
@@ -52,7 +77,7 @@ module.exports =  {
 }
 `,
 
-"left": `
+      "left": `
 (command) => {
   if (!command[1]){
     return "Please give me the id of a drone. ex: left 3 5";
@@ -70,7 +95,7 @@ module.exports =  {
 }
 `,
 
-"back": `
+      "back": `
 (command) => {
   if (!command[1]){
     return "Please give me the id of a drone. ex: back 3 5";
@@ -88,7 +113,7 @@ module.exports =  {
 }
 `,
 
-"right": `
+      "right": `
 (command) => {
   if (!command[1]){
     return "Please give me the id of a drone. ex: right 3 5";
@@ -106,7 +131,7 @@ module.exports =  {
 }
 `,
 
-  },
+    },
     commandLine: {
       notification: '_↓ type commands below. Press \':\' to focus ↓_',
       logs: [
@@ -141,91 +166,73 @@ module.exports =  {
       }
     },
     {
-    id: 1,
-    name: "USCSS Sulaco",
-    map: new RayCastMap(16, 16),
-    class: "Military vessel",
-    registration: "7839f46(a4)",
-    model: "Akira class",
-    make: "Amazon",
-    year: "2122",
-    files: {
-      'makeSulaco.ts': "// implement a class that inheirits from ship.ts\nmodule.exports = {}"
-    }
-  },
-    {
-    id: 2,
-    name: "IPU Merkava",
-    map: new RayCastMap(16, 16),
-    class: "Mining",
-    registration: "v80dqi6(9)",
-    model: "Lockmart CM-88B Bison",
-    make: "SpaceEx",
-    year: "2071",
-    files: {
-      'makeNostromo.ts': "hello world",
-      'makeDrone.ts': "hello makeDrone.ts",
-      'utils': {
-        'foo.js': "hello foo.ts",
-        'bar.js': "hello bar.ts",
-        'dig.js': "hello dig.ts",
+      id: 1,
+      name: "USCSS Sulaco",
+      map: new RayCastMap(16, 16),
+      class: "Military vessel",
+      registration: "7839f46(a4)",
+      model: "Akira class",
+      make: "Amazon",
+      year: "2122",
+      files: {
+        'makeSulaco.ts': "// implement a class that inheirits from ship.ts\nmodule.exports = {}"
       }
-    }
-  },
+    },
+    {
+      id: 2,
+      name: "IPU Merkava",
+      map: new RayCastMap(16, 16),
+      class: "Mining",
+      registration: "v80dqi6(9)",
+      model: "Lockmart CM-88B Bison",
+      make: "SpaceEx",
+      year: "2071",
+      files: {
+        'makeNostromo.ts': "hello world",
+        'makeDrone.ts': "hello makeDrone.ts",
+        'utils': {
+          'foo.js': "hello foo.ts",
+          'bar.js': "hello bar.ts",
+          'dig.js': "hello dig.ts",
+        }
+      }
+    },
   ],
   currentShip: 0,
   boardedShip: 1,
   editingShip: 0,
   editingFile: [],
-
-  camera: {
-    x: 0, //left
-    y: 1000, // up
-    z: -4000, // forward
-    dx: -1,
-    dy: 0,
-    dz: 0,
-    d: 90
-  },
   scriptEditingFile: ['foo'],
 
-  world: {
-    initial: true,
-    droneWithActiveVideo: false,
-    drones: [
-      {
-        id: 0,
-        name: "Larry",
-        upgrades: [0, 1],
-        x: 7,
-        y: 12,
-        direction: -1,
-        commandQueue: []
-      },
-      {
-        id: 1,
-        name: "Curly",
-        upgrades: [2, 3, 4],
-        x: 8,
-        y: 12,
-        direction: -1,
-        commandQueue: []
-      },
-      {
-        id: 2,
-        name: "Moe",
-        upgrades: [5],
-        x: 9,
-        y: 12,
-        direction: -1,
-        commandQueue: []
-      }
-    ],
-    ship
+  activeVideoId: 0,
+
+  clock: {
+    time: Date.now(),
+    lastTime: 0,
+    halted: false,
   },
 
-  materializedWorld: {
-    map: {},
-    screen: []
+  drones: drones,
+
+  idealizedWorld: {
+    drones: drones.map((drone) => {
+      return {
+      id: drone.id,
+      name: drone.name,
+      upgrades: drone.upgrades,
+      commandQueue: drone.commandQueue,
+    }})
+  },
+
+  realizedWorld: {
+    drones: drones.map((drone) => {
+      return {
+          id: drone.id,
+          x: drone.x,
+          y: drone.y,
+          direction: drone.direction,
+        }}),
+
+    materializedMap: {}
   }
 };

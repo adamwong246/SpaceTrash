@@ -35,11 +35,14 @@ const Cell = ({x, y, map, drones, onHover}) => {
 }
 
 class Schematic extends React.Component<{
-  ship, drones, setSchemaCursor, schematicCursor, materializedMap
+  ship, drones, setSchemaCursor, schematicCursor, realizedWorld
 }, {}>{
   render() {
 
-    const {ship, drones, setSchemaCursor, schematicCursor, materializedMap} = this.props
+    const {ship, setSchemaCursor, schematicCursor, realizedWorld} = this.props
+
+    const visibleMap = realizedWorld.visibleMap
+    const drones = realizedWorld.drones
 
 
 
@@ -59,13 +62,13 @@ class Schematic extends React.Component<{
     <table id="grid">
       <tbody>
         {
-          Array.from(Array(materializedMap.sizeY).keys()).map((row, rowNdx) => {
+          Array.from(Array(visibleMap.sizeY).keys()).map((row, rowNdx) => {
             return (
 
 
               <tr key={`schematic-row-${rowNdx}`}>
                 {
-                  Array.from(Array(materializedMap.sizeX).keys()).map((column, cellNdx) => {
+                  Array.from(Array(visibleMap.sizeX).keys()).map((column, cellNdx) => {
 
                     const highlighted =
                       schematicCursor.x === column && schematicCursor.y === row ?
@@ -75,7 +78,7 @@ class Schematic extends React.Component<{
                       <td key={`schematic-row-cell-${rowNdx}-${cellNdx}`} className={highlighted}>
                         <Cell
                           x={column} y={row}
-                          map={materializedMap} drones={drones}
+                          map={visibleMap} drones={drones}
                           onHover={setSchemaCursor}
                         />
                       </td>

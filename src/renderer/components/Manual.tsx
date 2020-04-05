@@ -212,18 +212,26 @@ const Manual = ({ threats, upgrades, rooms, signals }) => (<div >
       <tbody>
         <tr>
           <td>
+            VACUUM
+            </td>
+          <td>
+            If an airlock is opened or the hull breached, the ships atmosphere will quickly blown into space, along with anything not secured in place,  where it will be lost. The effect grows from the breach point, spreading tile by tile (and room by room, if the doors are not sealed)
+            </td>
+
+          <td>
             EXPLOSION
             </td>
           <td>
-            If an airlock is opened or the hull breached, the ships atmosphere will quickly blown into space, along with anything not secured in place, room by room.
+            Concusive shock wave. A single wave of force will emanate, causing damage to anything within line-of-sight. It will knock back anything not secured.
             </td>
+
         </tr>
         <tr>
           <td>
             RADIATION
             </td>
           <td>
-            If an engine core is damaged, it will begin slowly emiting radiation, which wil increase in a circular pattern and which will cause more damage to a drone the closer it is.
+            If an engine core is damaged, it will begin slowly emiting radiation, which wil increase in a circular pattern and which will cause more damage to a drone the closer it is. It is not blocked by walls.
             </td>
         </tr>
         <tr>
@@ -231,7 +239,7 @@ const Manual = ({ threats, upgrades, rooms, signals }) => (<div >
             EMP
             </td>
           <td>
-            If a power port is damaged, it will emit a single burst of electromagnetic interference over a large area. Drones will take damage and then require time to reboot.
+            If a power port is damaged, it will emit lightening-like busrts of electromagnetic interference. Drones will take damage and then require time to reboot if they are struck. 
             </td>
         </tr>
       </tbody>

@@ -109,10 +109,11 @@ const baseSelector = (state => state)
 const getShipsSelector = createSelector([baseSelector], state => state.ships)
 const getCurrentShipIdSelector = createSelector([baseSelector], state => state.currentShip)
 const getBoardedShipIdSelector = createSelector([baseSelector], state => state.boardedShip)
-const getWorldSelector = createSelector([baseSelector], base => base.world);
-const materializedWorldSelector = createSelector([baseSelector], base => base.materializedWorld);
 
-const getDronesSelector = createSelector([getWorldSelector], world => world.drones);
+const getIdealizedWorldSelector = createSelector([baseSelector], base => base.idealizedWorld);
+const realizedWorldSelector = createSelector([baseSelector], base => base.realizedWorld);
+
+const getDronesSelector = createSelector([getIdealizedWorldSelector], world => world.drones);
 const upgradesSelector = createSelector([],()  => upgrades);
 
 const getDronesAsListSelector = createSelector([getDronesSelector], (droneObject) => {
@@ -130,8 +131,12 @@ const dronesJustWithCQSelector = createSelector([getDronesAsListSelector], (dron
   })
 })
 
-export const getDronesRegistry = createSelector([getDronesAsListSelector], (drones) => {
-  return {drones: drones }
+export const getDronesRegistry = createSelector([baseSelector], (base) => {
+  return {drones: base.drones.map((drone) => {
+    return {...drone,
+    ...base.idealizedWorld.drones.find((d) => d.id === drone.id),
+    ...base.realizedWorld.drones.find((d) => d.id === drone.id)}
+  })}
 });
 
 const getCurrentShipSelector = createSelector(
@@ -149,6 +154,10 @@ const getBoardedShipSelector = createSelector(
 );
 
 const getVideDroneIdSelector = createSelector([baseSelector], (base) => base.world.droneWithActiveVideo);
+
+export const getVideoDroneId = createSelector([baseSelector], (base) => {
+  return base.activeVideoId
+})
 
 export const getVideoDrone = createSelector([getDronesAsListSelector, getVideDroneIdSelector], (drones, activeVideoId) => {
   return drones.find((d) => d.id === activeVideoId)
@@ -182,33 +191,34 @@ export const getMissionProps = createSelector([
   getCurrentShipSelector,
   getBoardedShipSelector,
   getDronesAsListSelector,
-  materializedWorldSelector,
+  realizedWorldSelector,
 ], (
-  currentShip, boardedShip, drones, materializedWorld
+  currentShip, boardedShip, drones, realizedWorld
 ) => {
-  return {currentShip, boardedShip, drones, materializedWorld};
+  return {currentShip, boardedShip, drones, realizedWorld};
 });
 
 
 
 const getRaysSelector = createSelector([
- materializedWorldSelector
+ realizedWorldSelector
 ], (
  map,
 ) => {
 return map
 });
 
-export const getVideoProps = createSelector([getVideoDrone, getRaysSelector], (videoDrone, rays) => {
+export const getVideoProps = createSelector([getVideoDroneId, realizedWorldSelector], (videoDroneId, realizedWorld) => {
   return {
-    drone: videoDrone,
-    rays
+    videoDroneId,
+    realizedWorld
   }
 });
 
-export const getSchematicProps = createSelector([baseSelector], (base) => {
+export const getSchematicProps = createSelector([baseSelector, realizedWorldSelector], (base, realizedWorld) => {
   return {
-    schematicCursor: base.schematicCursor
+    schematicCursor: base.schematicCursor,
+    realizedWorld
   }
 })
 
