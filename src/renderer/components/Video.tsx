@@ -15,6 +15,7 @@ class Video extends React.Component<{rays, drone}, {}>{
 
     const {drone} = this.props;
     const rays = this.props.rays.screen;
+    const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0)
     return (<div id="video" >
 
       <table>
@@ -52,12 +53,61 @@ class Video extends React.Component<{rays, drone}, {}>{
     				</div>
           </div>
           </td>
+
           <td>
-          <p>EXPLOSION: 0%</p>
-          <p>RADIATION: 0%</p>
-          <p>EMP: 0%</p>
+
+          <svg height="500" width="500">
+            <circle cx="250" cy="250" r="250" stroke="green" strokeWidth="3" fill="black" />
+
+            <line
+              key={`ray-min`}
+              stroke={'white'}
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="1"
+              vectorEffect="non-scaling-stroke"
+              transform={`translate(250, 250) scale(${250}) rotate(120, 0, 0)`}
+              strokeWidth="2"
+            />
+
+            <line
+              key={`ray-max`}
+              stroke={'white'}
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="1"
+              vectorEffect="non-scaling-stroke"
+              transform={`translate(250, 250) scale(${250}) rotate(240, 0, 0)`}
+              strokeWidth="2"
+            />
+
+
+            {
+              rays.map((r, ndx) => {
+                if (r){
+                  return (
+                    <line
+                      key={`ray-${ndx}`}
+                      stroke={'white'}
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                      vectorEffect="non-scaling-stroke"
+                      transform={`translate(250, 250) scale(${250 * (r.rayDistance / longestRay) - 1}) rotate(${ndx+120}, 0, 0)`}
+                    />
+                  )
+                }
+
+              })
+            }
+
+          </svg>
 
           </td>
+
         </tr>
         <tr>
         <td>
@@ -67,10 +117,19 @@ class Video extends React.Component<{rays, drone}, {}>{
           <p>x: {drone.x} </p>
           <p>y: {drone.y} </p>
           <p>dir :{drone.direction}</p>
+          <p>EXPLOSION: 0%</p>
+          <p>RADIATION: 0%</p>
+          <p>EMP: 0%</p>
         </div>
 
         </td>
-        <td></td>
+        <td>
+
+        <p>EXPLOSION: 0%</p>
+        <p>RADIATION: 0%</p>
+        <p>EMP: 0%</p>
+
+        </td>
         </tr>
       </table>
 

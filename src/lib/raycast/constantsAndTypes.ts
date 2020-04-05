@@ -30,12 +30,14 @@ interface ISprite {
 
 export interface IStrip {
 	style: IStyle;
+  rayDistance: number;
   id: number;
 }
 
 export const emptyStrip: IStrip = {
 	style: emptyStyle,
-  id: 0
+  id: 0,
+	rayDistance: 0
 }
 
 var spriteMap: any[][] = [[]];
@@ -51,6 +53,7 @@ var fov = 60 * Math.PI / 180;
 export const stripWidth = 3;
 
 export const numRays = Math.ceil(screenWidth / stripWidth);
+
 var numTextures = 4;
 var wallTextures = [
 	"walls_1.png",

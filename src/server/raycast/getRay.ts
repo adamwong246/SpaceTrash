@@ -21,7 +21,8 @@ export default  (
       position: ABSOLLUTE as IPosition,
       src: "images/walls_3.png",
       height: 0, width: 0, left: 0, top: 0, zIndex: 0, clip: ""
-    }
+    },
+    rayDistance: 0
   }
 
   // first make sure the angle is between 0 and 360 degrees
@@ -130,11 +131,16 @@ export default  (
   }
 
   if (dist) {
+    newStripStyle.rayDistance = dist
     dist = Math.sqrt(dist);
+
+
 
     // use perpendicular distance to adjust for fish eye
     // distorted_dist = correct_dist / cos(relative_angle_of_ray)
     dist = dist * Math.cos(player.direction - rayAngle);
+
+
 
     // now calc the position, height and width of the wall strip
 
@@ -167,6 +173,8 @@ export default  (
     var dwy = yWallHit - player.y;
     var wallDist = dwx*dwx + dwy*dwy;
     newStripStyle.style.zIndex = -(wallDist*1000)>>0;
+
+
 
     return newStripStyle
 
