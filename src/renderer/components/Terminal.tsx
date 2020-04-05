@@ -22,12 +22,6 @@ class Terminal extends React.Component<{
     this.handleChange = this.handleChange.bind(this);
   }
 
-
-
-
-  componentDidMount () {
-    this.scrollToBottom()
-  }
   componentDidUpdate () {
     this.scrollToBottom()
   }
@@ -49,7 +43,44 @@ class Terminal extends React.Component<{
     return (
       <div id="terminal">
 
-      {this.props.logs.map((c, ndx) => <p key={`terminal-line-${ndx}`}>{c}</p>)}
+
+      {
+        this.props.logs.map((c, ndx) => {
+
+          return (
+            <div key={`terminal-line-${ndx}`}>
+
+            {(typeof c === "string") && (c.split('\n').map((l) => <p>{l}</p>))}
+
+
+            { (Array.isArray(c)) &&
+              <table><tbody>
+
+              {
+                c.map((r) => {
+                  return (
+                    <tr>
+                      {
+                        r.map((d) => {
+                          return (
+                            <td>{d}</td>
+                          );
+                        })
+                      }
+                    </tr>
+                  )
+                })
+              }
+
+              </tbody></table>
+            }
+
+            </div>
+          );
+        }
+        )
+      }
+
       <div ref={this.messagesEndRef} />
     </div>);
   }

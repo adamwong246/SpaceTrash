@@ -63,7 +63,7 @@ webConfig.plugins = [...commonConfig.plugins,
     }),
 
     new webpack.DefinePlugin({
-      __MODE__: 'demo'
+      __MODE__: JSON.stringify('demo')
     })
   ];
 
@@ -102,7 +102,7 @@ rendererConfig.plugins = [
     template: path.resolve(__dirname, 'src/renderer/index.html'),
   }),
   new webpack.DefinePlugin({
-    __MODE__: 'full'
+    __MODE__: JSON.stringify('full')
   }),
   new CopyWebpackPlugin([
     {from:'./src/renderer/images',to:'images'}

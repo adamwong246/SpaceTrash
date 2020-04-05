@@ -218,23 +218,36 @@ export const getTimeProps = createSelector([baseSelector], store => {
   };
 })
 
-const modeSelector = createSelector([], () => 'full')
+const modeSelector = createSelector([], () => __MODE__)
+const loggedInSelectors = createSelector([baseSelector, modeSelector], (base, mode) => {
+  if (mode === 'demo'){
+    return false
+  }
+  return base.computer.loggedIn
+})
 
-export const getAppProps = createSelector([baseSelector, modeSelector], (base, mode) => {
+export const getAppProps = createSelector([baseSelector, modeSelector, loggedInSelectors], (base, mode, loggedIn) => {
   return {
-    loggedIn: base.computer.loggedIn,
+    loggedIn,
     crtEffect: base.computer.crtEffect,
     theme: base.computer.theme,
     mode
   }
 })
 
-export const commandLinePropsSelector = createSelector([baseSelector, modeSelector], (base, mode) => {
+export const commandLinePropsSelector = createSelector([
+  baseSelector, modeSelector, getCurrentShipSelector, getBoardedShipSelector
+], (
+  base, mode, currentShip, boardedShip
+) => {
   return{
     commandLine: base.computer.commandLine,
     scripts: base.computer.scripts,
-    loggedIn: base.computer.loggedIn,
-    demoMode: mode === 'demo'
+    store:{
+      loggedIn: base.computer.loggedIn,
+      demoMode: mode,
+      currentShip, boardedShip
+    }
   }
 })
 

@@ -5,22 +5,22 @@ export default {
     description: "Show a list of the types of commands",
     example: "help`",
     args: 0,
-    executor: (dispatch, args, demoMode, loggedIn) => {
+    requireLogin: false,
+    executor: (dispatch, args, store) => {
 
-      dispatch({ type: ActionTypes.NEW_COMMAND, payload:`Try one of the following:\n${Object.keys(shellCommands).join('\n')} `})
+      const availableShellCommands = Object.keys(shellCommands)
+      .map((sc) => {return {name: sc, actionType:shellCommands[sc]}})
+      .filter((sc) => !sc.actionType.requireLogin)
+      .map((c) => [c.name, c.actionType.description])
 
-      if (loggedIn){
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload:`Try one of the following`})
+      dispatch({type: ActionTypes.NEW_COMMAND, payload: availableShellCommands})
+
+      if (store.loggedIn){
         dispatch({ type: ActionTypes.NEW_COMMAND, payload:`
           system-commands
           user-scripts
           `})
       }
-// else {
-//         dispatch({ type: ActionTypes.NEW_COMMAND, payload:`Try one of the following:
-// 'login'
-// 'about'
-// 'settings'
-// `       })
-    // }
   }
 }

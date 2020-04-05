@@ -5,6 +5,7 @@ import logout from './logout.ts'
 import ping from './ping.ts'
 import settings from './settings.ts'
 import whoami from './whoami.ts'
+import ship from './ship.ts'
 
 export {
   about,
@@ -13,5 +14,6 @@ export {
   logout,
   ping,
   settings,
-  whoami
+  whoami,
+  ship
 }

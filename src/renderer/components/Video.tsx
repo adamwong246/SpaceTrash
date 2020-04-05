@@ -6,6 +6,9 @@ import {TELEPORT} from "../redux/actionTypes";
 
 import style from "../style/raycast.css";
 
+const scopeSize = 200;
+const halfScopeSize = scopeSize /2;
+
 class Video extends React.Component<{rays, drone}, {}>{
   constructor(a) {
     super(a);
@@ -56,8 +59,8 @@ class Video extends React.Component<{rays, drone}, {}>{
 
           <td>
 
-          <svg height="500" width="500">
-            <circle cx="250" cy="250" r="250" stroke="green" strokeWidth="3" fill="gray" />
+          <svg height={scopeSize} width={scopeSize}>
+            <circle cx={halfScopeSize} cy={halfScopeSize} r={halfScopeSize} strokeWidth="3" fill="gray" />
 
             <line
               key={`ray-min`}
@@ -67,7 +70,7 @@ class Video extends React.Component<{rays, drone}, {}>{
               x2="0"
               y2="1"
               vectorEffect="non-scaling-stroke"
-              transform={`translate(250, 250) scale(${250}) rotate(120, 0, 0)`}
+              transform={`translate(${halfScopeSize}, ${halfScopeSize}) scale(${halfScopeSize}) rotate(120, 0, 0)`}
               strokeWidth="2"
             />
 
@@ -79,7 +82,7 @@ class Video extends React.Component<{rays, drone}, {}>{
               x2="0"
               y2="1"
               vectorEffect="non-scaling-stroke"
-              transform={`translate(250, 250) scale(${250}) rotate(240, 0, 0)`}
+              transform={`translate(${halfScopeSize}, ${halfScopeSize}) scale(${halfScopeSize}) rotate(240, 0, 0)`}
               strokeWidth="2"
             />
 
@@ -96,7 +99,7 @@ class Video extends React.Component<{rays, drone}, {}>{
                       x2="0"
                       y2="1"
                       vectorEffect="non-scaling-stroke"
-                      transform={`translate(250, 250) scale(${250 * (r.rayDistance / longestRay) - 1}) rotate(${ndx+120}, 0, 0)`}
+                      transform={`translate(${halfScopeSize}, ${halfScopeSize}) scale(${halfScopeSize * (r.rayDistance / longestRay) - 1}) rotate(${ndx+120}, 0, 0)`}
                     />
                   )
                 }

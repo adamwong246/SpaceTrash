@@ -30,14 +30,13 @@ export default function(computerState = initialState, action) {
     }
 
     case NEW_COMMAND: {
-
       return {
         ...computerState,
         commandLine: {
           ...computerState.commandLine,
           logs: [
             ...computerState.commandLine.logs,
-            ...action.payload.split('\n')
+            action.payload
           ]
         }
 

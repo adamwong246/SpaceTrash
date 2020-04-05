@@ -56,18 +56,15 @@ class App extends React.Component<{
           <Tabs>
             <TabList>
               <Tab>log</Tab>
-              <Tab>status</Tab>
               <Tab>nav</Tab>
               <Tab>mission</Tab>
               <Tab>inventory</Tab>
               <Tab>manual</Tab>
               <Tab>admin</Tab>
-              <Tab>manual</Tab>
 
               <Time/>
             </TabList>
             <TabPanel><Terminal /></TabPanel>
-            <TabPanel><ShipConfiguration /></TabPanel>
             <TabPanel><Navigation /></TabPanel>
             <TabPanel><Mission /></TabPanel>
             <TabPanel><Inventory /></TabPanel>
@@ -78,7 +75,7 @@ class App extends React.Component<{
         }
 
         {
-          (!this.props.loggedIn || this.props.mode === 'demo') &&
+          (this.props.mode === 'demo') &&
 
 
           <Tabs>

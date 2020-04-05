@@ -1770,7 +1770,6 @@ const wallCell = {
 function RayCastMap(x, y) {
     this.sizeX = x + 2;
     this.sizeY = y + 2;
-    // console.log("new RayCastMap", x, y)
     this.wallGrid = Array.from(Array(this.sizeY), () => new Array(this.sizeX));
     for (let x2 = 0; x2 < this.sizeX; x2++) {
         for (let y2 = 0; y2 < this.sizeY; y2++) {
@@ -1881,7 +1880,8 @@ exports.emptyStyle = {
 };
 exports.emptyStrip = {
     style: exports.emptyStyle,
-    id: 0
+    id: 0,
+    rayDistance: 0
 };
 var spriteMap = [[]];
 var visibleSprites = [];
@@ -1890,7 +1890,7 @@ exports.screenWidth = 320;
 exports.screenHeight = 200;
 var useSingleTexture = false;
 var fov = 60 * Math.PI / 180;
-exports.stripWidth = 1;
+exports.stripWidth = 3;
 exports.numRays = Math.ceil(exports.screenWidth / exports.stripWidth);
 var numTextures = 4;
 var wallTextures = [
@@ -1983,7 +1983,9 @@ exports.default = (drones, shipMap) => {
         mm = d.y > mm ? d.y : mm;
         return mm;
     }, 0);
-    const materializedMap = new RayCastMap_ts_1.default(Math.max(maxX, maxXd, maxXdr) + 1, Math.max(maxY, maxYd, maxYdr));
+    const x = Math.round(Math.max(maxX, maxXd, maxXdr, 1) + 1);
+    const y = Math.round(Math.max(maxY, maxYd, maxYdr, 1));
+    const materializedMap = new RayCastMap_ts_1.default(x, y);
     roomTypes.forEach((room, ndx) => {
         for (let x = shipMap[room].x; x < shipMap[room].x2; x++) {
             for (let y = shipMap[room].y; y < shipMap[room].y2; y++) {
@@ -2029,7 +2031,8 @@ exports.default = (rayAngle, map, player, stripIdx) => {
             position: constantsAndTypes_ts_1.ABSOLLUTE,
             src: "images/walls_3.png",
             height: 0, width: 0, left: 0, top: 0, zIndex: 0, clip: ""
-        }
+        },
+        rayDistance: 0
     };
     // first make sure the angle is between 0 and 360 degrees
     rayAngle %= constantsAndTypes_ts_1.twoPI;
@@ -2116,6 +2119,7 @@ exports.default = (rayAngle, map, player, stripIdx) => {
         y = y + dYHor;
     }
     if (dist) {
+        newStripStyle.rayDistance = dist;
         dist = Math.sqrt(dist);
         // use perpendicular distance to adjust for fish eye
         // distorted_dist = correct_dist / cos(relative_angle_of_ray)
@@ -2228,28 +2232,8 @@ handlers['ping'] = async () => {
 }
 
 handlers['materializeMap'] = async ({drones, ship, droneWithActiveVideoId}) => {
-  // console.log('materializeMap')
-  // console.log(drones, ship0, droneWithActiveVideoId)
   const materializeMap = _raycast_getMaterializedMap_ts__WEBPACK_IMPORTED_MODULE_0___default()(drones, _lib_ship0_ts__WEBPACK_IMPORTED_MODULE_2___default.a.makeMap() )
   const screenStrips = _raycast_getRays_ts__WEBPACK_IMPORTED_MODULE_1___default()(materializeMap, drones.find((d) => d.id === droneWithActiveVideoId))
-  // console.log(screenStrips)
-  // const screenStrips = [];
-  // for (var i=0;i<screenWidth;i+=stripWidth) {
-  //   var strip = emptyStrip
-  //   strip.style.position = "absolute";
-  //   strip.style.height = 0;//"0px";
-  //   strip.style.left = strip.style.top = 0;//"0px";
-  //   strip.style.src = "images/walls_3.png";
-  //   screenStrips.push(strip);
-  // }
-  // const rays = castRays(
-  //   materializeMap.sizeX,
-  //   materializeMap.sizeY,
-  //   materializeMap,
-  //   drones.find((d) => d.id === droneWithActiveVideoId),
-  //   screenStrips
-  // );
-
     return {
       materializeMap,
       screenStrips

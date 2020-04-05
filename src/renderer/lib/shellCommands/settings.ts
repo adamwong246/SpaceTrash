@@ -6,7 +6,8 @@ export default {
   description: "edit your settings",
   example: "settings`",
   args: 0,
-  executor: (dispatch, args, demoMode, loggedIn) => {
+  requireLogin: false,
+  executor: (dispatch, args) => {
     if (!args[1] || !args[2]){
       dispatch(settingsFailMessage)
       return;

@@ -4,8 +4,9 @@ export default {
     description: "Log into the system",
     example: "login [you name]",
     args: 1,
-    executor: (dispatch, args, demoMode, loggedIn) => {
-      if (demoMode){
+    requireLogin: false,
+    executor: (dispatch, args, store) => {
+      if (store.demoMode){
         dispatch({ type: ActionTypes.NEW_COMMAND, payload: `* USER ACOUNTS DISABLED. PLEASE TRY AGAIN LATER *` })
         return
       } else {

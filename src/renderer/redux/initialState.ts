@@ -110,10 +110,7 @@ module.exports =  {
     commandLine: {
       notification: '_↓ type commands below. Press \':\' to focus ↓_',
       logs: [
-        'booting...',
-        '',
-        '== Space Trash v0.0.1 ==',
-        '-- a Duskers-like clone --'
+        'booting Space Trash v0.0.2...',
       ],
       focus: Date.now(),
     },

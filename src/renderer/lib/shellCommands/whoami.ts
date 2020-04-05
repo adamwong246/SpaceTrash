@@ -4,9 +4,10 @@ export default {
     description: "Print your username",
     example: "whoami",
     args: 0,
-    executor: (dispatch, args, demoMode, loggedIn) => {
-      if (loggedIn){
-        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Logged in as "${loggedIn}"` })
+    requireLogin: true,
+    executor: (dispatch, args, store) => {
+      if (store.loggedIn){
+        dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Logged in as "${store.loggedIn}"` })
         return;
       } else {
         dispatch({ type: ActionTypes.NEW_COMMAND, payload: `You are not logged.` })
