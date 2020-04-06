@@ -2,7 +2,7 @@ import * as ActionTypes from "../../redux/actionTypes";
 
 export default {
   description: "list all user's scripts",
-  example: "scripts`",
+  example: "scripts",
   args: 0,
   requireLogin: false,
   executor: (dispatch, args, store) => {

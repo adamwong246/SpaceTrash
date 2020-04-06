@@ -19,7 +19,9 @@ import Video from './components/Video.tsx'
 import {getAppProps} from './redux/selectors.js';
 
 require('react-tabs/style/react-tabs.css');
+require("./style/layout.css");
 require("./style/style.css");
+require("./style/video.css");
 require("./style/crt.css");
 
 class App extends React.Component<{
@@ -30,7 +32,7 @@ class App extends React.Component<{
 }, {}> {
 
   render() {
-    return (<div className={this.props.crtEffect ?  "crt" : ""} >
+    return (<div id="main" className={this.props.crtEffect ?  "crt" : ""} >
 
       <style>
 
@@ -50,7 +52,7 @@ class App extends React.Component<{
       }
       </style>
 
-      <div id="content">
+      <div id="tabs">
 
         {
           this.props.loggedIn &&
@@ -99,9 +101,11 @@ class App extends React.Component<{
 
 
 
-        <div id="command-line" ><CommandLine /></div>
+
 
       </div>
+
+      <div id="command-line" ><CommandLine /></div>
 
     </div>);
   }

@@ -3,7 +3,7 @@ import * as shellCommands from "./index.ts";
 
 export default {
     description: "a list of low-level sytem commands",
-    example: "commands`",
+    example: "commands",
     args: 0,
     requireLogin: false,
     executor: (dispatch, args, store) => {

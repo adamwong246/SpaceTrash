@@ -9,12 +9,11 @@ body{
   background-color: green;
   color: black;
 }
+
 input#command-line {
-  width: -webkit-fill-available;
   color: green;
   background-color: black;
   border: 1px solid green;
-  display: inline;
   font-family: inherit;
   font-size: inherit;
 }
@@ -24,28 +23,6 @@ input#command-line:focus {
 }
 
 
-
-td{
-  padding: 0.2em;
-  cellpadding: 0;
-  cellspaceing: 0;
-}
-
-#schematic td, #schematic tr {
-  padding: 0;
-}
-
-#schematic #grid * {
-  width: 100%;
-  border: none;
-  padding: 0px;
-  margin: 0px;
-}
-
-#schematic #grid td {
-  width: 2em;
-}
-
 #schematic #grid .schematic-cursor-highlight {
   border: 1px solid green;
 }
@@ -54,26 +31,9 @@ td{
   border: 1px solid black;
 }
 
-#schematic {
-  display: flex;
-  flex-direction: row;
-}
 
-#schematic #schematic-info {
-  width: 25%;
-  word-break:break-all;
-}
 
-#schematic #grid {
-  flex: auto;
-}
-
-table{
-  width: 100%;
-  text-align: left;
-}
-
-#content .react-tabs__tab-list{
+#tabs .react-tabs__tab-list{
   border-bottom: 1px solid green;
 }
 
@@ -82,34 +42,23 @@ table{
   color: black;
   border: none;
   border-radius: 0px;
+  padding: 10px;
 }
 
 .react-tabs__tab-panel.react-tabs__tab-panel--selected{
-  padding: 10px;
   border: 1px solid green;
-  overflow: scroll;
-  height: 80vh;
-}
-
-.react-tabs__tab-list{
-  margin: 0px;
 }
 
 .react-tabs__tab {
   border: 1px dotted green;
 }
 
-
 hr {
   border: 1px solid green;
 }
 
-#editor {
-  display: flex;
-  flex-direction: row;
-}
 
-#content .react-tabs__tab{
+#tabs .react-tabs__tab{
   padding: 1px 6px;
 }
 
@@ -118,58 +67,14 @@ ul{
   list-style: none;
 }
 
-#filetree ul li button {
-    width: 100%;
-}
 
 table td{
   border: 1px solid green;
 }
 
-#screen{
-  position: relative;
-  width: 320px;
-  height: 200px;
-  border: 1px solid black;
-  overflow: hidden;
-}
 
-#ceiling {
-  position: absolute;
-  width: 320px;
-  height: 100px;
-  background-color: rgb(80,80,80);
-  z-index: -10000000;
-}
-
-#floor {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(128,128,128);
-  z-index: -10000000;
-}
 
 #terminal p {
   padding: 0px;
   margin: 0px;
 }
-
-
-
-/* #video {
-  display: flex;
-  flex-direction: row;
-}
-
-#video #screen {
-  width: 50%;
-  word-break:break-all;
-}
-
-#video #video-info {
-  flex: auto;
-} */
- #time {
-   float:right;
- }

@@ -3,7 +3,11 @@ import * as shellCommands from "./index.ts";
 
 export default {
     description: "get and set your keybindings",
-    example: "keybindings`",
+    example:[
+['keybindings', 'list all keybindings'],
+['keybindings [key]', 'get a keybinding'],
+['keybindings [key] [script]' , 'set a keybinding'],
+],
     args: 0,
     requireLogin: true,
     executor: (dispatch, args, store) => {

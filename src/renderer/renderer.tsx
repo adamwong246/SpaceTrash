@@ -3,10 +3,12 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import initSubscriber from 'redux-subscriber';
 import * as Promise from "bluebird";
+const safeEval = require('safe-eval')
 
 import { send } from "./client-ipc.js";
 import store from "./redux/store";
 import { NEW_COMMAND, DRONE_ROTATE, SET_COMMAND_LINE_FOCUS } from "./redux/actionTypes.js"
+import * as ActionTypes from "./redux/actionTypes";
 import App from "./App.tsx"
 
 const wrapper = document.getElementById("app");
@@ -44,7 +46,11 @@ document.body.onkeydown = (function(ev) {
         break;
     }
   } else {
-    // debugger
+    console.log('press', key)
+
+    store.dispatch({ type: 'KEY_BINDING_ACTIVATE', payload: key })
+
+
 
   }
 });
@@ -82,6 +88,27 @@ const tock = subscribe('clock.time', state => {
 
   if (!state.clock.halted) {
 
+    if(state.computer.keybinding.active){
+      store.dispatch({ type: 'KEY_BINDING_DEACTIVATE', payload: {} })
+
+      const script = state.computer.scripts[state.computer.keybindings[state.computer.keybinding.code]]
+
+      if (script){
+        const context = {
+          exec: (action, payload) => {
+            store.dispatch({ type: ActionTypes.DRONE_QUEUE, payload: {futureAction: action, payload: payload.id} })
+          },
+          log: (x) => store.dispatch({ type: ActionTypes.NEW_COMMAND, payload: x })
+
+        }
+        var evaluated = safeEval(script, context)
+        const ran = evaluated([], state)
+
+        store.dispatch({ type: ActionTypes.SET_COMMAND_WARNING, payload:  ran })
+      }
+
+
+    }
 
 
     const drones = state.drones.map((drone) => {
@@ -118,3 +145,14 @@ const tock = subscribe('clock.time', state => {
   }
 
 });
+
+
+// subscribe('computer.keybinding.code', state => {
+//   console.log(state.computer.keybinding)
+//
+//
+//
+//
+//
+//
+// })

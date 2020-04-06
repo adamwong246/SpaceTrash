@@ -1,0 +1,90 @@
+#main {
+  display: flex;
+  flex-direction: column;
+  height: 98vh;
+}
+#main #tabs {
+  flex-grow: 1;
+}
+
+#main #command-line {
+  flex-grow: 0;
+}
+
+.react-tabs__tab-panel.react-tabs__tab-panel--selected{
+  overflow: scroll;
+  height: 86vh;
+}
+
+
+input#command-line {
+  width: -webkit-fill-available;
+  display: inline;
+}
+
+#time {
+  float:right;
+}
+
+
+
+
+
+.react-tabs__tab-list{
+  margin: 0px;
+}
+
+#schematic {
+  display: flex;
+  flex-direction: row;
+}
+
+#schematic #schematic-info {
+  width: 25%;
+  word-break:break-all;
+}
+
+#schematic #grid {
+  flex: auto;
+}
+
+table{
+  width: 100%;
+  text-align: left;
+}
+
+
+
+
+
+td{
+  padding: 0.2em;
+  cellpadding: 0;
+  cellspaceing: 0;
+}
+
+#schematic td, #schematic tr {
+  padding: 0;
+}
+
+#schematic #grid * {
+  width: 100%;
+  border: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+#schematic #grid td {
+  width: 2em;
+}
+
+
+
+#editor {
+  display: flex;
+  flex-direction: row;
+}
+
+#filetree ul li button {
+    width: 100%;
+}

@@ -2,7 +2,7 @@ import * as ActionTypes from "../../redux/actionTypes";
 
 export default {
   description: "about",
-  example: "about`",
+  example: "about",
   args: 0,
   requireLogin: true,
   executor: (dispatch, args, store) => {

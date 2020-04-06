@@ -5,11 +5,29 @@ const initialState = {};
 export default function(computerState = initialState, action) {
   switch (action.type) {
 
+    case 'KEY_BINDING_ACTIVATE': {
+      return {
+        ...computerState,
+        keybinding: {
+          ...computerState.keybinding,
+          code: action.payload,
+          active: true
+        }
+      }
+    }
+    case 'KEY_BINDING_DEACTIVATE': {
+      return {
+        ...computerState,
+        keybinding: {
+          ...computerState.keybinding,
+          active: false
+        }
+      }
+    }
     case CRT: {
       return {
         ...computerState,
         crtEffect: action.payload
-
       }
     }
 

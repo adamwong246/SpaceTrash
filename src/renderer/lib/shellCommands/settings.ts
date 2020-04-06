@@ -4,7 +4,7 @@ const settingsFailMessage = { type: ActionTypes.NEW_COMMAND, payload: `Please pr
 
 export default {
   description: "edit your settings",
-  example: "settings`",
+  example: "settings",
   args: 0,
   requireLogin: false,
   executor: (dispatch, args) => {

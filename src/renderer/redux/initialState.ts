@@ -34,8 +34,15 @@ const drones = [
 
 export default {
   computer: {
+    keybinding: {
+      code: '',
+      active: false
+    },
     keybindings: {
-      'w': 'forward_video'
+      38: 'forward_video',
+      40: 'back_video',
+      37: 'left_video',
+      39: 'right_video'
     },
     crtEffect: false,
     theme: 'green',
@@ -137,8 +144,8 @@ export default {
 "forward_video": `
 (command, store) => {
 log(store)
-const id = store.videoDroneId
-const steps = parseInt(command[1]) || 1;
+const id = store.activeVideoId
+const steps = parseInt(command[1]) || 5;
 
 Array.from(Array(steps).keys()).map((i) => {
   exec('DRONE_MOVE_FORWARD', {id: id});
@@ -147,6 +154,43 @@ return('drone ' + id + ' is on auto pilot')
 }
 `,
 
+"back_video": `
+(command, store) => {
+log(store)
+const id = store.activeVideoId
+const steps = parseInt(command[1]) || 5;
+
+Array.from(Array(steps).keys()).map((i) => {
+  exec('DRONE_MOVE_BACK', {id: id});
+}).join(' - ');
+return('drone ' + id + ' is on auto pilot')
+}
+`,
+"left_video": `
+(command, store) => {
+log(store)
+const id = store.activeVideoId
+const steps = parseInt(command[1]) || 5;
+
+Array.from(Array(steps).keys()).map((i) => {
+  exec('DRONE_ROTATE_LEFT', {id: id});
+}).join(' - ');
+return('drone ' + id + ' is on auto pilot')
+}
+`,
+
+"right_video": `
+(command, store) => {
+log(store)
+const id = store.activeVideoId
+const steps = parseInt(command[1]) || 5;
+
+Array.from(Array(steps).keys()).map((i) => {
+  exec('DRONE_ROTATE_RIGHT', {id: id});
+}).join(' - ');
+return('drone ' + id + ' is on auto pilot')
+}
+`,
     },
     commandLine: {
       notification: '_↓ type commands below. Press \':\' to focus ↓_',

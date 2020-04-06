@@ -4,7 +4,7 @@ import {send} from "../../client-ipc.js";
 
 export default {
   description: "ping the server to make sure you are online ",
-  example: "ping`",
+  example: "ping",
   args: 0,
   requireLogin: true,
   executor: (dispatch, args) => {
