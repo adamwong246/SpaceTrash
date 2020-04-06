@@ -204,7 +204,7 @@ export default {
   editingFile: [],
   scriptEditingFile: ['foo'],
 
-  activeVideoId: 0,
+  activeVideoId: 1,
 
   clock: {
     time: Date.now(),

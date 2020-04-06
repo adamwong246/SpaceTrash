@@ -18,6 +18,16 @@ export default combineReducers({
   ships, currentShip, upgrades, boardedShip, computer, camera, threats,
   editingShip, editingFile, schematicCursor, scriptEditingFile,
   idealizedWorld, realizedWorld,
+  activeVideoId: (activeVideoId = {}, action) => {
+    switch (action.type){
+      case 'SET_VIDEO': {
+        return action.payload
+      }
+      default:
+        return activeVideoId
+    }
+
+  },
   drones : (doneState = {}) => {
     return doneState
   },

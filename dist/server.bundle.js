@@ -1901,8 +1901,9 @@ var wallTextures = [
 ];
 exports.viewDist = (exports.screenWidth / 2) / Math.tan((fov / 2));
 exports.twoPI = Math.PI * 2;
-exports.moveStepSize = 0.15;
-exports.rotateStepSize = .05;
+exports.moveStepSize = 0.000000001;
+exports.rotateStepSize = .000000001;
+exports.commandQueueWaitTime = 50;
 
 
 /***/ }),
@@ -2214,10 +2215,8 @@ const getRays_ts_1 = __webpack_require__(/*! ./getRays.ts */ "./src/server/rayca
 exports.default = (drones, materializedMap) => {
     const updatedDrones = drones.map((drone) => {
         const droneWithCorrectPosition = drone.commandQueue.reduce((mm, command) => {
-            // console.log('droneWithCorrectPosition', command)
+            // TODO refactor this
             if (command.futureAction === "DRONE_MOVE_FORWARD") {
-                const finalDeltaX = 0;
-                const finalDeltaY = 0;
                 const roundOldX = Math.round(drone.x);
                 const roundOldY = Math.round(drone.y);
                 const newX = drone.x + Math.cos(drone.direction) * constantsAndTypes_ts_1.moveStepSize;
@@ -2241,8 +2240,35 @@ exports.default = (drones, materializedMap) => {
                     mm.y = newY;
                 }
             }
-            if (command.futureAction === "DRONE_MOVE_LEFT") {
+            if (command.futureAction === "DRONE_MOVE_BACK") {
+                const roundOldX = Math.round(drone.x);
+                const roundOldY = Math.round(drone.y);
+                const newX = drone.x + Math.cos(drone.direction) * -constantsAndTypes_ts_1.moveStepSize;
+                const newY = drone.y + Math.sin(drone.direction) * -constantsAndTypes_ts_1.moveStepSize;
+                const roundNewX = Math.round(newX);
+                const roundNewY = Math.round(newY);
+                // check where we want to go
+                if (materializedMap.get(roundNewX, roundNewY).type === 'wall') {
+                    // if we have moved left or right into a vertical wall
+                    if (roundNewX !== roundOldX) {
+                        // discard the x component of the move
+                        mm.y = newY;
+                    }
+                    //  the same for Y
+                    if (roundNewY !== roundOldY) {
+                        mm.x = newX;
+                    }
+                }
+                else {
+                    mm.x = newX;
+                    mm.y = newY;
+                }
+            }
+            if (command.futureAction === "DRONE_ROTATE_LEFT") {
                 mm.direction = drone.direction - constantsAndTypes_ts_1.rotateStepSize;
+            }
+            if (command.futureAction === "DRONE_ROTATE_RIGHT") {
+                mm.direction = drone.direction + constantsAndTypes_ts_1.rotateStepSize;
             }
             return mm;
         }, drone);
@@ -2262,44 +2288,6 @@ exports.default = (drones, materializedMap) => {
         visibleDrones: updatedDrones
     };
 };
-// export default (drones, shipMap) => {
-//     return drones.map((drone) => {
-//
-//       const {x, y, previousX = x, previousY = y} = drone;
-//       const cell = shipMap.get(x, y)
-//
-//       const roundPreviousX = Math.round(previousX)
-//       const roundPreviousY = Math.round(previousY)
-//       const roundX = Math.round(x)
-//       const roundY = Math.round(y)
-//
-//       if (cell.type === 'wall'){
-//         console.log('hit')
-//
-//         console.log(drone.id,x, y, previousX, previousY)
-//         console.log(cell.type)
-//
-//         if (roundX != roundPreviousX){
-//           return {
-//             ...drone,
-//             x: previousX
-//           }
-//         }
-//
-//         if (roundY != roundPreviousY){
-//           return {
-//             ...drone,
-//             y: previousY
-//           }
-//         }
-//       } else {
-//         return drone
-//       }
-//
-//       return drone
-//
-//     })
-//   }
 
 
 /***/ }),
@@ -2350,14 +2338,11 @@ handlers['ping'] = async () => {
 }
 
 handlers['materializeMap'] = async (drones) => {
-  console.log('handeling materializeMap')
-  const shipMap = _lib_ship0_ts__WEBPACK_IMPORTED_MODULE_2___default.a.makeMap();
 
+  const shipMap = _lib_ship0_ts__WEBPACK_IMPORTED_MODULE_2___default.a.makeMap();
   const materializedMap = _raycast_getMaterializedMap_ts__WEBPACK_IMPORTED_MODULE_0___default()(drones, shipMap )
-  // console.log(materializedMap)
   const {visibleDrones, visibleMap}  = _raycast_updatePositionsAndGetRaysAndMakeVisibleMap_ts__WEBPACK_IMPORTED_MODULE_1___default()(drones, materializedMap)
 
-  // console.log(visibleMap, visibleDrones)
   return {
     visibleMap,
     drones: visibleDrones

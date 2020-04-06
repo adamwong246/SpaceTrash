@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import initSubscriber from 'redux-subscriber';
 import * as Promise from "bluebird";
 
-import {send} from "./client-ipc.js";
+import { send } from "./client-ipc.js";
 import store from "./redux/store";
 import { NEW_COMMAND, DRONE_ROTATE, SET_COMMAND_LINE_FOCUS } from "./redux/actionTypes.js"
 import App from "./App.tsx"
@@ -75,52 +75,38 @@ let updatePromise = Promise.resolve();
 
 const tock = subscribe('clock.time', state => {
 
-  // console.log("tick. halted? ", state.clock.halted)
   const now = Date.now();
 
-  if (!state.clock.halted){
+  if (!state.clock.halted) {
 
-    store.dispatch({type: 'HALT', payload: {} })
+    store.dispatch({ type: 'HALT', payload: {} })
 
     const drones = state.drones.map((drone) => {
-      const idealDrone= state.idealizedWorld.drones.find((idealDrone) => idealDrone.id === drone.id)
+      const idealDrone = state.idealizedWorld.drones.find((idealDrone) => idealDrone.id === drone.id)
       const realDrone = state.realizedWorld.drones.find((realDrone) => realDrone.id === drone.id)
       return {
         ...drone,
         x: realDrone.x || idealDrone.x,
         y: realDrone.y || idealDrone.y,
         direction: realDrone.direction || idealDrone.direction,
-        commandQueue: idealDrone.commandQueue.filter((cq) => cq.timestamp < now )
+        commandQueue: idealDrone.commandQueue.filter((cq) => cq.timestamp < now)
       }
     })
 
-
     const commands = drones.map((drone) => drone.commandQueue).flat()
-    // console.log(commands)
-    if (commands.length){
-      updatePromise = send('materializeMap', drones )
+
+    updatePromise = send('materializeMap', drones)
       .then((materializedWorld) => {
-        console.log('materializedWorld', materializedWorld)
-        store.dispatch({type: 'SET_MATERIALIZED_WORLD', payload: materializedWorld})
-        store.dispatch({type: 'CLEAR_QUEUE', payload: now })
+        store.dispatch({ type: 'SET_MATERIALIZED_WORLD', payload: materializedWorld })
+        store.dispatch({ type: 'CLEAR_QUEUE', payload: now })
       }).catch((e) => {
         console.error(e)
       }).finally(() => {
-          store.dispatch({type: 'RESUME', payload: {} })
+        store.dispatch({ type: 'RESUME', payload: {} })
       })
-    } else {
-        store.dispatch({type: 'RESUME', payload: {} })
-    }
+
   } else {
 
   }
 
-
-
-
 });
-
-
-store.dispatch({type: 'SET_VIDEO', payload: 0})
-
-// store.dispatch({type: 'IDEALIZE_DRONES', payload: {}})

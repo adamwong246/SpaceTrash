@@ -9,14 +9,13 @@ import style from "../style/raycast.css";
 const scopeSize = 200;
 const halfScopeSize = scopeSize /2;
 
-class Video extends React.Component<{videoDroneId, realizedWorld}, {}>{
+class Video extends React.Component<{drone, realizedWorld}, {}>{
   constructor(a) {
     super(a);
   }
 
   render(){
-    const videoDroneId = 0
-    const drone = this.props.realizedWorld.drones.find((d) => d.id === videoDroneId)
+    const drone = this.props.drone
     const rays = drone.rays;
     const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0)
     return (<div id="video" >

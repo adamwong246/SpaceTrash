@@ -114,6 +114,8 @@ const getIdealizedWorldSelector = createSelector([baseSelector], base => base.id
 const realizedWorldSelector = createSelector([baseSelector], base => base.realizedWorld);
 
 const getDronesSelector = createSelector([getIdealizedWorldSelector], world => world.drones);
+const realizedDrones = createSelector([realizedWorldSelector], world => world.drones);
+
 const upgradesSelector = createSelector([],()  => upgrades);
 
 const getDronesAsListSelector = createSelector([getDronesSelector], (droneObject) => {
@@ -208,9 +210,13 @@ const getRaysSelector = createSelector([
 return map
 });
 
-export const getVideoProps = createSelector([getVideoDroneId, realizedWorldSelector], (videoDroneId, realizedWorld) => {
+export const getVideoProps = createSelector([
+  getVideoDroneId, realizedWorldSelector, realizedDrones
+], (
+  videoDroneId, realizedWorld, drones
+) => {
   return {
-    videoDroneId,
+    drone: drones.find((d) => d.id === videoDroneId),
     realizedWorld
   }
 });

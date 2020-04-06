@@ -27,14 +27,11 @@ handlers['ping'] = async () => {
 }
 
 handlers['materializeMap'] = async (drones) => {
-  console.log('handeling materializeMap')
-  const shipMap = ship0.makeMap();
 
+  const shipMap = ship0.makeMap();
   const materializedMap = getMaterializedMap(drones, shipMap )
-  // console.log(materializedMap)
   const {visibleDrones, visibleMap}  = updatePositionsAndGetRaysAndMakeVisibleMap(drones, materializedMap)
 
-  // console.log(visibleMap, visibleDrones)
   return {
     visibleMap,
     drones: visibleDrones
