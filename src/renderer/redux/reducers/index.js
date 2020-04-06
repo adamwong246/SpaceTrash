@@ -56,7 +56,6 @@ export default combineReducers({
           }
         }
 
-
         default:
           return clockState;
       }

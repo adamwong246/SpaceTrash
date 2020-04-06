@@ -50,7 +50,7 @@ class Terminal extends React.Component<{
           return (
             <div key={`terminal-line-${ndx}`}>
 
-            {(typeof c === "string") && (c.split('\n').map((l) => <p>{l}</p>))}
+            {(typeof c === "string") && (c.split('\n').map((l, ndx2) => <p key={`terminal-line-p-${ndx2}`} >{l}</p>))}
 
 
             { (Array.isArray(c)) &&

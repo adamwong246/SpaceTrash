@@ -43,6 +43,9 @@ document.body.onkeydown = (function(ev) {
         }
         break;
     }
+  } else {
+    // debugger
+
   }
 });
 
@@ -79,7 +82,7 @@ const tock = subscribe('clock.time', state => {
 
   if (!state.clock.halted) {
 
-    store.dispatch({ type: 'HALT', payload: {} })
+
 
     const drones = state.drones.map((drone) => {
       const idealDrone = state.idealizedWorld.drones.find((idealDrone) => idealDrone.id === drone.id)
@@ -95,18 +98,23 @@ const tock = subscribe('clock.time', state => {
 
     const commands = drones.map((drone) => drone.commandQueue).flat()
 
-    updatePromise = send('materializeMap', drones)
-      .then((materializedWorld) => {
-        store.dispatch({ type: 'SET_MATERIALIZED_WORLD', payload: materializedWorld })
-        store.dispatch({ type: 'CLEAR_QUEUE', payload: now })
-      }).catch((e) => {
-        console.error(e)
-      }).finally(() => {
-        store.dispatch({ type: 'RESUME', payload: {} })
-      })
+    if(commands.length){
+      store.dispatch({ type: 'HALT', payload: {} })
+
+      updatePromise = send('materializeMap', drones)
+        .then((materializedWorld) => {
+          store.dispatch({ type: 'SET_REALIZED_WORLD', payload: materializedWorld })
+          store.dispatch({ type: 'CLEAR_QUEUE', payload: now })
+        }).catch((e) => {
+          console.error(e)
+        }).finally(() => {
+          store.dispatch({ type: 'RESUME', payload: {} })
+        })
+    }
+
 
   } else {
-
+    //  do nothing
   }
 
 });

@@ -7,12 +7,14 @@ import Admin from './components/Admin.tsx'
 import CommandLine from './components/CommandLine.tsx'
 import Inventory from './components/Inventory.tsx';
 import Manual from './components/Manual.tsx'
+import Mission from './components/Mission.tsx';
 import Navigation from './components/Navigation.tsx';
+import Schematic from './components/Schematic.tsx'
 import ShipConfiguration from './components/ShipConfiguration.tsx'
 import ShipInformation from './components/ShipInformation.tsx'
 import Terminal from './components/Terminal.tsx'
-import Mission from './components/Mission.tsx';
 import Time from './components/Time.tsx';
+import Video from './components/Video.tsx'
 
 import {getAppProps} from './redux/selectors.js';
 
@@ -57,16 +59,18 @@ class App extends React.Component<{
             <TabList>
               <Tab>log</Tab>
               <Tab>nav</Tab>
-              <Tab>mission</Tab>
-              <Tab>inventory</Tab>
-              <Tab>manual</Tab>
-              <Tab>admin</Tab>
+              <Tab>schem</Tab>
+              <Tab>vid</Tab>
+              <Tab>inv</Tab>
+              <Tab>man</Tab>
+              <Tab>sudo</Tab>
 
               <Time/>
             </TabList>
             <TabPanel><Terminal /></TabPanel>
             <TabPanel><Navigation /></TabPanel>
-            <TabPanel><Mission /></TabPanel>
+            <TabPanel><Schematic  /></TabPanel>
+            <TabPanel><Video  /></TabPanel>
             <TabPanel><Inventory /></TabPanel>
             <TabPanel><Manual /></TabPanel>
             <TabPanel><Admin /></TabPanel>

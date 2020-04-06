@@ -29,7 +29,7 @@ class CommandLine extends React.Component<{
     }
 
     componentWillReceiveProps(){
-      this.commandLineInput.focus();
+      // this.commandLineInput.focus();
     }
 
     handleChange(event) {

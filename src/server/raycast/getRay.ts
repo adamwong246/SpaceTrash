@@ -23,7 +23,8 @@ export default  (
       src: "images/walls_3.png",
       height: 0, width: 0, left: 0, top: 0, zIndex: 0, clip: ""
     },
-    rayDistance: 0
+    rayDistance: 0,
+    x: 0, y: 0
   }
 
   // first make sure the angle is between 0 and 360 degrees
@@ -73,6 +74,7 @@ export default  (
 
     if (map.get(wallX, wallY).type === 'wall') {
 
+
       var distX = x - player.x;
       var distY = y - player.y;
       dist = distX*distX + distY*distY;	// the distance from the player to this point, squared.
@@ -113,6 +115,9 @@ export default  (
 
     // console.log(wallX, wallY, map.get(wallX, wallY).type)
     if (map.get(wallX, wallY).type === 'wall') {
+
+
+
       var distX = x - player.x;
       var distY = y - player.y;
       var blockDist = distX*distX + distY*distY;
@@ -178,7 +183,8 @@ export default  (
     var wallDist = dwx*dwx + dwy*dwy;
     newStripStyle.style.zIndex = -(wallDist*1000)>>0;
 
-
+    newStripStyle.x = xWallHit
+    newStripStyle.y = yWallHit
 
     return newStripStyle
 

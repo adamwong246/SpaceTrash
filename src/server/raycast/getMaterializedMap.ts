@@ -1,7 +1,14 @@
-import RayCastMap from "../../lib/raycast/RayCastMap.ts";
+import RayCastMap, {doorCell, wallCell, floorCell} from "../../lib/raycast/RayCastMap.ts";
 import {emptyStrip} from "../../lib/raycast/constantsAndTypes.ts";
 
-const roomTypes = ['engineering', 'bridge', 'storage', 'drone', 'shop', 'airlock'];
+const roomTypes = [
+  'engineering',
+  'bridge',
+  'storage',
+  'drone',
+   'shop',
+   'airlock'
+];
 
 export default (drones, shipMap) => {
     const doors = shipMap.doors
@@ -36,27 +43,33 @@ export default (drones, shipMap) => {
     }, 0)
 
     const x = Math.round(Math.max(maxX, maxXd, maxXdr, 1) + 1)
-    const y = Math.round(Math.max(maxY, maxYd, maxYdr, 1))
+    const y = Math.round(Math.max(maxY, maxYd, maxYdr, 1) + 1)
     const materializedMap = new RayCastMap(x, y)
 
-    roomTypes.forEach((room, ndx) => {
-      for (let x = shipMap[room].x; x < shipMap[room].x2; x++) {
-        for (let y = shipMap[room].y; y < shipMap[room].y2; y++) {
-          materializedMap.set(
-            x, y, {
-              type: '?',
-              contents: []
-            }
-          )
+    const allRooms = shipMap.otherRooms.concat(roomTypes.map((rt) => shipMap[rt]))
+
+    allRooms.forEach((room, rNdx) => {
+      for (let x = room.x-1; x < room.x2+2; x++) {
+        materializedMap.set(x, room.y-1, wallCell)
+        materializedMap.set(x, room.y2+1, wallCell)
+      }
+      for (let y = room.y-1; y < room.y2+2; y++) {
+        materializedMap.set(room.x-1, y, wallCell)
+        materializedMap.set(room.x2+1, y, wallCell)
+      }
+    })
+
+    allRooms.forEach((room, rNdx) => {
+      for (let x = room.x; x < room.x2+1; x++) {
+        for (let y = room.y; y < room.y2+1; y++) {
+          materializedMap.set(x, y, floorCell)
         }
       }
-    });
+    })
+
 
     shipMap.doors.forEach((door, ndx) => {
-      materializedMap.set(door.x, door.y, {
-        type: 'door',
-        contents: []
-      })
+      materializedMap.set(door.x, door.y, doorCell)
     });
 
     return materializedMap

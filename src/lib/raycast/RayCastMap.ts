@@ -9,14 +9,23 @@ const unknownCell: IMapCell = {
   type: '?',
   contents: []
 }
+export const floorCell: IMapCell = {
+  type: 'floor',
+  contents: []
+}
 
-// const emptyCell: IMapCell = {
-//   type: 'nothing',
-//   contents: []
-// }
+export const emptyCell: IMapCell = {
+  type: 'nothing',
+  contents: []
+}
 
-const wallCell: IMapCell = {
+export const wallCell: IMapCell = {
   type: 'wall',
+  contents: []
+}
+
+export const doorCell: IMapCell = {
+  type: 'door',
   contents: []
 }
 
@@ -28,7 +37,7 @@ export default function RayCastMap(x, y) {
   for (let x2 = 0; x2 < this.sizeX; x2++){
     for (let y2 = 0; y2 < this.sizeY; y2++){
       // this.set(x2, y2, wallCell)
-      this.wallGrid[y2][x2] = wallCell
+      this.wallGrid[y2][x2] = emptyCell
     }
   }
 
@@ -48,8 +57,9 @@ export default function RayCastMap(x, y) {
 }
 
 RayCastMap.prototype.set = function(x: number, y: number, v: IMapCell) {
-  x = Math.floor(x) +1;
-  y = Math.floor(y) +1;
+  // console.log('RayCastMap.set', x, y, v)
+  x = Math.floor(x) ;
+  y = Math.floor(y) ;
   this.wallGrid[y][x] = v
 };
 

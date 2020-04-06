@@ -6,10 +6,10 @@ import {SET_SCHEMA_CURSOR} from '../redux/actionTypes';
 
 const Cell = ({x, y, map, drones, onHover}) => {
 
-  let char = '?';
+  let char = ' ';
 
   let mapCell = map.wallGrid[y][x];
-  if(mapCell){
+  if(mapCell ){
     if (mapCell.type === 'floor'){
       char = '_'
     } else if (mapCell.type === 'door'){
@@ -26,7 +26,20 @@ const Cell = ({x, y, map, drones, onHover}) => {
     }
   });
 
+  let style = {};
+  if (mapCell.isVisible){
+    style =       {
+            backgroundColor: 'black',
+            color: 'red'
+          }
+  } else {
+    style = {
+      backgroundColor: 'black',
+      color: 'green'
+    }
+  }
   return <div
+    style={style}
     key={`schematic-row-cell-char${x}-${y}`}
     onMouseOver={()=> onHover(x, y, mapCell )}
   >
@@ -54,7 +67,7 @@ class Schematic extends React.Component<{
       {schematicCursor.mapCell.type}
       <ul>
         {(schematicCursor.mapCell.contents || []).map((c) => {
-          return (<li>{c.id} {c.name}</li>)
+          return (<li >{c.id} {c.name}</li>)
         })}
       </ul>
     </div>
@@ -62,7 +75,7 @@ class Schematic extends React.Component<{
     <table id="grid">
       <tbody>
         {
-          Array.from(Array(visibleMap.sizeY).keys()).map((row, rowNdx) => {
+          visibleMap && Array.from(Array(visibleMap.sizeY).keys()).map((row, rowNdx) => {
             return (
 
 
@@ -75,7 +88,9 @@ class Schematic extends React.Component<{
                       'schematic-cursor-highlight' :
                       'schematic-cursor-no-highlight';
                     return (
-                      <td key={`schematic-row-cell-${rowNdx}-${cellNdx}`} className={highlighted}>
+                      <td
+
+                        key={`schematic-row-cell-${rowNdx}-${cellNdx}`} className={highlighted}>
                         <Cell
                           x={column} y={row}
                           map={visibleMap} drones={drones}

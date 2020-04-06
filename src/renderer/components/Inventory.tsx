@@ -6,6 +6,7 @@ import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import DroneRegistry from './DroneRegistry.tsx'
 import UpgradeRegistry from './UpgradeRegistry.tsx'
 import ScriptEditor from './ScriptEditor.tsx'
+import Keybindings from './Keybindings.tsx'
 
 export default class App extends React.Component<{}, {}> {
   render() {
@@ -16,6 +17,7 @@ export default class App extends React.Component<{}, {}> {
           <Tab>medium items</Tab>
           <Tab>large items</Tab>
           <Tab>programs</Tab>
+          <Tab>keys</Tab>
         </TabList>
 
         <TabPanel>
@@ -79,6 +81,11 @@ export default class App extends React.Component<{}, {}> {
 
         <TabPanel>
           <ScriptEditor />
+        </TabPanel>
+
+
+        <TabPanel>
+          <Keybindings />
         </TabPanel>
 
       </Tabs>

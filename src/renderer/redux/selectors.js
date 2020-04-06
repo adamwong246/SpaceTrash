@@ -50,7 +50,7 @@ export const getShipInformationProps = store => {
   }
 }
 
-export const getTerminalProps = store => store.computer.commandLine;
+export const getTerminalProps = (store) => store.computer.commandLine;
 
 
 
@@ -122,6 +122,8 @@ const getDronesAsListSelector = createSelector([getDronesSelector], (droneObject
   return Object.keys(droneObject).map((s) => droneObject[s])
 })
 
+const computerSelector =  createSelector([baseSelector], (base) => base.computer);
+
 const dronesJustWithCQSelector = createSelector([getDronesAsListSelector], (drones) => {
   return drones.map((d) => {
     return {
@@ -155,7 +157,7 @@ const getBoardedShipSelector = createSelector(
   }
 );
 
-const getVideDroneIdSelector = createSelector([baseSelector], (base) => base.world.droneWithActiveVideo);
+const getVideDroneIdSelector = createSelector([baseSelector], (base) => base.activeVideoId);
 
 export const getVideoDroneId = createSelector([baseSelector], (base) => {
   return base.activeVideoId
@@ -252,9 +254,9 @@ export const getAppProps = createSelector([baseSelector, modeSelector, loggedInS
 })
 
 export const commandLinePropsSelector = createSelector([
-  baseSelector, modeSelector, getCurrentShipSelector, getBoardedShipSelector
+  baseSelector, modeSelector, getCurrentShipSelector, getBoardedShipSelector, computerSelector, getVideoDroneId
 ], (
-  base, mode, currentShip, boardedShip
+  base, mode, currentShip, boardedShip, computer, videoDroneId
 ) => {
   return{
     commandLine: base.computer.commandLine,
@@ -262,7 +264,9 @@ export const commandLinePropsSelector = createSelector([
     store:{
       loggedIn: base.computer.loggedIn,
       demoMode: mode,
-      currentShip, boardedShip
+      currentShip, boardedShip,
+      computer,
+      videoDroneId
     }
   }
 })

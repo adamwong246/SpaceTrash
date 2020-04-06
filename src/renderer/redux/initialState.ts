@@ -34,6 +34,9 @@ const drones = [
 
 export default {
   computer: {
+    keybindings: {
+      'w': 'forward_video'
+    },
     crtEffect: false,
     theme: 'green',
     loggedIn: 'hal',
@@ -128,6 +131,19 @@ export default {
     exec('DRONE_ROTATE_RIGHT', {id: id});
   }).join(' - ');
   return('drone ' + id + ' is on auto pilot')
+}
+`,
+
+"forward_video": `
+(command, store) => {
+log(store)
+const id = store.videoDroneId
+const steps = parseInt(command[1]) || 1;
+
+Array.from(Array(steps).keys()).map((i) => {
+  exec('DRONE_MOVE_FORWARD', {id: id});
+}).join(' - ');
+return('drone ' + id + ' is on auto pilot')
 }
 `,
 

@@ -65,6 +65,6 @@ var wallTextures = [
 export const viewDist = (screenWidth/2) / Math.tan((fov / 2));
 export const twoPI = Math.PI * 2;
 
-export const moveStepSize = 0.000000001;
-export const rotateStepSize = .000000001;
-export const commandQueueWaitTime = 50
+export const moveStepSize = 0.1;
+export const rotateStepSize = 0.05;
+export const commandQueueWaitTime = 10

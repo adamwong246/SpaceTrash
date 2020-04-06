@@ -98,7 +98,10 @@ class Video extends React.Component<{drone, realizedWorld}, {}>{
                       x2="0"
                       y2="1"
                       vectorEffect="non-scaling-stroke"
-                      transform={`translate(${halfScopeSize}, ${halfScopeSize}) scale(${halfScopeSize * (r.rayDistance / longestRay) - 1}) rotate(${ndx+120}, 0, 0)`}
+                      transform={`
+                        translate(${halfScopeSize}, ${halfScopeSize})
+                        scale(${halfScopeSize * (r.rayDistance / longestRay) - 1})
+                        rotate(${(ndx/2.6)+120}, 0, 0)`}
                     />
                   )
                 }

@@ -207,23 +207,18 @@ const Manual = ({ threats, upgrades, rooms, signals }) => (<div >
   </TabPanel>
 
   <TabPanel>
-    <p>There are 3 effects which can damage your drones, enemies and items.</p>
+    <p>There are 4 effects which can damage your drones, enemies and items.</p>
     <table>
       <tbody>
-        <tr>
-          <td>
-            VACUUM
-            </td>
-          <td>
-            If an airlock is opened or the hull breached, the ships atmosphere will quickly blown into space, along with anything not secured in place,  where it will be lost. The effect grows from the breach point, spreading tile by tile (and room by room, if the doors are not sealed)
-            </td>
 
-          <td>
-            EXPLOSION
-            </td>
-          <td>
-            Concusive shock wave. A single wave of force will emanate, causing damage to anything within line-of-sight. It will knock back anything not secured.
-            </td>
+        <tr>
+          <td>VACUUM</td>
+          <td>If an airlock is opened or the hull breached, the ships atmosphere will quickly blown into space, along with anything not secured in place,  where it will be lost. The effect grows from the breach point, spreading tile by tile (and room by room, if the doors are not sealed)</td>
+        </tr>
+
+        <tr>
+          <td>EXPLOSION</td>
+          <td>Concusive shock wave. A single wave of force will emanate, causing damage to anything within line-of-sight. It will knock back anything not secured.</td>
 
         </tr>
         <tr>
@@ -239,7 +234,7 @@ const Manual = ({ threats, upgrades, rooms, signals }) => (<div >
             EMP
             </td>
           <td>
-            If a power port is damaged, it will emit lightening-like busrts of electromagnetic interference. Drones will take damage and then require time to reboot if they are struck. 
+            If a power port is damaged, it will emit lightening-like busrts of electromagnetic interference. Drones will take damage and then require time to reboot if they are struck.
             </td>
         </tr>
       </tbody>
