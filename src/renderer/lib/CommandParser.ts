@@ -6,7 +6,7 @@ import * as shellCommands from "./shellCommands/index.ts";
 const actions = Object.keys(ActionTypes);
 
 export default {
-  parse: (dispatch, value, scripts, store) => {
+  parse: (dispatch, value, store) => {
     const split = value.split(' ')
 
     dispatch({ type: ActionTypes.NEW_COMMAND, payload: `< ${value}` })
@@ -16,9 +16,9 @@ export default {
       return
     }
 
-    if(Object.keys(scripts).includes(split[0])){
+    if(Object.keys(store.computer.scripts).includes(split[0])){
       const scriptName = split[0];
-      const scriptContents = scripts[scriptName]
+      const scriptContents = store.computer.scripts[scriptName]
 
 
       try {

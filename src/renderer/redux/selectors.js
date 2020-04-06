@@ -183,14 +183,6 @@ const getShipMapSelector = createSelector([], () => {
   return ship0.makeMap()
 } );
 
-// export const getMaterializedMapSelector = createSelector([
-//   getDronesPositionAsIntergersSelector,
-//   getShipMapSelector
-// ], (drones, shipMap) => {
-//   return getMaterializedMap(drones,shipMap );
-// });
-
-
 export const getMissionProps = createSelector([
   getCurrentShipSelector,
   getBoardedShipSelector,
@@ -201,8 +193,6 @@ export const getMissionProps = createSelector([
 ) => {
   return {currentShip, boardedShip, drones, realizedWorld};
 });
-
-
 
 const getRaysSelector = createSelector([
  realizedWorldSelector

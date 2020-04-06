@@ -5,6 +5,7 @@ import initSubscriber from 'redux-subscriber';
 import * as Promise from "bluebird";
 const safeEval = require('safe-eval')
 
+import CommandParser from "./lib/CommandParser.ts";
 import { send } from "./client-ipc.js";
 import store from "./redux/store";
 import { NEW_COMMAND, DRONE_ROTATE, SET_COMMAND_LINE_FOCUS } from "./redux/actionTypes.js"
@@ -48,9 +49,13 @@ document.body.onkeydown = (function(ev) {
   } else {
     console.log('press', key)
 
-    store.dispatch({ type: 'KEY_BINDING_ACTIVATE', payload: key })
+    if (key === 27) {
+      store.dispatch({ type: 'UNSET_COMMAND_LINE_FOCUS', payload: {} })
+      event && event.preventDefault()
+    }
 
-
+    store.dispatch({ type: 'KEY_PRESS', payload: key })
+    // store.dispatch({ type: 'KEY_BINDING_ACTIVATE', payload: key })
 
   }
 });
@@ -88,6 +93,15 @@ const tock = subscribe('clock.time', state => {
 
   if (!state.clock.halted) {
 
+    if(state.computer.commandLine.commandToSubmit){
+      const command = state.computer.commandLine.commandToSubmit
+      store.dispatch({ type: 'UNSET_COMMAND_TO_SUBMIT', payload: {} })
+
+      const script = state.computer.scripts[state.computer.keybindings[state.computer.keybinding.code]]
+
+      CommandParser.parse(store.dispatch, command, state)
+    }
+
     if(state.computer.keybinding.active){
       store.dispatch({ type: 'KEY_BINDING_DEACTIVATE', payload: {} })
 
@@ -106,10 +120,7 @@ const tock = subscribe('clock.time', state => {
 
         store.dispatch({ type: ActionTypes.SET_COMMAND_WARNING, payload:  ran })
       }
-
-
     }
-
 
     const drones = state.drones.map((drone) => {
       const idealDrone = state.idealizedWorld.drones.find((idealDrone) => idealDrone.id === drone.id)
@@ -145,14 +156,3 @@ const tock = subscribe('clock.time', state => {
   }
 
 });
-
-
-// subscribe('computer.keybinding.code', state => {
-//   console.log(state.computer.keybinding)
-//
-//
-//
-//
-//
-//
-// })

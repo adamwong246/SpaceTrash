@@ -1,7 +1,7 @@
 #main {
   display: flex;
   flex-direction: column;
-  height: 98vh;
+  height: 97vh;
 }
 #main #tabs {
   flex-grow: 1;

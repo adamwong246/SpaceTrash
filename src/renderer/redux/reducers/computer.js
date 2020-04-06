@@ -1,20 +1,18 @@
-import { CRT, THEME, NEW_COMMAND, SET_COMMAND_WARNING, SET_COMMAND_LINE_FOCUS, SHOW_SCRIPTS, LOGIN } from "../actionTypes";
+import {
+  CRT,
+  THEME,
+  NEW_COMMAND,
+  SET_COMMAND_WARNING,
+  SET_COMMAND_LINE_FOCUS,
+  SHOW_SCRIPTS,
+  LOGIN
+} from "../actionTypes";
 
 const initialState = {};
 
 export default function(computerState = initialState, action) {
   switch (action.type) {
 
-    case 'KEY_BINDING_ACTIVATE': {
-      return {
-        ...computerState,
-        keybinding: {
-          ...computerState.keybinding,
-          code: action.payload,
-          active: true
-        }
-      }
-    }
     case 'KEY_BINDING_DEACTIVATE': {
       return {
         ...computerState,
@@ -73,15 +71,91 @@ export default function(computerState = initialState, action) {
     }
 
     case SET_COMMAND_LINE_FOCUS: {
-      const { id, content } = action.payload;
+      const {
+        id,
+        content
+      } = action.payload;
       return {
         ...computerState,
         commandLine: {
           ...computerState.commandLine,
-          focus: Date.now()
+          focus: true
+        }
+      }
+    }
+
+    case 'UNSET_COMMAND_LINE_FOCUS': {
+      const {
+        id,
+        content
+      } = action.payload;
+      return {
+        ...computerState,
+        commandLine: {
+          ...computerState.commandLine,
+          focus: false
+        }
+      }
+    }
+
+    case 'UNSET_COMMAND_TO_SUBMIT': {
+        return {
+          ...computerState,
+          commandLine: {
+            ...computerState.commandLine,
+            commandToSubmit: false
+          }
+        }
+    }
+
+    case 'KEY_PRESS': {
+      const {
+        id,
+        content
+      } = action.payload;
+      const char = String.fromCharCode(action.payload)
+
+      if (computerState.commandLine.focus) {
+
+
+        if (action.payload === 8) { //delete
+          return {
+            ...computerState,
+            commandLine: {
+              ...computerState.commandLine,
+              input: computerState.commandLine.input.slice(0, -1)
+            }
+          }
+        } else if (action.payload === 13) { // return
+          return {
+            ...computerState,
+            commandLine: {
+              ...computerState.commandLine,
+              input: '',
+              commandToSubmit: computerState.commandLine.input
+            }
+          }
+        } else {
+          return {
+            ...computerState,
+            commandLine: {
+              ...computerState.commandLine,
+              input: `${computerState.commandLine.input}${char}`.toLowerCase()
+            }
+          }
         }
 
+      } else {
+        return {
+          ...computerState,
+          keybinding: {
+            ...computerState.keybinding,
+            code: action.payload,
+            active: true
+          }
+        }
       }
+
     }
 
     case SHOW_SCRIPTS: {
@@ -95,7 +169,8 @@ export default function(computerState = initialState, action) {
           ]
 
         }
-    }}
+      }
+    }
 
 
 

@@ -6,22 +6,40 @@ body{
 }
 
 #command-bar{
-  background-color: green;
-  color: black;
+  /* background-color: green;
+  color: black; */
 }
 
-input#command-line {
+#notification{
+  color: black;
+  background-color: green;
+
+}
+
+#command-line {
   color: green;
   background-color: black;
-  border: 1px solid green;
+
   font-family: inherit;
   font-size: inherit;
 }
 
-input#command-line:focus {
-  outline: none;
+#command-line p {
+  margin: 0px;
+  padding: 0px;
+  min-height: 2em;
 }
 
+@-webkit-keyframes blink { 50% { border-color: green; }  }
+
+#command-line.focus {
+  border: 1px solid black ;
+  -webkit-animation: blink .5s step-end infinite alternate;
+}
+
+#command-line:not[.focus] {
+  border: 1px solid black ;
+}
 
 #schematic #grid .schematic-cursor-highlight {
   border: 1px solid green;
