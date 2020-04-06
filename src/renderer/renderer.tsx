@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import initSubscriber from 'redux-subscriber';
 import * as Promise from "bluebird";
 
-import {send} from "./client-ipc.js";
+import { send } from "./client-ipc.js";
 import store from "./redux/store";
 import { NEW_COMMAND, DRONE_ROTATE, SET_COMMAND_LINE_FOCUS } from "./redux/actionTypes.js"
 import App from "./App.tsx"
@@ -71,60 +71,42 @@ const clock = () => {
 // start the clock
 let tick = window.setInterval(clock, 1);
 
-const tock = subscribe('clock.time', state => {
-
-  if(state.clock.halted){
-
-  } else {
-
-    store.dispatch({type: 'HALT', payload: {} })
-
-    const now = Date.now()
-    const quededCommands = state.world.drones.map(
-      (d) => d.commandQueue.filter(
-        (cq) => cq.timestamp < now
-      )
-    ).flat()
-
-
-
-    if (quededCommands.length){
-      store.dispatch({type: 'CLEAR_QUEUE', payload: now })
-      quededCommands.forEach((qc) => {
-        store.dispatch({type: qc.futureAction, payload: {id: qc.id} })
-      })
-    }
-
-    store.dispatch({type: 'RESUME', payload: {} })
-  }
-});
-
-
-// Listen for changes to world and send them over IPC to server
-//////////////////////////////////////////////////////////////////////
-
 let updatePromise = Promise.resolve();
 
-subscribe('world', state => {
-  if(state.clock.halted){
+const tock = subscribe('clock.time', state => {
 
-  } else {
+  const now = Date.now();
 
-    store.dispatch({type: 'HALT', payload: {} })
+  if (!state.clock.halted) {
 
-    updatePromise = send('materializeMap', {
-        drones: state.world.drones,
-        ship: state.world.ship,
-        droneWithActiveVideoId: state.world.droneWithActiveVideo
-        } ).then((v) => {
-        store.dispatch({type: 'SET_MATERIALIZED_WORLD', payload: {map: v.materializeMap, screen: v.screenStrips}})
+    store.dispatch({ type: 'HALT', payload: {} })
+
+    const drones = state.drones.map((drone) => {
+      const idealDrone = state.idealizedWorld.drones.find((idealDrone) => idealDrone.id === drone.id)
+      const realDrone = state.realizedWorld.drones.find((realDrone) => realDrone.id === drone.id)
+      return {
+        ...drone,
+        x: realDrone.x || idealDrone.x,
+        y: realDrone.y || idealDrone.y,
+        direction: realDrone.direction || idealDrone.direction,
+        commandQueue: idealDrone.commandQueue.filter((cq) => cq.timestamp < now)
+      }
+    })
+
+    const commands = drones.map((drone) => drone.commandQueue).flat()
+
+    updatePromise = send('materializeMap', drones)
+      .then((materializedWorld) => {
+        store.dispatch({ type: 'SET_MATERIALIZED_WORLD', payload: materializedWorld })
+        store.dispatch({ type: 'CLEAR_QUEUE', payload: now })
       }).catch((e) => {
         console.error(e)
       }).finally(() => {
-          store.dispatch({type: 'RESUME', payload: {} })
+        store.dispatch({ type: 'RESUME', payload: {} })
       })
+
+  } else {
+
   }
 
 });
-
-store.dispatch({type: 'SET_VIDEO', payload: 0})

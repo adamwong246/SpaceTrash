@@ -115,7 +115,7 @@ serverConfig.target = 'node';
 serverConfig.output.filename = 'server.bundle.js';
 serverConfig.output.publicPath = __dirname
 module.exports = [
-  webConfig,
+  // webConfig,
   mainConfig,
   rendererConfig,
   serverConfig

@@ -44,7 +44,7 @@ export default (drones, shipMap) => {
         for (let y = shipMap[room].y; y < shipMap[room].y2; y++) {
           materializedMap.set(
             x, y, {
-              type: 'floor',
+              type: '?',
               contents: []
             }
           )

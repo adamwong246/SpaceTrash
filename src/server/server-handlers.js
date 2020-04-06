@@ -1,5 +1,5 @@
 import getMaterializedMap from "./raycast/getMaterializedMap.ts";
-import getRays from "./raycast/getRays.ts"
+import updatePositionsAndGetRaysAndMakeVisibleMap from "./raycast/updatePositionsAndGetRaysAndMakeVisibleMap.ts"
 import ship0 from "../lib/ship0.ts"
 import {screenWidth, emptyStrip, stripWidth} from "../lib/raycast/constantsAndTypes.ts"
 
@@ -26,13 +26,16 @@ handlers['ping'] = async () => {
   return 'pong'
 }
 
-handlers['materializeMap'] = async ({drones, ship, droneWithActiveVideoId}) => {
-  const materializeMap = getMaterializedMap(drones, ship0.makeMap() )
-  const screenStrips = getRays(materializeMap, drones.find((d) => d.id === droneWithActiveVideoId))
-    return {
-      materializeMap,
-      screenStrips
-    }
+handlers['materializeMap'] = async (drones) => {
+
+  const shipMap = ship0.makeMap();
+  const materializedMap = getMaterializedMap(drones, shipMap )
+  const {visibleDrones, visibleMap}  = updatePositionsAndGetRaysAndMakeVisibleMap(drones, materializedMap)
+
+  return {
+    visibleMap,
+    drones: visibleDrones
+  }
 }
 
 export default handlers

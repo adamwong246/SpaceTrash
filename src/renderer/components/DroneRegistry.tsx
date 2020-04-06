@@ -5,11 +5,13 @@ import { getDronesRegistry } from "../redux/selectors";
 
 const DroneRegistry = ( {drones} ) => (
   <div id="drone-Registery">
+
     <ul>
+
       {drones.map((d) => {
         return (
           <li key={`drone-registry-${d.id}`}>
-            #{d.id} - {d.name} x:{d.x} y:{d.y} d:{d.direction}
+            #{d.id} - {d.name} upgrades: [{d.upgrades.join(', ')}] x:{d.x} y:{d.y} d:{d.direction}
 
             <ul>
               {d.commandQueue.map((qc, qcNdx) => {
