@@ -67,4 +67,4 @@ export const twoPI = Math.PI * 2;
 
 export const moveStepSize = 0.1;
 export const rotateStepSize = 0.05;
-export const commandQueueWaitTime = 10
+export const commandQueueWaitTime = 3

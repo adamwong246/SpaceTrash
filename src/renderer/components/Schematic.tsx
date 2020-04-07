@@ -10,7 +10,6 @@ const Cell = ({x, y, map, drones, onHover}) => {
 
   let mapCell = map.wallGrid[y][x];
 
-  console.log(mapCell)
   if(mapCell){
     if (mapCell.type === 'floor'){
       char = '_'
@@ -22,7 +21,7 @@ const Cell = ({x, y, map, drones, onHover}) => {
   }
 
   drones.forEach((drone, i) => {
-    if (Math.round(drone.x) + 1 === x && Math.round(drone.y) +1=== y){
+    if (Math.floor(drone.x) === x && Math.floor(drone.y)=== y){
       char = "X"
       mapCell = {type: 'floor', contents: [drone]}
     }

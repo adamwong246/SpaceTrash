@@ -1,4 +1,4 @@
-import RayCastMap, {doorCell, wallCell, floorCell} from "../../lib/raycast/RayCastMap.ts";
+import RayCastMap from "../../lib/raycast/RayCastMap.ts";
 import {emptyStrip} from "../../lib/raycast/constantsAndTypes.ts";
 
 const roomTypes = [
@@ -9,6 +9,24 @@ const roomTypes = [
   'shop',
   'storage',
 ];
+
+const wallCell = () => {
+    return {type: 'wall',
+    visible: false,
+    contents: []}
+}
+
+const floorCell = () => {
+    return {type: 'floor',
+    visible: false,
+    contents: []}
+}
+
+const doorCell = () => {
+    return {type: 'door',
+    visible: false,
+    contents: []}
+}
 
 export default (drones, shipMap) => {
     const doors = shipMap.doors
@@ -50,26 +68,26 @@ export default (drones, shipMap) => {
 
     allRooms.forEach((room, rNdx) => {
       for (let x = room.x-1; x < room.x2+2; x++) {
-        materializedMap.set(x, room.y-1, wallCell)
-        materializedMap.set(x, room.y2+1, wallCell)
+        materializedMap.set(x, room.y-1,  wallCell())
+        materializedMap.set(x, room.y2+1, wallCell())
       }
       for (let y = room.y-1; y < room.y2+2; y++) {
-        materializedMap.set(room.x-1, y, wallCell)
-        materializedMap.set(room.x2+1, y, wallCell)
+        materializedMap.set(room.x-1, y, wallCell())
+        materializedMap.set(room.x2+1, y, wallCell())
       }
     })
 
     allRooms.forEach((room, rNdx) => {
       for (let x = room.x; x < room.x2+1; x++) {
         for (let y = room.y; y < room.y2+1; y++) {
-          materializedMap.set(x, y, floorCell)
+          materializedMap.set(x, y, floorCell())
         }
       }
     })
 
 
     shipMap.doors.forEach((door, ndx) => {
-      materializedMap.set(door.x, door.y, doorCell)
+      materializedMap.set(door.x, door.y, doorCell())
     });
 
     return materializedMap
