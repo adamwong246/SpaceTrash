@@ -175,9 +175,6 @@ export default (drones, materializedMap) => {
         const wallY: number = (y)>>0;
 
         if (materializedMap.get(wallX, wallY).type === 'wall') {
-          const cell = materializedMap.get(wallX, wallX)
-          // cell.visible = true
-          // materializedMap.set(wallX, wallY, cell)
 
           var distX = x - drone.x;
           var distY = y - drone.y;
@@ -219,11 +216,6 @@ export default (drones, materializedMap) => {
 
 
         if (materializedMap.get(wallX, wallY).type === 'wall') {
-          const cell = materializedMap.get(wallX, wallX)
-          // cell.visible = true
-          // materializedMap.set(wallX, wallY, cell)
-
-
 
           var distX = x - drone.x;
           var distY = y - drone.y;
@@ -245,8 +237,9 @@ export default (drones, materializedMap) => {
         y = y + dYHor;
       }
 
+      // console.log(stripIdx, dist)
       if (dist) {
-
+        materializedMap.makeVisible(xWallHit, yWallHit)
         dist = Math.sqrt(dist);
 
 

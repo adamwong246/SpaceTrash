@@ -9,7 +9,9 @@ const Cell = ({x, y, map, drones, onHover}) => {
   let char = ' ';
 
   let mapCell = map.wallGrid[y][x];
-  if(mapCell ){
+
+  console.log(mapCell)
+  if(mapCell){
     if (mapCell.type === 'floor'){
       char = '_'
     } else if (mapCell.type === 'door'){
@@ -27,11 +29,11 @@ const Cell = ({x, y, map, drones, onHover}) => {
   });
 
   let style = {};
-  if (mapCell.isVisible){
-    style =       {
-            backgroundColor: 'black',
-            color: 'red'
-          }
+  if (mapCell.visible){
+    style = {
+      backgroundColor: 'green',
+      color: 'black'
+    }
   } else {
     style = {
       backgroundColor: 'black',
@@ -64,7 +66,9 @@ class Schematic extends React.Component<{
     <div id="schematic-info">
       {schematicCursor.x}, {schematicCursor.y}
       <br/>
-      {schematicCursor.mapCell.type}
+      type: {schematicCursor.mapCell.type}
+      <br/>
+      visible: {schematicCursor.mapCell.visible ? 'visible' : 'obscured'}
       <ul>
         {(schematicCursor.mapCell.contents || []).map((c) => {
           return (<li >{c.id} {c.name}</li>)

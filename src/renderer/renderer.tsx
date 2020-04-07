@@ -47,7 +47,7 @@ document.body.onkeydown = (function(ev) {
         break;
     }
   } else {
-    console.log('press', key)
+    // console.log('press', key)
 
     if (key === 27) {
       store.dispatch({ type: 'UNSET_COMMAND_LINE_FOCUS', payload: {} })
@@ -156,3 +156,5 @@ const tock = subscribe('clock.time', state => {
   }
 
 });
+
+store.dispatch({ type: 'SET_VIDEO', payload: 0 })

@@ -7,7 +7,6 @@ import Admin from './components/Admin.tsx'
 import CommandLine from './components/CommandLine.tsx'
 import Inventory from './components/Inventory.tsx';
 import Manual from './components/Manual.tsx'
-import Mission from './components/Mission.tsx';
 import Navigation from './components/Navigation.tsx';
 import Schematic from './components/Schematic.tsx'
 import ShipConfiguration from './components/ShipConfiguration.tsx'
@@ -61,8 +60,8 @@ class App extends React.Component<{
             <TabList>
               <Tab>log</Tab>
               <Tab>nav</Tab>
-              <Tab>schem</Tab>
-              <Tab>vid</Tab>
+              <Tab>map</Tab>
+              <Tab>io</Tab>
               <Tab>inv</Tab>
               <Tab>man</Tab>
               <Tab>sudo</Tab>

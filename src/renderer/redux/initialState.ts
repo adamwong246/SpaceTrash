@@ -52,8 +52,10 @@ export default {
       notification: '_↓ type commands below. Press \':\' to focus ↓_',
       logs: [
         'booting Space Trash v0.0.2...',
+        "press ':' (colon) to enter command mode",
+        "press 'esc' (escape) to exit command mode",
       ],
-      focus: true,
+      focus: false,
       input: '',
     },
     commandToSubmit: false

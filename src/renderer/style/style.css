@@ -90,7 +90,9 @@ table td{
   border: 1px solid green;
 }
 
-
+#schematic td {
+  text-align: center;
+}
 
 #terminal p {
   padding: 0px;

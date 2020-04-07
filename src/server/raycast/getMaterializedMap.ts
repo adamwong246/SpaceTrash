@@ -2,12 +2,12 @@ import RayCastMap, {doorCell, wallCell, floorCell} from "../../lib/raycast/RayCa
 import {emptyStrip} from "../../lib/raycast/constantsAndTypes.ts";
 
 const roomTypes = [
-  'engineering',
+  'airlock',
   'bridge',
-  'storage',
   'drone',
-   'shop',
-   'airlock'
+  'engineering',
+  'shop',
+  'storage',
 ];
 
 export default (drones, shipMap) => {
