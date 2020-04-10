@@ -217,6 +217,13 @@ const Manual = ({ threats, upgrades, rooms, signals }) => (<div >
         </tr>
 
         <tr>
+          <td>SLIME</td>
+          <td>
+            Interstellar mold. It grows slowly, tile by tile. It can be cleared with a weapon but it will likely grow back.
+          </td>
+        </tr>
+
+        <tr>
           <td>EXPLOSION</td>
           <td>Concusive shock wave. A single wave of force will emanate, causing damage to anything within line-of-sight. It will knock back anything not secured.</td>
 

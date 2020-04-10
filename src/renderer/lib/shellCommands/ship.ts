@@ -6,15 +6,17 @@ export default {
   args: 0,
   requireLogin: true,
   executor: (dispatch, args, store) => {
+    const currentShip = store.ships.find((s) => s.id === store.currentShip)
+    const boardedShip = store.ships.find((s) => s.id === store.boardedShip)
     dispatch({ type: ActionTypes.NEW_COMMAND,
       payload: [
         ['', 'Ship', 'Docked with'],
-        ['name', store.currentShip.name, store.boardedShip.name],
-        ['id', store.currentShip.id, store.boardedShip.id],
-        ['class', store.currentShip.class, store.boardedShip.class],
-        ['model', store.currentShip.model, store.boardedShip.model],
-        ['make', store.currentShip.make, store.boardedShip.make],
-        ['year', store.currentShip.year, store.boardedShip.year],
+        ['name', currentShip.name, boardedShip.name],
+        ['id', currentShip.id, boardedShip.id],
+        ['class', currentShip.class, boardedShip.class],
+        ['model', currentShip.model, boardedShip.model],
+        ['make', currentShip.make, boardedShip.make],
+        ['year', currentShip.year, boardedShip.year],
       ]
     })
   }

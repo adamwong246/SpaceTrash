@@ -45,7 +45,9 @@ input#command-line {
 }
 
 #schematic #grid {
-  flex: auto;
+  /* flex: auto; */
+  overflow: scroll;
+  width: 75%
 }
 
 table{

@@ -1,7 +1,7 @@
 export default   [
 
     {
-      id: 0, name: 'MUTANT',
+      id: 0, name: 'MUTO',
       description: 'Post-humans.',
       speed: 'fast',
       weakness: 'EXPLOSION',
@@ -23,7 +23,7 @@ export default   [
       ]
     },
     {
-      id: 2, name: 'GOO',
+      id: 2, name: 'XENO',
       speed: 'slow',
       description: 'Alien lifeform.',
       weakness: 'RADIATION',

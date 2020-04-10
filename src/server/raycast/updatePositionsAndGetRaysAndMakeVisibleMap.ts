@@ -192,7 +192,7 @@ export default (drones, materializedMap) => {
         const wallX: number = (x + (right ? 0 : -1))>>0;
         const wallY: number = (y)>>0;
 
-        if (materializedMap.get(wallX, wallY).type === 'wall') {
+        if (materializedMap.get(wallX, wallY).type !== 'floor') {
 
           var distX = x - drone.x;
           var distY = y - drone.y;
@@ -233,7 +233,7 @@ export default (drones, materializedMap) => {
         const wallX: number = (x)>>0;
 
 
-        if (materializedMap.get(wallX, wallY).type === 'wall') {
+        if (materializedMap.get(wallX, wallY).type !== 'floor') {
 
           var distX = x - drone.x;
           var distY = y - drone.y;
@@ -258,7 +258,9 @@ export default (drones, materializedMap) => {
       // console.log(stripIdx, dist)
       if (dist) {
 
-
+        if (materializedMap.get(xWallHit, yWallHit).type === 'door'){
+          newStripStyle.style.src = "images/walls_4.png"
+        }
         materializedMap.makeVisible(xWallHit, yWallHit)
         brenshams(Math.round(drone.x), Math.round(drone.y), xWallHit, yWallHit, (x, y) => materializedMap.makeVisible(x, y))
 

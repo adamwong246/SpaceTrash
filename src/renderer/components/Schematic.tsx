@@ -62,18 +62,18 @@ class Schematic extends React.Component<{
 
     return (<div id="schematic">
 
-    <div id="schematic-info">
-      {schematicCursor.x}, {schematicCursor.y}
-      <br/>
-      type: {schematicCursor.mapCell.type}
-      <br/>
-      visible: {schematicCursor.mapCell.visible ? 'visible' : 'obscured'}
-      <ul>
-        {(schematicCursor.mapCell.contents || []).map((c) => {
-          return (<li >{c.id} {c.name}</li>)
-        })}
-      </ul>
-    </div>
+      <div id="schematic-info">
+        {schematicCursor.x}, {schematicCursor.y}
+        <br/>
+        {schematicCursor.mapCell.type}
+        <br/>
+        {schematicCursor.mapCell.visible ? 'visible' : 'obscured'}
+        <ul>
+          {(schematicCursor.mapCell.contents || []).map((c) => {
+            return (<li >{c.id} {c.name}</li>)
+          })}
+        </ul>
+      </div>
 
     <table id="grid">
       <tbody>

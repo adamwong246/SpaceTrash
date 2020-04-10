@@ -49,7 +49,9 @@ body{
   border: 1px solid black;
 }
 
-
+#schematic #schematic-info{
+  border: 1px solid green;
+}
 
 #tabs .react-tabs__tab-list{
   border-bottom: 1px solid green;

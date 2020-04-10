@@ -9,6 +9,7 @@ import scripts from './scripts.ts'
 import settings from './settings.ts'
 import ship from './ship.ts'
 import whoami from './whoami.ts'
+import manual from './manual.ts'
 
 export {
   about,
@@ -22,4 +23,5 @@ export {
   settings,
   ship,
   whoami,
+  manual
 }
