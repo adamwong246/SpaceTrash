@@ -62,54 +62,117 @@ class Schematic extends React.Component<{
 
     return (<div id="schematic">
 
-      <div id="schematic-info">
-        {schematicCursor.x}, {schematicCursor.y}
-        <br/>
-        {schematicCursor.mapCell.type}
-        <br/>
-        {schematicCursor.mapCell.visible ? 'visible' : 'obscured'}
-        <ul>
-          {(schematicCursor.mapCell.contents || []).map((c) => {
-            return (<li >{c.id} {c.name}</li>)
-          })}
-        </ul>
-      </div>
-
-    <table id="grid">
-      <tbody>
-        {
-          visibleMap && Array.from(Array(visibleMap.sizeY).keys()).map((row, rowNdx) => {
-            return (
 
 
-              <tr key={`schematic-row-${rowNdx}`}>
-                {
-                  Array.from(Array(visibleMap.sizeX).keys()).map((column, cellNdx) => {
+    <table id="side-by-side">
+      <tr>
+        <td>
+          home
+        </td>
+        <td>
+          away
+        </td>
+      </tr>
 
-                    const highlighted =
-                      schematicCursor.x === column && schematicCursor.y === row ?
-                      'schematic-cursor-highlight' :
-                      'schematic-cursor-no-highlight';
-                    return (
-                      <td
+      <tr>
+        <td>
+        <div className="overflow-td-wrapper">
+        <table id="grid">
+          <tbody>
+            {
+              visibleMap && Array.from(Array(visibleMap.sizeY).keys()).map((row, rowNdx) => {
+                return (
 
-                        key={`schematic-row-cell-${rowNdx}-${cellNdx}`} className={highlighted}>
-                        <Cell
-                          x={column} y={row}
-                          map={visibleMap} drones={drones}
-                          onHover={setSchemaCursor}
-                        />
-                      </td>
-                    )
-                  })
-                }
-              </tr>
 
-            );
-          })
-        }
-      </tbody>
+                  <tr key={`schematic-row-${rowNdx}`}>
+                    {
+                      Array.from(Array(visibleMap.sizeX).keys()).map((column, cellNdx) => {
+
+                        const highlighted =
+                          schematicCursor.x === column && schematicCursor.y === row ?
+                          'schematic-cursor-highlight' :
+                          'schematic-cursor-no-highlight';
+                        return (
+                          <td
+
+                            key={`schematic-row-cell-${rowNdx}-${cellNdx}`} className={highlighted}>
+                            <Cell
+                              x={column} y={row}
+                              map={visibleMap} drones={drones}
+                              onHover={setSchemaCursor}
+                            />
+                          </td>
+                        )
+                      })
+                    }
+                  </tr>
+
+                );
+              })
+            }
+          </tbody>
+        </table>
+        </div>
+        </td>
+
+        <td>
+          <div className="overflow-td-wrapper">
+        <table id="grid">
+          <tbody>
+            {
+              visibleMap && Array.from(Array(visibleMap.sizeY).keys()).map((row, rowNdx) => {
+                return (
+
+
+                  <tr key={`schematic-row-${rowNdx}`}>
+                    {
+                      Array.from(Array(visibleMap.sizeX).keys()).map((column, cellNdx) => {
+
+                        const highlighted =
+                          schematicCursor.x === column && schematicCursor.y === row ?
+                          'schematic-cursor-highlight' :
+                          'schematic-cursor-no-highlight';
+                        return (
+                          <td
+
+                            key={`schematic-row-cell-${rowNdx}-${cellNdx}`} className={highlighted}>
+                            <Cell
+                              x={column} y={row}
+                              map={visibleMap} drones={drones}
+                              onHover={setSchemaCursor}
+                            />
+                          </td>
+                        )
+                      })
+                    }
+                  </tr>
+
+                );
+              })
+            }
+          </tbody>
+        </table>
+        </div>
+        </td>
+      </tr>
+
     </table>
+
+
+
+    <div id="schematic-info">
+      {schematicCursor.x}, {schematicCursor.y}
+      <br/>
+      {schematicCursor.mapCell.type}
+      <br/>
+      {schematicCursor.mapCell.visible ? 'visible' : 'obscured'}
+      <ul>
+        {(schematicCursor.mapCell.contents || []).map((c) => {
+          return (<li >{c.id} {c.name}</li>)
+        })}
+      </ul>
+    </div>
+
 
 
     </div>);

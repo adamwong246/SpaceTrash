@@ -1841,8 +1841,8 @@ let serverProcess
 
 function createWindow(socketName) {
   clientWin = new electron__WEBPACK_IMPORTED_MODULE_1__["BrowserWindow"]({
-    width: 800,
-    height: 600,
+    width: 1000,
+    height: 700,
     webPreferences: {
       // nodeIntegration: false,
       nodeIntegration: true,

@@ -34,20 +34,21 @@ input#command-line {
   margin: 0px;
 }
 
-#schematic {
+/* #schematic {
   display: flex;
   flex-direction: row;
-}
+} */
 
 #schematic #schematic-info {
-  width: 25%;
-  word-break:break-all;
+  /* width: 25%;
+  word-break:break-all; */
 }
 
 #schematic #grid {
   /* flex: auto; */
-  overflow: scroll;
-  width: 75%
+  /* overflow: scroll; */
+  /* width: 75% */
+  /* table-layout:fixed; */
 }
 
 table{
@@ -55,7 +56,9 @@ table{
   text-align: left;
 }
 
-
+#side-by-side {
+  table-layout:fixed;
+}
 
 
 
@@ -89,4 +92,9 @@ td{
 
 #filetree ul li button {
     width: 100%;
+}
+
+.overflow-td-wrapper{
+  overflow:scroll;
+  width:100%
 }
