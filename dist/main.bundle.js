@@ -1891,7 +1891,7 @@ function createWindow(socketName) {
 
 function createBackgroundProcess(socketName) {
   console.log('createBackgroundProcess')
-  const bundlePath = '/Users/adam/Programming/electron-react-typescript-webpack-boilerplate/dist/server.bundle.js';
+  const bundlePath = 'dist/server.bundle.js';
   console.log(bundlePath);
   console.log(socketName);
   const args = [
@@ -1900,7 +1900,7 @@ function createBackgroundProcess(socketName) {
     socketName
   ];
   console.log(args)
-  // serverProcess = fork(bundlePath, args);
+  serverProcess = Object(child_process__WEBPACK_IMPORTED_MODULE_2__["fork"])(bundlePath, args);
 
   serverProcess.on('message', msg => {
     console.log('message: ', msg)
