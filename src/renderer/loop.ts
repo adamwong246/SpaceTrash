@@ -45,7 +45,7 @@ const tock = subscribe('clock.time', state => {
 
       const script = state.computer.scripts[state.computer.keybindings[state.computer.keybinding.code]]
 
-      CommandParser.parse(store.dispatch, command, state)
+      // CommandParser.parse(store.dispatch, command, state)
     }
 
     if(state.computer.keybinding.active){

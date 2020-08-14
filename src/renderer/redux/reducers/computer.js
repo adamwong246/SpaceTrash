@@ -46,6 +46,7 @@ export default function(computerState = initialState, action) {
     }
 
     case NEW_COMMAND: {
+      console.log("NEW_COMMAND")
       return {
         ...computerState,
         commandLine: {

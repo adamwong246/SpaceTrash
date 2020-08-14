@@ -8,6 +8,7 @@ const actions = Object.keys(ActionTypes);
 export default {
   parse: (dispatch, value, store) => {
     const split = value.split(' ')
+    console.log("parse")
 
     dispatch({ type: ActionTypes.NEW_COMMAND, payload: `< ${value}` })
 

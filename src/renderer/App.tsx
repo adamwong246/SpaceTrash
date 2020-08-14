@@ -97,11 +97,6 @@ class App extends React.Component<{
         }
 
 
-
-
-
-
-
       </div>
 
       <div id="command-line" ><CommandLine /></div>

@@ -16,16 +16,49 @@ class CommandLine extends React.Component<{
   value: string;
 }> {
 
+    commandLineInput;
+
+    constructor(a) {
+      super(a);
+
+      this.state = {
+        value: ""
+      };
+
+      this.handleChange = this.handleChange.bind(this);
+    }
+
+    componentWillReceiveProps(){
+      // this.commandLineInput.focus();
+    }
+
+    handleChange(event) {
+      const {value} = event.target;
+      this.setState(() => {
+        return {value};
+      });
+    }
+
+    resetState(){
+      this.setState({value: ''})
+    }
 
   render() {
-    const commandLine = this.props.commandLine
     const notification = this.props.commandLine.notification
 
     return (<div id="command-bar">
-      <div id="notification">{notification}</div>
-
-      <div id="command-line" className={commandLine.focus ? 'focus' : ''} ><p>{commandLine.input}</p></div>
-
+      {notification}
+      <form onSubmit={(event) => {
+        console.log("onsubmit")
+        event.preventDefault()
+        this.resetState()
+        this.props.newCommand(this.state.value, this.props.scripts, this.props.store)
+      }}>
+        <input
+          autoComplete={'off'}
+          ref={(input) => { this.commandLineInput = input; }}
+          id="command-line" type="text" value={this.state.value} onChange={this.handleChange}/>
+      </form >
     </div>);
 
   }

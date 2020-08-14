@@ -7,8 +7,8 @@ const drones = [
       id: 0,
       name: "Larry",
       upgrades: [0, 1],
-      x: 7,
-      y: 12,
+      x: 31,
+      y: 13,
       direction: -1,
       commandQueue: []
     },
