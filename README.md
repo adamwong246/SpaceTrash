@@ -1,6 +1,5 @@
 # SpaceTrash
-## an open source de-make of Duskers
-
-SpaceTrash is a RTS roguelike inspired by Duskers.
+## an open source game about programming robots to explore spacecraft, fight enemies and obtain resources.
+### combining elements of Duskers, FTL and Cogmind
 
 ![alt text](https://raw.githubusercontent.com/adamwong246/SpaceTrash/master/demo.gif "SpaceTrash")
