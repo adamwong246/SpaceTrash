@@ -117,41 +117,7 @@ class Schematic extends React.Component<{
 
         <td>
           <div className="overflow-td-wrapper">
-        <table id="grid">
-          <tbody>
-            {
-              visibleMap && Array.from(Array(visibleMap.sizeY).keys()).map((row, rowNdx) => {
-                return (
-
-
-                  <tr key={`schematic-row-${rowNdx}`}>
-                    {
-                      Array.from(Array(visibleMap.sizeX).keys()).map((column, cellNdx) => {
-
-                        const highlighted =
-                          schematicCursor.x === column && schematicCursor.y === row ?
-                          'schematic-cursor-highlight' :
-                          'schematic-cursor-no-highlight';
-                        return (
-                          <td
-
-                            key={`schematic-row-cell-${rowNdx}-${cellNdx}`} className={highlighted}>
-                            <Cell
-                              x={column} y={row}
-                              map={visibleMap} drones={drones}
-                              onHover={setSchemaCursor}
-                            />
-                          </td>
-                        )
-                      })
-                    }
-                  </tr>
-
-                );
-              })
-            }
-          </tbody>
-        </table>
+        
         </div>
         </td>
       </tr>
