@@ -76,7 +76,7 @@ export const send = (name, args) => {
   })
 }
 
-function listen(name, cb) {
+export const function listen(name, cb) {
   if (!listeners.get(name)) {
     listeners.set(name, [])
   }

@@ -1,0 +1,3 @@
+[submodule "src/node-express-passport-mongoose-auth"]
+	path = src/node-express-passport-mongoose-auth
+	url = https://github.com/didinj/node-express-passport-mongoose-auth.git

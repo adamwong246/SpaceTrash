@@ -4,7 +4,8 @@
   "description": "Pre-configured boilerplate for Electron + React + TypeScript",
   "main": "./dist/main.bundle.js",
   "scripts": {
-    "start": "electron ./dist/main.bundle.js",
+    "electron": "electron ./dist/main.bundle.js",
+    "serve": "node src/serverV3/bin/www",
     "dev": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --colors",
     "prod": "rimraf dist && cross-env NODE_ENV=production webpack --progress --colors",
     "test": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.ts\"",
@@ -38,6 +39,7 @@
     "css-modules-typescript-loader": "^4.0.0",
     "electron-is-dev": "^1.1.0",
     "electron-window-manager": "^1.0.6",
+    "express": "^4.17.1",
     "html-loader": "^1.0.0",
     "javascript-terminal": "^1.0.3",
     "node-ipc": "^9.1.1",
@@ -59,7 +61,8 @@
     "typings-for-css-modules-loader": "^1.7.0",
     "uuid": "^7.0.3",
     "webpack-dev-server": "^3.10.3",
-    "webpack-fork-loader": "^1.0.1"
+    "webpack-fork-loader": "^1.0.1",
+    "webpack-node-externals": "^2.5.1"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
@@ -79,7 +82,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
     "file-loader": "^2.0.0",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^4.3.0",
     "lodash": "^4.17.15",
     "mocha": "^5.2.0",
     "rimraf": "^2.7.1",
@@ -93,7 +96,20 @@
     "tslint-microsoft-contrib": "^5.2.1",
     "typescript": "^3.7.2",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "body-parser": "~1.16.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.0",
+    "express": "~4.14.1",
+    "express-session": "^1.15.1",
+    "jade": "~1.11.0",
+    "mongoose": "^4.8.6",
+    "morgan": "~1.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.0.0",
+    "passport-mongoose": "0.0.1",
+    "serve-favicon": "~2.3.2"
   },
   "repository": {
     "type": "git",
