@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    nav
+      div.container-fluid
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='/') /              
+            if (!user)
+              li
+                a(href='/login') Login
+              li
+                a(href='/register') Register
+            else
+              li Welcome #{user.name}
+              li
+                a(href="/users/allUsers") List users
+              li
+                a(href="/sessions") All sessions
+              li
+                a(href="/sessions/new") New session
+              li
+                a(href='/logout') Logout
+
+    div.container
+      div.content
+        block content

@@ -1,0 +1,62 @@
+extends layout
+
+block content
+  h1= session.name
+  
+  table
+    tbody
+      tr
+        td user
+        td status
+
+      - for user in users
+        tr
+          td= user.name
+          td status
+          
+  input#text(type='text' onchange=`broadcast(event.target.value,'${session.id}','${user._id}');` )
+    
+  table
+    tbody#out
+      tr
+        td time
+        td user
+        td message
+      - for log in session.chatLog
+        tr
+          td= log.createdAt
+          td= log.user
+          td= log.msg
+
+  
+  script.
+    
+    var ws=new  WebSocket('ws://localhost:5000');
+    ws.onerror=function(e){out.innerHTML=e;}
+    //- ws.onclose=function(e){out.innerHTML='closed'+e;}
+    ws.onopen=function(){
+      // out.innerHTML='connected ';
+    }
+    ws.onmessage=function(ms){
+      const response = JSON.parse(ms.data)
+      console.log(response)
+      if(response.room){
+        out.innerHTML += `<tr><td>${response.createdAt}</td><td>${response.user}</td><td>${response.msg}</td></tr>`;  
+      }
+      
+    }
+    function send(msg){
+      ws.send(JSON.stringify({msg:msg}));
+    }
+    function broadcast(msg,room, user){
+      ws.send(JSON.stringify({ room:room, msg:msg, user:user }))
+    }
+    function join(room){
+      ws.send(JSON.stringify({join:room}));
+    }
+    
+    window.onload = function() {
+      join("#{session.id}")
+    };
+    
+    

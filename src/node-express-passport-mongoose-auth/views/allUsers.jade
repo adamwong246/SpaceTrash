@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1 All users
+  table
+    tbody
+      - for user in allUsers
+        tr
+          td= user.id
+          td= user.name
