@@ -2,19 +2,21 @@ extends layout
 
 block content
   h1= session.name
-  
+
   table
     tbody
       tr
         td user
         td status
 
-      - for user in users
+      - for user in session.users
         tr
-          td= user.name
-          td status
+          td= user
+          td
+            form(action="/sessions/#{session.id}/user/#{user}/start" method="post")
+              input(type="submit" value="start")
           
-  input#text(type='text' onchange=`broadcast(event.target.value,'${session.id}','${user._id}');` )
+  input#text(type='text' onchange=`broadcast(event.target.value,'session-${session.id}','${user._id}');` )
     
   table
     tbody#out
@@ -39,7 +41,7 @@ block content
     }
     ws.onmessage=function(ms){
       const response = JSON.parse(ms.data)
-      console.log(response)
+      console.log("onmessage", response)
       if(response.room){
         out.innerHTML += `<tr><td>${response.createdAt}</td><td>${response.user}</td><td>${response.msg}</td></tr>`;  
       }
@@ -52,7 +54,7 @@ block content
       ws.send(JSON.stringify({ room:room, msg:msg, user:user }))
     }
     function join(room){
-      ws.send(JSON.stringify({join:room}));
+      const w = ws.send(JSON.stringify({join:"session-"+room}));
     }
     
     window.onload = function() {

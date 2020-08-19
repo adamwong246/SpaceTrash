@@ -8,20 +8,38 @@ html
       div.container-fluid
           ul.nav.navbar-nav.navbar-right
             li
-              a(href='/') /              
+              a(href='/') /
+            if (user)
+              li
+                | Welcome #{user.name}
+
             if (!user)
               li
                 a(href='/login') Login
               li
                 a(href='/register') Register
             else
-              li Welcome #{user.name}
+              li  
+                | users
+                ul
+                  li
+                    a(href="/users/allUsers") My user
+                  li
+                    a(href="/users/allUsers") All users
               li
-                a(href="/users/allUsers") List users
+                | sessions
+                ul
+                  li 
+                    a(href="/sessions") All sessions
+                  li
+                    a(href="/sessions/new") New session
               li
-                a(href="/sessions") All sessions
-              li
-                a(href="/sessions/new") New session
+                | ships
+                ul
+                  li 
+                    a(href="/ships") All ships
+                  li
+                    a(href="/ships/new") New ship
               li
                 a(href='/logout') Logout
 

@@ -1,0 +1,5 @@
+extends layout
+
+block content
+  script(src="/clientV2.bundle.js")
+  #app(data-session-id= session.id data-user-id= user.id)

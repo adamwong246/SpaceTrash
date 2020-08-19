@@ -1,11 +1,10 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var passportLocalMongoose = require('passport-local-mongoose');
 
-var SessionSchema = new Schema({
+var SessionSchema = new mongoose.Schema({
     users: Array,
     chatLog: Array,
-    name: String
+    name: String,
+    userStates: Object,
 });
 
 module.exports = mongoose.model('Session', SessionSchema);

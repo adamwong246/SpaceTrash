@@ -6,11 +6,11 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
-    serverV3: './src/serverV3/app.js',
+    serverV3: './src/node-express-passport-mongoose-auth/app.js',
   },
   output: {
-    path: path.join(__dirname, '../../dist'),
-    publicPath: '/',
+    // path: path.join(__dirname, '../../dist'),
+    publicPath: __dirname,
     filename: '[name].js'
   },
   target: 'node',
@@ -40,7 +40,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./src/serverV3/index.html",
+      template: "./src/node-express-passport-mongoose-auth/index.html",
       filename: "./serverV3.html",
       excludeChunks: [ 'server' ]
     })

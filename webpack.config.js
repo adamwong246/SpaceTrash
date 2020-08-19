@@ -118,14 +118,14 @@ const commonConfig = {
 
 // const serverV2Config = require("./src/serverV2/webpack.config.js")
 
-// const clientV2Config = lodash.cloneDeep(commonConfig);
-// clientV2Config.target ="web"
-// clientV2Config.entry = './src/clientV2/clientV2.tsx';
-// clientV2Config.output.filename = 'clientV2.bundle.js';
-// clientV2Config.output.publicPath = __dirname
+const clientV2Config = lodash.cloneDeep(commonConfig);
+clientV2Config.target ="web"
+clientV2Config.entry = './src/clientV2/clientV2.tsx';
+clientV2Config.output.filename = 'clientV2.bundle.js';
+clientV2Config.output.publicPath = __dirname
 
 
-const serverV3Config = require("./src/serverV3/webpack.config.js")
+const serverV3Config = require("./src/node-express-passport-mongoose-auth/webpack.config.js")
 
 module.exports = [
   // webConfig,
@@ -133,6 +133,6 @@ module.exports = [
   // rendererConfig,
   // serverConfig,
   // serverV2Config,
-  // clientV2Config
+  clientV2Config,
   serverV3Config
 ];

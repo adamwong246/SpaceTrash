@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1 All ships
+  table
+    tbody
+      - for ship in allShips
+        tr
+          td= ship.name
+          td
+            a(href=`/ships/${ship.id}`)= ship.id

@@ -1,0 +1,9 @@
+.react-tabs__tab-list.vertical {
+  display: flex;
+  flex-direction: column;
+  width: 170px;
+  margin: 0;
+  padding: 0;
+  color: white;
+  background: #3c3e43;
+}

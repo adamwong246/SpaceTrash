@@ -34,4 +34,31 @@ sessionController.showSession = function(req, res) {
   });
 };
 
+sessionController.terminal = function(req, res) {
+  Session.findById(req.params.id, function(err, session) {
+    res.render('terminal', {session, user: req.user});
+  });
+};
+
+sessionController.start = function(req, res) {
+  const sessionIdParam =  req.params.id;
+  const userIdParam =  req.params.userId;
+
+  Session.findById(sessionIdParam, function(err, session) {
+    User.findById(userIdParam, function(err, user) {
+
+      const newState = {}
+      newState[`userStates.${userIdParam}`] = "some great state"
+
+      Session.findByIdAndUpdate(sessionIdParam,
+        {
+          $set: newState
+        }, () => {
+          res.redirect(`/sessions/${sessionIdParam}/terminal`)
+        }
+      )
+    });
+  });
+};
+
 module.exports = sessionController;
