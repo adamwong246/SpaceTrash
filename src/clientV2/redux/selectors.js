@@ -3,7 +3,7 @@ import {createSelector} from "reselect";
 const baseSelector = (state => state)
 
 export const getTabIoProps = createSelector([baseSelector], state => {
-  return {drones: state.drones}
+  return {drones: state.loadState.drones}
 })
 
 export const getTabMapProps = createSelector([baseSelector], state => {
@@ -19,3 +19,15 @@ export const getTabChatProps = createSelector([baseSelector], state => {
     chatLog: state.loadState.chatLog
   }
 })
+
+export const getTabLogProps = createSelector([baseSelector], state => {
+  return {
+    terminalLines: []
+  }
+})
+
+export const getDronesRegistry = createSelector([baseSelector], (base) => {
+  return  {
+    commandQueues: base.commandQueues
+  }
+});

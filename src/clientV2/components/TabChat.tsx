@@ -13,8 +13,6 @@ class TabChat extends React.Component<{
 
   render() {
     return (<div id="main" >
-      <h1>chat</h1>
-
       {
         this.props.chatLog.map((chat) => {
           return (

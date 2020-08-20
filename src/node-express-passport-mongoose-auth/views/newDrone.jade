@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h2 New Drone
+  form(role='form', action='/drones', method='post')
+
+    input(type='text', name='name', id='name', placeholder='Drone name', required)
+    
+    input(type='number', name='x', id='x', placeholder='x', required, step="0.01")
+    input(type='number', name='y', id='y', placeholder='y', required, step="0.01")
+    input(type='number', name='direction', id='direction', placeholder='direction', required, step="0.01")
+        
+    label(for="ship">Choose ship:)
+    select(name="ship" id="ship", required)
+      - for ship in ships
+        option(value=ship.id)= ship.name
+          
+    button(type='submit') Create Drone

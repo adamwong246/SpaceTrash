@@ -26,7 +26,6 @@ ws.onmessage = function(e) {
     const roomsAddress = data.room.split('-')
     if (roomsAddress[0] === 'session') {
       if (roomsAddress[2] === 'user') {
-        console.log(data.msg.chatLog)
         store.dispatch({ type: LOAD_GAME_STATE, payload: data.msg })
       }
     }

@@ -31,6 +31,11 @@ module.exports = {
         }
       },
       {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        loader: 'ts-loader',
+      },
+      {
         // Loads the javacript into html template provided.
         // Entry point is set below in HtmlWebPackPlugin in Plugins
         test: /\.html$/,

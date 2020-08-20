@@ -13,6 +13,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var sessions = require('./routes/sessions');
 var ships = require('./routes/ships');
+var drones = require('./routes/drones');
 
 var app = express();
 
@@ -42,6 +43,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/sessions', sessions);
 app.use('/ships', ships);
+app.use('/drones', drones);
 
 // passport configuration
 var User = require('./models/User');

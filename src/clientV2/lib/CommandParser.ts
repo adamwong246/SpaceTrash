@@ -16,6 +16,14 @@ export default {
       return
     }
 
+    if (split[0] === "Q"){
+      dispatch({ type: ActionTypes.QUEUE_COMMAND, payload: {
+        drone: split[1],
+        command: split[2]
+      } })
+      return
+    }
+
     // if (Object.keys(shellCommands).includes(split[0])){
     //   shellCommands[split[0]].executor(dispatch, split, store)
     //   return

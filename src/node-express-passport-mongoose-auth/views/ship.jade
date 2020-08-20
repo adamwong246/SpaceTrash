@@ -10,12 +10,12 @@ block content
       = ship.shipMap.status
     
   
-  table
-    tbody
-      - for row in ship.shipMap.matrix
-        tr
-          - for cell in row
-            td= cell
+  //- table
+  //-   tbody
+  //-     - for row in ship.shipMap.matrix
+  //-       tr
+  //-         - for cell in row
+  //-           td= cell
 
   form(role='form', action='/ships/#{ship.id}', method='post')
     input(type='text', name='name', id='name', placeholder='new ship name', required)

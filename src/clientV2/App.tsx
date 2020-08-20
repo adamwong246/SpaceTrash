@@ -5,17 +5,18 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import CommandLine from './components/CommandLine.tsx'
 
-import TabMap from './components/TabMap.tsx'
-import TabIo from './components/TabIo.tsx'
 import TabChat from './components/TabChat.tsx'
+import TabInventory from './components/TabInventory.tsx'
+import TabIo from './components/TabIo.tsx'
+import TabLog from './components/TabLog.tsx'
+import TabMap from './components/TabMap.tsx'
 
 // import {getAppProps} from './redux/selectors.js';
 
 require('react-tabs/style/react-tabs.css');
 require("./style/layout.css");
-// require("./style/style.css");
-// require("./style/video.css");
-// require("./style/crt.css");
+require("./style/video.css");
+require("./style/raycast.css");
 
 class App extends React.Component<{
   broadcast
@@ -37,10 +38,10 @@ class App extends React.Component<{
               <Tab>chat</Tab>
             </TabList>
 
-            <TabPanel></TabPanel>
+            <TabPanel><TabLog/></TabPanel>
             <TabPanel><TabMap/></TabPanel>
             <TabPanel><TabIo/></TabPanel>
-            <TabPanel><h1>Inventory</h1></TabPanel>
+            <TabPanel><TabInventory/></TabPanel>
             <TabPanel><TabChat/></TabPanel>
 
           </Tabs>

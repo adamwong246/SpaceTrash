@@ -41,7 +41,12 @@ class TabMap extends React.Component<{
                               <tr>
                                 {row.map((cell) => {
                                   return (
-                                    <td> {cell} </td>
+                                    <td data-drone={cell[1] ? cell[1] : "" }>
+                                      {cell[0]}
+                                      {
+                                        (cell[1] != "_") && "D"
+                                      }
+                                    </td>
                                   );
                                 })}
                               </tr>

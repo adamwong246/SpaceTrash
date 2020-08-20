@@ -23,10 +23,11 @@ var ShipSchema = new mongoose.Schema({
 });
 
 const bulkheadCharacter = "B"
-const blankCharacter = "_"
-const vacuumCharacter = "v"
+const blankCharacter = " "
+const vacuumCharacter = " "
 const floorCharacter = 'f';
 const doorCharacter = 'd';
+
 
 ShipSchema.virtual('shipMap').get(function() {
 
@@ -95,31 +96,13 @@ ShipSchema.virtual('shipMap').get(function() {
       gridMap[door.x][door.y] = doorCharacter;
     });
 
-    const height = yMax - yMin
-    const width = xMax - xMin
-
-    const matrix = new Array(height).fill(blankCharacter).map(() => new Array(width).fill(blankCharacter));
-
-    for (var yNdx = 0; yNdx < height; yNdx++) {
-      for (var xNdx = 0; xNdx < width; xNdx++) {
-        const x = xNdx + xMin
-        const y = yNdx + yMin
-        if (gridMap[x][y]) {
-          matrix[yNdx][xNdx] = gridMap[x][y]
-        }
-      }
-    }
-
-
-
     return {
       status: "ok",
       gridMap,
       xMin,
       xMax,
       yMin,
-      yMax,
-      matrix
+      yMax
     }
   } else {
     return {
