@@ -34,9 +34,9 @@ class TabMap extends React.Component<{
 
                     <p>{ship.shipMap.status}</p>
                     {
-                      ship.shipMap.matrix && (<table>
+                      ship.matrix && (<table>
                         <tbody>
-                          {ship.shipMap.matrix.map((row) => {
+                          {ship.matrix.map((row) => {
                             return (
                               <tr>
                                 {row.map((cell) => {

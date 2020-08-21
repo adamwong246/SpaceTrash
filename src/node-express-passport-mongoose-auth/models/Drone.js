@@ -6,7 +6,7 @@ var DroneSchema = new mongoose.Schema({
   y: Number,
   direction: Number,
   ship: String,
-  owner: String
+  user: String
 });
 
 module.exports = mongoose.model('Drone', DroneSchema);

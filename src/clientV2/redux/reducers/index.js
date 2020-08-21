@@ -1,4 +1,6 @@
-import { combineReducers } from "redux";
+import {
+  combineReducers
+} from "redux";
 
 import initialState from "../initialState.ts";
 
@@ -28,32 +30,56 @@ export default combineReducers({
         }
       }
 
+      case 'CLEAR_STALE_QUEUE_COMMANDS': {
+        const now = action.payload;
+
+        const freshCommandQueues = {};
+
+        Object.keys(state).forEach((k) => {
+          const freshCommands = state[k].filter((c) => c.timestamp > now)
+
+          if(freshCommands.length){
+            freshCommandQueues[k] = freshCommands
+          }
+        })
+
+        return freshCommandQueues
+      }
+
       default:
         return state;
     }
   },
 
+  clock: (clockState = {}, action) => {
+    switch (action.type) {
+      case 'UPDATE_CLOCK': {
+        return {
+          ...clockState,
+          time: Date.now()
+        }
+      }
 
-  // commandQueues: function ( state = initialState, action) => {
-  //   switch (action.type) {
-  //     case 'QUEUE_COMMAND': {
-  //       console.log('QUEUE_COMMAND', action.payload)
-  //       debugger
-  //       return {
-  //         ...state,
-  //         {
-  //
-  //         }
-  //         // chatLog: action.payload.chatLog,
-  //         // ships: action.payload.ships,
-  //         // drones: action.payload.drones
-  //       }
-  //     }
-  //
-  //     default:
-  //       return state;
-  //   }
-  // },
+      case 'HALT': {
+        return {
+          ...clockState,
+          halted: true,
+          lastTime: Date.now()
+        }
+      }
+
+      case 'RESUME': {
+        return {
+          ...clockState,
+          halted: false,
+          lastTime: clockState.lastTime
+        }
+      }
+
+      default:
+        return clockState;
+    }
+  },
 
   loadState: function(state = {}, action) {
     switch (action.type) {
@@ -61,9 +87,11 @@ export default combineReducers({
         console.log('LOAD_GAME_STATE', action.payload)
         return {
           ...state,
-          chatLog: action.payload.chatLog,
-          ships: action.payload.ships,
-          drones: action.payload.drones
+          dronesWithRays: action.payload.dronesWithRays,
+          shipsWithFogOfWar: action.payload.shipsWithFogOfWar
+          // chatLog: action.payload.chatLog,
+          // ships: action.payload.ships,
+          // drones: action.payload.drones
         }
       }
 

@@ -19,6 +19,7 @@ droneController.new = function(req, res) {
 
 droneController.create = function(req, res) {
   const drone = new Drone(req.body);
+  drone.user = req.user.id
   drone.save().then((s) => {
     res.redirect(`drones/${s.id}`)
   });
@@ -31,7 +32,7 @@ droneController.show = function(req, res) {
 };
 
 droneController.edit = function(req, res) {
-  
+
 };
 
 module.exports = droneController;

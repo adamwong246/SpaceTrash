@@ -10,6 +10,7 @@ import TabInventory from './components/TabInventory.tsx'
 import TabIo from './components/TabIo.tsx'
 import TabLog from './components/TabLog.tsx'
 import TabMap from './components/TabMap.tsx'
+import Time from './components/Time.tsx'
 
 // import {getAppProps} from './redux/selectors.js';
 
@@ -36,7 +37,10 @@ class App extends React.Component<{
               <Tab>io</Tab>
               <Tab>inv</Tab>
               <Tab>chat</Tab>
+
+              <Time/>
             </TabList>
+
 
             <TabPanel><TabLog/></TabPanel>
             <TabPanel><TabMap/></TabPanel>

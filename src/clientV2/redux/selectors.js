@@ -3,13 +3,22 @@ import {createSelector} from "reselect";
 const baseSelector = (state => state)
 
 export const getTabIoProps = createSelector([baseSelector], state => {
-  return {drones: state.loadState.drones}
+
+  const mappedDrones = Object.keys(state.loadState.dronesWithRays).map((dKey) => {
+    return state.loadState.dronesWithRays[dKey]
+  })
+
+  return {drones: mappedDrones}
 })
 
 export const getTabMapProps = createSelector([baseSelector], state => {
+
+  // const mappedShips = Object.keys(state.loadState.shipsWithFogOfWar).map((sKey) => {
+  //   return state.loadState.shipsWithFogOfWar[sKey]
+  // })
+
   return {
-    ships: state.loadState.ships
-    // otherShips: state.otherShips, myShip: state.myShip
+    ships: state.loadState.shipsWithFogOfWar
   }
 })
 
@@ -31,3 +40,9 @@ export const getDronesRegistry = createSelector([baseSelector], (base) => {
     commandQueues: base.commandQueues
   }
 });
+
+export const getTimeProps = createSelector([baseSelector], state => {
+  return {
+    clock: state.clock
+  };
+})

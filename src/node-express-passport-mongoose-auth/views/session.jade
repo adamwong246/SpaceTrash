@@ -3,6 +3,9 @@ extends layout
 block content
   h1= session.name
 
+  form(action="/sessions/#{session.id}/start" method="post")
+    input(type="submit" value="initilize game state")
+      
   table
     tbody
       tr
@@ -12,9 +15,7 @@ block content
       - for user in session.users
         tr
           td= user
-          td
-            form(action="/sessions/#{session.id}/user/#{user}/start" method="post")
-              input(type="submit" value="start")
+          td status
           
   input#text(type='text' onchange=`broadcast(event.target.value,'session-${session.id}','${user._id}');` )
     

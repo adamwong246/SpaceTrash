@@ -1,23 +1,35 @@
-var mongoose = require("mongoose");
-var Session = require("../models/Session");
-var User = require("../models/User");
+const mongoose = require("mongoose");
 
-var sessionController = {};
+const Session = require("../models/Session");
+const Ship = require("../models/Ship");
+const User = require("../models/User");
+const Drone = require("../models/Drone");
+const gameState = require("../models/gameState.js");
 
-// Restrict access to root page
+const sessionController = {};
+
+
 sessionController.home = function(req, res) {
-  res.render('index', { user : req.user });
+  res.render('index', {
+    user: req.user
+  });
 };
 
 sessionController.allSessions = function(req, res) {
   Session.find({}, function(err, sessions) {
-    res.render('allSessions', {allSessions:sessions, user: req.user});
+    res.render('allSessions', {
+      allSessions: sessions,
+      user: req.user
+    });
   });
 };
 
 sessionController.newSession = function(req, res) {
   User.find({}, function(err, allUsers) {
-    res.render('newSession', {allUsers: allUsers, user: req.user});
+    res.render('newSession', {
+      allUsers: allUsers,
+      user: req.user
+    });
   });
 };
 
@@ -30,35 +42,39 @@ sessionController.createSession = function(req, res) {
 
 sessionController.showSession = function(req, res) {
   Session.findById(req.params.id, function(err, session) {
-    res.render('session', {session, user: req.user});
+    res.render('session', {
+      session,
+      user: req.user
+    });
   });
 };
 
 sessionController.terminal = function(req, res) {
   Session.findById(req.params.id, function(err, session) {
-    res.render('terminal', {session, user: req.user});
+    res.render('terminal', {
+      session,
+      user: req.user
+    });
   });
 };
 
 sessionController.start = function(req, res) {
-  const sessionIdParam =  req.params.id;
-  const userIdParam =  req.params.userId;
+  const sessionId = req.params.id;
+  const userIdParam = req.params.userId;
 
-  Session.findById(sessionIdParam, function(err, session) {
-    User.findById(userIdParam, function(err, user) {
+  Session.findById(sessionId,(err, session) => {
+    Ship.find({}, (err, ships) => {
+      Drone.find({}, (err, drones) => {
 
-      const newState = {}
-      newState[`userStates.${userIdParam}`] = "some great state"
+        gameState.initializeState(session, ships, drones)
 
-      Session.findByIdAndUpdate(sessionIdParam,
-        {
-          $set: newState
-        }, () => {
-          res.redirect(`/sessions/${sessionIdParam}/terminal`)
-        }
-      )
-    });
-  });
+        session.save().then((s) => {
+          res.redirect(`/sessions/${sessionId}`)
+        });
+
+      })
+    })
+  })
 };
 
 module.exports = sessionController;

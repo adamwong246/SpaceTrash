@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import store from "./redux/store";
 
 import App from "./App.tsx"
+import loop from "./loop.ts"
 
 import { NEW_COMMAND, LOAD_GAME_STATE } from "./redux/actionTypes.js"
 
@@ -40,7 +41,7 @@ function send(msg) {
 }
 
 function broadcast(msg, room, user) {
-  console.log(`broadcast: ${msg}, ${room}, ${user}`)
+  console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`)
   ws.send(JSON.stringify({ room: room, msg: msg, user: user }))
 }
 
@@ -65,4 +66,6 @@ function bootApp(wrapper) {
   join(`session-${sessionId}`)
   join(`session-${sessionId}-user-${userId}`)
   broadcast({ load: true }, `session-${sessionId}-user-${userId}`, userId)
+
+  loop(store, (payload) => broadcast(payload, `session-${sessionId}-user-${userId}`, userId) )
 }

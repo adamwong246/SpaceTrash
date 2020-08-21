@@ -26,17 +26,10 @@ const rotateStepSize = 0.05;
 const commandQueueWaitTime = 3
 
 
-module.exports = (drone, materializedMap) => {
-  console.log('getRays')
-
-  if (!materializedMap.shipMap.matrix){
-    return []
-  }
-  const mapHeight = materializedMap.shipMap.matrix.length;
-  const mapWidth = materializedMap.shipMap.matrix[0].length;
-  const gridMap = materializedMap.shipMap.matrix
-
-  console.log(mapWidth, mapHeight)
+module.exports = (drone, matrix) => {
+  const mapHeight = matrix.length;
+  const mapWidth = matrix[0].length;
+  const gridMap = matrix
 
   return Array.from(Array(numRays).keys()).map((i, stripIdx) => {
     // where on the screen does ray go through?
@@ -147,12 +140,6 @@ module.exports = (drone, materializedMap) => {
       const wallY = (y + (up ? -1 : 0))>>0;
       const wallX = (x)>>0;
 
-      console.log("x", "y")
-      console.log(x, y)
-      console.log("wallX", "wallY")
-      console.log(wallX, wallY)
-      console.log(gridMap[wallY][wallX][0] )
-
       // if (materializedMap.get(wallX, wallY).type !== 'floor') {
       if(gridMap[wallY][wallX][0] === 'f'){
 
@@ -160,7 +147,6 @@ module.exports = (drone, materializedMap) => {
         var distY = y - drone.y;
         var blockDist = distX*distX + distY*distY;
         if (!dist || blockDist < dist) {
-          console.log("ping", blockDist)
           dist = blockDist;
           xHit = x;
           yHit = y;
@@ -178,9 +164,6 @@ module.exports = (drone, materializedMap) => {
     }
 
     if (dist) {
-
-      console.log("dist!")
-
       // if (materializedMap.get(xWallHit, yWallHit).type === 'door'){
       if(gridMap[yWallHit][xWallHit][0] === 'd'){
         newStripStyle.style.src = "/walls_4.png"
@@ -190,22 +173,15 @@ module.exports = (drone, materializedMap) => {
 
       dist = Math.sqrt(dist);
 
-
-      console.log(dist, drone.direction, rayAngle)
       // use perpendicular distance to adjust for fish eye
       // distorted_dist = correct_dist / cos(relative_angle_of_ray)
       dist = dist * Math.cos(drone.direction - rayAngle);
 
       newStripStyle.rayDistance = dist
 
-
-
-
       // now calc the position, height and width of the wall strip
-
       // "real" wall height in the game world is 1 unit, the distance from the player to the screen is viewDist,
       // thus the height on the screen is equal to wall_height_real * viewDist / dist
-
 
       var height = Math.round(viewDist / dist);
 

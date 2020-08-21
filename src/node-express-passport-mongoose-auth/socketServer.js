@@ -4,6 +4,9 @@ const WebSocket = require('ws');
 const Drone = require('./models/Drone.js');
 const Session = require('./models/Session.js');
 const Ship = require('./models/Ship.js');
+const User = require('./models/User.js');
+
+const gameState = require("./models/gameState.js");
 
 const getRays  = require("./getRays.js")
 
@@ -47,8 +50,8 @@ wss.on('connection', ws => {
             if (messag.msg.load) {
               Session.findById(
                 roomsAddress[1],
-                (err, doc) => {
-                  pushUpdateToAllUsers(roomsAddress[1], [roomsAddress[3]])
+                (err, session) => {
+                  broadcastSession(session)
                 }
               )
             } else if (messag.msg.say) {
@@ -66,10 +69,19 @@ wss.on('connection', ws => {
                   pushUpdateToAllUsers(roomsAddress[1], doc.users)
                 }
               )
+            } else if (messag.msg.commandQueues) {
+
+              Session.findById(roomsAddress[1], (err, session) => {
+
+                const states = gameState.updateState(session, messag.msg.commandQueues)
+                session.gameState = states.gameState
+                session.userStates = states.userStates
+
+                session.save().then((savedSession) => {
+                  broadcastSession(savedSession)
+                });
+              })
             }
-
-
-
 
 
 
@@ -96,8 +108,25 @@ wss.on('connection', ws => {
 
 const blankCharacter = '_';
 
+function broadcastSession(session){
+  User.find({}, (err, users) => {
+    users.forEach(user => {
+      wss.clients.forEach(client => {
+        const address = `session-${session._id}-user-${user._id}`
+        if (client.room.indexOf(address) > -1) {
+          client.send(JSON.stringify({
+            room: address,
+            msg: session.userStates[user._id]
+          }))
+        }
+      })
+    })
+  })
+
+};
+
+
 function pushUpdateToAllUsers(sessionId, users) {
-  // console.log("updateTerm", sessionId, users)
 
   Session.findById(
     sessionId,
@@ -113,55 +142,54 @@ function pushUpdateToAllUsers(sessionId, users) {
               const address = `session-${sessionId}-user-${user}`
               if (client.room.indexOf(address) > -1) {
 
-                const mappedShips = ships
-                .map((ship) => ship.toObject({virtuals: true}))
-                .map((ship) => {
-                  if (ship.shipMap.gridMap){
+                // const mappedShips = ships
+                // .map((ship) => ship.toObject({virtuals: true}))
+                // .map((ship) => {
+                //   if (ship.shipMap.gridMap){
+                //
+                //     const height = ship.shipMap.yMax - ship.shipMap.yMin
+                //     const width = ship.shipMap.xMax - ship.shipMap.xMin
+                //     const depth = 2
+                //     const matrix = new Array(height).fill(blankCharacter).map(() => new Array(width).fill(blankCharacter).map(() => new Array(depth).fill(blankCharacter)));
+                //
+                //     for (var yNdx = 0; yNdx < height; yNdx++) {
+                //       for (var xNdx = 0; xNdx < width; xNdx++) {
+                //         const x = xNdx + ship.shipMap.xMin
+                //         const y = yNdx + ship.shipMap.yMin
+                //         if (ship.shipMap.gridMap[x][y]) {
+                //           matrix[yNdx][xNdx][0] = ship.shipMap.gridMap[x][y]
+                //         }
+                //       }
+                //     }
+                //     ship.shipMap.matrix = matrix
+                //   }
+                //   return ship
+                // })
+                // .map((ship) => {
+                //   if (ship.shipMap.matrix){
+                //     drones.filter((drone) => drone.ship === ship.id)
+                //     .forEach((drone) => {
+                //       ship.shipMap.matrix[Math.round(drone.y)][Math.round(drone.x)][1] = `drone-${drone.id}`
+                //     })
+                //   }
+                //   return ship
+                // })
+                //
+                //
+                // const dronesWithRays = drones
+                // .map((drone) => drone.toObject({virtuals: true}))
+                // .map((drone) => {
+                //   const foundShip = mappedShips.filter((s) => s.id === drone.ship)[0]
+                //   drone.rays = getRays(drone, foundShip);
+                //   return drone;
+                // });
 
-                    const height = ship.shipMap.yMax - ship.shipMap.yMin
-                    const width = ship.shipMap.xMax - ship.shipMap.xMin
-                    const depth = 2
-                    const matrix = new Array(height).fill(blankCharacter).map(() => new Array(width).fill(blankCharacter).map(() => new Array(depth).fill(blankCharacter)));
-
-                    for (var yNdx = 0; yNdx < height; yNdx++) {
-                      for (var xNdx = 0; xNdx < width; xNdx++) {
-                        const x = xNdx + ship.shipMap.xMin
-                        const y = yNdx + ship.shipMap.yMin
-                        if (ship.shipMap.gridMap[x][y]) {
-                          matrix[yNdx][xNdx][0] = ship.shipMap.gridMap[x][y]
-                        }
-                      }
-                    }
-                    ship.shipMap.matrix = matrix
-                  }
-                  return ship
-                })
-                .map((ship) => {
-                  if (ship.shipMap.matrix){
-                    drones.filter((drone) => drone.ship === ship.id)
-                    .forEach((drone) => {
-                      ship.shipMap.matrix[Math.round(drone.y)][Math.round(drone.x)][1] = `drone-${drone.id}`
-                    })
-                  }
-                  return ship
-                })
-
-
-                const dronesWithRays = drones
-                .map((drone) => drone.toObject({virtuals: true}))
-                .map((drone) => {
-                  const foundShip = mappedShips.filter((s) => s.id === drone.ship)[0]
-                  drone.rays = getRays(drone, foundShip);
-                  return drone;
-                });
+                var userState
 
                 client.send(JSON.stringify({
                   room: address,
                   msg: {
-                    chatLog: sessionDoc.chatLog,
-                    ships: mappedShips,
-                    drones: dronesWithRays
-
+                    userState
                   }
                 }))
               }
@@ -170,14 +198,8 @@ function pushUpdateToAllUsers(sessionId, users) {
         })
       })
 
-
     }
   )
-
-
-
-
-
 }
 
 function broadcast(message) {
