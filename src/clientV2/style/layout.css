@@ -7,3 +7,7 @@
   color: white;
   background: #3c3e43;
 }
+
+p {
+  max-width: 50em;
+}

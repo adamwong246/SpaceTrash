@@ -6,10 +6,13 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import CommandLine from './components/CommandLine.tsx'
 
 import TabChat from './components/TabChat.tsx'
+import TabDrones from './components/TabDrones.tsx'
+import TabFile from './components/TabFile.tsx'
 import TabInventory from './components/TabInventory.tsx'
 import TabIo from './components/TabIo.tsx'
 import TabLog from './components/TabLog.tsx'
 import TabMap from './components/TabMap.tsx'
+import TabView from './components/TabView.tsx'
 import Time from './components/Time.tsx'
 
 // import {getAppProps} from './redux/selectors.js';
@@ -32,21 +35,25 @@ class App extends React.Component<{
 
           <Tabs>
             <TabList>
-              <Tab>log</Tab>
-              <Tab>map</Tab>
-              <Tab>io</Tab>
-              <Tab>inv</Tab>
+              <Tab>logs</Tab>
               <Tab>chat</Tab>
+              <Tab>bots</Tab>
+              <Tab>file</Tab>
+              <Tab>view</Tab>
+
+
 
               <Time/>
             </TabList>
 
 
             <TabPanel><TabLog/></TabPanel>
-            <TabPanel><TabMap/></TabPanel>
-            <TabPanel><TabIo/></TabPanel>
-            <TabPanel><TabInventory/></TabPanel>
             <TabPanel><TabChat/></TabPanel>
+            <TabPanel><TabDrones/></TabPanel>
+            <TabPanel><TabFile/></TabPanel>
+            <TabPanel><TabView/></TabPanel>
+
+
 
           </Tabs>
 

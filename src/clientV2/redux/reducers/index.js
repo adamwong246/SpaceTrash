@@ -114,6 +114,17 @@ export default combineReducers({
       default:
         return state;
     }
+  },
+
+  userGeneratedView: (state = initialState, action) => {
+    switch (action.type) {
+      case "SET_INDEX_JSXHTML": {
+        return action.payload
+      }
+
+      default:
+        return state;
+    }
   }
 
 });

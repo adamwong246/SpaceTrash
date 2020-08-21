@@ -1,0 +1,9 @@
+{
+  "name": "spacetrash-user-adamwong246",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "pack": "webpack"
+  }
+}

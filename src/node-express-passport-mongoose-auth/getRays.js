@@ -25,6 +25,28 @@ const moveStepSize = 0.1;
 const rotateStepSize = 0.05;
 const commandQueueWaitTime = 3
 
+const brenshams = (x0, y0, x1, y1, matrix) => {
+   var dx = Math.abs(x1 - x0);
+   var dy = Math.abs(y1 - y0);
+   var sx = (x0 < x1) ? 1 : -1;
+   var sy = (y0 < y1) ? 1 : -1;
+   var err = dx - dy;
+
+   const tiles = []
+
+   while(true) {
+      tiles.push({
+        x: x0, y: y0, tile: matrix[y0][x0]
+      })
+
+      if ((x0 === x1) && (y0 === y1)) break;
+      var e2 = 2*err;
+      if (e2 > -dy) { err -= dy; x0  += sx; }
+      if (e2 < dx) { err += dx; y0  += sy; }
+   }
+
+   return tiles;
+}
 
 module.exports = (drone, matrix) => {
   const mapHeight = matrix.length;
@@ -168,8 +190,16 @@ module.exports = (drone, matrix) => {
       if(gridMap[yWallHit][xWallHit][0] === 'd'){
         newStripStyle.style.src = "/walls_4.png"
       }
+
       // materializedMap.makeVisible(xWallHit, yWallHit)
       // brenshams(Math.round(drone.x), Math.round(drone.y), xWallHit, yWallHit, (x, y) => materializedMap.makeVisible(x, y))
+      newStripStyle.brenshams = brenshams(
+        Math.round(drone.x),
+        Math.round(drone.y),
+        xWallHit, yWallHit,
+        gridMap
+      )
+
 
       dist = Math.sqrt(dist);
 

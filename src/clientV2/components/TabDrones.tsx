@@ -8,21 +8,22 @@ import {getTabIoProps} from '../redux/selectors.js';
 import Video from "./Video.tsx"
 
 // require('react-tabs/style/react-tabs.css');
+require('../style/tabs.css');
 
-class TabIo extends React.Component<{
-  drones: [{name: String}]
+class TabDrones extends React.Component<{
+  drones: any
 }, {}> {
 
   render() {
     return (<div id="main" >
       <div id="tabs">
 
-          <Tabs>
+          <Tabs className="vertical">
             <TabList>
               {
                 this.props.drones.map((drone) => {
                   return (
-                    <Tab>{drone.name}</Tab>
+                    <Tab>{drone.id}</Tab>
                   );
                 })
               }
@@ -32,7 +33,7 @@ class TabIo extends React.Component<{
               this.props.drones.map((drone) => {
                 return (
                   <TabPanel>
-                    <Video drone={drone}/>
+                    <pre><code>{JSON.stringify(drone, null, 2)}</code></pre>
                   </TabPanel>
                 );
               })
@@ -49,4 +50,4 @@ const mapStateToProps = state => {
   return getTabIoProps(state);
 };
 
-export default connect(mapStateToProps)(TabIo);
+export default connect(mapStateToProps)(TabDrones);

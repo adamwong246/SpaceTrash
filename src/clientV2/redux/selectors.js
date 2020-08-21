@@ -1,9 +1,15 @@
 import {createSelector} from "reselect";
 
+import store from "./store.js";
+
 const baseSelector = (state => state)
 
 export const getTabIoProps = createSelector([baseSelector], state => {
   return {drones: state.loadState.drones}
+})
+
+export const getTabViewProps = createSelector([baseSelector], state => {
+  return {drones: state.loadState.drones, userGeneratedView: state.userGeneratedView}
 })
 
 export const getTabMapProps = createSelector([baseSelector], state => {
@@ -28,6 +34,19 @@ export const getTabLogProps = createSelector([baseSelector], state => {
 export const getDronesRegistry = createSelector([baseSelector], (base) => {
   return  {
     commandQueues: base.commandQueues
+  }
+});
+
+export const getTabFileProps = createSelector([baseSelector], (base) => {
+  return  {
+    onUpload: (e) =>  {
+      console.log("SET_INDEX_JSXHTML", e.target.files[0])
+      e.target.files[0].text().then((e) => {
+        console.log(e)
+        store.dispatch({type: "SET_INDEX_JSXHTML", payload: e})
+      })
+
+    }
   }
 });
 

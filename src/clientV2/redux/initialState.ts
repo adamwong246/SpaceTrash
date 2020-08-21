@@ -2,11 +2,13 @@ export default {
   loadState: {},
   commandQueues: {},
   terminalLines: [
-    "now connected to qNet"
+    "connecting to spaceTrash session..."
   ],
   clock: {
     time: Date.now(),
     lastTime: 0,
     halted: false,
   },
+
+  userGeneratedView: null
 };

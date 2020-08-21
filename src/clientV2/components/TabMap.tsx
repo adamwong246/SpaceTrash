@@ -5,7 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import {getTabMapProps} from '../redux/selectors.js';
 
-require('react-tabs/style/react-tabs.css');
+// require('react-tabs/style/react-tabs.css');
 require("../style/layout.css");
 
 class TabMap extends React.Component<{

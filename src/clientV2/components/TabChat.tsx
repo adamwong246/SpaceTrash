@@ -5,7 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import {getTabChatProps} from '../redux/selectors.js';
 
-require('react-tabs/style/react-tabs.css');
+// require('react-tabs/style/react-tabs.css');
 
 class TabChat extends React.Component<{
   chatLog

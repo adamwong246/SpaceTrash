@@ -23,7 +23,7 @@ class TabLog extends React.Component<{
   }
 
   componentDidUpdate () {
-    this.scrollToBottom()
+    // this.scrollToBottom()
   }
   scrollToBottom = () => {
     if(this.messagesEndRef.current){
