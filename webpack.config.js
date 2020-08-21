@@ -127,12 +127,16 @@ clientV2Config.output.publicPath = __dirname
 
 const serverV3Config = require("./src/node-express-passport-mongoose-auth/webpack.config.js")
 
+
+const userConfig = lodash.cloneDeep(commonConfig);
+userConfig.target ="web"
+userConfig.entry = './src/adam/index.js';
+userConfig.output.filename = 'adam.bundle.js';
+userConfig.output.publicPath = __dirname
+userConfig.devtool = false
+
 module.exports = [
-  // webConfig,
-  // mainConfig,
-  // rendererConfig,
-  // serverConfig,
-  // serverV2Config,
   clientV2Config,
-  serverV3Config
+  serverV3Config,
+  userConfig
 ];

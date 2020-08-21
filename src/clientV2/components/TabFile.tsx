@@ -16,7 +16,7 @@ class TabFile extends React.Component<{
   render() {
     return (<div id="main" >
       <p>Upload javascript files to power your views and bots. </p>
-      <input onChange={this.props.onUpload} type="file" id="file_input" webkitdirectory="" directory=""/>
+      <input onChange={this.props.onUpload} type="file" id="file_input"/>
     </div>);
   }
 }

@@ -1,4 +1,7 @@
-class Hello extends React.Component {
+// import view0 from "./view0.tsx"
+const view0 = require("./view0.tsx")
+
+class MainView extends React.Component {
   render() {
     return React.createElement('div', null, [
       React.createElement(this.props.tabs.Tabs, {
@@ -25,6 +28,7 @@ class Hello extends React.Component {
               return React.createElement(this.props.tabs.TabPanel, {},
                 [
                   React.createElement('p', {}, drone.id),
+                  React.createElement(view0, {}, drone.id)
                 ]
               )
             })
@@ -46,4 +50,8 @@ class Hello extends React.Component {
 
     ]);
   }
+}
+
+module.exports = {
+  view: MainView
 }

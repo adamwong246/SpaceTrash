@@ -16,7 +16,7 @@ class TabView extends React.Component<{
 
   render() {
 
-    const userView = this.props.userGeneratedView ? eval("(" + this.props.userGeneratedView + ")") : false
+    const userConfig = this.props.userGeneratedView ? eval(this.props.userGeneratedView) : false
 
     return (<div>
 
@@ -24,7 +24,7 @@ class TabView extends React.Component<{
 
 
       {this.props.userGeneratedView && React.createElement('div', null, [
-        React.createElement(userView, {
+        React.createElement(userConfig.view, {
           drones: this.props.drones,
           tabs: { Tab, Tabs, TabList, TabPanel},
         }
