@@ -20,13 +20,13 @@ var GameStateShipSchema = new mongoose.Schema({
 
 var UserStateSchema = new mongoose.Schema({
   shipsWithFogOfWar: Array, // {type: GameStateShipSchema},
-  dronesWithRays: Object, // {type: GameStateDroneSchema},
+  dronesWithRays: Array, // {type: GameStateDroneSchema},
   // inventoryOfKnownObjects: [GameStateInventorySchema],
 });
 
 var GameStateSchema = new mongoose.Schema({
-  shipsWithoutFogOfWar: Object, // {type: GameStateShipSchema},
-  dronesWithoutRays: Object, // {type: GameStateDroneSchema},
+  shipsWithoutFogOfWar: Array, // {type: GameStateShipSchema},
+  dronesWithoutRays: Array, // {type: GameStateDroneSchema},
   // inventoryOfKnownObjects: [GameStateInventorySchema],
 });
 

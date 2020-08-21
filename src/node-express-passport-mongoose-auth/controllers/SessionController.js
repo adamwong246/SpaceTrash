@@ -66,7 +66,11 @@ sessionController.start = function(req, res) {
     Ship.find({}, (err, ships) => {
       Drone.find({}, (err, drones) => {
 
-        gameState.initializeState(session, ships, drones)
+        gameState.initializeState(
+          session,
+          ships.map((e) => e.toObject({virtuals: true})),
+          drones.map((e) => e.toObject({virtuals: true}))
+        )
 
         session.save().then((s) => {
           res.redirect(`/sessions/${sessionId}`)

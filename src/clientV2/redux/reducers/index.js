@@ -17,7 +17,7 @@ export default combineReducers({
         const lastTime = commands[commands.length - 1] ? commands[commands.length - 1].timestamp : Date.now()
 
         const newCommand = {
-          command: action.payload.command,
+          instruction: action.payload.instruction,
           timestamp: lastTime + commandQueueWaitTime
         }
 

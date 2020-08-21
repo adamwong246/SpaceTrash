@@ -73,9 +73,9 @@ wss.on('connection', ws => {
 
               Session.findById(roomsAddress[1], (err, session) => {
 
-                const states = gameState.updateState(session, messag.msg.commandQueues)
-                session.gameState = states.gameState
-                session.userStates = states.userStates
+                console.log(session.gameState.dronesWithRays);
+                gameState.updateState(session, messag.msg.commandQueues)
+                console.log(session.gameState.dronesWithRays);
 
                 session.save().then((savedSession) => {
                   broadcastSession(savedSession)

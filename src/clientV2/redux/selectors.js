@@ -4,11 +4,11 @@ const baseSelector = (state => state)
 
 export const getTabIoProps = createSelector([baseSelector], state => {
 
-  const mappedDrones = Object.keys(state.loadState.dronesWithRays).map((dKey) => {
-    return state.loadState.dronesWithRays[dKey]
-  })
+  // const mappedDrones = Object.keys(state.loadState.dronesWithRays).map((dKey) => {
+  //   return state.loadState.dronesWithRays[dKey]
+  // })
 
-  return {drones: mappedDrones}
+  return {drones: state.loadState.dronesWithRays}
 })
 
 export const getTabMapProps = createSelector([baseSelector], state => {

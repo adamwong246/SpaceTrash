@@ -19,7 +19,7 @@ export default {
     if (split[0] === "Q"){
       dispatch({ type: ActionTypes.QUEUE_COMMAND, payload: {
         drone: split[1],
-        command: split[2]
+        instruction: split[2]
       } })
       return
     }
