@@ -3,22 +3,12 @@ import {createSelector} from "reselect";
 const baseSelector = (state => state)
 
 export const getTabIoProps = createSelector([baseSelector], state => {
-
-  // const mappedDrones = Object.keys(state.loadState.dronesWithRays).map((dKey) => {
-  //   return state.loadState.dronesWithRays[dKey]
-  // })
-
-  return {drones: state.loadState.dronesWithRays}
+  return {drones: state.loadState.drones}
 })
 
 export const getTabMapProps = createSelector([baseSelector], state => {
-
-  // const mappedShips = Object.keys(state.loadState.shipsWithFogOfWar).map((sKey) => {
-  //   return state.loadState.shipsWithFogOfWar[sKey]
-  // })
-
   return {
-    ships: state.loadState.shipsWithFogOfWar
+    ships: state.loadState.ships
   }
 })
 

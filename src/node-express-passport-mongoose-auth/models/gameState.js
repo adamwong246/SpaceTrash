@@ -30,8 +30,10 @@ const executeCommands = (session, commandQueues) => {
   });
 
   const sortedFullCommandQueue = fullCommandQueue.sort((c) => c.timestamp)
-  session.gameState.dronesWithoutRays = executeInstructions(session, sortedFullCommandQueue)
+  executeInstructions(session, sortedFullCommandQueue)
+};
 
+const renderDataView = (session) => {
 
   // for each dronesWithoutRays
   //// getRays()
@@ -39,28 +41,30 @@ const executeCommands = (session, commandQueues) => {
   ////// for each point of intrest
   //////// noteObservation()
 
-  session.gameState.dronesWithoutRays.map((drone) => {
+  return session.gameState.dronesWithoutRays.map((drone) => {
 
-    const foundShip = mappedShips.filter((s) => drone.ship === s.id)[0]
-
-    const rays = getRays(drone, foundShip.matrix);
-
-    if(!newUserStates[drone.user]){
-      newUserStates[drone.user] = {}
-    }
-
-    if(!newUserStates[drone.user].dronesWithRays){
-      newUserStates[drone.user].dronesWithRays = []
-    }
-
-    const droneObject = drone;//.toObject()
-    droneObject.rays = rays
-    newUserStates[drone.user].dronesWithRays.push(droneObject)
-    newUserStates[drone.user].shipsWithFogOfWar = [foundShip]
+    const foundShip = session.gameState.shipsWithoutFogOfWar.filter((s) => drone.ship === s.id)[0]
+    drone.rays = getRays(drone, foundShip.matrix)
+    return drone
+    // const rays = getRays(drone, foundShip.matrix);
+    //
+    // if(!newUserStates[drone.user]){
+    //   newUserStates[drone.user] = {}
+    // }
+    //
+    // if(!newUserStates[drone.user].dronesWithRays){
+    //   newUserStates[drone.user].dronesWithRays = []
+    // }
+    //
+    // const droneObject = drone;
+    // droneObject.rays = rays
+    // newUserStates[drone.user].dronesWithRays.push(droneObject)
+    // newUserStates[drone.user].shipsWithFogOfWar = [foundShip]
   })
 
-  session.userStates = newUserStates
-};
+  // return newUserStates
+
+}
 
 const initializeGameState = (session, ships, drones) => {
   // make hashMap
@@ -69,7 +73,6 @@ const initializeGameState = (session, ships, drones) => {
   // return gameState to be saved
 
   const mappedShips = ships
-    // .map((ship) => ship.toObject({virtuals: true}))
     .map((ship) => {
       if (ship.shipMap.gridMap) {
 
@@ -123,7 +126,7 @@ const initializeUserStates = (session) => {
   })
 
   executeCommands(session, noOpCommandQueue)
-  return
+  return renderDataView(session)
 };
 
 module.exports = {
@@ -135,6 +138,7 @@ module.exports = {
 
   updateState: (session, commandQueues) => {
     executeCommands(session, commandQueues)
-    return
+    return {dronesWithRays: renderDataView(session)}
+
   }
 }

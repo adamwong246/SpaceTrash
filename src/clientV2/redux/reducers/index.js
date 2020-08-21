@@ -87,8 +87,8 @@ export default combineReducers({
         console.log('LOAD_GAME_STATE', action.payload)
         return {
           ...state,
-          dronesWithRays: action.payload.dronesWithRays,
-          shipsWithFogOfWar: action.payload.shipsWithFogOfWar
+          drones: action.payload.dronesWithoutRays,
+          ships: action.payload.shipsWithoutFogOfWar
           // chatLog: action.payload.chatLog,
           // ships: action.payload.ships,
           // drones: action.payload.drones

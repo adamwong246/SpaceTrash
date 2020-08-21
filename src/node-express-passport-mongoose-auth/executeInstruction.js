@@ -1,12 +1,12 @@
-const moveStepSize = 1;
+const moveStepSize = 0.1;
 // export const rotateStepSize = 0.05;
 // export const commandQueueWaitTime = 3
 
-module.exports = (session, command, drones) => {
+module.exports = (session, command) => {
 
-  console.log("executeInstruction ", command)
+  // console.log("executeInstruction ", command)
 
-  return drones
+  return session.gameState.dronesWithoutRays
     .map((drone) => {
       if (drone._id.toString() === command.droneId) {
         if (command.instruction === "DRONE_MOVE_FORWARD") {
@@ -25,10 +25,19 @@ module.exports = (session, command, drones) => {
           // console.log(drone)
           // console.log(session.gameState.shipsWithoutFogOfWar)
 
-          console.log("oldX, oldX", drone.x, drone.y)
-          console.log("newX, newY", newX, newY)
+          // console.log("oldX, oldX", drone.x, drone.y)
+          // console.log("newX, newY", newX, newY)
           drone.x = newX
           drone.y = newY
+
+          // session.gameState.dronesWithoutRays.forEach((d) => {
+          //   console.log("mark0")
+          //   if(d._id.toString() === drone._id.toString()){
+          //     console.log("mark1")
+          //     d.x =  newX
+          //     d.y = newY
+          //   }
+          // })
 
           // if (ship.matrix[roundNewY][roundNewX][0] = 'B') { // B for "bulkhead"
           //   // if (materializedMap.get(roundNewX, roundNewY).type === 'wall') {

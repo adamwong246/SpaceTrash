@@ -51,7 +51,8 @@ wss.on('connection', ws => {
               Session.findById(
                 roomsAddress[1],
                 (err, session) => {
-                  broadcastSession(session)
+                  // broadcastSession(session)
+                  broadcastSession2(session, session.gameState)
                 }
               )
             } else if (messag.msg.say) {
@@ -72,14 +73,24 @@ wss.on('connection', ws => {
             } else if (messag.msg.commandQueues) {
 
               Session.findById(roomsAddress[1], (err, session) => {
+                const updateData = gameState.updateState(session, messag.msg.commandQueues)
 
-                console.log(session.gameState.dronesWithRays);
-                gameState.updateState(session, messag.msg.commandQueues)
-                console.log(session.gameState.dronesWithRays);
+                session.validate(function(err) {
+                    if (err) { console.log('invalid! ', err) }
+                    else {
+                      session.markModified('gameState');
 
-                session.save().then((savedSession) => {
-                  broadcastSession(savedSession)
+                      session.save( function(err, savedSessionDoc) {
+                        if (err) return console.error(err);
+                        broadcastSession2(savedSessionDoc, session.gameState)
+                      });
+
+
+                    }
                 });
+
+
+
               })
             }
 
@@ -108,6 +119,24 @@ wss.on('connection', ws => {
 
 const blankCharacter = '_';
 
+function broadcastSession2(session, updateData){
+  // console.log("broadcastSession2")
+  // console.log(updateData)
+  User.find({}, (err, users) => {
+    users.forEach(user => {
+      wss.clients.forEach(client => {
+        const address = `session-${session._id}-user-${user._id}`
+        if (client.room.indexOf(address) > -1) {
+          client.send(JSON.stringify({
+            room: address,
+            msg: updateData
+          }))
+        }
+      })
+    })
+  })
+};
+
 function broadcastSession(session){
   User.find({}, (err, users) => {
     users.forEach(user => {
@@ -122,9 +151,7 @@ function broadcastSession(session){
       })
     })
   })
-
 };
-
 
 function pushUpdateToAllUsers(sessionId, users) {
 
