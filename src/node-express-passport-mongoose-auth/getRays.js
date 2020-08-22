@@ -122,7 +122,7 @@ module.exports = (drone, matrix) => {
       const wallY = (y)>>0;
 
       // if (materializedMap.get(wallX, wallY).type !== 'floor') {
-      if(gridMap[wallY][wallX][0] === 'f'){
+      if(gridMap[wallY][wallX][0] !== 'f'){
 
         var distX = x - drone.x;
         var distY = y - drone.y;
@@ -163,7 +163,7 @@ module.exports = (drone, matrix) => {
       const wallX = (x)>>0;
 
       // if (materializedMap.get(wallX, wallY).type !== 'floor') {
-      if(gridMap[wallY][wallX][0] === 'f'){
+      if(gridMap[wallY][wallX][0] !== 'f'){
 
         var distX = x - drone.x;
         var distY = y - drone.y;

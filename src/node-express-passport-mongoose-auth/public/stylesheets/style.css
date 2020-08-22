@@ -1,4 +1,8 @@
-td {
+td{
+  vertical-align: top;
+}
+
+table.matrix td {
   width: 3em;
   text-align: left;
 }
@@ -11,13 +15,39 @@ body{
 
 #command-line {
   position: fixed;
-  left: 0;
   bottom: 0;
   width: 100%;
+  margin: 2px;
+  outline: none;
+  border: none;
+}
+
+#command-line *{
   background-color: green;
   color: black;
+  font-size: 16px;
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+#command-line form {
+  display: inline;
 }
 
 #time {
   float:right;
+}
+
+.react-tabs__tab-panel.react-tabs__tab-panel--selected {
+  height: 92%;;
+  overflow: scroll;
+}
+
+.react-tabs__tab-list {
+  border-bottom: 1px solid green;
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+.react-tabs__tab  {
+  text-decoration: underline;
 }

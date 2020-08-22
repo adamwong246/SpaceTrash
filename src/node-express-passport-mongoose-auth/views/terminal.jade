@@ -1,5 +1,6 @@
-extends layout
+//- extends layout
 
 block content
   script(src="/clientV2.bundle.js")
+  link(rel='stylesheet', href='/stylesheets/style.css')
   #app(data-session-id= session.id data-user-id= user.id)

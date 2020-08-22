@@ -29,7 +29,7 @@ export default (store, broadcaster) => {
   };
 
   // start the clock
-  let tick = window.setInterval(clock, 100);
+  let tick = window.setInterval(clock, 500);
 
   let updatePromise = Promise.resolve();
 

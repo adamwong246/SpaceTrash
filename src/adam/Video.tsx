@@ -4,7 +4,7 @@ const React = require("react");
 const scopeSize = 200;
 const halfScopeSize = scopeSize /2;
 
-class Video extends React.Component<{drone}, {}>{
+class Video extends React.Component<{drone, dispatcher}, {}>{
   constructor(a) {
     super(a);
   }
@@ -19,7 +19,9 @@ class Video extends React.Component<{drone}, {}>{
     const rays = drone.rays;
     const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0)
     return (<div id="video" >
+      #{drone._id}
       <table>
+        <tr><td>input</td><td>output</td></tr>
         <tr>
           <td>
           <div id="screen">
@@ -53,9 +55,7 @@ class Video extends React.Component<{drone}, {}>{
     					}
     				</div>
           </div>
-          </td>
 
-          <td>
 
           <svg height={scopeSize} width={scopeSize}>
             <circle cx={halfScopeSize} cy={halfScopeSize} r={halfScopeSize} strokeWidth="3" fill="gray" />
@@ -110,14 +110,39 @@ class Video extends React.Component<{drone}, {}>{
 
           </svg>
 
+
+
+
           </td>
 
           <td>
+            <table><tbody>
 
-          <p>EXPLOSION: 0%</p>
-          <p>RADIATION: 0%</p>
-          <p>EMP: 0%</p>
+              <tr>
+                <td></td>
+                <td>
+                  <button
+                    onClick={() => this.props.dispatcher("DRONE_MOVE_FORWARD", drone.id) }
+                  >
+                    FORWARD
+                  </button>
+                </td>
+                <td></td>
+              </tr>
 
+              <tr>
+                <td><button onClick={() => this.props.dispatcher("DRONE_ROTATE_LEFT", drone.id) }>LEFT</button></td>
+                <td></td>
+                <td><button onClick={() => this.props.dispatcher("DRONE_ROTATE_RIGHT", drone.id) }>RIGHT</button></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td><button onClick={() => this.props.dispatcher("DRONE_MOVE_BACK", drone.id) }>BACK</button></td>
+                <td></td>
+              </tr>
+
+            </tbody></table>
           </td>
 
         </tr>

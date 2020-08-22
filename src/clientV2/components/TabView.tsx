@@ -22,6 +22,13 @@ class TabView extends React.Component<{
 
       {userConfig && React.createElement('div', null, [
         React.createElement(userConfig.view, {
+
+          droneData: this.props.droneData,
+          gridData: this.props.gridData,
+          metaData: this.props.metaData,
+
+          dispatcher: this.props.dispatcher,
+          
           drones: this.props.drones,
           ships: this.props.ships,
           tabs: { Tab, Tabs, TabList, TabPanel},

@@ -2,7 +2,7 @@ export default {
   loadState: {},
   commandQueues: {},
   terminalLines: [
-    "connecting to spaceTrash session..."
+    "spaceTrash terminal v0.0.5 loading...",
   ],
   clock: {
     time: Date.now(),
@@ -10,5 +10,7 @@ export default {
     halted: false,
   },
 
-  userGeneratedView: null
+  userGeneratedView: null,
+
+  usr: {}
 };

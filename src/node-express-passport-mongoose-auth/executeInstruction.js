@@ -1,6 +1,5 @@
 const moveStepSize = 0.1;
-// export const rotateStepSize = 0.05;
-// export const commandQueueWaitTime = 3
+const rotateStepSize = 0.05;
 
 module.exports = (session, command) => {
 
@@ -8,6 +7,7 @@ module.exports = (session, command) => {
 
   return session.gameState.dronesWithoutRays
     .map((drone) => {
+
       if (drone._id.toString() === command.droneId) {
         if (command.instruction === "DRONE_MOVE_FORWARD") {
           const roundOldX = Math.round(drone.x)
@@ -18,9 +18,9 @@ module.exports = (session, command) => {
           const roundNewY = Math.round(newY)
 
           // check where we want to go
-          const ship = session.gameState.shipsWithoutFogOfWar.filter((s) => {
-            s.id == drone.ship
-          })[0]
+          // const ship = session.gameState.shipsWithoutFogOfWar.filter((s) => {
+          //   s.id == drone.ship
+          // })[0]
 
           // console.log(drone)
           // console.log(session.gameState.shipsWithoutFogOfWar)
@@ -58,6 +58,53 @@ module.exports = (session, command) => {
           //   drone.y = newY
           // }
         }
+
+        if (command.instruction === "DRONE_MOVE_BACK") {
+
+          const roundOldX = Math.round(drone.x)
+          const roundOldY = Math.round(drone.y)
+          const newX = drone.x + Math.cos(drone.direction) * -moveStepSize
+          const newY = drone.y + Math.sin(drone.direction) * -moveStepSize
+          const roundNewX = Math.round(newX)
+          const roundNewY = Math.round(newY)
+
+          drone.x = newX
+          drone.y = newY
+
+          // // check where we want to go
+          // if (materializedMap.get(roundNewX, roundNewY).type === 'wall') {
+          //
+          //   // if we have moved left or right into a vertical wall
+          //   if (roundNewX !== roundOldX) {
+          //     // discard the x component of the move
+          //     drone.y = newY
+          //   }
+          //
+          //   //  the same for Y
+          //   if (roundNewY !== roundOldY) {
+          //     drone.x = newX
+          //   }
+          //
+          // } else {
+          //   drone.x = newX
+          //   drone.y = newY
+          // }
+        }
+
+
+
+
+        if (command.instruction === "DRONE_ROTATE_LEFT") {
+          drone.direction = drone.direction - rotateStepSize
+        }
+
+        if (command.instruction === "DRONE_ROTATE_RIGHT") {
+          drone.direction = drone.direction + rotateStepSize
+        }
+
+      } else {
+        console.log("error")
+        console.log(drone._id.toString(), command.droneId)
       }
       return drone;
     })

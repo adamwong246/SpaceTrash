@@ -8,7 +8,7 @@ import {getTabIoProps} from '../redux/selectors.js';
 import Video from "./Video.tsx"
 
 // require('react-tabs/style/react-tabs.css');
-require('../style/tabs.css');
+// require('../style/tabs.css');
 
 class TabDrones extends React.Component<{
   drones: any

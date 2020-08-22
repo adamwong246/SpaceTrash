@@ -12,6 +12,7 @@ var ws = new WebSocket('ws://localhost:5000');
 ws.onerror = function(e) { console.log(`onerror: ${JSON.stringify(e)}`) }
 ws.onclose = function(e) { console.log(`onclose: ${JSON.stringify(e)}`) }
 ws.onopen = function(e) {
+  store.dispatch({type: "NEW_COMMAND", payload: "establishing connection to spaceTrash server..."})
   console.log(`onopen: ${JSON.stringify(e)}`)
   bootApp(document.getElementById("app"))
 }
@@ -20,11 +21,19 @@ ws.onmessage = function(e) {
   const data = JSON.parse(e.data)
   console.log(`onmessage`, data)
 
+  if(data.msg === "user joined"){
+    store.dispatch({type: "NEW_COMMAND", payload: "connection established"})
+  }
+
   if (data.room) {
     const roomsAddress = data.room.split('-')
     if (roomsAddress[0] === 'session') {
       if (roomsAddress[2] === 'user') {
+
+        console.log(data)
         store.dispatch({ type: LOAD_GAME_STATE, payload: data.msg })
+        store.dispatch({type:"OBSERVE_DRONES_RAYS", payload:data.msg })
+
       }
     }
   }

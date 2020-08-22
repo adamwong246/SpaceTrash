@@ -49,17 +49,25 @@ class CommandLine extends React.Component<{
 
     return (<div id="command-bar">
 
-      <form onSubmit={(event) => {
-        console.log("onsubmit")
-        event.preventDefault()
-        this.resetState()
-        this.props.newCommand(this.state.value, this.props.scripts, this.props.store, this.props.broadcast)
-      }}>
-        <input
-          autoComplete={'off'}
-          ref={(input) => { this.commandLineInput = input; }}
-          id="command-line" type="text" value={this.state.value} onChange={this.handleChange}/>
-      </form >
+      <span>
+
+        >
+
+        <form onSubmit={(event) => {
+          console.log("onsubmit")
+          event.preventDefault()
+          this.resetState()
+          this.props.newCommand(this.state.value, this.props.scripts, this.props.store, this.props.broadcast)
+        }}>
+          <input
+            autoComplete={'off'}
+            ref={(input) => { this.commandLineInput = input; }}
+            id="command-line" type="text" value={this.state.value} onChange={this.handleChange}/>
+        </form >
+
+      </span>
+
+
     </div>);
 
   }
