@@ -7,8 +7,6 @@ import {getTabFileProps} from '../redux/selectors.js';
 
 import Video from "./Video.tsx"
 
-// require('react-tabs/style/react-tabs.css');
-
 class TabFile extends React.Component<{
   onUpload(e): null
 }, {}> {

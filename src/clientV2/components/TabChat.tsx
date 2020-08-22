@@ -145,7 +145,7 @@ class TabChat extends React.Component<{
 
           <li>
             User rooms
-            <button>New</button>
+            <button>+</button>
           </li>
           <Tab>Another room</Tab>
           <Tab>Yet Another room</Tab>

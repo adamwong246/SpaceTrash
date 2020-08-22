@@ -1,3 +1,7 @@
+.codish {
+  font-family: monospace;
+}
+
 .react-tabs__tab-list.vertical {
   display: flex;
   flex-direction: column;

@@ -31,8 +31,8 @@ const theme = {
 };
 
 const dataDumper = (data) =>
-  <TabPanel><JSONTree data={data} theme={theme} invertTheme={false}/></TabPanel>
-  
+  <TabPanel className="codish" ><JSONTree data={data} theme={theme} invertTheme={false}/></TabPanel>
+
 class TabData extends React.Component<{}, {}> {
 
   render() {
