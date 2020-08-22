@@ -9,25 +9,25 @@ import Video from "./Video.tsx"
 class TabView extends React.Component<{
   drones: [{ name: String }],
   ships: [],
-  userGeneratedView: string
+  userGeneratedView: string,
+  userScripts() : any
 }, {}> {
 
   render() {
-    const userConfig = Window.USER_CONFIG
+    const userScripts = this.props.userScripts
 
     return (<div>
 
-      {!userConfig && (<p>
+      {!userScripts && (<p>
         You need to upload some files first. Try the command CODE_UPLOAD to upload a js file.
       </p>)}
 
 
-      {userConfig && React.createElement('div', null, [
-        React.createElement(userConfig.view, {
+      {userScripts && React.createElement('div', null, [
+        React.createElement(userScripts.view, {
 
           droneData: this.props.droneData,
           gridData: this.props.gridData,
-          metaData: this.props.metaData,
 
           dispatcher: this.props.dispatcher,
 

@@ -31,7 +31,11 @@ const theme = {
 };
 
 const dataDumper = (data) =>
-  <TabPanel className="codish" ><JSONTree data={data} theme={theme} invertTheme={false}/></TabPanel>
+  <TabPanel className="codish" >
+    <div className="scrolly">
+      <JSONTree data={data} theme={theme} invertTheme={false}/>
+    </div>
+  </TabPanel>
 
 class TabData extends React.Component<{}, {}> {
 
@@ -45,6 +49,7 @@ class TabData extends React.Component<{}, {}> {
               <Tab>ships</Tab>
               <Tab>drones</Tab>
               <Tab>command queues</Tab>
+              <Tab>user-scripts</Tab>
               <Tab>user-space</Tab>
 
             </TabList>
@@ -54,6 +59,7 @@ class TabData extends React.Component<{}, {}> {
                 dataDumper(this.props.ships),
                 dataDumper(this.props.drones),
                 dataDumper(this.props.commandQueues),
+                dataDumper(this.props.userScripts),
                 dataDumper(this.props.usr),
               ]
             }

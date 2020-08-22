@@ -15,11 +15,12 @@ export const getTabIoProps = createSelector([baseSelector], state => {
 export const getTabViewProps = createSelector([baseSelector], state => {
 
   return {
+    userScripts: state.userScripts,
     drones: state.loadState.drones,
     ships: state.loadState.ships,
     droneData: state.usr.droneData,
     gridData: state.usr.gridData,
-    metaData: state.usr.metaData,
+
     dispatcher: (instruction, droneId) => store.dispatch({
       type: "QUEUE_COMMAND",
       payload: {
@@ -54,7 +55,8 @@ export const getTabDataProps = createSelector([baseSelector], (base) => {
     commandQueues: base.commandQueues,
     drones: base.loadState.drones,
     ships: base.loadState.ships,
-    usr: base.usr
+    usr: base.usr,
+    userScripts: base.userScripts
   }
 });
 

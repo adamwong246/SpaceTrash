@@ -38,7 +38,7 @@ export default combineReducers({
         Object.keys(state).forEach((k) => {
           const freshCommands = state[k].filter((c) => c.timestamp > now)
 
-          if(freshCommands.length){
+          if (freshCommands.length) {
             freshCommandQueues[k] = freshCommands
           }
         })
@@ -127,79 +127,96 @@ export default combineReducers({
     }
   },
 
+  userScripts: (state = initialState, action) => {
+    switch (action.type) {
+      case "CODE_UPLOAD": {
+        return eval(action.payload)
+      }
+
+      default:
+        return state;
+    }
+  },
+
   usr: (state = initialState, action) => {
     switch (action.type) {
 
       case "OBSERVE_DRONES_RAYS": {
         const droneData = state.droneData || {};
         const gridData = state.gridData || {};
-        const metaData = {
-          xMin: Number.POSITIVE_INFINITY,
-          yMin: Number.POSITIVE_INFINITY,
-          xMax: Number.NEGATIVE_INFINITY,
-          yMax: Number.NEGATIVE_INFINITY,
-        }
+        // const metaData = {
+        //   xMin: Number.POSITIVE_INFINITY,
+        //   yMin: Number.POSITIVE_INFINITY,
+        //   xMax: Number.NEGATIVE_INFINITY,
+        //   yMax: Number.NEGATIVE_INFINITY,
+        // }
 
         action.payload.dronesWithoutRays.forEach((drone) => {
 
           const droneId = drone._id;
           const shipId = drone.ship
 
-          droneData[droneId] = drone.rays
+          if (!droneData[droneId]) {
+            droneData[droneId] = {}
+          }
+          droneData[droneId].rays = drone.rays
 
           drone.rays.forEach((ray) => {
 
             const listOfTiles = (ray.brenshams || [])
             listOfTiles.forEach((tile) => {
-              if (!gridData[shipId]){gridData[shipId] = {}}
-              if (!gridData[shipId][tile.x]){gridData[shipId][tile.x] = {}}
+              if (!gridData[shipId]) {
+                gridData[shipId] = {}
+              }
+              if (!gridData[shipId].tiles) {
+                gridData[shipId].tiles = {}
+              }
+              if (!gridData[shipId].tiles[tile.x]) {
+                gridData[shipId].tiles[tile.x] = {}
+              }
 
-              gridData[shipId][tile.x][tile.y] = tile.tile
 
-              if (tile.x < metaData.xMin) { metaData.xMin = tile.x}
-              if (tile.x > metaData.xMax) { metaData.xMax = tile.x}
-              if (tile.y < metaData.yMin) { metaData.yMin = tile.y}
-              if (tile.y > metaData.yMax) { metaData.yMax = tile.y}
+              if (!droneData[droneId]) {
+                droneData[droneId] = {}
+              }
+              if (!droneData[droneId].tiles) {
+                droneData[droneId].tiles = {}
+              }
+              if (!droneData[droneId].tiles[tile.x]) {
+                droneData[droneId].tiles[tile.x] = {}
+              }
+
+              gridData[shipId].tiles[tile.x][tile.y] = tile.tile
+              droneData[droneId].tiles[tile.x][tile.y] = tile.tile
+
+              // if (tile.x < metaData.xMin) {
+              //   metaData.xMin = tile.x
+              // }
+              // if (tile.x > metaData.xMax) {
+              //   metaData.xMax = tile.x
+              // }
+              // if (tile.y < metaData.yMin) {
+              //   metaData.yMin = tile.y
+              // }
+              // if (tile.y > metaData.yMax) {
+              //   metaData.yMax = tile.y
+              // }
             })
 
           })
 
-          gridData[shipId][Math.round(drone.x)][Math.round(drone.y)][1] = `drone-${drone.id}`
+          gridData[shipId].tiles[Math.round(drone.x)][Math.round(drone.y)][1] = `drone-${drone.id}`
+
+          // gridData[shipId].metaData = metaData
+          // droneData[droneId].metaData = metaData
         })
 
-        return {...state, gridData, droneData, metaData}
+        return {
+          ...state,
+          gridData,
+          droneData
+        }
       }
-
-      // case "OBSERVE_RAY": {
-      //   const shipId = action.payload.drone.ship
-      //
-      //   const droneData = {
-      //     ...state.droneData,
-      //     [action.payload.drone._id] : {
-      //       ...(state.droneData || {})[action.payload.drone._id],
-      //       rays: {
-      //         ...((state.droneData || {})[action.payload.drone._id] || {rays: []}).rays,
-      //         [action.payload.ray.id]: action.payload.ray
-      //       }
-      //     }
-      //   }
-      //
-      //   const gridData = state.gridData || {};
-      //   const listOfTiles = (action.payload.ray.brenshams || [])
-      //   listOfTiles.forEach((tile) => {
-      //
-      //     if (!gridData[shipId]){gridData[shipId] = {}}
-      //     if (!gridData[shipId][tile.y]){gridData[shipId][tile.y] = {}}
-      //     gridData[shipId][tile.y][tile.x] = tile.tile
-      //   })
-      //
-      //   return {
-      //     ...state,
-      //     "gridData": gridData,
-      //     "droneData": droneData,
-      //   }
-      // }
-
 
       default:
         return state;

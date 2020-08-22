@@ -30,7 +30,8 @@ export default {
       fileDialog()
         .then(file => {
           file[0].text().then((e) => {
-            Window.USER_CONFIG = eval(e);
+            // Window.USER_CONFIG = eval(e);
+            dispatch({ type: "CODE_UPLOAD", payload: e })
           })
         })
       return
