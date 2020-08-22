@@ -6,112 +6,107 @@ const blankCharacter = '.';
 class ShipSchematics extends React.Component<{
   ships,
   gridData,
-  metaData
+
 }, {}> {
 
   render() {
     console.log("ShipSchematics")
-    console.log(this.props.metaData)
-    console.log(this.props.gridData)
+
+    const gridData = this.props.gridData
 
     return (<div id="main" >
       <div id="tabs" >
 
-          <Tabs className= "vertical">
-            <TabList>
-              {
-                this.props.ships.map((ship) => {
-                  return (
-                    <Tab>{ship.name}</Tab>
-                  );
-                })
-              }
-            </TabList>
-
+        <Tabs className="vertical">
+          <TabList>
             {
               this.props.ships.map((ship) => {
-                // console.log(ship)
-
-
-                const height = this.props.metaData.yMax - this.props.metaData.yMin + 1
-                const width = this.props.metaData.xMax - this.props.metaData.xMin + 1
-
-                const matrix = new Array(height).fill(blankCharacter).map(() => new Array(width).fill(blankCharacter).map(() => new Array(2).fill(blankCharacter)));
-
-                for (var yNdx = 0; yNdx < height; yNdx++) {
-                  for (var xNdx = 0; xNdx < width; xNdx++) {
-
-
-
-                    const x = xNdx + this.props.metaData.xMin
-                    const y = yNdx + this.props.metaData.yMin
-
-                    console.log(xNdx, yNdx, x, y)
-
-                    if (this.props.gridData[ship.id][x]) {
-                      if (this.props.gridData[ship.id][x][y]) {
-                        matrix[yNdx][xNdx] = this.props.gridData[ship.id][x][y]
-                        // console.log(this.props.gridData[ship.id][x][y])
-                      }
-                    }
-                  }
-                }
-
                 return (
-                  <TabPanel>
-
-                    <p>{ship.shipMap.status}</p>
-                    {
-                      matrix && (<table className="matrix">
-                        <tbody>
-                          {matrix.map((row) => {
-                            return (
-                              <tr>
-                                {row.map((cell) => {
-                                  return (
-                                    <td data-drone={cell[1] ? cell[1] : "" }>
-                                      { cell[0] }
-                                      {(cell[1] != "." && cell[1] != "_") && "D"}
-
-
-
-                                    </td>
-                                  );
-                                })}
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>)
-                    }
-
-                    <p>{ship.shipMap.status}</p>
-                    {
-                      ship.matrix && (<table className="matrix">
-                        <tbody>
-                          {ship.matrix.map((row) => {
-                            return (
-                              <tr>
-                                {row.map((cell) => {
-                                  return (
-                                    <td data-drone={cell[1] ? cell[1] : "" }>
-                                      {cell[0]}
-
-                                    </td>
-                                  );
-                                })}
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>)
-                    }
-
-                  </TabPanel>
+                  <Tab>{ship.name}</Tab>
                 );
               })
             }
-          </Tabs>
+          </TabList>
+
+          {
+            this.props.ships.map((ship) => {
+
+              const metaData = {
+                xMin: Number.POSITIVE_INFINITY,
+                yMin: Number.POSITIVE_INFINITY,
+                xMax: Number.NEGATIVE_INFINITY,
+                yMax: Number.NEGATIVE_INFINITY,
+              }
+
+              Object.keys(gridData[ship.id].tiles).forEach((xKey) => {
+                Object.keys(gridData[ship.id].tiles[xKey]).forEach((yKey) => {
+                  const tile = gridData[ship.id].tiles[xKey][yKey]
+
+                  const xNumber = parseInt(xKey)
+                  const yNumber = parseInt(yKey)
+
+                  if (xNumber < metaData.xMin) {
+                    metaData.xMin = xNumber
+                  }
+                  if (xNumber > metaData.xMax) {
+                    metaData.xMax = xNumber
+                  }
+                  if (yNumber < metaData.yMin) {
+                    metaData.yMin = yNumber
+                  }
+                  if (yNumber > metaData.yMax) {
+                    metaData.yMax = yNumber
+                  }
+                  })
+              })
+
+              const height = metaData.yMax - metaData.yMin + 1
+              const width = metaData.xMax - metaData.xMin + 1
+              const matrix = new Array(height).fill(blankCharacter).map(() => new Array(width).fill(blankCharacter).map(() => new Array(2).fill(blankCharacter)));
+
+              for (var yNdx = 0; yNdx < height; yNdx++) {
+                for (var xNdx = 0; xNdx < width; xNdx++) {
+
+                  const x = (xNdx + metaData.xMin).toString()
+                  const y = (yNdx + metaData.yMin).toString()
+
+                  if (gridData[ship.id].tiles[x]) {
+                    if (gridData[ship.id].tiles[x][y]) {
+                      matrix[yNdx][xNdx] = gridData[ship.id].tiles[x][y]
+                    }
+                  }
+                }
+              }
+
+              return (
+                <TabPanel>
+
+                {
+                  matrix && (<table className="matrix">
+                    <tbody>
+                      {matrix.map((row) => {
+                        return (
+                          <tr>
+                            {row.map((cell) => {
+                              return (
+                                <td data-drone={cell[1] ? cell[1] : "" }>
+                                  { cell[0] }
+                                  {(cell[1] != "." && cell[1] != "_") && "D"}
+                                </td>
+                              );
+                            })}
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>)
+                }
+
+                </TabPanel>
+              );
+            })
+          }
+        </Tabs>
 
       </div>
 

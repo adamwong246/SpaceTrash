@@ -10,10 +10,11 @@ class Video extends React.Component<{drone, dispatcher, droneData}, {}>{
   }
 
   render(){
+    console.log("Video")
+
     const drone = this.props.drone
     const droneData = this.props.droneData
 
-    // const metaData = this.props.metaData
     const metaData = {
       xMin: Number.POSITIVE_INFINITY,
       yMin: Number.POSITIVE_INFINITY,
@@ -49,8 +50,6 @@ class Video extends React.Component<{drone, dispatcher, droneData}, {}>{
     const rays = drone.rays;
     const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0)
 
-
-
     const height = metaData.yMax - metaData.yMin + 1
     const width = metaData.xMax - metaData.xMin + 1
 
@@ -59,18 +58,11 @@ class Video extends React.Component<{drone, dispatcher, droneData}, {}>{
     for (var yNdx = 0; yNdx < height; yNdx++) {
       for (var xNdx = 0; xNdx < width; xNdx++) {
 
-
-
         const x = xNdx + metaData.xMin
         const y = yNdx + metaData.yMin
 
-        console.log(xNdx, yNdx, x, y)
-
-        console.log("mark3", drone)
         if (droneData[drone.id].tiles[x]) {
-          console.log("mark")
           if (droneData[drone.id].tiles[x][y]) {
-            console.log("mark2")
             matrix[yNdx][xNdx] = droneData[drone.id].tiles[x][y]
           }
         }
@@ -193,10 +185,6 @@ class Video extends React.Component<{drone, dispatcher, droneData}, {}>{
               </tbody>
             </table>)
           }
-          
-
-
-
 
 
           </td>
@@ -234,10 +222,6 @@ class Video extends React.Component<{drone, dispatcher, droneData}, {}>{
         </tr>
 
       </table>
-
-
-
-
 
 
     </div>);
