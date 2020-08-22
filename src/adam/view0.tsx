@@ -1,9 +1,7 @@
-import * as React from 'react';
+const React = require("react");
+// const { Tab, Tabs, TabList, TabPanel } = require("react-tabs");
 
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-
-
-module.exports =  class TabFile extends React.Component<{}, {}> {
+class TabFile extends React.Component<{}, {}> {
 
   render() {
     return (<div id="main" >
@@ -11,3 +9,5 @@ module.exports =  class TabFile extends React.Component<{}, {}> {
     </div>);
   }
 }
+
+module.exports = TabFile;

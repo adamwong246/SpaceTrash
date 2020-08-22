@@ -9,7 +9,11 @@ export const getTabIoProps = createSelector([baseSelector], state => {
 })
 
 export const getTabViewProps = createSelector([baseSelector], state => {
-  return {drones: state.loadState.drones, userGeneratedView: state.userGeneratedView}
+  return {
+    drones: state.loadState.drones,
+    ships: state.loadState.ships,
+    userGeneratedView: state.userGeneratedView
+  }
 })
 
 export const getTabMapProps = createSelector([baseSelector], state => {
@@ -42,8 +46,8 @@ export const getTabFileProps = createSelector([baseSelector], (base) => {
     onUpload: (e) =>  {
       console.log("SET_INDEX_JSXHTML", e.target.files[0])
       e.target.files[0].text().then((e) => {
-        console.log(e)
-        store.dispatch({type: "SET_INDEX_JSXHTML", payload: e})
+        Window.USER_CONFIG = eval(e);
+        // store.dispatch({type: "SET_INDEX_JSXHTML", payload: e})
       })
 
     }

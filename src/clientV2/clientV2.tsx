@@ -14,7 +14,6 @@ ws.onclose = function(e) { console.log(`onclose: ${JSON.stringify(e)}`) }
 ws.onopen = function(e) {
   console.log(`onopen: ${JSON.stringify(e)}`)
   bootApp(document.getElementById("app"))
-
 }
 
 ws.onmessage = function(e) {
@@ -22,17 +21,13 @@ ws.onmessage = function(e) {
   console.log(`onmessage`, data)
 
   if (data.room) {
-
-
     const roomsAddress = data.room.split('-')
     if (roomsAddress[0] === 'session') {
       if (roomsAddress[2] === 'user') {
         store.dispatch({ type: LOAD_GAME_STATE, payload: data.msg })
       }
     }
-
   }
-
 }
 
 function send(msg) {

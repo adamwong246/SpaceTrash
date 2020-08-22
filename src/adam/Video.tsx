@@ -1,10 +1,5 @@
-import * as React from 'react';
-import {connect} from "react-redux";
-
-import {getVideoProps} from "../redux/selectors";
-import {TELEPORT} from "../redux/actionTypes";
-
-import style from "../style/raycast.css";
+const React = require("react");
+// const { Tab, Tabs, TabList, TabPanel } = require("react-tabs");
 
 const scopeSize = 200;
 const halfScopeSize = scopeSize /2;
@@ -16,10 +11,14 @@ class Video extends React.Component<{drone}, {}>{
 
   render(){
     const drone = this.props.drone
+
+    if (!drone){
+      return (<span>idk, no drone found </span>)
+    }
+
     const rays = drone.rays;
     const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0)
     return (<div id="video" >
-      #{drone.id} {drone.name}
       <table>
         <tr>
           <td>
@@ -134,4 +133,5 @@ class Video extends React.Component<{drone}, {}>{
   }
 }
 
-export default Video
+// export default = Video;
+module.exports = Video

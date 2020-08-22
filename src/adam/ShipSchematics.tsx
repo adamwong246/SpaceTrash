@@ -1,22 +1,15 @@
-import * as React from 'react';
-import { connect } from "react-redux";
+const React = require("react");
+const { Tab, Tabs, TabList, TabPanel } = require("react-tabs");
 
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-
-import {getTabMapProps} from '../redux/selectors.js';
-
-// require('react-tabs/style/react-tabs.css');
-require("../style/layout.css");
-
-class TabMap extends React.Component<{
+class ShipSchematics extends React.Component<{
   ships
 }, {}> {
 
   render() {
     return (<div id="main" >
-      <div id="tabs">
+      <div id="tabs" >
 
-          <Tabs>
+          <Tabs className= "vertical">
             <TabList>
               {
                 this.props.ships.map((ship) => {
@@ -68,8 +61,4 @@ class TabMap extends React.Component<{
   }
 }
 
-const mapStateToProps = state => {
-  return getTabMapProps(state);
-};
-
-export default connect(mapStateToProps)(TabMap);
+module.exports = ShipSchematics
