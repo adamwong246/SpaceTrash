@@ -17,7 +17,9 @@ class TabView extends React.Component<{
 
     return (<div>
 
-      {!userConfig && (<div>You need to upload some files first</div>)}
+      {!userConfig && (<p>
+        You need to upload some files first. Try the command CODE_UPLOAD to upload a js file.
+      </p>)}
 
 
       {userConfig && React.createElement('div', null, [
@@ -28,7 +30,7 @@ class TabView extends React.Component<{
           metaData: this.props.metaData,
 
           dispatcher: this.props.dispatcher,
-          
+
           drones: this.props.drones,
           ships: this.props.ships,
           tabs: { Tab, Tabs, TabList, TabPanel},

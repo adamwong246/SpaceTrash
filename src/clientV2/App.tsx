@@ -34,37 +34,22 @@ class App extends React.Component<{
               <Tab>logs</Tab>
               <Tab>chat</Tab>
               <Tab>data</Tab>
-              <Tab>code</Tab>
               <Tab>user</Tab>
-
-
-
               <Time/>
             </TabList>
-
 
             <TabPanel><TabLog/></TabPanel>
             <TabPanel><TabChat/></TabPanel>
             <TabPanel><TabData/></TabPanel>
-            <TabPanel><TabFile/></TabPanel>
             <TabPanel><TabView/></TabPanel>
-
-
-
           </Tabs>
-
-
-
       </div>
-
-
     </div>);
   }
 }
 
 const mapStateToProps = state => {
   return state
-  // return getAppProps(state);
 };
 
 export default connect(mapStateToProps)(App);
