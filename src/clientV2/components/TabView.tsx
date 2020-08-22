@@ -7,8 +7,8 @@ import { getTabViewProps } from '../redux/selectors.js';
 import Video from "./Video.tsx"
 
 class TabView extends React.Component<{
-  drones: [{ name: String }],
-  ships: [],
+  // drones: [{ name: String }],
+  // ships: [],
   userGeneratedView: string,
   userScripts() : any
 }, {}> {

@@ -144,12 +144,6 @@ export default combineReducers({
       case "OBSERVE_DRONES_RAYS": {
         const droneData = state.droneData || {};
         const gridData = state.gridData || {};
-        // const metaData = {
-        //   xMin: Number.POSITIVE_INFINITY,
-        //   yMin: Number.POSITIVE_INFINITY,
-        //   xMax: Number.NEGATIVE_INFINITY,
-        //   yMax: Number.NEGATIVE_INFINITY,
-        // }
 
         action.payload.dronesWithoutRays.forEach((drone) => {
 

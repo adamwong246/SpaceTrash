@@ -82,16 +82,22 @@ class ShipSchematics extends React.Component<{
                 <TabPanel>
 
                 {
-                  matrix && (<table className="matrix">
+                  matrix && (<table className="matrix codish">
                     <tbody>
                       {matrix.map((row) => {
                         return (
                           <tr>
                             {row.map((cell) => {
+
+                              var secondCharacter;
+                              if (cell[1] === "_") { secondCharacter = "_" }
+                              else if (cell[1] === ".") { secondCharacter = "." }
+                              else secondCharacter = "D"
+
                               return (
                                 <td data-drone={cell[1] ? cell[1] : "" }>
                                   { cell[0] }
-                                  {(cell[1] != "." && cell[1] != "_") && "D"}
+                                  {secondCharacter}
                                 </td>
                               );
                             })}
