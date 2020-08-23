@@ -1,60 +1,32 @@
-import * as Promise from "bluebird";
 import initSubscriber from 'redux-subscriber';
-import * as ActionTypes from "./redux/actionTypes";
-const safeEval = require('safe-eval')
-
-import CommandParser from "./lib/CommandParser.ts";
 
 export default (store, broadcaster) => {
   const subscribe = initSubscriber(store);
 
-  // Listen to the clock and run queded commnads
-  //////////////////////////////////////////////////////////////////////
-
-  let tockPromise = new Promise((res, rej) => {
+  // Start the clock
+  const functionUpdateClock = () => {
     store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
-    res();
-  });
+    setTimeout(functionUpdateClock, 1)
+  }
+  setTimeout(functionUpdateClock, 1)
 
-  const clock = () => {
-    if (tockPromise.isPending()) {
-
-      Promise.resolve(tockPromise)
-    }
-    tockPromise = new Promise((res, rej) => {
-      store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
-      res();
-    });
-  };
-
-  // start the clock
-  let tick = window.setInterval(clock, 100);
-
-  let updatePromise = Promise.resolve();
-
+  // listen for changes to the clock and send stale instructions to server
   const tock = subscribe('clock.time', state => {
 
     const now = Date.now();
+    const commandQueues = state.commandQueues;
 
-    if (!state.clock.halted) {
-      const commandQueues = state.commandQueues;
-      const recentCommandQueues = {};
+    // filter out instructions scehduled for the past
+    const recentCommandQueues = {};
+    Object.keys(commandQueues).forEach((k) => {
+      const recentCommands = commandQueues[k].filter((c) => c.timestamp < now)
+      if (recentCommands.length) { recentCommandQueues[k] = recentCommands }
+    })
 
-      Object.keys(commandQueues).forEach((k) => {
-        const recentCommands = commandQueues[k].filter((c) => c.timestamp < now)
-
-        if(recentCommands.length){
-          recentCommandQueues[k] = recentCommands
-        }
-      })
-
-      if(Object.keys(recentCommandQueues).length){
-          broadcaster({commandQueues: recentCommandQueues})
-          store.dispatch({ type: 'CLEAR_STALE_QUEUE_COMMANDS', payload: now })
-      }
-
-    } else {
-      //  do nothing
+    // if there are old instructions, send them to the server and remove from client
+    if (Object.keys(recentCommandQueues).length) {
+      broadcaster({ commandQueues: recentCommandQueues })
+      store.dispatch({ type: 'CLEAR_STALE_QUEUE_COMMANDS', payload: now })
     }
 
   });

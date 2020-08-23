@@ -90,17 +90,21 @@ wss.on('connection', ws => {
 })
 
 //////////////////////////////////////////////////////////////////////////
+// The internal instruction Queue
+//////////////////////////////////////////////////////////////////////////
 
 const updateQueue = []
 
 setTimeout(dequeUpdate, 1)
 
-function enqueUpdate(message){updateQueue.push(message)}
+function enqueUpdate(message) {
+  updateQueue.push(message)
+}
 
-function dequeUpdate(){
+function dequeUpdate() {
   const message = updateQueue.shift()
 
-  if (!message ){
+  if (!message) {
     setTimeout(dequeUpdate, 1)
     return
   }
@@ -126,6 +130,9 @@ function dequeUpdate(){
   })
 }
 
+//////////////////////////////////////////////////////////////////////////
+// Send gameState to all users
+//////////////////////////////////////////////////////////////////////////
 function broadcastSession2(session, updateData, now) {
   session.users.forEach(userId => {
     wss.clients.forEach(client => {
@@ -142,7 +149,9 @@ function broadcastSession2(session, updateData, now) {
   })
 };
 
-///////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+// Garbgage to remove
+//////////////////////////////////////////////////////////////////////////
 
 const blankCharacter = '_';
 

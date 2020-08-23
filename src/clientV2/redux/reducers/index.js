@@ -4,7 +4,7 @@ import {
 
 import initialState from "../initialState.ts";
 
-const commandQueueWaitTime = 2;
+const commandQueueWaitTime = 1;
 
 export default combineReducers({
 
@@ -30,7 +30,6 @@ export default combineReducers({
       }
 
       case 'DEQUEUE_COMMANDS': {
-        // console.log('DEQUEUE_COMMANDS', action.payload)
         return {
           ...state,
           [`${action.payload.drone}`]: []
@@ -110,14 +109,8 @@ export default combineReducers({
   terminalLines: (state = initialState, action) => {
     switch (action.type) {
       case "NEW_COMMAND": {
-        console.log("NEW_COMMAND")
-        // debugger
-        return [
-          ...state,
-          action.payload
-        ]
+        return [...state, action.payload]
       }
-
       default:
         return state;
     }
