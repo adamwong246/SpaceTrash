@@ -46,24 +46,7 @@ const renderDataView = (session) => {
     const foundShip = session.gameState.shipsWithoutFogOfWar.filter((s) => drone.ship === s.id)[0]
     drone.rays = getRays(drone, foundShip.matrix)
     return drone
-    // const rays = getRays(drone, foundShip.matrix);
-    //
-    // if(!newUserStates[drone.user]){
-    //   newUserStates[drone.user] = {}
-    // }
-    //
-    // if(!newUserStates[drone.user].dronesWithRays){
-    //   newUserStates[drone.user].dronesWithRays = []
-    // }
-    //
-    // const droneObject = drone;
-    // droneObject.rays = rays
-    // newUserStates[drone.user].dronesWithRays.push(droneObject)
-    // newUserStates[drone.user].shipsWithFogOfWar = [foundShip]
   })
-
-  // return newUserStates
-
 }
 
 const initializeGameState = (session, ships, drones) => {
@@ -103,7 +86,11 @@ const initializeGameState = (session, ships, drones) => {
       }
       return ship
     })
-
+    .map((ship) => {
+      ship.x = 0
+      ship.y = 0
+      return ship
+    })
     const newGameState = {
       shipsWithoutFogOfWar: mappedShips,
       dronesWithoutRays: drones

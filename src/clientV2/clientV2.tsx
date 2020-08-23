@@ -8,6 +8,8 @@ import loop from "./loop.ts"
 
 import { NEW_COMMAND, LOAD_GAME_STATE } from "./redux/actionTypes.js"
 
+var timeflag = Date.now()
+
 var ws = new WebSocket('ws://localhost:5000');
 ws.onerror = function(e) { console.log(`onerror: ${JSON.stringify(e)}`) }
 ws.onclose = function(e) { console.log(`onclose: ${JSON.stringify(e)}`) }
@@ -19,7 +21,7 @@ ws.onopen = function(e) {
 
 ws.onmessage = function(e) {
   const data = JSON.parse(e.data)
-  console.log(`onmessage`, data)
+  // console.log(`onmessage`, data)
 
   if(data.msg === "user joined"){
     store.dispatch({type: "NEW_COMMAND", payload: "connection established"})
@@ -30,8 +32,9 @@ ws.onmessage = function(e) {
     if (roomsAddress[0] === 'session') {
       if (roomsAddress[2] === 'user') {
 
-        console.log(data)
-        store.dispatch({ type: LOAD_GAME_STATE, payload: data.msg })
+        console.log("timeflag: ", data.timestamp - timeflag)
+        timeflag = data.timestamp
+
         store.dispatch({type:"OBSERVE_DRONES_RAYS", payload:data.msg })
 
       }
@@ -40,17 +43,17 @@ ws.onmessage = function(e) {
 }
 
 function send(msg) {
-  console.log(`send: ${msg}`)
+  // console.log(`send: ${msg}`)
   ws.send(JSON.stringify({ msg: msg }));
 }
 
 function broadcast(msg, room, user) {
-  console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`)
+  // console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`)
   ws.send(JSON.stringify({ room: room, msg: msg, user: user }))
 }
 
 function join(room) {
-  console.log(`join: ${room}`)
+  // console.log(`join: ${room}`)
   ws.send(JSON.stringify({ join: room }));
 }
 

@@ -45779,6 +45779,7 @@ const store_1 = __webpack_require__(/*! ./redux/store */ "./src/clientV2/redux/s
 const App_tsx_1 = __webpack_require__(/*! ./App.tsx */ "./src/clientV2/App.tsx");
 const loop_ts_1 = __webpack_require__(/*! ./loop.ts */ "./src/clientV2/loop.ts");
 const actionTypes_js_1 = __webpack_require__(/*! ./redux/actionTypes.js */ "./src/clientV2/redux/actionTypes.js");
+var timeflag = Date.now();
 var ws = new WebSocket('ws://localhost:5000');
 ws.onerror = function (e) { console.log(`onerror: ${JSON.stringify(e)}`); };
 ws.onclose = function (e) { console.log(`onclose: ${JSON.stringify(e)}`); };
@@ -45789,7 +45790,7 @@ ws.onopen = function (e) {
 };
 ws.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    console.log(`onmessage`, data);
+    // console.log(`onmessage`, data)
     if (data.msg === "user joined") {
         store_1.default.dispatch({ type: "NEW_COMMAND", payload: "connection established" });
     }
@@ -45797,23 +45798,23 @@ ws.onmessage = function (e) {
         const roomsAddress = data.room.split('-');
         if (roomsAddress[0] === 'session') {
             if (roomsAddress[2] === 'user') {
-                console.log(data);
-                store_1.default.dispatch({ type: actionTypes_js_1.LOAD_GAME_STATE, payload: data.msg });
+                console.log("timeflag: ", data.timestamp - timeflag);
+                timeflag = data.timestamp;
                 store_1.default.dispatch({ type: "OBSERVE_DRONES_RAYS", payload: data.msg });
             }
         }
     }
 };
 function send(msg) {
-    console.log(`send: ${msg}`);
+    // console.log(`send: ${msg}`)
     ws.send(JSON.stringify({ msg: msg }));
 }
 function broadcast(msg, room, user) {
-    console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`);
+    // console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`)
     ws.send(JSON.stringify({ room: room, msg: msg, user: user }));
 }
 function join(room) {
-    console.log(`join: ${room}`);
+    // console.log(`join: ${room}`)
     ws.send(JSON.stringify({ join: room }));
 }
 function bootApp(wrapper) {
@@ -46244,13 +46245,44 @@ exports.default = {
             });
             return;
         }
+        if (split[0] === "QQ") {
+            for (var i = 0; i < parseInt(split[3]); i++) {
+                dispatch({
+                    type: ActionTypes.QUEUE_COMMAND, payload: {
+                        drone: split[1],
+                        instruction: split[2]
+                    }
+                });
+            }
+            return;
+        }
+        if (split[0] === "DQ") {
+            dispatch({
+                type: "DEQUEUE_COMMANDS", payload: {
+                    drone: split[1]
+                }
+            });
+            return;
+        }
         if (split[0] === "CODE_UPLOAD") {
+            dispatch({ type: ActionTypes.NEW_COMMAND, payload: "I hope you are running trusted code. Caveat Empetor!" });
             fileDialog()
                 .then(file => {
                 file[0].text().then((e) => {
                     // Window.USER_CONFIG = eval(e);
                     dispatch({ type: "CODE_UPLOAD", payload: e });
+                    dispatch({ type: ActionTypes.NEW_COMMAND, payload: "Your profile has been updated" });
                 });
+            });
+            return;
+        }
+        if (split[0] === "CODE_DOWNLOAD") {
+            dispatch({ type: ActionTypes.NEW_COMMAND, payload: "I hope you are running trusted code. Caveat Empetor!" });
+            fetch('https://raw.githubusercontent.com/adamwong246/SpaceTrash/websockets/dist/adam.bundle.js')
+                .then(response => response.text())
+                .then(data => {
+                dispatch({ type: "CODE_UPLOAD", payload: data });
+                dispatch({ type: ActionTypes.NEW_COMMAND, payload: "Your profile has been updated" });
             });
             return;
         }
@@ -46293,7 +46325,7 @@ exports.default = (store, broadcaster) => {
         });
     };
     // start the clock
-    let tick = window.setInterval(clock, 500);
+    let tick = window.setInterval(clock, 100);
     let updatePromise = Promise.resolve();
     const tock = subscribe('clock.time', state => {
         const now = Date.now();
@@ -46400,14 +46432,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const commandQueueWaitTime = 100;
+const commandQueueWaitTime = 500;
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
 
   commandQueues: function(state = {}, action) {
     switch (action.type) {
       case 'QUEUE_COMMAND': {
-        console.log('QUEUE_COMMAND', action.payload)
+        // console.log('QUEUE_COMMAND', action.payload)
 
         const commands = state[`${action.payload.drone}`] || []
         const lastTime = commands[commands.length - 1] ? commands[commands.length - 1].timestamp : Date.now()
@@ -46423,6 +46455,14 @@ const commandQueueWaitTime = 100;
             ...state[`${action.payload.drone}`] || [],
             newCommand
           ]
+        }
+      }
+
+      case 'DEQUEUE_COMMANDS': {
+        // console.log('DEQUEUE_COMMANDS', action.payload)
+        return {
+          ...state,
+          [`${action.payload.drone}`]: []
         }
       }
 
@@ -46477,24 +46517,24 @@ const commandQueueWaitTime = 100;
     }
   },
 
-  loadState: function(state = {}, action) {
-    switch (action.type) {
-      case 'LOAD_GAME_STATE': {
-        console.log('LOAD_GAME_STATE', action.payload)
-        return {
-          ...state,
-          drones: action.payload.dronesWithoutRays,
-          ships: action.payload.shipsWithoutFogOfWar
-          // chatLog: action.payload.chatLog,
-          // ships: action.payload.ships,
-          // drones: action.payload.drones
-        }
-      }
-
-      default:
-        return state;
-    }
-  },
+  // loadState: function(state = {}, action) {
+  //   switch (action.type) {
+  //     case 'LOAD_GAME_STATE': {
+  //       console.log('LOAD_GAME_STATE', action.payload)
+  //       return {
+  //         ...state,
+  //         drones: action.payload.dronesWithoutRays,
+  //         ships: action.payload.shipsWithoutFogOfWar
+  //         // chatLog: action.payload.chatLog,
+  //         // ships: action.payload.ships,
+  //         // drones: action.payload.drones
+  //       }
+  //     }
+  //
+  //     default:
+  //       return state;
+  //   }
+  // },
 
   terminalLines: (state = _initialState_ts__WEBPACK_IMPORTED_MODULE_1___default.a, action) => {
     switch (action.type) {
@@ -46579,32 +46619,26 @@ const commandQueueWaitTime = 100;
               gridData[shipId].tiles[tile.x][tile.y] = tile.tile
               droneData[droneId].tiles[tile.x][tile.y] = tile.tile
 
-              // if (tile.x < metaData.xMin) {
-              //   metaData.xMin = tile.x
-              // }
-              // if (tile.x > metaData.xMax) {
-              //   metaData.xMax = tile.x
-              // }
-              // if (tile.y < metaData.yMin) {
-              //   metaData.yMin = tile.y
-              // }
-              // if (tile.y > metaData.yMax) {
-              //   metaData.yMax = tile.y
-              // }
+
             })
 
           })
 
+          droneData[droneId].name = drone.name
+          droneData[droneId].x = drone.x
+          droneData[droneId].y = drone.y
+          droneData[droneId].direction = drone.direction
+
           gridData[shipId].tiles[Math.round(drone.x)][Math.round(drone.y)][1] = `drone-${drone.id}`
 
-          // gridData[shipId].metaData = metaData
-          // droneData[droneId].metaData = metaData
         })
 
         return {
           ...state,
           gridData,
-          droneData
+          droneData,
+          drones: action.payload.dronesWithoutRays,
+          ships: action.payload.shipsWithoutFogOfWar
         }
       }
 
@@ -46644,7 +46678,7 @@ const baseSelector = (state => state)
 
 const getTabIoProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], state => {
   return {
-    drones: state.loadState.drones
+    drones: state.usr.drones
   }
 })
 
@@ -46652,8 +46686,8 @@ const getTabViewProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
 
   return {
     userScripts: state.userScripts,
-    drones: state.loadState.drones,
-    ships: state.loadState.ships,
+    drones: state.usr.drones,
+    ships: state.usr.ships,
     droneData: state.usr.droneData,
     gridData: state.usr.gridData,
 
@@ -46669,14 +46703,14 @@ const getTabViewProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
 
 const getTabMapProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], state => {
   return {
-    ships: state.loadState.ships
+    ships: state.usr.ships
   }
 })
 
 
 const getTabChatProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], state => {
   return {
-    chatLog: state.loadState.chatLog
+    chatLog: state.usr.chatLog
   }
 })
 
@@ -46689,8 +46723,8 @@ const getTabLogProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelec
 const getTabDataProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], (base) => {
   return {
     commandQueues: base.commandQueues,
-    drones: base.loadState.drones,
-    ships: base.loadState.ships,
+    drones: base.usr.drones,
+    ships: base.usr.ships,
     usr: base.usr,
     userScripts: base.userScripts
   }

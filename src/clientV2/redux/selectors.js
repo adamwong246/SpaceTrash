@@ -8,7 +8,7 @@ const baseSelector = (state => state)
 
 export const getTabIoProps = createSelector([baseSelector], state => {
   return {
-    drones: state.loadState.drones
+    drones: state.usr.drones
   }
 })
 
@@ -16,8 +16,8 @@ export const getTabViewProps = createSelector([baseSelector], state => {
 
   return {
     userScripts: state.userScripts,
-    drones: state.loadState.drones,
-    ships: state.loadState.ships,
+    drones: state.usr.drones,
+    ships: state.usr.ships,
     droneData: state.usr.droneData,
     gridData: state.usr.gridData,
 
@@ -33,14 +33,14 @@ export const getTabViewProps = createSelector([baseSelector], state => {
 
 export const getTabMapProps = createSelector([baseSelector], state => {
   return {
-    ships: state.loadState.ships
+    ships: state.usr.ships
   }
 })
 
 
 export const getTabChatProps = createSelector([baseSelector], state => {
   return {
-    chatLog: state.loadState.chatLog
+    chatLog: state.usr.chatLog
   }
 })
 
@@ -53,8 +53,8 @@ export const getTabLogProps = createSelector([baseSelector], state => {
 export const getTabDataProps = createSelector([baseSelector], (base) => {
   return {
     commandQueues: base.commandQueues,
-    drones: base.loadState.drones,
-    ships: base.loadState.ships,
+    drones: base.usr.drones,
+    ships: base.usr.ships,
     usr: base.usr,
     userScripts: base.userScripts
   }

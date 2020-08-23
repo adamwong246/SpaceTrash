@@ -4,14 +4,14 @@ import {
 
 import initialState from "../initialState.ts";
 
-const commandQueueWaitTime = 100;
+const commandQueueWaitTime = 500;
 
 export default combineReducers({
 
   commandQueues: function(state = {}, action) {
     switch (action.type) {
       case 'QUEUE_COMMAND': {
-        console.log('QUEUE_COMMAND', action.payload)
+        // console.log('QUEUE_COMMAND', action.payload)
 
         const commands = state[`${action.payload.drone}`] || []
         const lastTime = commands[commands.length - 1] ? commands[commands.length - 1].timestamp : Date.now()
@@ -27,6 +27,14 @@ export default combineReducers({
             ...state[`${action.payload.drone}`] || [],
             newCommand
           ]
+        }
+      }
+
+      case 'DEQUEUE_COMMANDS': {
+        // console.log('DEQUEUE_COMMANDS', action.payload)
+        return {
+          ...state,
+          [`${action.payload.drone}`]: []
         }
       }
 
@@ -81,24 +89,24 @@ export default combineReducers({
     }
   },
 
-  loadState: function(state = {}, action) {
-    switch (action.type) {
-      case 'LOAD_GAME_STATE': {
-        console.log('LOAD_GAME_STATE', action.payload)
-        return {
-          ...state,
-          drones: action.payload.dronesWithoutRays,
-          ships: action.payload.shipsWithoutFogOfWar
-          // chatLog: action.payload.chatLog,
-          // ships: action.payload.ships,
-          // drones: action.payload.drones
-        }
-      }
-
-      default:
-        return state;
-    }
-  },
+  // loadState: function(state = {}, action) {
+  //   switch (action.type) {
+  //     case 'LOAD_GAME_STATE': {
+  //       console.log('LOAD_GAME_STATE', action.payload)
+  //       return {
+  //         ...state,
+  //         drones: action.payload.dronesWithoutRays,
+  //         ships: action.payload.shipsWithoutFogOfWar
+  //         // chatLog: action.payload.chatLog,
+  //         // ships: action.payload.ships,
+  //         // drones: action.payload.drones
+  //       }
+  //     }
+  //
+  //     default:
+  //       return state;
+  //   }
+  // },
 
   terminalLines: (state = initialState, action) => {
     switch (action.type) {
@@ -183,32 +191,26 @@ export default combineReducers({
               gridData[shipId].tiles[tile.x][tile.y] = tile.tile
               droneData[droneId].tiles[tile.x][tile.y] = tile.tile
 
-              // if (tile.x < metaData.xMin) {
-              //   metaData.xMin = tile.x
-              // }
-              // if (tile.x > metaData.xMax) {
-              //   metaData.xMax = tile.x
-              // }
-              // if (tile.y < metaData.yMin) {
-              //   metaData.yMin = tile.y
-              // }
-              // if (tile.y > metaData.yMax) {
-              //   metaData.yMax = tile.y
-              // }
+
             })
 
           })
 
+          droneData[droneId].name = drone.name
+          droneData[droneId].x = drone.x
+          droneData[droneId].y = drone.y
+          droneData[droneId].direction = drone.direction
+
           gridData[shipId].tiles[Math.round(drone.x)][Math.round(drone.y)][1] = `drone-${drone.id}`
 
-          // gridData[shipId].metaData = metaData
-          // droneData[droneId].metaData = metaData
         })
 
         return {
           ...state,
           gridData,
-          droneData
+          droneData,
+          drones: action.payload.dronesWithoutRays,
+          ships: action.payload.shipsWithoutFogOfWar
         }
       }
 

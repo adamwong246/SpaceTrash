@@ -4263,6 +4263,75 @@ if (false) {} else {
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const { Tab, Tabs, TabList, TabPanel } = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
 const blankCharacter = '.';
+class ShipSchematic extends React.Component {
+    render() {
+        const gridData = this.props.gridData;
+        const shipId = this.props.shipId;
+        const metaData = {
+            xMin: Number.POSITIVE_INFINITY,
+            yMin: Number.POSITIVE_INFINITY,
+            xMax: Number.NEGATIVE_INFINITY,
+            yMax: Number.NEGATIVE_INFINITY,
+        };
+        console.log("mark0", shipId);
+        Object.keys(gridData[shipId].tiles).forEach((xKey) => {
+            console.log("mark1");
+            Object.keys(gridData[shipId].tiles[xKey]).forEach((yKey) => {
+                console.log("mark2");
+                const tile = gridData[shipId].tiles[xKey][yKey];
+                const xNumber = parseInt(xKey);
+                const yNumber = parseInt(yKey);
+                if (xNumber < metaData.xMin) {
+                    metaData.xMin = xNumber;
+                }
+                if (xNumber > metaData.xMax) {
+                    metaData.xMax = xNumber;
+                }
+                if (yNumber < metaData.yMin) {
+                    metaData.yMin = yNumber;
+                }
+                if (yNumber > metaData.yMax) {
+                    metaData.yMax = yNumber;
+                }
+            });
+        });
+        const height = metaData.yMax - metaData.yMin + 1;
+        const width = metaData.xMax - metaData.xMin + 1;
+        const matrix = new Array(height).fill(blankCharacter).map(() => new Array(width).fill(blankCharacter).map(() => new Array(2).fill(blankCharacter)));
+        for (var yNdx = 0; yNdx < height; yNdx++) {
+            for (var xNdx = 0; xNdx < width; xNdx++) {
+                const x = (xNdx + metaData.xMin).toString();
+                const y = (yNdx + metaData.yMin).toString();
+                console.log("mark3");
+                if (gridData[shipId].tiles[x]) {
+                    console.log("mark4");
+                    if (gridData[shipId].tiles[x][y]) {
+                        console.log("mark5");
+                        matrix[yNdx][xNdx] = gridData[shipId].tiles[x][y];
+                    }
+                }
+            }
+        }
+        return (matrix && (React.createElement("table", { className: "matrix codish" },
+            React.createElement("tbody", null, matrix.map((row) => {
+                return (React.createElement("tr", null, row.map((cell) => {
+                    var secondCharacter;
+                    if (cell[1] === "_") {
+                        secondCharacter = "_";
+                    }
+                    else if (cell[1] === ".") {
+                        secondCharacter = ".";
+                    }
+                    else
+                        secondCharacter = "D";
+                    return (React.createElement("td", { "data-drone": cell[1] ? cell[1] : "" },
+                        cell[0],
+                        secondCharacter));
+                })));
+            })))));
+    }
+}
+;
 class ShipSchematics extends React.Component {
     render() {
         console.log("ShipSchematics");
@@ -4274,62 +4343,9 @@ class ShipSchematics extends React.Component {
                         return (React.createElement(Tab, null, ship.name));
                     })),
                     this.props.ships.map((ship) => {
-                        const metaData = {
-                            xMin: Number.POSITIVE_INFINITY,
-                            yMin: Number.POSITIVE_INFINITY,
-                            xMax: Number.NEGATIVE_INFINITY,
-                            yMax: Number.NEGATIVE_INFINITY,
-                        };
-                        Object.keys(gridData[ship.id].tiles).forEach((xKey) => {
-                            Object.keys(gridData[ship.id].tiles[xKey]).forEach((yKey) => {
-                                const tile = gridData[ship.id].tiles[xKey][yKey];
-                                const xNumber = parseInt(xKey);
-                                const yNumber = parseInt(yKey);
-                                if (xNumber < metaData.xMin) {
-                                    metaData.xMin = xNumber;
-                                }
-                                if (xNumber > metaData.xMax) {
-                                    metaData.xMax = xNumber;
-                                }
-                                if (yNumber < metaData.yMin) {
-                                    metaData.yMin = yNumber;
-                                }
-                                if (yNumber > metaData.yMax) {
-                                    metaData.yMax = yNumber;
-                                }
-                            });
-                        });
-                        const height = metaData.yMax - metaData.yMin + 1;
-                        const width = metaData.xMax - metaData.xMin + 1;
-                        const matrix = new Array(height).fill(blankCharacter).map(() => new Array(width).fill(blankCharacter).map(() => new Array(2).fill(blankCharacter)));
-                        for (var yNdx = 0; yNdx < height; yNdx++) {
-                            for (var xNdx = 0; xNdx < width; xNdx++) {
-                                const x = (xNdx + metaData.xMin).toString();
-                                const y = (yNdx + metaData.yMin).toString();
-                                if (gridData[ship.id].tiles[x]) {
-                                    if (gridData[ship.id].tiles[x][y]) {
-                                        matrix[yNdx][xNdx] = gridData[ship.id].tiles[x][y];
-                                    }
-                                }
-                            }
-                        }
-                        return (React.createElement(TabPanel, null, matrix && (React.createElement("table", { className: "matrix codish" },
-                            React.createElement("tbody", null, matrix.map((row) => {
-                                return (React.createElement("tr", null, row.map((cell) => {
-                                    var secondCharacter;
-                                    if (cell[1] === "_") {
-                                        secondCharacter = "_";
-                                    }
-                                    else if (cell[1] === ".") {
-                                        secondCharacter = ".";
-                                    }
-                                    else
-                                        secondCharacter = "D";
-                                    return (React.createElement("td", { "data-drone": cell[1] ? cell[1] : "" },
-                                        cell[0],
-                                        secondCharacter));
-                                })));
-                            }))))));
+                        return (React.createElement(TabPanel, null,
+                            this.props.gridData[ship.id] && React.createElement(ShipSchematic, { shipId: ship.id, gridData: gridData }),
+                            !this.props.gridData[ship.id] && React.createElement("span", null, "No grid data available")));
                     })))));
     }
 }
@@ -4400,80 +4416,96 @@ class Video extends React.Component {
             }
         }
         return (React.createElement("div", { id: "video" },
-            "#",
-            drone._id,
             React.createElement("table", null,
-                React.createElement("tr", null,
-                    React.createElement("td", null, "input"),
-                    React.createElement("td", null, "output")),
-                React.createElement("tr", null,
-                    React.createElement("td", null,
-                        React.createElement("div", { id: "screen" },
-                            React.createElement("div", { id: "floor" }),
-                            React.createElement("div", { id: "ceiling" }),
-                            React.createElement("div", null, rays.map((r, ndx) => {
-                                if (r) {
-                                    /** @type {React.CSSProperties} */
-                                    const style = {
-                                        position: 'absolute',
-                                        height: r.style.height,
-                                        top: r.style.top,
-                                        left: r.style.left,
-                                        width: r.style.width,
-                                        clip: r.style.clip,
-                                        zIndex: r.style.zIndex
-                                    };
-                                    return (React.createElement("img", { key: `strip-${ndx}`, src: r.style.src, style: style }));
-                                }
-                            }))),
-                        React.createElement("svg", { height: scopeSize, width: scopeSize },
-                            React.createElement("circle", { cx: halfScopeSize, cy: halfScopeSize, r: halfScopeSize, strokeWidth: "3", fill: "gray" }),
-                            React.createElement("line", { key: `ray-min`, stroke: 'white', x1: "0", y1: "0", x2: "0", y2: "1", vectorEffect: "non-scaling-stroke", transform: `translate(${halfScopeSize}, ${halfScopeSize}) scale(${halfScopeSize}) rotate(120, 0, 0)`, strokeWidth: "2" }),
-                            React.createElement("line", { key: `ray-max`, stroke: 'white', x1: "0", y1: "0", x2: "0", y2: "1", vectorEffect: "non-scaling-stroke", transform: `translate(${halfScopeSize}, ${halfScopeSize}) scale(${halfScopeSize}) rotate(240, 0, 0)`, strokeWidth: "2" }),
-                            rays.map((r, ndx) => {
-                                if (r) {
-                                    return (React.createElement("line", { key: `ray-${ndx}`, stroke: 'white', x1: "0", y1: "0", x2: "0", y2: "1", vectorEffect: "non-scaling-stroke", transform: `
-                        translate(${halfScopeSize}, ${halfScopeSize})
-                        scale(${halfScopeSize * (r.rayDistance / longestRay) - 1})
-                        rotate(${(ndx / 2.6) + 120}, 0, 0)` }));
-                                }
-                            })),
-                        matrix && (React.createElement("table", { className: "matrix codish" },
-                            React.createElement("tbody", null, matrix.map((row) => {
-                                return (React.createElement("tr", null, row.map((cell) => {
-                                    var secondCharacter;
-                                    if (cell[1] === "_") {
-                                        secondCharacter = "_";
+                React.createElement("tbody", null,
+                    React.createElement("tr", null,
+                        React.createElement("td", null, "Input"),
+                        React.createElement("td", null,
+                            React.createElement("table", null,
+                                React.createElement("tbody", null,
+                                    React.createElement("tr", null,
+                                        React.createElement("td", null),
+                                        React.createElement("td", null,
+                                            React.createElement("button", { onClick: () => this.props.dispatcher("DRONE_MOVE_FORWARD", drone.id) }, "FORWARD")),
+                                        React.createElement("td", null)),
+                                    React.createElement("tr", null,
+                                        React.createElement("td", null,
+                                            React.createElement("button", { onClick: () => this.props.dispatcher("DRONE_ROTATE_LEFT", drone.id) }, "LEFT")),
+                                        React.createElement("td", null),
+                                        React.createElement("td", null,
+                                            React.createElement("button", { onClick: () => this.props.dispatcher("DRONE_ROTATE_RIGHT", drone.id) }, "RIGHT"))),
+                                    React.createElement("tr", null,
+                                        React.createElement("td", null),
+                                        React.createElement("td", null,
+                                            React.createElement("button", { onClick: () => this.props.dispatcher("DRONE_MOVE_BACK", drone.id) }, "BACK")),
+                                        React.createElement("td", null)))))),
+                    React.createElement("tr", null,
+                        React.createElement("td", null, "Output"),
+                        React.createElement("td", null,
+                            React.createElement("ul", null,
+                                React.createElement("li", null,
+                                    "#",
+                                    drone._id),
+                                React.createElement("li", null,
+                                    "x: ",
+                                    drone.x),
+                                React.createElement("li", null,
+                                    "y: ",
+                                    drone.y),
+                                React.createElement("li", null,
+                                    "direction: ",
+                                    drone.direction),
+                                React.createElement("li", null,
+                                    "aboard ship #",
+                                    drone.ship,
+                                    " ")),
+                            React.createElement("div", { id: "screen" },
+                                React.createElement("div", { id: "floor" }),
+                                React.createElement("div", { id: "ceiling" }),
+                                React.createElement("div", null, rays.map((r, ndx) => {
+                                    if (r) {
+                                        /** @type {React.CSSProperties} */
+                                        const style = {
+                                            position: 'absolute',
+                                            height: r.style.height,
+                                            top: r.style.top,
+                                            left: r.style.left,
+                                            width: r.style.width,
+                                            clip: r.style.clip,
+                                            zIndex: r.style.zIndex
+                                        };
+                                        return (React.createElement("img", { key: `strip-${ndx}`, src: r.style.src, style: style }));
                                     }
-                                    else if (cell[1] === ".") {
-                                        secondCharacter = ".";
+                                }))),
+                            React.createElement("svg", { height: scopeSize, width: scopeSize },
+                                React.createElement("circle", { cx: halfScopeSize, cy: halfScopeSize, r: halfScopeSize, strokeWidth: "3", fill: "gray" }),
+                                React.createElement("line", { key: `ray-min`, stroke: 'white', x1: "0", y1: "0", x2: "0", y2: "1", vectorEffect: "non-scaling-stroke", transform: `translate(${halfScopeSize}, ${halfScopeSize}) scale(${halfScopeSize}) rotate(120, 0, 0)`, strokeWidth: "2" }),
+                                React.createElement("line", { key: `ray-max`, stroke: 'white', x1: "0", y1: "0", x2: "0", y2: "1", vectorEffect: "non-scaling-stroke", transform: `translate(${halfScopeSize}, ${halfScopeSize}) scale(${halfScopeSize}) rotate(240, 0, 0)`, strokeWidth: "2" }),
+                                rays.map((r, ndx) => {
+                                    if (r) {
+                                        return (React.createElement("line", { key: `ray-${ndx}`, stroke: 'white', x1: "0", y1: "0", x2: "0", y2: "1", vectorEffect: "non-scaling-stroke", transform: `
+                      translate(${halfScopeSize}, ${halfScopeSize})
+                      scale(${halfScopeSize * (r.rayDistance / longestRay) - 1})
+                      rotate(${(ndx / 2.6) + 120}, 0, 0)` }));
                                     }
-                                    else
-                                        secondCharacter = "D";
-                                    return (React.createElement("td", { "data-drone": cell[1] ? cell[1] : "" },
-                                        cell[0],
-                                        secondCharacter));
-                                })));
-                            }))))),
-                    React.createElement("td", null,
-                        React.createElement("table", null,
-                            React.createElement("tbody", null,
-                                React.createElement("tr", null,
-                                    React.createElement("td", null),
-                                    React.createElement("td", null,
-                                        React.createElement("button", { onClick: () => this.props.dispatcher("DRONE_MOVE_FORWARD", drone.id) }, "FORWARD")),
-                                    React.createElement("td", null)),
-                                React.createElement("tr", null,
-                                    React.createElement("td", null,
-                                        React.createElement("button", { onClick: () => this.props.dispatcher("DRONE_ROTATE_LEFT", drone.id) }, "LEFT")),
-                                    React.createElement("td", null),
-                                    React.createElement("td", null,
-                                        React.createElement("button", { onClick: () => this.props.dispatcher("DRONE_ROTATE_RIGHT", drone.id) }, "RIGHT"))),
-                                React.createElement("tr", null,
-                                    React.createElement("td", null),
-                                    React.createElement("td", null,
-                                        React.createElement("button", { onClick: () => this.props.dispatcher("DRONE_MOVE_BACK", drone.id) }, "BACK")),
-                                    React.createElement("td", null)))))))));
+                                })),
+                            matrix && (React.createElement("table", { className: "matrix codish" },
+                                React.createElement("tbody", null, matrix.map((row) => {
+                                    return (React.createElement("tr", null, row.map((cell) => {
+                                        var secondCharacter;
+                                        if (cell[1] === "_") {
+                                            secondCharacter = "_";
+                                        }
+                                        else if (cell[1] === ".") {
+                                            secondCharacter = ".";
+                                        }
+                                        else
+                                            secondCharacter = "D";
+                                        return (React.createElement("td", { "data-drone": cell[1] ? cell[1] : "" },
+                                            cell[0],
+                                            secondCharacter));
+                                    })));
+                                }))))))))));
     }
 }
 // export default = Video;
@@ -4501,9 +4533,10 @@ class MainView extends React.Component {
         className: "vertical"
       }, [
         React.createElement(this.props.tabs.TabList, {}, [
-          React.createElement(this.props.tabs.Tab, {}, "video"),
-          React.createElement(this.props.tabs.Tab, {}, "ship's schematics"),
-          React.createElement(this.props.tabs.Tab, {}, "inventory")
+          React.createElement(this.props.tabs.Tab, {}, "bots"),
+          React.createElement(this.props.tabs.Tab, {}, "ships"),
+          React.createElement(this.props.tabs.Tab, {}, "inventory"),
+          React.createElement(this.props.tabs.Tab, {}, "map")
         ]),
 
         React.createElement(this.props.tabs.TabPanel, {}, React.createElement(this.props.tabs.Tabs, {
@@ -4529,6 +4562,12 @@ class MainView extends React.Component {
             ships: this.props.ships,
             gridData: this.props.gridData,
           })]),
+
+          React.createElement(this.props.tabs.TabPanel, {}, [React.createElement(ShipSchematics, {
+              ships: this.props.ships,
+              gridData: this.props.gridData,
+            })]),
+
         React.createElement(this.props.tabs.TabPanel, {}, React.createElement('p', {}, "Ut in erat in nibh finibus porta. Maecenas pulvinar velit nisl, eget accumsan nunc efficitur eu. Integer malesuada vehicula ipsum quis pretium. Fusce at erat ex. Curabitur lectus mi, posuere vel suscipit a, mollis et eros. Cras scelerisque, arcu luctus ornare feugiat, mauris nisi rutrum ex, quis bibendum ligula nunc at dui. Quisque euismod pellentesque urna ac euismod. Nulla dapibus elit justo, vitae finibus velit lobortis et. Fusce egestas lobortis lacus, vel fermentum turpis accumsan ac. Etiam quis efficitur urna. Proin in lectus vitae lectus tincidunt hendrerit sed eget est. Aenean vel tincidunt elit. Vivamus imperdiet commodo elit vitae cursus. Nam sollicitudin neque volutpat risus rhoncus, eget suscipit ligula suscipit."))
       ])]);
   }

@@ -102,9 +102,6 @@ module.exports = (session, command) => {
           drone.direction = drone.direction + rotateStepSize
         }
 
-      } else {
-        console.log("error")
-        console.log(drone._id.toString(), command.droneId)
       }
       return drone;
     })

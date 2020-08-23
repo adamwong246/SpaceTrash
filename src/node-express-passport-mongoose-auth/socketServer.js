@@ -31,12 +31,13 @@ wss.on('connection', ws => {
   ws.on('close', (e) => console.log('websocket closed' + e))
 
   ws.on('message', message => {
-    console.log('message: ', message);
+    const start = Date.now();
+
     var messag = JSON.parse(message);
-    messag.createdAt = Date.now()
+    messag.createdAt = new Date()
 
     if (messag.join) {
-      console.log('joining: ', messag.join);
+      // console.log('joining: ', messag.join);
       ws.room.push(messag.join)
     }
 
@@ -51,11 +52,11 @@ wss.on('connection', ws => {
               Session.findById(
                 roomsAddress[1],
                 (err, session) => {
-                  // broadcastSession(session)
-                  broadcastSession2(session, session.gameState)
+                  broadcastSession2(session, session.gameState, start)
                 }
               )
-            } else if (messag.msg.say) {
+            }
+            else if (messag.msg.say) {
 
               Session.findByIdAndUpdate(
                 roomsAddress[1], {
@@ -70,7 +71,8 @@ wss.on('connection', ws => {
                   pushUpdateToAllUsers(roomsAddress[1], doc.users)
                 }
               )
-            } else if (messag.msg.commandQueues) {
+            }
+            else if (messag.msg.commandQueues) {
 
               Session.findById(roomsAddress[1], (err, session) => {
                 const updateData = gameState.updateState(session, messag.msg.commandQueues)
@@ -81,22 +83,15 @@ wss.on('connection', ws => {
                       session.markModified('gameState');
 
                       session.save( function(err, savedSessionDoc) {
-                        if (err) return console.error(err);
-                        broadcastSession2(savedSessionDoc, session.gameState)
+                        if (err) {console.log(`the error:`, err)};
+                        broadcastSession2(savedSessionDoc, session.gameState, start)
                       });
-
-
                     }
                 });
-
-
-
               })
             }
-
-
-
-          } else {
+          }
+    else {
             Session.findByIdAndUpdate(
               roomsAddress[1], {
                 $push: {
@@ -110,7 +105,6 @@ wss.on('connection', ws => {
 
         }
 
-
       }
     }
 
@@ -119,33 +113,18 @@ wss.on('connection', ws => {
 
 const blankCharacter = '_';
 
-function broadcastSession2(session, updateData){
-  // console.log("broadcastSession2")
-  // console.log(updateData)
+function broadcastSession2(session, updateData, start){
   User.find({}, (err, users) => {
     users.forEach(user => {
       wss.clients.forEach(client => {
         const address = `session-${session._id}-user-${user._id}`
         if (client.room.indexOf(address) > -1) {
-          client.send(JSON.stringify({
-            room: address,
-            msg: updateData
-          }))
-        }
-      })
-    })
-  })
-};
 
-function broadcastSession(session){
-  User.find({}, (err, users) => {
-    users.forEach(user => {
-      wss.clients.forEach(client => {
-        const address = `session-${session._id}-user-${user._id}`
-        if (client.room.indexOf(address) > -1) {
+          console.log(Date.now() - start)
           client.send(JSON.stringify({
             room: address,
-            msg: session.userStates[user._id]
+            msg: updateData,
+            timestamp: Date.now()
           }))
         }
       })
@@ -230,10 +209,10 @@ function pushUpdateToAllUsers(sessionId, users) {
 }
 
 function broadcast(message) {
-  console.log('broadcast, ', message.room);
+  // console.log('broadcast, ', message.room);
 
   wss.clients.forEach(client => {
-    console.log('- client.room', client.room);
+    // console.log('- client.room', client.room);
     if (client.room.indexOf(message.room) > -1) {
       client.send(JSON.stringify(message))
     }
