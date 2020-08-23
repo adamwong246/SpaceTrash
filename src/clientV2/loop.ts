@@ -6,9 +6,9 @@ export default (store, broadcaster) => {
   // Start the clock
   const functionUpdateClock = () => {
     store.dispatch({ type: 'UPDATE_CLOCK', payload: {} })
-    setTimeout(functionUpdateClock, 0)
+    setTimeout(functionUpdateClock)
   }
-  setTimeout(functionUpdateClock, 0)
+  setTimeout(functionUpdateClock)
 
   // listen for changes to the clock and send stale instructions to server
   const tock = subscribe('clock.time', state => {

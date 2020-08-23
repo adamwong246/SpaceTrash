@@ -95,7 +95,7 @@ wss.on('connection', ws => {
 
 const updateQueue = []
 
-setTimeout(dequeUpdate, 1)
+setTimeout(dequeUpdate)
 
 function enqueUpdate(message) {
   updateQueue.push(message)
@@ -105,7 +105,7 @@ function dequeUpdate() {
   const message = updateQueue.shift()
 
   if (!message) {
-    setTimeout(dequeUpdate, 0)
+    setTimeout(dequeUpdate)
     return
   }
 
@@ -119,7 +119,7 @@ function dequeUpdate() {
       } else {
         session.markModified('gameState');
         session.save(function(err, savedSessionDoc) {
-          setTimeout(dequeUpdate, 0)
+          setTimeout(dequeUpdate)
           if (err) {
             console.log(`the error:`, err)
           };

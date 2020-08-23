@@ -116,8 +116,12 @@ module.exports = {
 
 
   updateState: (session, commandQueues) => {
+    const t = Date.now()
     executeCommands(session, commandQueues)
-    return {dronesWithRays: renderDataView(session)}
+    const drones = renderDataView(session)
+    console.log("update & render time:", Date.now() - t)
+
+    return {dronesWithRays: drones}
 
   }
 }
