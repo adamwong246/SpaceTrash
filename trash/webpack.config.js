@@ -50,6 +50,73 @@ const commonConfig = {
 
   ]
 };
+// #endregion
+
+// const webConfig = lodash.cloneDeep(commonConfig);
+// webConfig.output= { path: srcPaths('.'), publicPath: '' },
+// webConfig.entry = './src/renderer/renderer.tsx';
+// webConfig.output.filename = 'demo_bundle.js';
+// webConfig.plugins = [...commonConfig.plugins,
+//     new HtmlWebpackPlugin({
+//       template: "./src/renderer/index.html",
+//       filename: "./index.html"
+//     }),
+//
+//     new webpack.DefinePlugin({
+//       __MODE__: JSON.stringify('demo')
+//     })
+//   ];
+//
+// const mainConfig = lodash.cloneDeep(commonConfig);
+// mainConfig.entry = './src/main/main.js';
+// mainConfig.target = 'electron-main';
+// mainConfig.output.filename = 'main.bundle.js';
+// mainConfig.plugins = [
+//   ...commonConfig.plugins,
+//
+//   new CopyWebpackPlugin([
+//     {from:'./src/main/preload.js',to:'preload.js'},
+//     // {from:'./src/main/server/server-dev.html',to:'server-dev.html'},
+//     // {from:'./src/main/server/server.js',to:'server.js'},
+//     // {from:'./src/main/server/server-handlers.js',to:'server-handlers.js'},
+//     // {from:'./src/main/server/server-ipc.js',to:'server-ipc.js'},
+//   ]),
+//
+//   // new CopyPkgJsonPlugin({
+//   //   remove: ['scripts', 'devDependencies', 'build'],
+//   //   replace: {
+//   //     main: './main.bundle.js',
+//   //     scripts: { start: 'electron ./main.bundle.js' },
+//   //     postinstall: 'electron-builder install-app-deps',
+//   //   },
+//   // }),
+// ];
+//
+// const rendererConfig = lodash.cloneDeep(commonConfig);
+// rendererConfig.entry = './src/renderer/renderer.tsx';
+// rendererConfig.target = 'electron-renderer';
+// rendererConfig.output.filename = 'renderer.bundle.js';
+// rendererConfig.plugins = [
+//   ...commonConfig.plugins,
+//   new HtmlWebpackPlugin({
+//     template: path.resolve(__dirname, 'src/renderer/index.html'),
+//   }),
+//   new webpack.DefinePlugin({
+//     __MODE__: JSON.stringify('full')
+//   }),
+//   new CopyWebpackPlugin([
+//     {from:'./src/renderer/images',to:'images'}
+//   ]),
+// ];
+//
+//
+// const serverConfig = lodash.cloneDeep(commonConfig);
+// serverConfig.entry = './src/server/server.js';
+// serverConfig.target = 'node';
+// serverConfig.output.filename = 'server.bundle.js';
+// serverConfig.output.publicPath = __dirname
+
+// const serverV2Config = require("./src/serverV2/webpack.config.js")
 
 const clientV2Config = lodash.cloneDeep(commonConfig);
 clientV2Config.target ="web"
@@ -57,7 +124,9 @@ clientV2Config.entry = './src/clientV2/clientV2.tsx';
 clientV2Config.output.filename = 'clientV2.bundle.js';
 clientV2Config.output.publicPath = __dirname
 
-const serverV3Config = require("./src/serverV3/webpack.config.js")
+
+const serverV3Config = require("./src/node-express-passport-mongoose-auth/webpack.config.js")
+
 
 const userConfig = lodash.cloneDeep(commonConfig);
 userConfig.target ="web"

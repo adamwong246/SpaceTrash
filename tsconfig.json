@@ -2,16 +2,17 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "jsx": "react",
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["*"],
       "@public/*": ["public/*"],
-      "@main/*": ["src/main/*"],
-      "@lib/*": ["src/lib/*"],
-      "@renderer*/": ["src/renderer/*"],
-      "@utils/*": ["src/utils/*"],
-      "@utilz/*": ["src/server/*"],
+      "@main/*": ["main/*"],
+      "@lib/*": ["lib/*"],
+      "@renderer*/": ["renderer/*"],
+      "@utils/*": ["utils/*"],
+      "@utilz/*": ["server/*"],
     },
+
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
@@ -20,5 +21,8 @@
     "sourceMap": true,
     "target": "esnext"
   },
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "trash"
+  ]
 }

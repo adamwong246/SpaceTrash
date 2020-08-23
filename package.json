@@ -1,35 +1,18 @@
 {
-  "name": "electron-react-typescript-webpack-boilerplate",
-  "version": "2.0.2",
-  "description": "Pre-configured boilerplate for Electron + React + TypeScript",
-  "main": "./dist/main.bundle.js",
+  "name": "space-trash",
+  "version": "0.0.6",
+  "description": "a roguelike with javascript bots",
+  
   "scripts": {
-    "electron": "electron ./dist/main.bundle.js",
-    "serve": "node src/node-express-passport-mongoose-auth/bin/www",
+    "serve": "node src/serverV3/bin/www",
     "dev": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --colors",
     "prod": "rimraf dist && cross-env NODE_ENV=production webpack --progress --colors",
-    "test": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.ts\"",
-    "build:win": "electron-builder build --win --x64",
-    "build:mac": "electron-builder build --mac --x64"
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.ts\""
   },
-  "build": {
-    "appId": "com.devtography.electron_boilerplate",
-    "productName": "Electron+React+TypeScript Boilerplate",
-    "directories": {
-      "app": "./dist/",
-      "output": "./out/"
-    },
-    "mac": {
-      "target": "pkg"
-    },
-    "win": {
-      "target": "nsis",
-      "asar": false
-    },
-    "buildVersion": "1.0.0"
-  },
-  "author": "Wing Chau @Devtography",
+
+  "author": "adamowng246",
   "license": "MIT",
+
   "dependencies": {
     "@types/node-sass": "^4.11.0",
     "@types/react": "^16.9.13",
@@ -37,24 +20,17 @@
     "bluebird": "^3.7.2",
     "copy-webpack-plugin": "^5.1.1",
     "css-modules-typescript-loader": "^4.0.0",
-    "electron-is-dev": "^1.1.0",
-    "electron-window-manager": "^1.0.6",
     "express": "^4.17.1",
     "file-dialog": "^0.0.8",
     "html-loader": "^1.0.0",
-    "javascript-terminal": "^1.0.3",
-    "node-ipc": "^9.1.1",
     "node-sass": "^4.13.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-json-tree": "^0.12.1",
     "react-jsx-parser": "^1.25.1",
-    "react-monaco-editor": "^0.35.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-tabs": "^3.1.0",
-    "react-terminal-component": "^1.4.1",
-    "react-typist": "^2.0.5",
     "redux-selector-subscribe": "^1.0.0",
     "redux-subscriber": "^1.1.0",
     "reselect": "^4.0.0",
@@ -79,8 +55,6 @@
     "cross-env": "^5.2.1",
     "css-loader": "^3.4.2",
     "debug": "~2.6.0",
-    "electron": "^8.2.0",
-    "electron-builder": "^20.44.4",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-import-resolver-webpack": "^0.11.1",
@@ -116,17 +90,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Devtography/electron-react-typescript-webpack-boilerplate"
+    "url": "git+https://github.com/adamowng246/spacetrash"
   },
   "keywords": [
-    "boilerplate",
-    "Electron",
+    "mmo",
+    "roguelike",
+    "javascript",
     "React",
     "Typescript",
     "Webpack"
   ],
-  "bugs": {
-    "url": "https://github.com/Devtography/electron-react-typescript-webpack-boilerplate/issues"
-  },
-  "homepage": "https://github.com/Devtography/electron-react-typescript-webpack-boilerplate#readme"
+
+  "homepage": "https://github.com/adamowng246/spacetrash"
 }
