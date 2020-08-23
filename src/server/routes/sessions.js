@@ -7,7 +7,7 @@ router.get('/new', session.newSession);
 router.post('/', session.createSession);
 router.get('/:id', session.showSession);
 router.get('/:id/clientApp', session.clientApp);
-router.get('/:id/clientAppSudo', session.clientAppSudo);
+router.get('/:id/clientSessionApp', session.clientSessionApp);
 router.post('/:id/start', session.start);
 
 module.exports = router;

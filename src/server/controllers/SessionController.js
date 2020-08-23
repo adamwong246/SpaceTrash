@@ -51,16 +51,16 @@ sessionController.showSession = function(req, res) {
 
 sessionController.clientApp = function(req, res) {
   Session.findById(req.params.id, function(err, session) {
-    res.render('terminal', {
+    res.render('clientApp', {
       session,
       user: req.user
     });
   });
 };
 
-sessionController.clientAppSudo = function(req, res) {
+sessionController.clientSessionApp = function(req, res) {
   Session.findById(req.params.id, function(err, session) {
-    res.render('session', {
+    res.render('clientSessionApp', {
       session,
       user: req.user
     });
