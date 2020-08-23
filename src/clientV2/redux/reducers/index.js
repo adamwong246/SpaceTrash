@@ -4,14 +4,13 @@ import {
 
 import initialState from "../initialState.ts";
 
-const commandQueueWaitTime = 500;
+const commandQueueWaitTime = 5;
 
 export default combineReducers({
 
   commandQueues: function(state = {}, action) {
     switch (action.type) {
       case 'QUEUE_COMMAND': {
-        // console.log('QUEUE_COMMAND', action.payload)
 
         const commands = state[`${action.payload.drone}`] || []
         const lastTime = commands[commands.length - 1] ? commands[commands.length - 1].timestamp : Date.now()
@@ -150,68 +149,79 @@ export default combineReducers({
     switch (action.type) {
 
       case "OBSERVE_DRONES_RAYS": {
-        const droneData = state.droneData || {};
-        const gridData = state.gridData || {};
+        const returnedTarget = Object.assign({}, state)
+
+        Object.assign(returnedTarget, {
+          drones: action.payload.dronesWithoutRays,
+          ships: action.payload.shipsWithoutFogOfWar
+        })
 
         action.payload.dronesWithoutRays.forEach((drone) => {
 
           const droneId = drone._id;
           const shipId = drone.ship
 
-          if (!droneData[droneId]) {
-            droneData[droneId] = {}
+          if (!returnedTarget.droneData) {
+            returnedTarget.droneData = {}
           }
-          droneData[droneId].rays = drone.rays
+
+          if (!returnedTarget.droneData[droneId]) {
+            returnedTarget.droneData[droneId] = {}
+          }
+          returnedTarget.droneData[droneId].rays = drone.rays
 
           drone.rays.forEach((ray) => {
 
             const listOfTiles = (ray.brenshams || [])
             listOfTiles.forEach((tile) => {
-              if (!gridData[shipId]) {
-                gridData[shipId] = {}
+              if (!returnedTarget.gridData) {
+                returnedTarget.gridData = {}
               }
-              if (!gridData[shipId].tiles) {
-                gridData[shipId].tiles = {}
+              if (!returnedTarget.gridData[shipId]) {
+                returnedTarget.gridData[shipId] = {}
               }
-              if (!gridData[shipId].tiles[tile.x]) {
-                gridData[shipId].tiles[tile.x] = {}
+              if (!returnedTarget.gridData[shipId].tiles) {
+                returnedTarget.gridData[shipId].tiles = {}
               }
-
-
-              if (!droneData[droneId]) {
-                droneData[droneId] = {}
-              }
-              if (!droneData[droneId].tiles) {
-                droneData[droneId].tiles = {}
-              }
-              if (!droneData[droneId].tiles[tile.x]) {
-                droneData[droneId].tiles[tile.x] = {}
+              if (!returnedTarget.gridData[shipId].tiles[tile.x]) {
+                returnedTarget.gridData[shipId].tiles[tile.x] = {}
               }
 
-              gridData[shipId].tiles[tile.x][tile.y] = tile.tile
-              droneData[droneId].tiles[tile.x][tile.y] = tile.tile
+
+              if (!returnedTarget.droneData[droneId]) {
+                returnedTarget.droneData[droneId] = {}
+              }
+              if (!returnedTarget.droneData[droneId].tiles) {
+                returnedTarget.droneData[droneId].tiles = {}
+              }
+              if (!returnedTarget.droneData[droneId].tiles[tile.x]) {
+                returnedTarget.droneData[droneId].tiles[tile.x] = {}
+              }
+
+              returnedTarget.gridData[shipId].tiles[tile.x][tile.y] = tile.tile
+              returnedTarget.droneData[droneId].tiles[tile.x][tile.y] = tile.tile
 
 
             })
 
           })
 
-          droneData[droneId].name = drone.name
-          droneData[droneId].x = drone.x
-          droneData[droneId].y = drone.y
-          droneData[droneId].direction = drone.direction
+          returnedTarget.droneData[droneId].name = drone.name
+          returnedTarget.droneData[droneId].x = drone.x
+          returnedTarget.droneData[droneId].y = drone.y
+          returnedTarget.droneData[droneId].direction = drone.direction
 
-          gridData[shipId].tiles[Math.round(drone.x)][Math.round(drone.y)][1] = `drone-${drone.id}`
+          returnedTarget.gridData[shipId].tiles[Math.round(drone.x)][Math.round(drone.y)][1] = `drone-${drone.id}`
 
         })
-
-        return {
-          ...state,
-          gridData,
-          droneData,
-          drones: action.payload.dronesWithoutRays,
-          ships: action.payload.shipsWithoutFogOfWar
-        }
+        return returnedTarget;
+        // return {
+        //   ...state,
+        //   gridData,
+        //   droneData,
+        //   drones: action.payload.dronesWithoutRays,
+        //   ships: action.payload.shipsWithoutFogOfWar
+        // }
       }
 
       default:

@@ -21,7 +21,7 @@ body{
   position: fixed;
   bottom: 0;
   width: 100%;
-  margin: 2px;
+  margin: 0px;
   outline: none;
   border: none;
 }
@@ -35,6 +35,10 @@ body{
 
 #command-line form {
   display: inline;
+}
+
+#command-bar > span {
+  border: 3px solid green;
 }
 
 #time {

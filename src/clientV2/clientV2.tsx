@@ -21,7 +21,7 @@ ws.onopen = function(e) {
 
 ws.onmessage = function(e) {
   const data = JSON.parse(e.data)
-  // console.log(`onmessage`, data)
+  console.log(`onmessage`, data)
 
   if(data.msg === "user joined"){
     store.dispatch({type: "NEW_COMMAND", payload: "connection established"})
@@ -43,13 +43,13 @@ ws.onmessage = function(e) {
 }
 
 function send(msg) {
-  // console.log(`send: ${msg}`)
+  console.log(`send: ${msg}`)
   ws.send(JSON.stringify({ msg: msg }));
 }
 
 function broadcast(msg, room, user) {
   // console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`)
-  ws.send(JSON.stringify({ room: room, msg: msg, user: user }))
+  ws.send(JSON.stringify({ room: room, msg: msg, user: user, timestamp: Date.now() }))
 }
 
 function join(room) {

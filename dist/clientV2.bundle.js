@@ -7151,6 +7151,24 @@ module.exports = exports;
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clientV2/style/crt.css":
+/*!************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clientV2/style/crt.css ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+exports = ___CSS_LOADER_API_IMPORT___(false);
+// Module
+exports.push([module.i, ".crt::before {\n  content: \" \";\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));\n  z-index: 2;\n  background-size: 100% 2px, 3px 100%;\n  pointer-events: none;\n}\n\n@keyframes flicker {\n  0% {\n  opacity: 0.27861;\n  }\n  5% {\n  opacity: 0.34769;\n  }\n  10% {\n  opacity: 0.23604;\n  }\n  15% {\n  opacity: 0.90626;\n  }\n  20% {\n  opacity: 0.18128;\n  }\n  25% {\n  opacity: 0.83891;\n  }\n  30% {\n  opacity: 0.65583;\n  }\n  35% {\n  opacity: 0.67807;\n  }\n  40% {\n  opacity: 0.26559;\n  }\n  45% {\n  opacity: 0.84693;\n  }\n  50% {\n  opacity: 0.96019;\n  }\n  55% {\n  opacity: 0.08594;\n  }\n  60% {\n  opacity: 0.20313;\n  }\n  65% {\n  opacity: 0.71988;\n  }\n  70% {\n  opacity: 0.53455;\n  }\n  75% {\n  opacity: 0.37288;\n  }\n  80% {\n  opacity: 0.71428;\n  }\n  85% {\n  opacity: 0.70419;\n  }\n  90% {\n  opacity: 0.7003;\n  }\n  95% {\n  opacity: 0.36108;\n  }\n  100% {\n  opacity: 0.24387;\n  }\n}\n\n.crt::after {\n  content: \" \";\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  background: rgba(18, 16, 16, 0.1);\n  opacity: 0;\n  z-index: 2;\n  pointer-events: none;\n\n}\n\n@keyframes textShadow {\n  0% {\n    text-shadow: 0.4389924193300864px 0 1px rgba(0,30,255,0.5), -0.4389924193300864px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  5% {\n    text-shadow: 2.7928974010788217px 0 1px rgba(0,30,255,0.5), -2.7928974010788217px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  10% {\n    text-shadow: 0.02956275843481219px 0 1px rgba(0,30,255,0.5), -0.02956275843481219px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  15% {\n    text-shadow: 0.40218538552878136px 0 1px rgba(0,30,255,0.5), -0.40218538552878136px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  20% {\n    text-shadow: 3.4794037899852017px 0 1px rgba(0,30,255,0.5), -3.4794037899852017px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  25% {\n    text-shadow: 1.6125630401149584px 0 1px rgba(0,30,255,0.5), -1.6125630401149584px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  30% {\n    text-shadow: 0.7015590085143956px 0 1px rgba(0,30,255,0.5), -0.7015590085143956px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  35% {\n    text-shadow: 3.896914047650351px 0 1px rgba(0,30,255,0.5), -3.896914047650351px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  40% {\n    text-shadow: 3.870905614848819px 0 1px rgba(0,30,255,0.5), -3.870905614848819px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  45% {\n    text-shadow: 2.231056963361899px 0 1px rgba(0,30,255,0.5), -2.231056963361899px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  50% {\n    text-shadow: 0.08084290417898504px 0 1px rgba(0,30,255,0.5), -0.08084290417898504px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  55% {\n    text-shadow: 2.3758461067427543px 0 1px rgba(0,30,255,0.5), -2.3758461067427543px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  60% {\n    text-shadow: 2.202193051050636px 0 1px rgba(0,30,255,0.5), -2.202193051050636px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  65% {\n    text-shadow: 2.8638780614874975px 0 1px rgba(0,30,255,0.5), -2.8638780614874975px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  70% {\n    text-shadow: 0.48874025155497314px 0 1px rgba(0,30,255,0.5), -0.48874025155497314px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  75% {\n    text-shadow: 1.8948491305757957px 0 1px rgba(0,30,255,0.5), -1.8948491305757957px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  80% {\n    text-shadow: 0.0833037308038857px 0 1px rgba(0,30,255,0.5), -0.0833037308038857px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  85% {\n    text-shadow: 0.09769827255241735px 0 1px rgba(0,30,255,0.5), -0.09769827255241735px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  90% {\n    text-shadow: 3.443339761481782px 0 1px rgba(0,30,255,0.5), -3.443339761481782px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  95% {\n    text-shadow: 2.1841838852799786px 0 1px rgba(0,30,255,0.5), -2.1841838852799786px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  100% {\n    text-shadow: 2.6208764473832513px 0 1px rgba(0,30,255,0.5), -2.6208764473832513px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n}\n.crt {\n  cursor: crosshair;\n}\n", ""]);
+// Exports
+module.exports = exports;
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js?!./src/clientV2/style/layout.css":
 /*!***************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clientV2/style/layout.css ***!
@@ -45727,13 +45745,14 @@ const TabLog_tsx_1 = __webpack_require__(/*! ./components/TabLog.tsx */ "./src/c
 const TabView_tsx_1 = __webpack_require__(/*! ./components/TabView.tsx */ "./src/clientV2/components/TabView.tsx");
 const Time_tsx_1 = __webpack_require__(/*! ./components/Time.tsx */ "./src/clientV2/components/Time.tsx");
 __webpack_require__(/*! react-tabs/style/react-tabs.css */ "./node_modules/react-tabs/style/react-tabs.css");
-__webpack_require__(/*! ./style/layout.css */ "./src/clientV2/style/layout.css");
-__webpack_require__(/*! ./style/video.css */ "./src/clientV2/style/video.css");
-__webpack_require__(/*! ./style/raycast.css */ "./src/clientV2/style/raycast.css");
+__webpack_require__(/*! ./style/crt.css */ "./src/clientV2/style/crt.css");
 __webpack_require__(/*! ./style/tabs.css */ "./src/clientV2/style/tabs.css");
+__webpack_require__(/*! ./style/layout.css */ "./src/clientV2/style/layout.css");
+__webpack_require__(/*! ./style/raycast.css */ "./src/clientV2/style/raycast.css");
+__webpack_require__(/*! ./style/video.css */ "./src/clientV2/style/video.css");
 class App extends React.Component {
     render() {
-        return (React.createElement("div", { id: "main" },
+        return (React.createElement("div", { id: "main", className: "crt" },
             React.createElement("div", { id: "command-line" },
                 React.createElement(CommandLine_tsx_1.default, { broadcast: this.props.broadcast })),
             React.createElement("div", { id: "tabs" },
@@ -45790,7 +45809,7 @@ ws.onopen = function (e) {
 };
 ws.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    // console.log(`onmessage`, data)
+    console.log(`onmessage`, data);
     if (data.msg === "user joined") {
         store_1.default.dispatch({ type: "NEW_COMMAND", payload: "connection established" });
     }
@@ -45806,12 +45825,12 @@ ws.onmessage = function (e) {
     }
 };
 function send(msg) {
-    // console.log(`send: ${msg}`)
+    console.log(`send: ${msg}`);
     ws.send(JSON.stringify({ msg: msg }));
 }
 function broadcast(msg, room, user) {
     // console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`)
-    ws.send(JSON.stringify({ room: room, msg: msg, user: user }));
+    ws.send(JSON.stringify({ room: room, msg: msg, user: user, timestamp: Date.now() }));
 }
 function join(room) {
     // console.log(`join: ${room}`)
@@ -46306,7 +46325,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Promise = __webpack_require__(/*! bluebird */ "./node_modules/bluebird/js/browser/bluebird.js");
 const redux_subscriber_1 = __webpack_require__(/*! redux-subscriber */ "./node_modules/redux-subscriber/lib/index.js");
 const safeEval = __webpack_require__(/*! safe-eval */ "./node_modules/safe-eval/index.js");
-// import { send } from "./client-ipc.js";
 exports.default = (store, broadcaster) => {
     const subscribe = redux_subscriber_1.default(store);
     // Listen to the clock and run queded commnads
@@ -46432,14 +46450,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const commandQueueWaitTime = 500;
+const commandQueueWaitTime = 5;
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
 
   commandQueues: function(state = {}, action) {
     switch (action.type) {
       case 'QUEUE_COMMAND': {
-        // console.log('QUEUE_COMMAND', action.payload)
 
         const commands = state[`${action.payload.drone}`] || []
         const lastTime = commands[commands.length - 1] ? commands[commands.length - 1].timestamp : Date.now()
@@ -46578,68 +46595,79 @@ const commandQueueWaitTime = 500;
     switch (action.type) {
 
       case "OBSERVE_DRONES_RAYS": {
-        const droneData = state.droneData || {};
-        const gridData = state.gridData || {};
+        const returnedTarget = Object.assign({}, state)
+
+        Object.assign(returnedTarget, {
+          drones: action.payload.dronesWithoutRays,
+          ships: action.payload.shipsWithoutFogOfWar
+        })
 
         action.payload.dronesWithoutRays.forEach((drone) => {
 
           const droneId = drone._id;
           const shipId = drone.ship
 
-          if (!droneData[droneId]) {
-            droneData[droneId] = {}
+          if (!returnedTarget.droneData) {
+            returnedTarget.droneData = {}
           }
-          droneData[droneId].rays = drone.rays
+
+          if (!returnedTarget.droneData[droneId]) {
+            returnedTarget.droneData[droneId] = {}
+          }
+          returnedTarget.droneData[droneId].rays = drone.rays
 
           drone.rays.forEach((ray) => {
 
             const listOfTiles = (ray.brenshams || [])
             listOfTiles.forEach((tile) => {
-              if (!gridData[shipId]) {
-                gridData[shipId] = {}
+              if (!returnedTarget.gridData) {
+                returnedTarget.gridData = {}
               }
-              if (!gridData[shipId].tiles) {
-                gridData[shipId].tiles = {}
+              if (!returnedTarget.gridData[shipId]) {
+                returnedTarget.gridData[shipId] = {}
               }
-              if (!gridData[shipId].tiles[tile.x]) {
-                gridData[shipId].tiles[tile.x] = {}
+              if (!returnedTarget.gridData[shipId].tiles) {
+                returnedTarget.gridData[shipId].tiles = {}
               }
-
-
-              if (!droneData[droneId]) {
-                droneData[droneId] = {}
-              }
-              if (!droneData[droneId].tiles) {
-                droneData[droneId].tiles = {}
-              }
-              if (!droneData[droneId].tiles[tile.x]) {
-                droneData[droneId].tiles[tile.x] = {}
+              if (!returnedTarget.gridData[shipId].tiles[tile.x]) {
+                returnedTarget.gridData[shipId].tiles[tile.x] = {}
               }
 
-              gridData[shipId].tiles[tile.x][tile.y] = tile.tile
-              droneData[droneId].tiles[tile.x][tile.y] = tile.tile
+
+              if (!returnedTarget.droneData[droneId]) {
+                returnedTarget.droneData[droneId] = {}
+              }
+              if (!returnedTarget.droneData[droneId].tiles) {
+                returnedTarget.droneData[droneId].tiles = {}
+              }
+              if (!returnedTarget.droneData[droneId].tiles[tile.x]) {
+                returnedTarget.droneData[droneId].tiles[tile.x] = {}
+              }
+
+              returnedTarget.gridData[shipId].tiles[tile.x][tile.y] = tile.tile
+              returnedTarget.droneData[droneId].tiles[tile.x][tile.y] = tile.tile
 
 
             })
 
           })
 
-          droneData[droneId].name = drone.name
-          droneData[droneId].x = drone.x
-          droneData[droneId].y = drone.y
-          droneData[droneId].direction = drone.direction
+          returnedTarget.droneData[droneId].name = drone.name
+          returnedTarget.droneData[droneId].x = drone.x
+          returnedTarget.droneData[droneId].y = drone.y
+          returnedTarget.droneData[droneId].direction = drone.direction
 
-          gridData[shipId].tiles[Math.round(drone.x)][Math.round(drone.y)][1] = `drone-${drone.id}`
+          returnedTarget.gridData[shipId].tiles[Math.round(drone.x)][Math.round(drone.y)][1] = `drone-${drone.id}`
 
         })
-
-        return {
-          ...state,
-          gridData,
-          droneData,
-          drones: action.payload.dronesWithoutRays,
-          ships: action.payload.shipsWithoutFogOfWar
-        }
+        return returnedTarget;
+        // return {
+        //   ...state,
+        //   gridData,
+        //   droneData,
+        //   drones: action.payload.dronesWithoutRays,
+        //   ships: action.payload.shipsWithoutFogOfWar
+        // }
       }
 
       default:
@@ -46759,6 +46787,37 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers__WEBPACK_IMPORTED_MODULE_1__["default"], _initialState_ts__WEBPACK_IMPORTED_MODULE_2___default.a));
 
+
+/***/ }),
+
+/***/ "./src/clientV2/style/crt.css":
+/*!************************************!*\
+  !*** ./src/clientV2/style/crt.css ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./crt.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clientV2/style/crt.css");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+var exported = content.locals ? content.locals : {};
+
+
+
+module.exports = exported;
 
 /***/ }),
 

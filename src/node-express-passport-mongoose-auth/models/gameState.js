@@ -34,15 +34,7 @@ const executeCommands = (session, commandQueues) => {
 };
 
 const renderDataView = (session) => {
-
-  // for each dronesWithoutRays
-  //// getRays()
-  //// for each castedRay
-  ////// for each point of intrest
-  //////// noteObservation()
-
   return session.gameState.dronesWithoutRays.map((drone) => {
-
     const foundShip = session.gameState.shipsWithoutFogOfWar.filter((s) => drone.ship === s.id)[0]
     drone.rays = getRays(drone, foundShip.matrix)
     return drone

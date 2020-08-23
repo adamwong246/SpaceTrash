@@ -52,7 +52,7 @@ wss.on('connection', ws => {
               Session.findById(
                 roomsAddress[1],
                 (err, session) => {
-                  broadcastSession2(session, session.gameState, start)
+                  broadcastSession2(session, session.gameState, messag.msg.timestamp)
                 }
               )
             }
@@ -84,7 +84,7 @@ wss.on('connection', ws => {
 
                       session.save( function(err, savedSessionDoc) {
                         if (err) {console.log(`the error:`, err)};
-                        broadcastSession2(savedSessionDoc, session.gameState, start)
+                        broadcastSession2(savedSessionDoc, session.gameState, messag.msg.timestamp)
                       });
                     }
                 });
@@ -113,23 +113,22 @@ wss.on('connection', ws => {
 
 const blankCharacter = '_';
 
-function broadcastSession2(session, updateData, start){
-  User.find({}, (err, users) => {
-    users.forEach(user => {
-      wss.clients.forEach(client => {
-        const address = `session-${session._id}-user-${user._id}`
-        if (client.room.indexOf(address) > -1) {
+function broadcastSession2(session, updateData, now){
 
-          console.log(Date.now() - start)
-          client.send(JSON.stringify({
-            room: address,
-            msg: updateData,
-            timestamp: Date.now()
-          }))
-        }
-      })
+  session.users.forEach(userId => {
+    wss.clients.forEach(client => {
+      const address = `session-${session._id}-user-${userId}`
+      if (client.room.indexOf(address) > -1) {
+        const stringPayload = JSON.stringify({
+          room: address,
+          msg: updateData,
+          timestamp: now
+        })
+        client.send(stringPayload)
+      }
     })
   })
+
 };
 
 function pushUpdateToAllUsers(sessionId, users) {

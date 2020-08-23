@@ -13,17 +13,19 @@ import TabView from './components/TabView.tsx'
 import Time from './components/Time.tsx'
 
 require('react-tabs/style/react-tabs.css');
-require("./style/layout.css");
-require("./style/video.css");
-require("./style/raycast.css");
+
+require('./style/crt.css');
 require('./style/tabs.css');
+require("./style/layout.css");
+require("./style/raycast.css");
+require("./style/video.css");
 
 class App extends React.Component<{
   broadcast
 }, {}> {
 
   render() {
-    return (<div id="main" >
+    return (<div id="main" className="crt">
 
     <div id="command-line" ><CommandLine broadcast={this.props.broadcast}/></div>
 

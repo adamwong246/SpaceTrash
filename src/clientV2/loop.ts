@@ -4,7 +4,6 @@ import * as ActionTypes from "./redux/actionTypes";
 const safeEval = require('safe-eval')
 
 import CommandParser from "./lib/CommandParser.ts";
-// import { send } from "./client-ipc.js";
 
 export default (store, broadcaster) => {
   const subscribe = initSubscriber(store);
