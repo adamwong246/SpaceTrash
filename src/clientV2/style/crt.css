@@ -1,3 +1,8 @@
+.crt ::selection{
+  background-color: lightgreen;
+  color: black;
+}
+
 .crt::before {
   content: " ";
   display: block;

@@ -1,9 +1,6 @@
 import * as React from 'react';
 import {connect} from "react-redux";
 
-// import {NEW_COMMAND, SET_VIDEO, TELEPORT} from '../redux/actionTypes';
-// import {commandLinePropsSelector} from "../redux/selectors";
-//
 import CommandParser from '../lib/CommandParser.ts';
 
 class CommandLine extends React.Component<{
@@ -54,7 +51,6 @@ class CommandLine extends React.Component<{
         >
 
         <form onSubmit={(event) => {
-          console.log("onsubmit")
           event.preventDefault()
           this.resetState()
           this.props.newCommand(this.state.value, this.props.scripts, this.props.store, this.props.broadcast)
@@ -81,7 +77,6 @@ const mapStateToProps = state => {
 const mapActionsToProps = dispatch => {
   return {
     newCommand: (value, scripts, store, broadcast) => CommandParser.parse(dispatch, value, store, broadcast)
-    // newCommand: (value, scripts, store) => console.log(dispatch)
   }
 };
 

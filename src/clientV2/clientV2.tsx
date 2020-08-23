@@ -32,6 +32,9 @@ ws.onmessage = function(e) {
     if (roomsAddress[0] === 'session') {
       if (roomsAddress[2] === 'user') {
 
+        // console.log("timeflag: ", data.timestamp - timeflag)
+        // timeflag = data.timestamp
+        console.log(data.timestamp, timeflag)
         console.log("timeflag: ", data.timestamp - timeflag)
         timeflag = data.timestamp
 
@@ -48,7 +51,7 @@ function send(msg) {
 }
 
 function broadcast(msg, room, user) {
-  // console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`)
+  console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`)
   ws.send(JSON.stringify({ room: room, msg: msg, user: user, timestamp: Date.now() }))
 }
 

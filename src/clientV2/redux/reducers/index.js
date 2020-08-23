@@ -4,7 +4,7 @@ import {
 
 import initialState from "../initialState.ts";
 
-const commandQueueWaitTime = 5;
+const commandQueueWaitTime = 2;
 
 export default combineReducers({
 

@@ -8,7 +8,7 @@ const User = require('./models/User.js');
 
 const gameState = require("./models/gameState.js");
 
-const getRays  = require("./getRays.js")
+const getRays = require("./getRays.js")
 
 const bserver = http.createServer({});
 const webPort = 5000;
@@ -37,7 +37,6 @@ wss.on('connection', ws => {
     messag.createdAt = new Date()
 
     if (messag.join) {
-      // console.log('joining: ', messag.join);
       ws.room.push(messag.join)
     }
 
@@ -55,8 +54,7 @@ wss.on('connection', ws => {
                   broadcastSession2(session, session.gameState, messag.msg.timestamp)
                 }
               )
-            }
-            else if (messag.msg.say) {
+            } else if (messag.msg.say) {
 
               Session.findByIdAndUpdate(
                 roomsAddress[1], {
@@ -71,27 +69,10 @@ wss.on('connection', ws => {
                   pushUpdateToAllUsers(roomsAddress[1], doc.users)
                 }
               )
+            } else if (messag.msg.commandQueues) {
+              enqueUpdate(messag)
             }
-            else if (messag.msg.commandQueues) {
-
-              Session.findById(roomsAddress[1], (err, session) => {
-                const updateData = gameState.updateState(session, messag.msg.commandQueues)
-
-                session.validate(function(err) {
-                    if (err) { console.log('invalid! ', err) }
-                    else {
-                      session.markModified('gameState');
-
-                      session.save( function(err, savedSessionDoc) {
-                        if (err) {console.log(`the error:`, err)};
-                        broadcastSession2(savedSessionDoc, session.gameState, messag.msg.timestamp)
-                      });
-                    }
-                });
-              })
-            }
-          }
-    else {
+          } else {
             Session.findByIdAndUpdate(
               roomsAddress[1], {
                 $push: {
@@ -102,19 +83,50 @@ wss.on('connection', ws => {
               }
             )
           }
-
         }
-
       }
     }
-
   })
 })
 
-const blankCharacter = '_';
+//////////////////////////////////////////////////////////////////////////
 
-function broadcastSession2(session, updateData, now){
+const updateQueue = []
 
+setTimeout(dequeUpdate, 1)
+
+function enqueUpdate(message){updateQueue.push(message)}
+
+function dequeUpdate(){
+  const message = updateQueue.shift()
+
+  if (!message ){
+    setTimeout(dequeUpdate, 1)
+    return
+  }
+
+  const roomsAddress = message.room.split('-')
+  Session.findById(roomsAddress[1], (err, session) => {
+    const updateData = gameState.updateState(session, message.msg.commandQueues)
+
+    session.validate(function(err) {
+      if (err) {
+        console.log('invalid! ', err)
+      } else {
+        session.markModified('gameState');
+        session.save(function(err, savedSessionDoc) {
+          setTimeout(dequeUpdate, 1)
+          if (err) {
+            console.log(`the error:`, err)
+          };
+          broadcastSession2(savedSessionDoc, session.gameState, message.timestamp)
+        });
+      }
+    });
+  })
+}
+
+function broadcastSession2(session, updateData, now) {
   session.users.forEach(userId => {
     wss.clients.forEach(client => {
       const address = `session-${session._id}-user-${userId}`
@@ -128,8 +140,11 @@ function broadcastSession2(session, updateData, now){
       }
     })
   })
-
 };
+
+///////////////////////////////////////////////////////////////////////////
+
+const blankCharacter = '_';
 
 function pushUpdateToAllUsers(sessionId, users) {
 
