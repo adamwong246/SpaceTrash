@@ -49,9 +49,18 @@ sessionController.showSession = function(req, res) {
   });
 };
 
-sessionController.terminal = function(req, res) {
+sessionController.clientApp = function(req, res) {
   Session.findById(req.params.id, function(err, session) {
     res.render('terminal', {
+      session,
+      user: req.user
+    });
+  });
+};
+
+sessionController.clientAppSudo = function(req, res) {
+  Session.findById(req.params.id, function(err, session) {
+    res.render('session', {
       session,
       user: req.user
     });

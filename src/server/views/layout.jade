@@ -12,8 +12,8 @@ html
         if (user)
           li
             | Welcome 
-            a(href="/users/home") #{user.name} 
-            |, 
+            a(href="/users/home") #{user.name}.
+            | 
             a(href='/logout') Logout
 
         if (!user)
@@ -22,7 +22,7 @@ html
               input(type='text', name='username', id='inputEmail', placeholder='Username', required, autofocus, value="user1") 
               input(type='password', name='password', id='inputPassword', placeholder='Password', value="user1") 
               button(type='submit') LOGIN
-            |, 
+            </br> 
             a(href='/register') Register
 
         else

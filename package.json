@@ -2,9 +2,9 @@
   "name": "space-trash",
   "version": "0.0.6",
   "description": "a roguelike with javascript bots",
-  
+
   "scripts": {
-    "serve": "node src/serverV3/bin/www",
+    "serve": "node src/server/bin/www",
     "dev": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --colors",
     "prod": "rimraf dist && cross-env NODE_ENV=production webpack --progress --colors",
     "test": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.ts\""
