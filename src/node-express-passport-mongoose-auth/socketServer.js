@@ -105,7 +105,7 @@ function dequeUpdate() {
   const message = updateQueue.shift()
 
   if (!message) {
-    setTimeout(dequeUpdate, 1)
+    setTimeout(dequeUpdate, 0)
     return
   }
 
@@ -119,7 +119,7 @@ function dequeUpdate() {
       } else {
         session.markModified('gameState');
         session.save(function(err, savedSessionDoc) {
-          setTimeout(dequeUpdate, 1)
+          setTimeout(dequeUpdate, 0)
           if (err) {
             console.log(`the error:`, err)
           };
@@ -144,6 +144,7 @@ function broadcastSession2(session, updateData, now) {
           timestamp: now
         })
         client.send(stringPayload)
+        console.log("response time:", Date.now() - now )
       }
     })
   })

@@ -39675,7 +39675,7 @@ ws.onopen = function (e) {
 };
 ws.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    console.log(`onmessage`, data);
+    // console.log(`onmessage`, data)
     if (data.msg === "user joined") {
         store_1.default.dispatch({ type: "NEW_COMMAND", payload: "connection established" });
     }
@@ -39695,7 +39695,7 @@ function send(msg) {
     ws.send(JSON.stringify({ msg: msg }));
 }
 function broadcast(msg, room, user) {
-    console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`);
+    // console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`)
     ws.send(JSON.stringify({ room: room, msg: msg, user: user, timestamp: Date.now() }));
 }
 function join(room) {
@@ -40189,17 +40189,16 @@ exports.default = (store, broadcaster) => {
     // Start the clock
     const functionUpdateClock = () => {
         store.dispatch({ type: 'UPDATE_CLOCK', payload: {} });
-        setTimeout(functionUpdateClock, 1);
+        setTimeout(functionUpdateClock, 0);
     };
-    setTimeout(functionUpdateClock, 1);
+    setTimeout(functionUpdateClock, 0);
     // listen for changes to the clock and send stale instructions to server
     const tock = subscribe('clock.time', state => {
-        const now = Date.now();
         const commandQueues = state.commandQueues;
         // filter out instructions scehduled for the past
         const recentCommandQueues = {};
         Object.keys(commandQueues).forEach((k) => {
-            const recentCommands = commandQueues[k].filter((c) => c.timestamp < now);
+            const recentCommands = commandQueues[k].filter((c) => c.timestamp < state.clock.time);
             if (recentCommands.length) {
                 recentCommandQueues[k] = recentCommands;
             }
@@ -40207,7 +40206,7 @@ exports.default = (store, broadcaster) => {
         // if there are old instructions, send them to the server and remove from client
         if (Object.keys(recentCommandQueues).length) {
             broadcaster({ commandQueues: recentCommandQueues });
-            store.dispatch({ type: 'CLEAR_STALE_QUEUE_COMMANDS', payload: now });
+            store.dispatch({ type: 'CLEAR_STALE_QUEUE_COMMANDS', payload: state.clock.time });
         }
     });
 };
@@ -40499,13 +40498,6 @@ const commandQueueWaitTime = 1;
 
         })
         return returnedTarget;
-        // return {
-        //   ...state,
-        //   gridData,
-        //   droneData,
-        //   drones: action.payload.dronesWithoutRays,
-        //   ships: action.payload.shipsWithoutFogOfWar
-        // }
       }
 
       default:

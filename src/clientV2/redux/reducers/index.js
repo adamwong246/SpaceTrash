@@ -208,13 +208,6 @@ export default combineReducers({
 
         })
         return returnedTarget;
-        // return {
-        //   ...state,
-        //   gridData,
-        //   droneData,
-        //   drones: action.payload.dronesWithoutRays,
-        //   ships: action.payload.shipsWithoutFogOfWar
-        // }
       }
 
       default:
