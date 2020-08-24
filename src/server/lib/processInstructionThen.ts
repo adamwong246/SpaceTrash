@@ -1,9 +1,7 @@
-const getRays = require("../getRays.js")
+const getRays = require("./getRays.js")
 
 const moveStepSize = 0.25;
 const rotateStepSize = 0.05;
-
-
 
 module.exports = (session, command, callback) => {
 
@@ -131,7 +129,6 @@ module.exports = (session, command, callback) => {
         if (err) {
           console.log(`the error:`, err)
         };
-        console.log(Date.now() - time)
         callback(session)
 
       });

@@ -4,7 +4,7 @@ const Session = require("../models/Session");
 const Ship = require("../models/Ship");
 const User = require("../models/User");
 const Drone = require("../models/Drone");
-const gameState = require("../models/gameState.js");
+const gameState = require("../lib/gameState.js");
 
 const sessionController = {};
 

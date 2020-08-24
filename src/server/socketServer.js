@@ -1,16 +1,17 @@
 const http = require('http');
 const WebSocket = require('ws');
 
-const renderSlave = require("./renderSlave.ts");
+
+
+const gameState = require("./lib/gameState.js");
+const getRays = require("./lib/getRays.js")
 
 const Drone = require('./models/Drone.js');
 const Session = require('./models/Session.js');
 const Ship = require('./models/Ship.js');
 const User = require('./models/User.js');
 
-const gameState = require("./models/gameState.js");
-
-const getRays = require("./getRays.js")
+const renderSlave = require("./renderSlave.ts");
 
 const bserver = http.createServer({});
 const webPort = 5000;

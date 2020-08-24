@@ -1,5 +1,5 @@
-const getRays = require("../getRays.js")
-const executeInstructions = require("../executeInstructions.js")
+const getRays = require("./getRays.js")
+const executeInstructions = require("./executeInstructions.js")
 
 const blankCharacter = "_"
 
