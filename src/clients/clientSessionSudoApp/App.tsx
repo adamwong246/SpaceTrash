@@ -8,7 +8,6 @@ import CommandLine from './components/CommandLine.tsx'
 import TabChat from './components/TabChat.tsx'
 import TabData from './components/TabData.tsx'
 import TabLog from './components/TabLog.tsx'
-import Time from './components/Time.tsx'
 
 require('react-tabs/style/react-tabs.css');
 
@@ -33,10 +32,11 @@ class App extends React.Component<{
             <Tabs>
               <TabList>
                 <Tab>logs</Tab>
-                <Time/>
+                <Tab>data</Tab>
               </TabList>
 
               <TabPanel><TabLog/></TabPanel>
+              <TabPanel><TabData/></TabPanel>
             </Tabs>
         </div>
     </div>);

@@ -28,6 +28,10 @@ ws.onmessage = function(e) {
     store.dispatch({ type: "NEW_COMMAND", payload: "connection established" })
   }
 
+  if (data.msg.drones && data.msg.ships && data.msg.metadata ) {
+    store.dispatch({ type: "LOAD_STATE", payload: data.msg })
+  }
+
   // if (data.room) {
   //   const roomsAddress = data.room.split('-')
   //   if (roomsAddress[0] === 'session-sudo') {

@@ -77,7 +77,6 @@ class TabLog extends React.Component<{
 
 
 const mapStateToProps = state => {
-  return state;
   return getTabLogProps(state);
 };
 

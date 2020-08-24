@@ -102,13 +102,16 @@ wss.on('connection', ws => {
 module.exports = {
   socketServer: wss,
   broadcaster: (room, payload) => {
+    // console.log("mark2", payload)
     wss.clients.forEach(client => {
+      console.log("mark3", client.room, room)
       if (client.room.indexOf(room) > -1) {
         const stringPayload = JSON.stringify({
-          roomm,
-          msg: updateData,
-          timestamp: now
+          room,
+          msg: payload,
+          timestamp: Date.now()
         })
+        // console.log("mark4", stringPayload)
         client.send(stringPayload)
       }
     })

@@ -1747,7 +1747,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, ".codish {\n  font-family: monospace;\n}\n\n.react-tabs__tab-list.vertical {\n  display: flex;\n  flex-direction: column;\n  width: 170px;\n  margin: 0;\n  padding: 0;\n  color: white;\n  background: #3c3e43;\n}\n\np {\n  max-width: 40em;\n}\n\ntable {\n    border-collapse: collapse;\n}\nth, td {\n    padding: 0;\n}\n\n#time {\n  float:right;\n}\n", ""]);
+exports.push([module.i, ".codish {\n  font-family: monospace;\n}\n\n.react-tabs__tab-list.vertical {\n  display: flex;\n  flex-direction: column;\n  width: 170px;\n  margin: 0;\n  padding: 0;\n  color: white;\n  background: #3c3e43;\n}\n\np {\n  max-width: 40em;\n}\n\ntable {\n    border-collapse: collapse;\n}\nth, td {\n    padding: 0;\n}\n\n#time {\n  float:right;\n}\n\n.react-tabs__tab-list {\n  border-bottom-width: 1px;\n  border-botom-style: solid;\n  margin: 0 0 10px;\n  padding: 0;\n}\n", ""]);
 // Exports
 module.exports = exports;
 

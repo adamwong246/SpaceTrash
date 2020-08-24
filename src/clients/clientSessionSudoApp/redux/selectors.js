@@ -6,6 +6,18 @@ import store from "./store.js";
 
 const baseSelector = (state => state)
 
+export const getTabDataProps = createSelector([baseSelector], (state) => {
+  return state.loadState
+});
+
+export const getTabLogProps = createSelector([baseSelector], state => {
+
+  return {
+    terminalLines: state.terminalLines
+  }
+})
+
+
 export const getTabIoProps = createSelector([baseSelector], state => {
   return {
     drones: state.usr.drones
@@ -44,21 +56,8 @@ export const getTabChatProps = createSelector([baseSelector], state => {
   }
 })
 
-export const getTabLogProps = createSelector([baseSelector], state => {
-  return {
-    terminalLines: []
-  }
-})
 
-export const getTabDataProps = createSelector([baseSelector], (base) => {
-  return {
-    commandQueues: base.commandQueues,
-    drones: base.usr.drones,
-    ships: base.usr.ships,
-    usr: base.usr,
-    userScripts: base.userScripts
-  }
-});
+
 
 export const getTimeProps = createSelector([baseSelector], state => {
   return {

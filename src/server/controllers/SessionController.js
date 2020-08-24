@@ -82,9 +82,9 @@ sessionController.clientSessionSudoApp = function(req, res) {
 // these controller actions are functions of the cache
 //////////////////////////////////////////////////////
 
-sessionController.cacheView = (cache) => {
+sessionController.cacheView = (store) => {
   return function(req, res) {
-    res.json(cache.dumpIt())
+    res.json(store.store.getState())
   };
 }
 
