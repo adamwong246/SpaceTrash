@@ -68,7 +68,7 @@ module.exports = combineReducers({
           return drone
         })
 
-        return {...state, ships: mappedShips, drones: raycastedDrones}
+        return {...state, ships: mappedShips, drones: raycastedDrones, metadata:{timestamp: Date.now()}}
       }
       default:
         return state;
