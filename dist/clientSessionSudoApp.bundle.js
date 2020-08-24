@@ -649,309 +649,6 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 /***/ }),
 
-/***/ "./node_modules/object-path/index.js":
-/*!*******************************************!*\
-  !*** ./node_modules/object-path/index.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (root, factory){
-  'use strict';
-
-  /*istanbul ignore next:cant test*/
-  if ( true && typeof module.exports === 'object') {
-    module.exports = factory();
-  } else if (true) {
-    // AMD. Register as an anonymous module.
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else {}
-})(this, function(){
-  'use strict';
-
-  var toStr = Object.prototype.toString;
-  function hasOwnProperty(obj, prop) {
-    if(obj == null) {
-      return false
-    }
-    //to handle objects with null prototypes (too edge case?)
-    return Object.prototype.hasOwnProperty.call(obj, prop)
-  }
-
-  function isEmpty(value){
-    if (!value) {
-      return true;
-    }
-    if (isArray(value) && value.length === 0) {
-        return true;
-    } else if (typeof value !== 'string') {
-        for (var i in value) {
-            if (hasOwnProperty(value, i)) {
-                return false;
-            }
-        }
-        return true;
-    }
-    return false;
-  }
-
-  function toString(type){
-    return toStr.call(type);
-  }
-
-  function isObject(obj){
-    return typeof obj === 'object' && toString(obj) === "[object Object]";
-  }
-
-  var isArray = Array.isArray || function(obj){
-    /*istanbul ignore next:cant test*/
-    return toStr.call(obj) === '[object Array]';
-  }
-
-  function isBoolean(obj){
-    return typeof obj === 'boolean' || toString(obj) === '[object Boolean]';
-  }
-
-  function getKey(key){
-    var intKey = parseInt(key);
-    if (intKey.toString() === key) {
-      return intKey;
-    }
-    return key;
-  }
-
-  function factory(options) {
-    options = options || {}
-
-    var objectPath = function(obj) {
-      return Object.keys(objectPath).reduce(function(proxy, prop) {
-        if(prop === 'create') {
-          return proxy;
-        }
-
-        /*istanbul ignore else*/
-        if (typeof objectPath[prop] === 'function') {
-          proxy[prop] = objectPath[prop].bind(objectPath, obj);
-        }
-
-        return proxy;
-      }, {});
-    };
-
-    function hasShallowProperty(obj, prop) {
-      return (options.includeInheritedProps || (typeof prop === 'number' && Array.isArray(obj)) || hasOwnProperty(obj, prop))
-    }
-
-    function getShallowProperty(obj, prop) {
-      if (hasShallowProperty(obj, prop)) {
-        return obj[prop];
-      }
-    }
-
-    function set(obj, path, value, doNotReplace){
-      if (typeof path === 'number') {
-        path = [path];
-      }
-      if (!path || path.length === 0) {
-        return obj;
-      }
-      if (typeof path === 'string') {
-        return set(obj, path.split('.').map(getKey), value, doNotReplace);
-      }
-      var currentPath = path[0];
-      var currentValue = getShallowProperty(obj, currentPath);
-      if (path.length === 1) {
-        if (currentValue === void 0 || !doNotReplace) {
-          obj[currentPath] = value;
-        }
-        return currentValue;
-      }
-
-      if (currentValue === void 0) {
-        //check if we assume an array
-        if(typeof path[1] === 'number') {
-          obj[currentPath] = [];
-        } else {
-          obj[currentPath] = {};
-        }
-      }
-
-      return set(obj[currentPath], path.slice(1), value, doNotReplace);
-    }
-
-    objectPath.has = function (obj, path) {
-      if (typeof path === 'number') {
-        path = [path];
-      } else if (typeof path === 'string') {
-        path = path.split('.');
-      }
-
-      if (!path || path.length === 0) {
-        return !!obj;
-      }
-
-      for (var i = 0; i < path.length; i++) {
-        var j = getKey(path[i]);
-
-        if((typeof j === 'number' && isArray(obj) && j < obj.length) ||
-          (options.includeInheritedProps ? (j in Object(obj)) : hasOwnProperty(obj, j))) {
-          obj = obj[j];
-        } else {
-          return false;
-        }
-      }
-
-      return true;
-    };
-
-    objectPath.ensureExists = function (obj, path, value){
-      return set(obj, path, value, true);
-    };
-
-    objectPath.set = function (obj, path, value, doNotReplace){
-      return set(obj, path, value, doNotReplace);
-    };
-
-    objectPath.insert = function (obj, path, value, at){
-      var arr = objectPath.get(obj, path);
-      at = ~~at;
-      if (!isArray(arr)) {
-        arr = [];
-        objectPath.set(obj, path, arr);
-      }
-      arr.splice(at, 0, value);
-    };
-
-    objectPath.empty = function(obj, path) {
-      if (isEmpty(path)) {
-        return void 0;
-      }
-      if (obj == null) {
-        return void 0;
-      }
-
-      var value, i;
-      if (!(value = objectPath.get(obj, path))) {
-        return void 0;
-      }
-
-      if (typeof value === 'string') {
-        return objectPath.set(obj, path, '');
-      } else if (isBoolean(value)) {
-        return objectPath.set(obj, path, false);
-      } else if (typeof value === 'number') {
-        return objectPath.set(obj, path, 0);
-      } else if (isArray(value)) {
-        value.length = 0;
-      } else if (isObject(value)) {
-        for (i in value) {
-          if (hasShallowProperty(value, i)) {
-            delete value[i];
-          }
-        }
-      } else {
-        return objectPath.set(obj, path, null);
-      }
-    };
-
-    objectPath.push = function (obj, path /*, values */){
-      var arr = objectPath.get(obj, path);
-      if (!isArray(arr)) {
-        arr = [];
-        objectPath.set(obj, path, arr);
-      }
-
-      arr.push.apply(arr, Array.prototype.slice.call(arguments, 2));
-    };
-
-    objectPath.coalesce = function (obj, paths, defaultValue) {
-      var value;
-
-      for (var i = 0, len = paths.length; i < len; i++) {
-        if ((value = objectPath.get(obj, paths[i])) !== void 0) {
-          return value;
-        }
-      }
-
-      return defaultValue;
-    };
-
-    objectPath.get = function (obj, path, defaultValue){
-      if (typeof path === 'number') {
-        path = [path];
-      }
-      if (!path || path.length === 0) {
-        return obj;
-      }
-      if (obj == null) {
-        return defaultValue;
-      }
-      if (typeof path === 'string') {
-        return objectPath.get(obj, path.split('.'), defaultValue);
-      }
-
-      var currentPath = getKey(path[0]);
-      var nextObj = getShallowProperty(obj, currentPath)
-      if (nextObj === void 0) {
-        return defaultValue;
-      }
-
-      if (path.length === 1) {
-        return nextObj;
-      }
-
-      return objectPath.get(obj[currentPath], path.slice(1), defaultValue);
-    };
-
-    objectPath.del = function del(obj, path) {
-      if (typeof path === 'number') {
-        path = [path];
-      }
-
-      if (obj == null) {
-        return obj;
-      }
-
-      if (isEmpty(path)) {
-        return obj;
-      }
-      if(typeof path === 'string') {
-        return objectPath.del(obj, path.split('.'));
-      }
-
-      var currentPath = getKey(path[0]);
-      if (!hasShallowProperty(obj, currentPath)) {
-        return obj;
-      }
-
-      if(path.length === 1) {
-        if (isArray(obj)) {
-          obj.splice(currentPath, 1);
-        } else {
-          delete obj[currentPath];
-        }
-      } else {
-        return objectPath.del(obj[currentPath], path.slice(1));
-      }
-
-      return obj;
-    }
-
-    return objectPath;
-  }
-
-  var mod = factory();
-  mod.create = factory;
-  mod.withInheritedProps = factory({includeInheritedProps: true})
-  return mod;
-});
-
-
-/***/ }),
-
 /***/ "./node_modules/prop-types/checkPropTypes.js":
 /*!***************************************************!*\
   !*** ./node_modules/prop-types/checkPropTypes.js ***!
@@ -31739,62 +31436,6 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/redux-subscriber/lib/index.js":
-/*!****************************************************!*\
-  !*** ./node_modules/redux-subscriber/lib/index.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.subscribe = subscribe;
-
-exports.default = function (store) {
-    var prevState = store.getState();
-
-    store.subscribe(function () {
-        var newState = store.getState();
-
-        Object.keys(subscribers).forEach(function (key) {
-            if ((0, _objectPath.get)(prevState, key) !== (0, _objectPath.get)(newState, key)) {
-                subscribers[key].forEach(function (cb) {
-                    return cb(newState);
-                });
-            }
-        });
-
-        prevState = newState;
-    });
-
-    return subscribe;
-};
-
-var _objectPath = __webpack_require__(/*! object-path */ "./node_modules/object-path/index.js");
-
-var subscribers = {};
-
-function subscribe(key, cb) {
-    if (subscribers.hasOwnProperty(key)) {
-        subscribers[key].push(cb);
-    } else {
-        subscribers[key] = [cb];
-    }
-
-    // return "unsubscribe" function
-    return function () {
-        subscribers[key] = subscribers[key].filter(function (s) {
-            return s !== cb;
-        });
-    };
-}
-
-/***/ }),
-
 /***/ "./node_modules/redux/es/redux.js":
 /*!****************************************!*\
   !*** ./node_modules/redux/es/redux.js ***!
@@ -34347,9 +33988,9 @@ const ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const store_1 = __webpack_require__(/*! ./redux/store */ "./src/clients/clientSessionSudoApp/redux/store.js");
 const App_tsx_1 = __webpack_require__(/*! ./App.tsx */ "./src/clients/clientSessionSudoApp/App.tsx");
-const loop_ts_1 = __webpack_require__(/*! ./loop.ts */ "./src/clients/clientSessionSudoApp/loop.ts");
 const actionTypes_js_1 = __webpack_require__(/*! ./redux/actionTypes.js */ "./src/clients/clientSessionSudoApp/redux/actionTypes.js");
 var timeflag = Date.now();
+const roomAddress = (sessionId) => `sessionSudo-${sessionId}`;
 var ws = new WebSocket('ws://localhost:5000');
 ws.onerror = function (e) { console.log(`onerror: ${JSON.stringify(e)}`); };
 ws.onclose = function (e) { console.log(`onclose: ${JSON.stringify(e)}`); };
@@ -34360,20 +34001,22 @@ ws.onopen = function (e) {
 };
 ws.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    // console.log(`onmessage`, data)
+    console.log(`onmessage`, data);
     if (data.msg === "user joined") {
         store_1.default.dispatch({ type: "NEW_COMMAND", payload: "connection established" });
     }
-    if (data.room) {
-        const roomsAddress = data.room.split('-');
-        if (roomsAddress[0] === 'session') {
-            if (roomsAddress[2] === 'user') {
-                console.log("timeflag: ", data.timestamp - timeflag);
-                timeflag = data.timestamp;
-                store_1.default.dispatch({ type: "OBSERVE_DRONES_RAYS", payload: data.msg });
-            }
-        }
-    }
+    // if (data.room) {
+    //   const roomsAddress = data.room.split('-')
+    //   if (roomsAddress[0] === 'session-sudo') {
+    //     if (roomsAddress[2] === 'user') {
+    //       console.log("timeflag: ", data.timestamp - timeflag)
+    //       timeflag = data.timestamp
+    //
+    //       store.dispatch({ type: "OBSERVE_DRONES_RAYS", payload: data.msg })
+    //
+    //     }
+    //   }
+    // }
 };
 function send(msg) {
     console.log(`send: ${msg}`);
@@ -34389,13 +34032,10 @@ function join(room) {
 }
 function bootApp(wrapper) {
     const sessionId = wrapper.dataset.sessionId;
-    const userId = wrapper.dataset.userId;
     ReactDOM.render(React.createElement(react_redux_1.Provider, { store: store_1.default },
-        React.createElement(App_tsx_1.default, { newCommand: (command) => store_1.default.dispatch(actionTypes_js_1.NEW_COMMAND, command), broadcast: (msg) => { broadcast(msg, `session-${sessionId}-user-${userId}`, userId); } })), wrapper);
-    join(`session-${sessionId}`);
-    join(`session-${sessionId}-user-${userId}`);
-    broadcast({ load: true }, `session-${sessionId}-user-${userId}`, userId);
-    loop_ts_1.default(store_1.default, (payload) => broadcast(payload, `session-${sessionId}-user-${userId}`, userId));
+        React.createElement(App_tsx_1.default, { newCommand: (command) => store_1.default.dispatch(actionTypes_js_1.NEW_COMMAND, command), broadcast: (msg) => { broadcast(msg, roomAddress(sessionId)); } })), wrapper);
+    join(roomAddress(sessionId));
+    broadcast({ load: true }, roomAddress(sessionId));
 }
 
 
@@ -34624,47 +34264,6 @@ exports.default = {
         }
         return dispatch({ type: ActionTypes.NEW_COMMAND, payload: `> Error: ${value}` });
     }
-};
-
-
-/***/ }),
-
-/***/ "./src/clients/clientSessionSudoApp/loop.ts":
-/*!**************************************************!*\
-  !*** ./src/clients/clientSessionSudoApp/loop.ts ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const redux_subscriber_1 = __webpack_require__(/*! redux-subscriber */ "./node_modules/redux-subscriber/lib/index.js");
-exports.default = (store, broadcaster) => {
-    const subscribe = redux_subscriber_1.default(store);
-    // Start the clock
-    const functionUpdateClock = () => {
-        store.dispatch({ type: 'UPDATE_CLOCK', payload: {} });
-        setTimeout(functionUpdateClock);
-    };
-    setTimeout(functionUpdateClock);
-    // listen for changes to the clock and send stale instructions to server
-    const tock = subscribe('clock.time', state => {
-        const commandQueues = state.commandQueues;
-        // filter out instructions scehduled for the past
-        const recentCommandQueues = {};
-        Object.keys(commandQueues).forEach((k) => {
-            const recentCommands = commandQueues[k].filter((c) => c.timestamp < state.clock.time);
-            if (recentCommands.length) {
-                recentCommandQueues[k] = recentCommands;
-            }
-        });
-        // if there are old instructions, send them to the server and remove from client
-        if (Object.keys(recentCommandQueues).length) {
-            broadcaster({ commandQueues: recentCommandQueues });
-            store.dispatch({ type: 'CLEAR_STALE_QUEUE_COMMANDS', payload: state.clock.time });
-        }
-    });
 };
 
 

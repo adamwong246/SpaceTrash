@@ -39604,13 +39604,11 @@ class TabData extends React.Component {
                     React.createElement(react_tabs_1.TabList, null,
                         React.createElement(react_tabs_1.Tab, null, "ships"),
                         React.createElement(react_tabs_1.Tab, null, "drones"),
-                        React.createElement(react_tabs_1.Tab, null, "command queues"),
                         React.createElement(react_tabs_1.Tab, null, "user-scripts"),
                         React.createElement(react_tabs_1.Tab, null, "user-space")),
                     [
                         dataDumper(this.props.ships),
                         dataDumper(this.props.drones),
-                        dataDumper(this.props.commandQueues),
                         dataDumper(this.props.userScripts),
                         dataDumper(this.props.usr),
                     ]))));

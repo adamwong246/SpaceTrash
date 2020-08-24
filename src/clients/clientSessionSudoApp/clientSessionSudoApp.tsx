@@ -4,11 +4,12 @@ import { Provider } from 'react-redux'
 import store from "./redux/store";
 
 import App from "./App.tsx"
-import loop from "./loop.ts"
 
 import { NEW_COMMAND, LOAD_GAME_STATE } from "./redux/actionTypes.js"
 
 var timeflag = Date.now()
+
+const roomAddress = (sessionId) => `sessionSudo-${sessionId}`
 
 var ws = new WebSocket('ws://localhost:5000');
 ws.onerror = function(e) { console.log(`onerror: ${JSON.stringify(e)}`) }
@@ -21,24 +22,24 @@ ws.onopen = function(e) {
 
 ws.onmessage = function(e) {
   const data = JSON.parse(e.data)
-  // console.log(`onmessage`, data)
+  console.log(`onmessage`, data)
 
   if (data.msg === "user joined") {
     store.dispatch({ type: "NEW_COMMAND", payload: "connection established" })
   }
 
-  if (data.room) {
-    const roomsAddress = data.room.split('-')
-    if (roomsAddress[0] === 'session') {
-      if (roomsAddress[2] === 'user') {
-        console.log("timeflag: ", data.timestamp - timeflag)
-        timeflag = data.timestamp
-
-        store.dispatch({ type: "OBSERVE_DRONES_RAYS", payload: data.msg })
-
-      }
-    }
-  }
+  // if (data.room) {
+  //   const roomsAddress = data.room.split('-')
+  //   if (roomsAddress[0] === 'session-sudo') {
+  //     if (roomsAddress[2] === 'user') {
+  //       console.log("timeflag: ", data.timestamp - timeflag)
+  //       timeflag = data.timestamp
+  //
+  //       store.dispatch({ type: "OBSERVE_DRONES_RAYS", payload: data.msg })
+  //
+  //     }
+  //   }
+  // }
 }
 
 function send(msg) {
@@ -59,19 +60,15 @@ function join(room) {
 function bootApp(wrapper) {
 
   const sessionId = wrapper.dataset.sessionId
-  const userId = wrapper.dataset.userId
 
   ReactDOM.render(<Provider store={store}>
     <App
       newCommand={(command) => store.dispatch(NEW_COMMAND, command)}
-      broadcast={(msg) => { broadcast(msg, `session-${sessionId}-user-${userId}`, userId) }}
+      broadcast={(msg) => { broadcast(msg, roomAddress(sessionId)) }}
     />
   </Provider >, wrapper)
 
 
-  join(`session-${sessionId}`)
-  join(`session-${sessionId}-user-${userId}`)
-  broadcast({ load: true }, `session-${sessionId}-user-${userId}`, userId)
-
-  loop(store, (payload) => broadcast(payload, `session-${sessionId}-user-${userId}`, userId))
+  join(roomAddress(sessionId))
+  broadcast({ load: true }, roomAddress(sessionId))
 }

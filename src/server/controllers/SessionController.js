@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
+const gameStateV2 = require("../lib/gameStateV2/gameStateV2.ts");
+
+const Drone = require("../models/Drone");
 const Session = require("../models/Session");
 const Ship = require("../models/Ship");
 const User = require("../models/User");
-const Drone = require("../models/Drone");
-const gameState = require("../lib/gameState.js");
 
 const sessionController = {};
-
 
 sessionController.home = function(req, res) {
   res.render('index', {
@@ -59,7 +59,7 @@ sessionController.clientApp = function(req, res) {
 };
 
 sessionController.clientSessionApp = function(req, res) {
-  if(!req.user){
+  if (!req.user) {
     res.render('login');
   }
   Session.findById(req.params.id, function(err, session) {
@@ -79,28 +79,46 @@ sessionController.clientSessionSudoApp = function(req, res) {
   });
 };
 
+// these controller actions are functions of the cache
+//////////////////////////////////////////////////////
 
-sessionController.start = function(req, res) {
-  const sessionId = req.params.id;
-  const userIdParam = req.params.userId;
+sessionController.cacheView = (cache) => {
+  return function(req, res) {
+    res.json(cache.dumpIt())
+  };
+}
 
-  Session.findById(sessionId,(err, session) => {
-    Ship.find({}, (err, ships) => {
-      Drone.find({}, (err, drones) => {
+sessionController.start = (cache) => {
+  return function(req, res) {
+    const sessionId = req.params.id;
 
-        gameState.initializeState(
-          session,
-          ships.map((e) => e.toObject({virtuals: true})),
-          drones.map((e) => e.toObject({virtuals: true}))
-        )
 
-        session.save().then((s) => {
-          res.redirect(`/sessions/${sessionId}`)
-        });
+    Session.findById(sessionId, (err, session) => {
+      Ship.find({}, (err, ships) => {
+        Drone.find({}, (err, drones) => {
 
+          cache.initializeGameStateV2(
+            session,
+            ships.map((e) => e.toObject({
+              virtuals: true
+            })),
+            drones.map((e) => e.toObject({
+              virtuals: true
+            })),
+            "renitialized"
+          )
+
+          session.save().then((s) => {
+            res.redirect(`/sessions/${sessionId}`)
+          });
+
+        })
       })
     })
-  })
-};
+
+  };
+}
+
+
 
 module.exports = sessionController;

@@ -48,7 +48,6 @@ class TabData extends React.Component<{}, {}> {
             <TabList>
               <Tab>ships</Tab>
               <Tab>drones</Tab>
-              <Tab>command queues</Tab>
               <Tab>user-scripts</Tab>
               <Tab>user-space</Tab>
 
@@ -58,7 +57,6 @@ class TabData extends React.Component<{}, {}> {
               [
                 dataDumper(this.props.ships),
                 dataDumper(this.props.drones),
-                dataDumper(this.props.commandQueues),
                 dataDumper(this.props.userScripts),
                 dataDumper(this.props.usr),
               ]

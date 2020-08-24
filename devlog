@@ -1,0 +1,14 @@
+# devlog
+
+ATM, we have implemented a naive CPU instruction queue, in-memory, in `renderSlave.ts`. It uses a recursive `settimeout` to shift insutrctions from this queue, make the change to the game state, and then broadcasts those updates via websockets.
+
+It works but has 2 problems
+  1. It's slow, because it has to lookup and update the mongo Session document. We can see that just updating the document takes 100ms.
+  2. It's naive and doesn't timeshare with all bots. It's a true queue for _every_ bot and does not schedule.
+
+But it is accurate!
+
+## Next Goals
+[x] move the gameState out of the Session record and into an in-memory representation, like the `renderSlave`  
+[ ] replace `renderSlave` with a better named `cpu` or something like that.
+[ ] implement scheduling
