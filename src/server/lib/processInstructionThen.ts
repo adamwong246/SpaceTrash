@@ -1,7 +1,7 @@
 const getRays = require("../getRays.js")
 
 const moveStepSize = 0.25;
-const rotateStepSize = 0.1;
+const rotateStepSize = 0.05;
 
 module.exports = (session, command, callback) => {
   session.gameState.dronesWithoutRays = session.gameState.dronesWithoutRays
