@@ -1,13 +1,13 @@
 a {
-  color: red;
+  color: pink;
 }
 
 body{
-  color: red;
+  color: pink;
 }
 
 #command-line * {
-  background-color: red;
+  background-color: pink;
   color: black;
   font-size: 16px;
   font-family: "Lucida Console", Monaco, monospace;
@@ -18,5 +18,5 @@ body{
 }
 
 #command-bar > span {
-  border: 3px solid red;
+  border: 3px solid pink;
 }

@@ -1693,7 +1693,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "a {\n  color: red;\n}\n\nbody{\n  color: red;\n}\n\n#command-line * {\n  background-color: red;\n  color: black;\n  font-size: 16px;\n  font-family: \"Lucida Console\", Monaco, monospace;\n}\n\n#command-line form {\n  display: inline;\n}\n\n#command-bar > span {\n  border: 3px solid red;\n}\n", ""]);
+exports.push([module.i, "a {\n  color: pink;\n}\n\nbody{\n  color: pink;\n}\n\n#command-line * {\n  background-color: pink;\n  color: black;\n  font-size: 16px;\n  font-family: \"Lucida Console\", Monaco, monospace;\n}\n\n#command-line form {\n  display: inline;\n}\n\n#command-bar > span {\n  border: 3px solid pink;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
