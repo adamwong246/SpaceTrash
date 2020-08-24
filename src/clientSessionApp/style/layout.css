@@ -22,3 +22,7 @@ table {
 th, td {
     padding: 0;
 }
+
+#time {
+  float:right;
+}

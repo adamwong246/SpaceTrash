@@ -1,0 +1,22 @@
+a {
+  color: green;
+}
+
+body{
+  color: green;
+}
+
+#command-line * {
+  background-color: green;
+  color: black;
+  font-size: 16px;
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+#command-line form {
+  display: inline;
+}
+
+#command-bar > span {
+  border: 3px solid green;
+}

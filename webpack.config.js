@@ -76,5 +76,5 @@ module.exports = [
   clientApp,
   clientSessionApp,
   server,
-  userConfig
+  // userConfig
 ];

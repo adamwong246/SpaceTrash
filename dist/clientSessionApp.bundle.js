@@ -1682,6 +1682,24 @@ module.exports = exports;
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clientSessionApp/style/color.css":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clientSessionApp/style/color.css ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+exports = ___CSS_LOADER_API_IMPORT___(false);
+// Module
+exports.push([module.i, "a {\n  color: green;\n}\n\nbody{\n  color: green;\n}\n\n#command-line * {\n  background-color: green;\n  color: black;\n  font-size: 16px;\n  font-family: \"Lucida Console\", Monaco, monospace;\n}\n\n#command-line form {\n  display: inline;\n}\n\n#command-bar > span {\n  border: 3px solid green;\n}\n", ""]);
+// Exports
+module.exports = exports;
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js?!./src/clientSessionApp/style/crt.css":
 /*!********************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clientSessionApp/style/crt.css ***!
@@ -1711,7 +1729,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, ".codish {\n  font-family: monospace;\n}\n\n.react-tabs__tab-list.vertical {\n  display: flex;\n  flex-direction: column;\n  width: 170px;\n  margin: 0;\n  padding: 0;\n  color: white;\n  background: #3c3e43;\n}\n\np {\n  max-width: 40em;\n}\n\ntable {\n    border-collapse: collapse;\n}\nth, td {\n    padding: 0;\n}\n", ""]);
+exports.push([module.i, ".codish {\n  font-family: monospace;\n}\n\n.react-tabs__tab-list.vertical {\n  display: flex;\n  flex-direction: column;\n  width: 170px;\n  margin: 0;\n  padding: 0;\n  color: white;\n  background: #3c3e43;\n}\n\np {\n  max-width: 40em;\n}\n\ntable {\n    border-collapse: collapse;\n}\nth, td {\n    padding: 0;\n}\n\n#time {\n  float:right;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -39613,6 +39631,7 @@ const Time_tsx_1 = __webpack_require__(/*! ./components/Time.tsx */ "./src/clien
 __webpack_require__(/*! react-tabs/style/react-tabs.css */ "./node_modules/react-tabs/style/react-tabs.css");
 __webpack_require__(/*! ./style/crt.css */ "./src/clientSessionApp/style/crt.css");
 __webpack_require__(/*! ./style/tabs.css */ "./src/clientSessionApp/style/tabs.css");
+__webpack_require__(/*! ./style/color.css */ "./src/clientSessionApp/style/color.css");
 __webpack_require__(/*! ./style/layout.css */ "./src/clientSessionApp/style/layout.css");
 __webpack_require__(/*! ./style/raycast.css */ "./src/clientSessionApp/style/raycast.css");
 __webpack_require__(/*! ./style/video.css */ "./src/clientSessionApp/style/video.css");
@@ -40245,25 +40264,11 @@ const QUEUE_COMMAND = "QUEUE_COMMAND"
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 exports.default = {
     loadState: {},
     commandQueues: {},
     terminalLines: [
-        " ",
-        "  ------------------------------------------------------------------------------------- ",
-        " |                                                                                     |",
-        " |  ███████╗██████╗  █████╗  ██████╗███████╗████████╗██████╗  █████╗ ███████╗██╗  ██╗  |",
-        " |  ██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║  ██║  |",
-        " |  ███████╗██████╔╝███████║██║     █████╗     ██║   ██████╔╝███████║███████╗███████║  |",
-        " |  ╚════██║██╔═══╝ ██╔══██║██║     ██╔══╝     ██║   ██╔══██╗██╔══██║╚════██║██╔══██║  |",
-        " |  ███████║██║     ██║  ██║╚██████╗███████╗   ██║   ██║  ██║██║  ██║███████║██║  ██║  |",
-        " |  ╚══════╝╚═╝     ╚═╝  ╚═╝ ╚═════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝  |",
-        " |                                                                                     |",
-        "  ------------------------------------------------------------------------------------- ",
-        " ",
-        React.createElement('a', { href: "www.github.com/adamwong246/spacetrash" }, "www.github.com/adamwong246/spacetrash"),
-        " ",
+        "booting spaceTrash session terminal",
     ],
     clock: {
         time: Date.now(),
@@ -40617,6 +40622,37 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers__WEBPACK_IMPORTED_MODULE_1__["default"], _initialState_ts__WEBPACK_IMPORTED_MODULE_2___default.a));
 
+
+/***/ }),
+
+/***/ "./src/clientSessionApp/style/color.css":
+/*!**********************************************!*\
+  !*** ./src/clientSessionApp/style/color.css ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./color.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clientSessionApp/style/color.css");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+var exported = content.locals ? content.locals : {};
+
+
+
+module.exports = exported;
 
 /***/ }),
 

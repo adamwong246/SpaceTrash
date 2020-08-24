@@ -16,6 +16,7 @@ require('react-tabs/style/react-tabs.css');
 
 require('./style/crt.css');
 require('./style/tabs.css');
+require("./style/color.css");
 require("./style/layout.css");
 require("./style/raycast.css");
 require("./style/video.css");

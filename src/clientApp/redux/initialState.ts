@@ -1,9 +1,10 @@
 import * as React from "react";
 
 export default {
-  loadState: {},
+
   commandQueues: {},
   terminalLines: [
+    "booting spaceTrash terminal...",
     " ",
     "  ------------------------------------------------------------------------------------- ",
     " |                                                                                     |",
@@ -16,8 +17,12 @@ export default {
     " |                                                                                     |",
     "  ------------------------------------------------------------------------------------- ",
     " ",
-    React.createElement('a', {href: "www.github.com/adamwong246/spacetrash"}, "www.github.com/adamwong246/spacetrash"),
+    "                                          or",
     " ",
+    "                          --- Escape from the Planet of the Humans ---",
+    " ",
+    "                                   adamwong246 2020"
+    // React.createElement('a', {href: "www.github.com/adamwong246/spacetrash"}, "visit www.github.com/adamwong246/spacetrash for more information"),
 
   ],
   clock: {

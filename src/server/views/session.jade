@@ -3,9 +3,7 @@ extends layout
 block content
   h1= session.name
   
-  a(href="/sessions/#{session.id}/clientApp") player's client
-  </br>
-  a(href="/sessions/#{session.id}/clientSessionApp") sudo client
+  a(href="/sessions/#{session.id}/clientSessionApp") clientSessionApp
   </br>
   form(action="/sessions/#{session.id}/start" method="post")
     input(type="submit" value="reinitilize game state")

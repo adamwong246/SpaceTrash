@@ -1,7 +1,3 @@
-a {
-  color: green;
-}
-
 td{
   vertical-align: top;
 }
@@ -12,9 +8,8 @@ table.matrix td {
 }
 
 body{
-  background-color: black;
-  color: green;
   font-family: "Lucida Console", Monaco, monospace;
+  background-color: black;
 }
 
 #command-line {
@@ -24,25 +19,6 @@ body{
   margin: 0px;
   outline: none;
   border: none;
-}
-
-#command-line *{
-  background-color: green;
-  color: black;
-  font-size: 16px;
-  font-family: "Lucida Console", Monaco, monospace;
-}
-
-#command-line form {
-  display: inline;
-}
-
-#command-bar > span {
-  border: 3px solid green;
-}
-
-#time {
-  float:right;
 }
 
 .scrolly {
