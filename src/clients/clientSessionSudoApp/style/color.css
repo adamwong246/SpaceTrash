@@ -1,22 +1,17 @@
 a {
-  color: pink;
+  color: darkred;
 }
 
 body{
-  color: pink;
+  color: darkred;
 }
 
 #command-line * {
-  background-color: pink;
+  background-color: darkred;
   color: black;
-  font-size: 16px;
-  font-family: "Lucida Console", Monaco, monospace;
 }
 
-#command-line form {
-  display: inline;
-}
 
 #command-bar > span {
-  border: 3px solid pink;
+  border: 3px solid darkred;
 }

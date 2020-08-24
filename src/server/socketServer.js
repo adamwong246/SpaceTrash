@@ -30,63 +30,63 @@ wss.on('connection', ws => {
   ws.on('error', e => console.log(e))
   ws.on('close', (e) => console.log('websocket closed' + e))
 
-  // ws.on('message', message => {
-  //   const start = Date.now();
-  //
-  //   var messag = JSON.parse(message);
-  //   messag.createdAt = new Date()
-  //
-  //   if (messag.join) {
-  //     ws.room.push(messag.join)
-  //   }
-  //
-  //   if (messag.room) {
-  //     if (messag.msg) {
-  //
-  //       const roomsAddress = messag.room.split('-')
-  //       if (roomsAddress[0] === 'session') {
-  //         if (roomsAddress[2] === 'user') {
-  //
-  //           if (messag.msg.load) {
-  //             Session.findById(
-  //               roomsAddress[1],
-  //               (err, session) => {
-  //                 broadcastSession2(session, session.gameState, messag.msg.timestamp)
-  //               }
-  //             )
-  //           } else if (messag.msg.say) {
-  //
-  //             Session.findByIdAndUpdate(
-  //               roomsAddress[1], {
-  //                 $push: {
-  //                   chatLog: {
-  //                     createdAt: Date.now(),
-  //                     msg: messag.msg.say,
-  //                     user: roomsAddress[3]
-  //                   }
-  //                 }
-  //               }, {}, (err, doc) => {
-  //                 pushUpdateToAllUsers(roomsAddress[1], doc.users)
-  //               }
-  //             )
-  //           } else if (messag.msg.commandQueues) {
-  //             enqueUpdate(messag)
-  //           }
-  //         } else {
-  //           Session.findByIdAndUpdate(
-  //             roomsAddress[1], {
-  //               $push: {
-  //                 chatLog: messag
-  //               }
-  //             }, {}, (doc) => {
-  //               broadcast(messag);
-  //             }
-  //           )
-  //         }
-  //       }
-  //     }
-  //   }
-  // })
+  ws.on('message', message => {
+    const start = Date.now();
+
+    var messag = JSON.parse(message);
+    messag.createdAt = new Date()
+
+    if (messag.join) {
+      ws.room.push(messag.join)
+    }
+
+    if (messag.room) {
+      if (messag.msg) {
+
+        const roomsAddress = messag.room.split('-')
+        if (roomsAddress[0] === 'session') {
+          if (roomsAddress[2] === 'user') {
+
+            if (messag.msg.load) {
+              Session.findById(
+                roomsAddress[1],
+                (err, session) => {
+                  broadcastSession2(session, session.gameState, messag.msg.timestamp)
+                }
+              )
+            } else if (messag.msg.say) {
+
+              Session.findByIdAndUpdate(
+                roomsAddress[1], {
+                  $push: {
+                    chatLog: {
+                      createdAt: Date.now(),
+                      msg: messag.msg.say,
+                      user: roomsAddress[3]
+                    }
+                  }
+                }, {}, (err, doc) => {
+                  pushUpdateToAllUsers(roomsAddress[1], doc.users)
+                }
+              )
+            } else if (messag.msg.commandQueues) {
+              enqueUpdate(messag)
+            }
+          } else {
+            Session.findByIdAndUpdate(
+              roomsAddress[1], {
+                $push: {
+                  chatLog: messag
+                }
+              }, {}, (doc) => {
+                broadcast(messag);
+              }
+            )
+          }
+        }
+      }
+    }
+  })
 })
 
 //////////////////////////////////////////////////////////////////////////

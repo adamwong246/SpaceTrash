@@ -9,10 +9,12 @@ import TabLog from './components/TabLog.tsx'
 
 require('react-tabs/style/react-tabs.css');
 
-require('./style/crt.css');
-require('./style/tabs.css');
+require('../style/crt.css');
+require('../style/tabs.css');
+require('../style/typo.css');
+require("../style/layout.css");
+
 require("./style/color.css");
-require("./style/layout.css");
 
 class App extends React.Component<{
   broadcast

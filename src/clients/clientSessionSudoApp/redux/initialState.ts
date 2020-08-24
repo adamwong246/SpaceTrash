@@ -4,7 +4,7 @@ export default {
   loadState: {},
   commandQueues: {},
   terminalLines: [
-    "booting spaceTrash session terminal",
+    "booting spaceTrash session terminal (sudo mode)",
 
   ],
   clock: {
