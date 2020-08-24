@@ -39321,7 +39321,6 @@ const ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const store_1 = __webpack_require__(/*! ./redux/store */ "./src/clients/clientSessionApp/redux/store.js");
 const App_tsx_1 = __webpack_require__(/*! ./App.tsx */ "./src/clients/clientSessionApp/App.tsx");
-// import loop from "./loop.ts"
 const actionTypes_js_1 = __webpack_require__(/*! ./redux/actionTypes.js */ "./src/clients/clientSessionApp/redux/actionTypes.js");
 var timeflag = Date.now();
 var ws = new WebSocket('ws://localhost:5000');
@@ -39369,7 +39368,6 @@ function bootApp(wrapper) {
     join(`session-${sessionId}`);
     join(`session-${sessionId}-user-${userId}`);
     broadcast({ load: true }, `session-${sessionId}-user-${userId}`, userId);
-    // loop(store, (payload) => broadcast(payload, `session-${sessionId}-user-${userId}`, userId))
 }
 
 

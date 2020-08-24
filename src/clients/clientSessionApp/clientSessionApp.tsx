@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import store from "./redux/store";
 
 import App from "./App.tsx"
-// import loop from "./loop.ts"
 
 import { NEW_COMMAND, LOAD_GAME_STATE } from "./redux/actionTypes.js"
 
@@ -73,5 +72,4 @@ function bootApp(wrapper) {
   join(`session-${sessionId}-user-${userId}`)
   broadcast({ load: true }, `session-${sessionId}-user-${userId}`, userId)
 
-  // loop(store, (payload) => broadcast(payload, `session-${sessionId}-user-${userId}`, userId))
 }
