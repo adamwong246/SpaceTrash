@@ -41,6 +41,40 @@ const renderDataView = (session) => {
   })
 }
 
+///////////////////////////////////////////////////////////////////////////
+
+
+
+const executeInstruction = (session, instruction, callback) => {
+  const mappedShips = session.gameState.shipsWithoutFogOfWar
+
+  var gameState = session.gameState
+  var userStates = session.userStates || {}
+
+  const newUserStates = {}
+
+  // for each instruction in commandQueue, ordered by time
+  //// update gameState with drone position with collision detection
+
+  var fullCommandQueue = []
+  Object.keys(commandQueues).forEach((droneId) => {
+    const droneCommandQueue = commandQueues[droneId].map((commandItem) => {
+      return {
+        droneId,
+        timestamp: commandItem.timestamp,
+        instruction: commandItem.instruction
+      }
+    })
+    fullCommandQueue = fullCommandQueue.concat(droneCommandQueue)
+  });
+
+  const sortedFullCommandQueue = fullCommandQueue.sort((c) => c.timestamp)
+  executeInstructions(session, sortedFullCommandQueue)
+};
+
+
+///////////////////////////////////////////////////////////////////////////
+
 const initializeGameState = (session, ships, drones) => {
   // make hashMap
   // make gridMap from hashMap
@@ -91,6 +125,8 @@ const initializeGameState = (session, ships, drones) => {
 
 };
 
+///////////////////////////////////////////////////////////////////////////
+
 // create the derived game stated presented to a user,
 // rather than the full game state (Fog-of-War).
 // Sets up the command queue and starts it with no-ops to trigger
@@ -108,12 +144,13 @@ const initializeUserStates = (session) => {
   return renderDataView(session)
 };
 
+///////////////////////////////////////////////////////////////////////////
+
 module.exports = {
   initializeState: (session, ships, drones) => {
     initializeGameState(session, ships, drones);
     initializeUserStates(session);
   },
-
 
   updateState: (session, commandQueues) => {
     const t = Date.now()
@@ -122,6 +159,6 @@ module.exports = {
     console.log("update & render time:", Date.now() - t)
 
     return {dronesWithRays: drones}
+  },
 
-  }
 }

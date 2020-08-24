@@ -1,6 +1,8 @@
 const http = require('http');
 const WebSocket = require('ws');
 
+const renderSlave = require("./renderSlave.ts");
+
 const Drone = require('./models/Drone.js');
 const Session = require('./models/Session.js');
 const Ship = require('./models/Ship.js');
@@ -18,6 +20,8 @@ bserver.listen(webPort, () => console.log('Web server start. http://localhost:' 
 const wss = new WebSocket.Server({
   server: bserver
 });
+
+const renderSlaveInterval = renderSlave(wss)
 
 wss.on('connection', ws => {
   ws.send(JSON.stringify({
@@ -69,8 +73,8 @@ wss.on('connection', ws => {
                   pushUpdateToAllUsers(roomsAddress[1], doc.users)
                 }
               )
-            } else if (messag.msg.commandQueues) {
-              enqueUpdate(messag)
+            } else if (messag.msg.enqueue) {
+              renderSlaveInterval(messag)
             }
           } else {
             Session.findByIdAndUpdate(
@@ -89,46 +93,7 @@ wss.on('connection', ws => {
   })
 })
 
-//////////////////////////////////////////////////////////////////////////
-// The internal instruction Queue
-//////////////////////////////////////////////////////////////////////////
 
-const updateQueue = []
-
-setTimeout(dequeUpdate)
-
-function enqueUpdate(message) {
-  updateQueue.push(message)
-}
-
-function dequeUpdate() {
-  const message = updateQueue.shift()
-
-  if (!message) {
-    setTimeout(dequeUpdate)
-    return
-  }
-
-  const roomsAddress = message.room.split('-')
-  Session.findById(roomsAddress[1], (err, session) => {
-    const updateData = gameState.updateState(session, message.msg.commandQueues)
-
-    session.validate(function(err) {
-      if (err) {
-        console.log('invalid! ', err)
-      } else {
-        session.markModified('gameState');
-        session.save(function(err, savedSessionDoc) {
-          setTimeout(dequeUpdate)
-          if (err) {
-            console.log(`the error:`, err)
-          };
-          broadcastSession2(savedSessionDoc, session.gameState, message.timestamp)
-        });
-      }
-    });
-  })
-}
 
 //////////////////////////////////////////////////////////////////////////
 // Send gameState to all users
@@ -150,9 +115,52 @@ function broadcastSession2(session, updateData, now) {
   })
 };
 
+
 //////////////////////////////////////////////////////////////////////////
 // Garbgage to remove
 //////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////
+// The internal instruction Queue
+//////////////////////////////////////////////////////////////////////////
+
+// const updateQueue = []
+//
+// setTimeout(dequeUpdate)
+//
+// function enqueUpdate(message) {
+//   updateQueue.push(message)
+// }
+//
+// function dequeUpdate() {
+//   const message = updateQueue.shift()
+//
+//   if (!message) {
+//     setTimeout(dequeUpdate)
+//     return
+//   }
+//
+//   const roomsAddress = message.room.split('-')
+//   Session.findById(roomsAddress[1], (err, session) => {
+//     const updateData = gameState.updateState(session, message.msg.commandQueues)
+//
+//     session.validate(function(err) {
+//       if (err) {
+//         console.log('invalid! ', err)
+//       } else {
+//         session.markModified('gameState');
+//         session.save(function(err, savedSessionDoc) {
+//           setTimeout(dequeUpdate)
+//           if (err) {
+//             console.log(`the error:`, err)
+//           };
+//           broadcastSession2(savedSessionDoc, session.gameState, message.timestamp)
+//         });
+//       }
+//     });
+//   })
+// }
 
 const blankCharacter = '_';
 
