@@ -8,6 +8,7 @@ router.post('/', session.createSession);
 router.get('/:id', session.showSession);
 router.get('/:id/clientApp', session.clientApp);
 router.get('/:id/clientSessionApp', session.clientSessionApp);
+router.get('/:id/clientSessionSudoApp', session.clientSessionSudoApp);
 router.post('/:id/start', session.start);
 
 module.exports = router;

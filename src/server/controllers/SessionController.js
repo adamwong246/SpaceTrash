@@ -67,6 +67,16 @@ sessionController.clientSessionApp = function(req, res) {
   });
 };
 
+sessionController.clientSessionSudoApp = function(req, res) {
+  Session.findById(req.params.id, function(err, session) {
+    res.render('clientSessionSudoApp', {
+      session,
+      user: req.user
+    });
+  });
+};
+
+
 sessionController.start = function(req, res) {
   const sessionId = req.params.id;
   const userIdParam = req.params.userId;

@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/clients/clientSessionApp/clientSessionApp.tsx");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/clients/clientSessionSudoApp/clientSessionSudoApp.tsx");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1682,10 +1682,10 @@ module.exports = exports;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionApp/style/color.css":
-/*!******************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientSessionApp/style/color.css ***!
-  \******************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionSudoApp/style/color.css":
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientSessionSudoApp/style/color.css ***!
+  \**********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1693,17 +1693,17 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "a {\n  color: green;\n}\n\nbody{\n  color: green;\n}\n\n#command-line * {\n  background-color: green;\n  color: black;\n  font-size: 16px;\n  font-family: \"Lucida Console\", Monaco, monospace;\n}\n\n#command-line form {\n  display: inline;\n}\n\n#command-bar > span {\n  border: 3px solid green;\n}\n", ""]);
+exports.push([module.i, "a {\n  color: red;\n}\n\nbody{\n  color: red;\n}\n\n#command-line * {\n  background-color: red;\n  color: black;\n  font-size: 16px;\n  font-family: \"Lucida Console\", Monaco, monospace;\n}\n\n#command-line form {\n  display: inline;\n}\n\n#command-bar > span {\n  border: 3px solid red;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionApp/style/crt.css":
-/*!****************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientSessionApp/style/crt.css ***!
-  \****************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionSudoApp/style/crt.css":
+/*!********************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientSessionSudoApp/style/crt.css ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1718,10 +1718,10 @@ module.exports = exports;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionApp/style/layout.css":
-/*!*******************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientSessionApp/style/layout.css ***!
-  \*******************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionSudoApp/style/layout.css":
+/*!***********************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientSessionSudoApp/style/layout.css ***!
+  \***********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1736,10 +1736,10 @@ module.exports = exports;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionApp/style/raycast.css":
-/*!********************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientSessionApp/style/raycast.css ***!
-  \********************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionSudoApp/style/raycast.css":
+/*!************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientSessionSudoApp/style/raycast.css ***!
+  \************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1754,10 +1754,10 @@ module.exports = exports;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionApp/style/tabs.css":
-/*!*****************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientSessionApp/style/tabs.css ***!
-  \*****************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionSudoApp/style/tabs.css":
+/*!*********************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientSessionSudoApp/style/tabs.css ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1772,10 +1772,10 @@ module.exports = exports;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionApp/style/video.css":
-/*!******************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientSessionApp/style/video.css ***!
-  \******************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionSudoApp/style/video.css":
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientSessionSudoApp/style/video.css ***!
+  \**********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39609,10 +39609,10 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/App.tsx":
-/*!**********************************************!*\
-  !*** ./src/clients/clientSessionApp/App.tsx ***!
-  \**********************************************/
+/***/ "./src/clients/clientSessionSudoApp/App.tsx":
+/*!**************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/App.tsx ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39622,19 +39622,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
-const CommandLine_tsx_1 = __webpack_require__(/*! ./components/CommandLine.tsx */ "./src/clients/clientSessionApp/components/CommandLine.tsx");
-const TabChat_tsx_1 = __webpack_require__(/*! ./components/TabChat.tsx */ "./src/clients/clientSessionApp/components/TabChat.tsx");
-const TabData_tsx_1 = __webpack_require__(/*! ./components/TabData.tsx */ "./src/clients/clientSessionApp/components/TabData.tsx");
-const TabLog_tsx_1 = __webpack_require__(/*! ./components/TabLog.tsx */ "./src/clients/clientSessionApp/components/TabLog.tsx");
-const TabView_tsx_1 = __webpack_require__(/*! ./components/TabView.tsx */ "./src/clients/clientSessionApp/components/TabView.tsx");
-const Time_tsx_1 = __webpack_require__(/*! ./components/Time.tsx */ "./src/clients/clientSessionApp/components/Time.tsx");
+const CommandLine_tsx_1 = __webpack_require__(/*! ./components/CommandLine.tsx */ "./src/clients/clientSessionSudoApp/components/CommandLine.tsx");
+const TabChat_tsx_1 = __webpack_require__(/*! ./components/TabChat.tsx */ "./src/clients/clientSessionSudoApp/components/TabChat.tsx");
+const TabData_tsx_1 = __webpack_require__(/*! ./components/TabData.tsx */ "./src/clients/clientSessionSudoApp/components/TabData.tsx");
+const TabLog_tsx_1 = __webpack_require__(/*! ./components/TabLog.tsx */ "./src/clients/clientSessionSudoApp/components/TabLog.tsx");
+const TabView_tsx_1 = __webpack_require__(/*! ./components/TabView.tsx */ "./src/clients/clientSessionSudoApp/components/TabView.tsx");
+const Time_tsx_1 = __webpack_require__(/*! ./components/Time.tsx */ "./src/clients/clientSessionSudoApp/components/Time.tsx");
 __webpack_require__(/*! react-tabs/style/react-tabs.css */ "./node_modules/react-tabs/style/react-tabs.css");
-__webpack_require__(/*! ./style/crt.css */ "./src/clients/clientSessionApp/style/crt.css");
-__webpack_require__(/*! ./style/tabs.css */ "./src/clients/clientSessionApp/style/tabs.css");
-__webpack_require__(/*! ./style/color.css */ "./src/clients/clientSessionApp/style/color.css");
-__webpack_require__(/*! ./style/layout.css */ "./src/clients/clientSessionApp/style/layout.css");
-__webpack_require__(/*! ./style/raycast.css */ "./src/clients/clientSessionApp/style/raycast.css");
-__webpack_require__(/*! ./style/video.css */ "./src/clients/clientSessionApp/style/video.css");
+__webpack_require__(/*! ./style/crt.css */ "./src/clients/clientSessionSudoApp/style/crt.css");
+__webpack_require__(/*! ./style/tabs.css */ "./src/clients/clientSessionSudoApp/style/tabs.css");
+__webpack_require__(/*! ./style/color.css */ "./src/clients/clientSessionSudoApp/style/color.css");
+__webpack_require__(/*! ./style/layout.css */ "./src/clients/clientSessionSudoApp/style/layout.css");
+__webpack_require__(/*! ./style/raycast.css */ "./src/clients/clientSessionSudoApp/style/raycast.css");
+__webpack_require__(/*! ./style/video.css */ "./src/clients/clientSessionSudoApp/style/video.css");
 class App extends React.Component {
     render() {
         return (React.createElement("div", { id: "main", className: "crt" },
@@ -39666,10 +39666,10 @@ exports.default = react_redux_1.connect(mapStateToProps)(App);
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/clientSessionApp.tsx":
-/*!***********************************************************!*\
-  !*** ./src/clients/clientSessionApp/clientSessionApp.tsx ***!
-  \***********************************************************/
+/***/ "./src/clients/clientSessionSudoApp/clientSessionSudoApp.tsx":
+/*!*******************************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/clientSessionSudoApp.tsx ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39679,10 +39679,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-const store_1 = __webpack_require__(/*! ./redux/store */ "./src/clients/clientSessionApp/redux/store.js");
-const App_tsx_1 = __webpack_require__(/*! ./App.tsx */ "./src/clients/clientSessionApp/App.tsx");
-const loop_ts_1 = __webpack_require__(/*! ./loop.ts */ "./src/clients/clientSessionApp/loop.ts");
-const actionTypes_js_1 = __webpack_require__(/*! ./redux/actionTypes.js */ "./src/clients/clientSessionApp/redux/actionTypes.js");
+const store_1 = __webpack_require__(/*! ./redux/store */ "./src/clients/clientSessionSudoApp/redux/store.js");
+const App_tsx_1 = __webpack_require__(/*! ./App.tsx */ "./src/clients/clientSessionSudoApp/App.tsx");
+const loop_ts_1 = __webpack_require__(/*! ./loop.ts */ "./src/clients/clientSessionSudoApp/loop.ts");
+const actionTypes_js_1 = __webpack_require__(/*! ./redux/actionTypes.js */ "./src/clients/clientSessionSudoApp/redux/actionTypes.js");
 var timeflag = Date.now();
 var ws = new WebSocket('ws://localhost:5000');
 ws.onerror = function (e) { console.log(`onerror: ${JSON.stringify(e)}`); };
@@ -39735,10 +39735,10 @@ function bootApp(wrapper) {
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/components/CommandLine.tsx":
-/*!*****************************************************************!*\
-  !*** ./src/clients/clientSessionApp/components/CommandLine.tsx ***!
-  \*****************************************************************/
+/***/ "./src/clients/clientSessionSudoApp/components/CommandLine.tsx":
+/*!*********************************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/components/CommandLine.tsx ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39747,7 +39747,7 @@ function bootApp(wrapper) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-const CommandParser_ts_1 = __webpack_require__(/*! ../lib/CommandParser.ts */ "./src/clients/clientSessionApp/lib/CommandParser.ts");
+const CommandParser_ts_1 = __webpack_require__(/*! ../lib/CommandParser.ts */ "./src/clients/clientSessionSudoApp/lib/CommandParser.ts");
 class CommandLine extends React.Component {
     constructor(a) {
         super(a);
@@ -39796,10 +39796,10 @@ exports.default = react_redux_1.connect(mapStateToProps, mapActionsToProps)(Comm
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/components/TabChat.tsx":
-/*!*************************************************************!*\
-  !*** ./src/clients/clientSessionApp/components/TabChat.tsx ***!
-  \*************************************************************/
+/***/ "./src/clients/clientSessionSudoApp/components/TabChat.tsx":
+/*!*****************************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/components/TabChat.tsx ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39809,7 +39809,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
-const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/clients/clientSessionApp/redux/selectors.js");
+const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/clients/clientSessionSudoApp/redux/selectors.js");
 const chatDump = (React.createElement("div", { className: "scrolly" },
     React.createElement("div", null,
         React.createElement("div", null,
@@ -39920,10 +39920,10 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabChat);
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/components/TabData.tsx":
-/*!*************************************************************!*\
-  !*** ./src/clients/clientSessionApp/components/TabData.tsx ***!
-  \*************************************************************/
+/***/ "./src/clients/clientSessionSudoApp/components/TabData.tsx":
+/*!*****************************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/components/TabData.tsx ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39934,7 +39934,7 @@ const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
 const react_json_tree_1 = __webpack_require__(/*! react-json-tree */ "./node_modules/react-json-tree/lib/index.js");
-const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/clients/clientSessionApp/redux/selectors.js");
+const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/clients/clientSessionSudoApp/redux/selectors.js");
 const theme = {
     scheme: 'green',
     author: 'adam wong',
@@ -39986,10 +39986,10 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabData);
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/components/TabLog.tsx":
-/*!************************************************************!*\
-  !*** ./src/clients/clientSessionApp/components/TabLog.tsx ***!
-  \************************************************************/
+/***/ "./src/clients/clientSessionSudoApp/components/TabLog.tsx":
+/*!****************************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/components/TabLog.tsx ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39999,7 +39999,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-const selectors_1 = __webpack_require__(/*! ../redux/selectors */ "./src/clients/clientSessionApp/redux/selectors.js");
+const selectors_1 = __webpack_require__(/*! ../redux/selectors */ "./src/clients/clientSessionSudoApp/redux/selectors.js");
 class TabLog extends React.Component {
     constructor(a) {
         super(a);
@@ -40045,10 +40045,10 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabLog);
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/components/TabView.tsx":
-/*!*************************************************************!*\
-  !*** ./src/clients/clientSessionApp/components/TabView.tsx ***!
-  \*************************************************************/
+/***/ "./src/clients/clientSessionSudoApp/components/TabView.tsx":
+/*!*****************************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/components/TabView.tsx ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40058,7 +40058,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
-const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/clients/clientSessionApp/redux/selectors.js");
+const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/clients/clientSessionSudoApp/redux/selectors.js");
 class TabView extends React.Component {
     render() {
         const userScripts = this.props.userScripts;
@@ -40084,10 +40084,10 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabView);
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/components/Time.tsx":
-/*!**********************************************************!*\
-  !*** ./src/clients/clientSessionApp/components/Time.tsx ***!
-  \**********************************************************/
+/***/ "./src/clients/clientSessionSudoApp/components/Time.tsx":
+/*!**************************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/components/Time.tsx ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40096,7 +40096,7 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabView);
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/clients/clientSessionApp/redux/selectors.js");
+const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/clients/clientSessionSudoApp/redux/selectors.js");
 class App extends React.Component {
     render() {
         return (React.createElement("span", { id: "time" },
@@ -40113,10 +40113,10 @@ exports.default = react_redux_1.connect(mapStateToProps)(App);
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/lib/CommandParser.ts":
-/*!***********************************************************!*\
-  !*** ./src/clients/clientSessionApp/lib/CommandParser.ts ***!
-  \***********************************************************/
+/***/ "./src/clients/clientSessionSudoApp/lib/CommandParser.ts":
+/*!***************************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/lib/CommandParser.ts ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40125,7 +40125,7 @@ exports.default = react_redux_1.connect(mapStateToProps)(App);
 Object.defineProperty(exports, "__esModule", { value: true });
 // const safeEval = require('safe-eval')
 const fileDialog = __webpack_require__(/*! file-dialog */ "./node_modules/file-dialog/file-dialog.min.js");
-const ActionTypes = __webpack_require__(/*! ../redux/actionTypes */ "./src/clients/clientSessionApp/redux/actionTypes.js");
+const ActionTypes = __webpack_require__(/*! ../redux/actionTypes */ "./src/clients/clientSessionSudoApp/redux/actionTypes.js");
 const actions = Object.keys(ActionTypes);
 exports.default = {
     parse: (dispatch, value, store, broadcast) => {
@@ -40192,10 +40192,10 @@ exports.default = {
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/loop.ts":
-/*!**********************************************!*\
-  !*** ./src/clients/clientSessionApp/loop.ts ***!
-  \**********************************************/
+/***/ "./src/clients/clientSessionSudoApp/loop.ts":
+/*!**************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/loop.ts ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40233,10 +40233,10 @@ exports.default = (store, broadcaster) => {
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/redux/actionTypes.js":
-/*!***********************************************************!*\
-  !*** ./src/clients/clientSessionApp/redux/actionTypes.js ***!
-  \***********************************************************/
+/***/ "./src/clients/clientSessionSudoApp/redux/actionTypes.js":
+/*!***************************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/redux/actionTypes.js ***!
+  \***************************************************************/
 /*! exports provided: NEW_COMMAND, LOAD_GAME_STATE, NEW_CHAT_LOG, QUEUE_COMMAND */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -40254,10 +40254,10 @@ const QUEUE_COMMAND = "QUEUE_COMMAND"
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/redux/initialState.ts":
-/*!************************************************************!*\
-  !*** ./src/clients/clientSessionApp/redux/initialState.ts ***!
-  \************************************************************/
+/***/ "./src/clients/clientSessionSudoApp/redux/initialState.ts":
+/*!****************************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/redux/initialState.ts ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -40283,17 +40283,17 @@ exports.default = {
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/redux/reducers/index.js":
-/*!**************************************************************!*\
-  !*** ./src/clients/clientSessionApp/redux/reducers/index.js ***!
-  \**************************************************************/
+/***/ "./src/clients/clientSessionSudoApp/redux/reducers/index.js":
+/*!******************************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/redux/reducers/index.js ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../initialState.ts */ "./src/clients/clientSessionApp/redux/initialState.ts");
+/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../initialState.ts */ "./src/clients/clientSessionSudoApp/redux/initialState.ts");
 /* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_initialState_ts__WEBPACK_IMPORTED_MODULE_1__);
 
 
@@ -40515,10 +40515,10 @@ const commandQueueWaitTime = 1;
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/redux/selectors.js":
-/*!*********************************************************!*\
-  !*** ./src/clients/clientSessionApp/redux/selectors.js ***!
-  \*********************************************************/
+/***/ "./src/clients/clientSessionSudoApp/redux/selectors.js":
+/*!*************************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/redux/selectors.js ***!
+  \*************************************************************/
 /*! exports provided: getTabIoProps, getTabViewProps, getTabMapProps, getTabChatProps, getTabLogProps, getTabDataProps, getTimeProps */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -40532,7 +40532,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabDataProps", function() { return getTabDataProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTimeProps", function() { return getTimeProps; });
 /* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
-/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store.js */ "./src/clients/clientSessionApp/redux/store.js");
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store.js */ "./src/clients/clientSessionSudoApp/redux/store.js");
 
 
 
@@ -40602,18 +40602,18 @@ const getTimeProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelecto
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/redux/store.js":
-/*!*****************************************************!*\
-  !*** ./src/clients/clientSessionApp/redux/store.js ***!
-  \*****************************************************/
+/***/ "./src/clients/clientSessionSudoApp/redux/store.js":
+/*!*********************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/redux/store.js ***!
+  \*********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducers */ "./src/clients/clientSessionApp/redux/reducers/index.js");
-/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./initialState.ts */ "./src/clients/clientSessionApp/redux/initialState.ts");
+/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducers */ "./src/clients/clientSessionSudoApp/redux/reducers/index.js");
+/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./initialState.ts */ "./src/clients/clientSessionSudoApp/redux/initialState.ts");
 /* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_initialState_ts__WEBPACK_IMPORTED_MODULE_2__);
 
 
@@ -40625,15 +40625,15 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/style/color.css":
-/*!******************************************************!*\
-  !*** ./src/clients/clientSessionApp/style/color.css ***!
-  \******************************************************/
+/***/ "./src/clients/clientSessionSudoApp/style/color.css":
+/*!**********************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/style/color.css ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 var api = __webpack_require__(/*! ../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./color.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionApp/style/color.css");
+            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./color.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionSudoApp/style/color.css");
 
             content = content.__esModule ? content.default : content;
 
@@ -40656,77 +40656,15 @@ module.exports = exported;
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/style/crt.css":
-/*!****************************************************!*\
-  !*** ./src/clients/clientSessionApp/style/crt.css ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var api = __webpack_require__(/*! ../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./crt.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionApp/style/crt.css");
-
-            content = content.__esModule ? content.default : content;
-
-            if (typeof content === 'string') {
-              content = [[module.i, content, '']];
-            }
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = api(content, options);
-
-var exported = content.locals ? content.locals : {};
-
-
-
-module.exports = exported;
-
-/***/ }),
-
-/***/ "./src/clients/clientSessionApp/style/layout.css":
-/*!*******************************************************!*\
-  !*** ./src/clients/clientSessionApp/style/layout.css ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var api = __webpack_require__(/*! ../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./layout.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionApp/style/layout.css");
-
-            content = content.__esModule ? content.default : content;
-
-            if (typeof content === 'string') {
-              content = [[module.i, content, '']];
-            }
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = api(content, options);
-
-var exported = content.locals ? content.locals : {};
-
-
-
-module.exports = exported;
-
-/***/ }),
-
-/***/ "./src/clients/clientSessionApp/style/raycast.css":
+/***/ "./src/clients/clientSessionSudoApp/style/crt.css":
 /*!********************************************************!*\
-  !*** ./src/clients/clientSessionApp/style/raycast.css ***!
+  !*** ./src/clients/clientSessionSudoApp/style/crt.css ***!
   \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 var api = __webpack_require__(/*! ../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./raycast.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionApp/style/raycast.css");
+            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./crt.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionSudoApp/style/crt.css");
 
             content = content.__esModule ? content.default : content;
 
@@ -40749,15 +40687,15 @@ module.exports = exported;
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/style/tabs.css":
-/*!*****************************************************!*\
-  !*** ./src/clients/clientSessionApp/style/tabs.css ***!
-  \*****************************************************/
+/***/ "./src/clients/clientSessionSudoApp/style/layout.css":
+/*!***********************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/style/layout.css ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 var api = __webpack_require__(/*! ../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./tabs.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionApp/style/tabs.css");
+            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./layout.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionSudoApp/style/layout.css");
 
             content = content.__esModule ? content.default : content;
 
@@ -40780,15 +40718,77 @@ module.exports = exported;
 
 /***/ }),
 
-/***/ "./src/clients/clientSessionApp/style/video.css":
-/*!******************************************************!*\
-  !*** ./src/clients/clientSessionApp/style/video.css ***!
-  \******************************************************/
+/***/ "./src/clients/clientSessionSudoApp/style/raycast.css":
+/*!************************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/style/raycast.css ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 var api = __webpack_require__(/*! ../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./video.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionApp/style/video.css");
+            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./raycast.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionSudoApp/style/raycast.css");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+var exported = content.locals ? content.locals : {};
+
+
+
+module.exports = exported;
+
+/***/ }),
+
+/***/ "./src/clients/clientSessionSudoApp/style/tabs.css":
+/*!*********************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/style/tabs.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./tabs.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionSudoApp/style/tabs.css");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+var exported = content.locals ? content.locals : {};
+
+
+
+module.exports = exported;
+
+/***/ }),
+
+/***/ "./src/clients/clientSessionSudoApp/style/video.css":
+/*!**********************************************************!*\
+  !*** ./src/clients/clientSessionSudoApp/style/video.css ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./video.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientSessionSudoApp/style/video.css");
 
             content = content.__esModule ? content.default : content;
 
@@ -40812,4 +40812,4 @@ module.exports = exported;
 /***/ })
 
 /******/ });
-//# sourceMappingURL=clientSessionApp.bundle.js.map
+//# sourceMappingURL=clientSessionSudoApp.bundle.js.map

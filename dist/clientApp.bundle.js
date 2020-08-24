@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/clientApp/clientApp.tsx");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/clients/clientApp/clientApp.tsx");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -161,15 +161,15 @@ module.exports = exports;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clientApp/style/color.css":
-/*!***************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clientApp/style/color.css ***!
-  \***************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientApp/style/color.css":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientApp/style/color.css ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Imports
-var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
 exports.push([module.i, "a {\n  color: cyan !important;\n}\n\nbody{\n  color: cyan !important;\n}\n\n#command-line * {\n  background-color: cyan;\n  color: black;\n  font-size: 16px;\n  font-family: \"Lucida Console\", Monaco, monospace;\n}\n\n#command-line form {\n  display: inline;\n}\n\n#command-bar > span {\n  border: 3px solid cyan;\n}\n", ""]);
@@ -179,15 +179,15 @@ module.exports = exports;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clientApp/style/crt.css":
-/*!*************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clientApp/style/crt.css ***!
-  \*************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientApp/style/crt.css":
+/*!*********************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientApp/style/crt.css ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Imports
-var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
 exports.push([module.i, ".crt ::selection{\n  background-color: lightgreen;\n  color: black;\n}\n\n.crt::before {\n  content: \" \";\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));\n  z-index: 2;\n  background-size: 100% 2px, 3px 100%;\n  pointer-events: none;\n}\n\n@keyframes flicker {\n  0% {\n  opacity: 0.27861;\n  }\n  5% {\n  opacity: 0.34769;\n  }\n  10% {\n  opacity: 0.23604;\n  }\n  15% {\n  opacity: 0.90626;\n  }\n  20% {\n  opacity: 0.18128;\n  }\n  25% {\n  opacity: 0.83891;\n  }\n  30% {\n  opacity: 0.65583;\n  }\n  35% {\n  opacity: 0.67807;\n  }\n  40% {\n  opacity: 0.26559;\n  }\n  45% {\n  opacity: 0.84693;\n  }\n  50% {\n  opacity: 0.96019;\n  }\n  55% {\n  opacity: 0.08594;\n  }\n  60% {\n  opacity: 0.20313;\n  }\n  65% {\n  opacity: 0.71988;\n  }\n  70% {\n  opacity: 0.53455;\n  }\n  75% {\n  opacity: 0.37288;\n  }\n  80% {\n  opacity: 0.71428;\n  }\n  85% {\n  opacity: 0.70419;\n  }\n  90% {\n  opacity: 0.7003;\n  }\n  95% {\n  opacity: 0.36108;\n  }\n  100% {\n  opacity: 0.24387;\n  }\n}\n\n.crt::after {\n  content: \" \";\n  display: block;\n  position: absolute;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  background: rgba(18, 16, 16, 0.1);\n  opacity: 0;\n  z-index: 2;\n  pointer-events: none;\n\n}\n\n@keyframes textShadow {\n  0% {\n    text-shadow: 0.4389924193300864px 0 1px rgba(0,30,255,0.5), -0.4389924193300864px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  5% {\n    text-shadow: 2.7928974010788217px 0 1px rgba(0,30,255,0.5), -2.7928974010788217px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  10% {\n    text-shadow: 0.02956275843481219px 0 1px rgba(0,30,255,0.5), -0.02956275843481219px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  15% {\n    text-shadow: 0.40218538552878136px 0 1px rgba(0,30,255,0.5), -0.40218538552878136px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  20% {\n    text-shadow: 3.4794037899852017px 0 1px rgba(0,30,255,0.5), -3.4794037899852017px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  25% {\n    text-shadow: 1.6125630401149584px 0 1px rgba(0,30,255,0.5), -1.6125630401149584px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  30% {\n    text-shadow: 0.7015590085143956px 0 1px rgba(0,30,255,0.5), -0.7015590085143956px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  35% {\n    text-shadow: 3.896914047650351px 0 1px rgba(0,30,255,0.5), -3.896914047650351px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  40% {\n    text-shadow: 3.870905614848819px 0 1px rgba(0,30,255,0.5), -3.870905614848819px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  45% {\n    text-shadow: 2.231056963361899px 0 1px rgba(0,30,255,0.5), -2.231056963361899px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  50% {\n    text-shadow: 0.08084290417898504px 0 1px rgba(0,30,255,0.5), -0.08084290417898504px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  55% {\n    text-shadow: 2.3758461067427543px 0 1px rgba(0,30,255,0.5), -2.3758461067427543px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  60% {\n    text-shadow: 2.202193051050636px 0 1px rgba(0,30,255,0.5), -2.202193051050636px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  65% {\n    text-shadow: 2.8638780614874975px 0 1px rgba(0,30,255,0.5), -2.8638780614874975px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  70% {\n    text-shadow: 0.48874025155497314px 0 1px rgba(0,30,255,0.5), -0.48874025155497314px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  75% {\n    text-shadow: 1.8948491305757957px 0 1px rgba(0,30,255,0.5), -1.8948491305757957px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  80% {\n    text-shadow: 0.0833037308038857px 0 1px rgba(0,30,255,0.5), -0.0833037308038857px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  85% {\n    text-shadow: 0.09769827255241735px 0 1px rgba(0,30,255,0.5), -0.09769827255241735px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  90% {\n    text-shadow: 3.443339761481782px 0 1px rgba(0,30,255,0.5), -3.443339761481782px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  95% {\n    text-shadow: 2.1841838852799786px 0 1px rgba(0,30,255,0.5), -2.1841838852799786px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n  100% {\n    text-shadow: 2.6208764473832513px 0 1px rgba(0,30,255,0.5), -2.6208764473832513px 0 1px rgba(255,0,80,0.3), 0 0 3px;\n  }\n}\n.crt {\n  cursor: crosshair;\n}\n", ""]);
@@ -197,15 +197,15 @@ module.exports = exports;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clientApp/style/layout.css":
-/*!****************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clientApp/style/layout.css ***!
-  \****************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientApp/style/layout.css":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientApp/style/layout.css ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Imports
-var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
 exports.push([module.i, ".codish {\n  font-family: monospace;\n}\n\n.react-tabs__tab-list.vertical {\n  display: flex;\n  flex-direction: column;\n  width: 170px;\n  margin: 0;\n  padding: 0;\n  color: white;\n  background: #3c3e43;\n}\n\np {\n  max-width: 40em;\n}\n\ntable {\n    border-collapse: collapse;\n}\nth, td {\n    padding: 0;\n}\n", ""]);
@@ -215,15 +215,15 @@ module.exports = exports;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clientApp/style/tabs.css":
-/*!**************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clientApp/style/tabs.css ***!
-  \**************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientApp/style/tabs.css":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--5-1!./src/clients/clientApp/style/tabs.css ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Imports
-var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
 exports.push([module.i, ".vertical {\n  display: flex;\n}\n\n.vertical > ul.react-tabs__tab-list li.react-tabs__tab{\n  display: block;\n}\n\n.react-tabs__tab-list{\n  border-bottom: 1px solid green;\n}\n\n.react-tabs__tab.react-tabs__tab--selected{\n  background-color: green;\n  color: black;\n  border: none;\n  border-radius: 0px;\n  padding: 10px;\n}\n\n.react-tabs__tab-panel.react-tabs__tab-panel--selected{\n  border: 1px solid green;\n}\n\n.react-tabs__tab {\n  border: 1px dotted green;\n}\n\nhr {\n  border: 1px solid green;\n}\n\n\n#tabs .react-tabs__tab{\n  padding: 1px 6px;\n}\n", ""]);
@@ -32764,10 +32764,10 @@ module.exports = function(originalModule) {
 
 /***/ }),
 
-/***/ "./src/clientApp/App.tsx":
-/*!*******************************!*\
-  !*** ./src/clientApp/App.tsx ***!
-  \*******************************/
+/***/ "./src/clients/clientApp/App.tsx":
+/*!***************************************!*\
+  !*** ./src/clients/clientApp/App.tsx ***!
+  \***************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32776,13 +32776,13 @@ module.exports = function(originalModule) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-const CommandLine_tsx_1 = __webpack_require__(/*! ./components/CommandLine.tsx */ "./src/clientApp/components/CommandLine.tsx");
-const TabLog_tsx_1 = __webpack_require__(/*! ./components/TabLog.tsx */ "./src/clientApp/components/TabLog.tsx");
+const CommandLine_tsx_1 = __webpack_require__(/*! ./components/CommandLine.tsx */ "./src/clients/clientApp/components/CommandLine.tsx");
+const TabLog_tsx_1 = __webpack_require__(/*! ./components/TabLog.tsx */ "./src/clients/clientApp/components/TabLog.tsx");
 __webpack_require__(/*! react-tabs/style/react-tabs.css */ "./node_modules/react-tabs/style/react-tabs.css");
-__webpack_require__(/*! ./style/crt.css */ "./src/clientApp/style/crt.css");
-__webpack_require__(/*! ./style/tabs.css */ "./src/clientApp/style/tabs.css");
-__webpack_require__(/*! ./style/color.css */ "./src/clientApp/style/color.css");
-__webpack_require__(/*! ./style/layout.css */ "./src/clientApp/style/layout.css");
+__webpack_require__(/*! ./style/crt.css */ "./src/clients/clientApp/style/crt.css");
+__webpack_require__(/*! ./style/tabs.css */ "./src/clients/clientApp/style/tabs.css");
+__webpack_require__(/*! ./style/color.css */ "./src/clients/clientApp/style/color.css");
+__webpack_require__(/*! ./style/layout.css */ "./src/clients/clientApp/style/layout.css");
 class App extends React.Component {
     render() {
         return (React.createElement("div", { id: "main", className: "crt" },
@@ -32799,10 +32799,10 @@ exports.default = react_redux_1.connect(mapStateToProps)(App);
 
 /***/ }),
 
-/***/ "./src/clientApp/clientApp.tsx":
-/*!*************************************!*\
-  !*** ./src/clientApp/clientApp.tsx ***!
-  \*************************************/
+/***/ "./src/clients/clientApp/clientApp.tsx":
+/*!*********************************************!*\
+  !*** ./src/clients/clientApp/clientApp.tsx ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32812,8 +32812,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-const store_1 = __webpack_require__(/*! ./redux/store */ "./src/clientApp/redux/store.js");
-const App_tsx_1 = __webpack_require__(/*! ./App.tsx */ "./src/clientApp/App.tsx");
+const store_1 = __webpack_require__(/*! ./redux/store */ "./src/clients/clientApp/redux/store.js");
+const App_tsx_1 = __webpack_require__(/*! ./App.tsx */ "./src/clients/clientApp/App.tsx");
 window.onload = (event) => {
     const wrapper = document.getElementById("app");
     wrapper
@@ -32825,10 +32825,10 @@ window.onload = (event) => {
 
 /***/ }),
 
-/***/ "./src/clientApp/components/CommandLine.tsx":
-/*!**************************************************!*\
-  !*** ./src/clientApp/components/CommandLine.tsx ***!
-  \**************************************************/
+/***/ "./src/clients/clientApp/components/CommandLine.tsx":
+/*!**********************************************************!*\
+  !*** ./src/clients/clientApp/components/CommandLine.tsx ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32837,7 +32837,7 @@ window.onload = (event) => {
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-const CommandParser_ts_1 = __webpack_require__(/*! ../lib/CommandParser.ts */ "./src/clientApp/lib/CommandParser.ts");
+const CommandParser_ts_1 = __webpack_require__(/*! ../lib/CommandParser.ts */ "./src/clients/clientApp/lib/CommandParser.ts");
 class CommandLine extends React.Component {
     constructor(a) {
         super(a);
@@ -32886,10 +32886,10 @@ exports.default = react_redux_1.connect(mapStateToProps, mapActionsToProps)(Comm
 
 /***/ }),
 
-/***/ "./src/clientApp/components/TabLog.tsx":
-/*!*********************************************!*\
-  !*** ./src/clientApp/components/TabLog.tsx ***!
-  \*********************************************/
+/***/ "./src/clients/clientApp/components/TabLog.tsx":
+/*!*****************************************************!*\
+  !*** ./src/clients/clientApp/components/TabLog.tsx ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32899,7 +32899,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-const selectors_1 = __webpack_require__(/*! ../redux/selectors */ "./src/clientApp/redux/selectors.js");
+const selectors_1 = __webpack_require__(/*! ../redux/selectors */ "./src/clients/clientApp/redux/selectors.js");
 class TabLog extends React.Component {
     constructor(a) {
         super(a);
@@ -32945,10 +32945,10 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabLog);
 
 /***/ }),
 
-/***/ "./src/clientApp/lib/CommandParser.ts":
-/*!********************************************!*\
-  !*** ./src/clientApp/lib/CommandParser.ts ***!
-  \********************************************/
+/***/ "./src/clients/clientApp/lib/CommandParser.ts":
+/*!****************************************************!*\
+  !*** ./src/clients/clientApp/lib/CommandParser.ts ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32957,7 +32957,7 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabLog);
 Object.defineProperty(exports, "__esModule", { value: true });
 // const safeEval = require('safe-eval')
 const fileDialog = __webpack_require__(/*! file-dialog */ "./node_modules/file-dialog/file-dialog.min.js");
-const ActionTypes = __webpack_require__(/*! ../redux/actionTypes */ "./src/clientApp/redux/actionTypes.js");
+const ActionTypes = __webpack_require__(/*! ../redux/actionTypes */ "./src/clients/clientApp/redux/actionTypes.js");
 const actions = Object.keys(ActionTypes);
 exports.default = {
     parse: (dispatch, value, store, broadcast) => {
@@ -33024,10 +33024,10 @@ exports.default = {
 
 /***/ }),
 
-/***/ "./src/clientApp/redux/actionTypes.js":
-/*!********************************************!*\
-  !*** ./src/clientApp/redux/actionTypes.js ***!
-  \********************************************/
+/***/ "./src/clients/clientApp/redux/actionTypes.js":
+/*!****************************************************!*\
+  !*** ./src/clients/clientApp/redux/actionTypes.js ***!
+  \****************************************************/
 /*! exports provided: NEW_COMMAND, LOAD_GAME_STATE, NEW_CHAT_LOG, QUEUE_COMMAND */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -33045,10 +33045,10 @@ const QUEUE_COMMAND = "QUEUE_COMMAND"
 
 /***/ }),
 
-/***/ "./src/clientApp/redux/initialState.ts":
-/*!*********************************************!*\
-  !*** ./src/clientApp/redux/initialState.ts ***!
-  \*********************************************/
+/***/ "./src/clients/clientApp/redux/initialState.ts":
+/*!*****************************************************!*\
+  !*** ./src/clients/clientApp/redux/initialState.ts ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -33091,17 +33091,17 @@ exports.default = {
 
 /***/ }),
 
-/***/ "./src/clientApp/redux/reducers/index.js":
-/*!***********************************************!*\
-  !*** ./src/clientApp/redux/reducers/index.js ***!
-  \***********************************************/
+/***/ "./src/clients/clientApp/redux/reducers/index.js":
+/*!*******************************************************!*\
+  !*** ./src/clients/clientApp/redux/reducers/index.js ***!
+  \*******************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../initialState.ts */ "./src/clientApp/redux/initialState.ts");
+/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../initialState.ts */ "./src/clients/clientApp/redux/initialState.ts");
 /* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_initialState_ts__WEBPACK_IMPORTED_MODULE_1__);
 
 
@@ -33323,10 +33323,10 @@ const commandQueueWaitTime = 1;
 
 /***/ }),
 
-/***/ "./src/clientApp/redux/selectors.js":
-/*!******************************************!*\
-  !*** ./src/clientApp/redux/selectors.js ***!
-  \******************************************/
+/***/ "./src/clients/clientApp/redux/selectors.js":
+/*!**************************************************!*\
+  !*** ./src/clients/clientApp/redux/selectors.js ***!
+  \**************************************************/
 /*! exports provided: getTabIoProps, getTabViewProps, getTabMapProps, getTabChatProps, getTabLogProps, getTabDataProps, getTimeProps */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -33340,7 +33340,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabDataProps", function() { return getTabDataProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTimeProps", function() { return getTimeProps; });
 /* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
-/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store.js */ "./src/clientApp/redux/store.js");
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store.js */ "./src/clients/clientApp/redux/store.js");
 
 
 
@@ -33410,18 +33410,18 @@ const getTimeProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelecto
 
 /***/ }),
 
-/***/ "./src/clientApp/redux/store.js":
-/*!**************************************!*\
-  !*** ./src/clientApp/redux/store.js ***!
-  \**************************************/
+/***/ "./src/clients/clientApp/redux/store.js":
+/*!**********************************************!*\
+  !*** ./src/clients/clientApp/redux/store.js ***!
+  \**********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducers */ "./src/clientApp/redux/reducers/index.js");
-/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./initialState.ts */ "./src/clientApp/redux/initialState.ts");
+/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducers */ "./src/clients/clientApp/redux/reducers/index.js");
+/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./initialState.ts */ "./src/clients/clientApp/redux/initialState.ts");
 /* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_initialState_ts__WEBPACK_IMPORTED_MODULE_2__);
 
 
@@ -33433,15 +33433,15 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/clientApp/style/color.css":
-/*!***************************************!*\
-  !*** ./src/clientApp/style/color.css ***!
-  \***************************************/
+/***/ "./src/clients/clientApp/style/color.css":
+/*!***********************************************!*\
+  !*** ./src/clients/clientApp/style/color.css ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-            var content = __webpack_require__(/*! !../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./color.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clientApp/style/color.css");
+var api = __webpack_require__(/*! ../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./color.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientApp/style/color.css");
 
             content = content.__esModule ? content.default : content;
 
@@ -33464,15 +33464,15 @@ module.exports = exported;
 
 /***/ }),
 
-/***/ "./src/clientApp/style/crt.css":
-/*!*************************************!*\
-  !*** ./src/clientApp/style/crt.css ***!
-  \*************************************/
+/***/ "./src/clients/clientApp/style/crt.css":
+/*!*********************************************!*\
+  !*** ./src/clients/clientApp/style/crt.css ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-            var content = __webpack_require__(/*! !../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./crt.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clientApp/style/crt.css");
+var api = __webpack_require__(/*! ../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./crt.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientApp/style/crt.css");
 
             content = content.__esModule ? content.default : content;
 
@@ -33495,15 +33495,15 @@ module.exports = exported;
 
 /***/ }),
 
-/***/ "./src/clientApp/style/layout.css":
-/*!****************************************!*\
-  !*** ./src/clientApp/style/layout.css ***!
-  \****************************************/
+/***/ "./src/clients/clientApp/style/layout.css":
+/*!************************************************!*\
+  !*** ./src/clients/clientApp/style/layout.css ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-            var content = __webpack_require__(/*! !../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./layout.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clientApp/style/layout.css");
+var api = __webpack_require__(/*! ../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./layout.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientApp/style/layout.css");
 
             content = content.__esModule ? content.default : content;
 
@@ -33526,15 +33526,15 @@ module.exports = exported;
 
 /***/ }),
 
-/***/ "./src/clientApp/style/tabs.css":
-/*!**************************************!*\
-  !*** ./src/clientApp/style/tabs.css ***!
-  \**************************************/
+/***/ "./src/clients/clientApp/style/tabs.css":
+/*!**********************************************!*\
+  !*** ./src/clients/clientApp/style/tabs.css ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var api = __webpack_require__(/*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-            var content = __webpack_require__(/*! !../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./tabs.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clientApp/style/tabs.css");
+var api = __webpack_require__(/*! ../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../../../node_modules/css-loader/dist/cjs.js??ref--5-1!./tabs.css */ "./node_modules/css-loader/dist/cjs.js?!./src/clients/clientApp/style/tabs.css");
 
             content = content.__esModule ? content.default : content;
 

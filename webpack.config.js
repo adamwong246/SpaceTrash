@@ -53,15 +53,21 @@ const commonConfig = {
 
 const clientApp = lodash.cloneDeep(commonConfig);
 clientApp.target ="web"
-clientApp.entry = './src/clientApp/clientApp.tsx';
+clientApp.entry = './src/clients/clientApp/clientApp.tsx';
 clientApp.output.filename = 'clientApp.bundle.js';
 clientApp.output.publicPath = __dirname
 
 const clientSessionApp = lodash.cloneDeep(commonConfig);
 clientSessionApp.target ="web"
-clientSessionApp.entry = './src/clientSessionApp/clientSessionApp.tsx';
+clientSessionApp.entry = './src/clients/clientSessionApp/clientSessionApp.tsx';
 clientSessionApp.output.filename = 'clientSessionApp.bundle.js';
 clientSessionApp.output.publicPath = __dirname
+
+const clientSessionSudoApp = lodash.cloneDeep(commonConfig);
+clientSessionSudoApp.target ="web"
+clientSessionSudoApp.entry = './src/clients/clientSessionSudoApp/clientSessionSudoApp.tsx';
+clientSessionSudoApp.output.filename = 'clientSessionSudoApp.bundle.js';
+clientSessionSudoApp.output.publicPath = __dirname
 
 const server = require("./src/server/webpack.config.js")
 
@@ -75,6 +81,7 @@ userConfig.devtool = false
 module.exports = [
   clientApp,
   clientSessionApp,
+  clientSessionSudoApp,
   server,
   // userConfig
 ];

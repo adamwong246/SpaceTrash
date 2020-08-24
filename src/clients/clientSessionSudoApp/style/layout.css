@@ -1,0 +1,28 @@
+.codish {
+  font-family: monospace;
+}
+
+.react-tabs__tab-list.vertical {
+  display: flex;
+  flex-direction: column;
+  width: 170px;
+  margin: 0;
+  padding: 0;
+  color: white;
+  background: #3c3e43;
+}
+
+p {
+  max-width: 40em;
+}
+
+table {
+    border-collapse: collapse;
+}
+th, td {
+    padding: 0;
+}
+
+#time {
+  float:right;
+}

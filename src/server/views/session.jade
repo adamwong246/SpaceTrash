@@ -5,6 +5,8 @@ block content
   
   a(href="/sessions/#{session.id}/clientSessionApp") clientSessionApp
   </br>
+  a(href="/sessions/#{session.id}/clientSessionSudoApp") clientSessionSudoApp
+  </br>
   form(action="/sessions/#{session.id}/start" method="post")
     input(type="submit" value="reinitilize game state")
       
