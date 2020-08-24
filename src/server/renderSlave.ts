@@ -2,8 +2,6 @@ const processInstructionThen = require("./lib/processInstructionThen.ts");
 
 const Session = require("./models/Session.js");
 
-var timeflag = Date.now();
-
 module.exports = (socketServer) => {
 
   const updateQueue = [];

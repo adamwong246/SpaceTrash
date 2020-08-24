@@ -17,11 +17,6 @@ export default {
     " |                                                                                     |",
     "  ------------------------------------------------------------------------------------- ",
     " ",
-    "                                          or",
-    " ",
-    "                          --- Escape from the Planet of the Humans ---",
-    " ",
-    "                                   adamwong246 2020"
     // React.createElement('a', {href: "www.github.com/adamwong246/spacetrash"}, "visit www.github.com/adamwong246/spacetrash for more information"),
 
   ],

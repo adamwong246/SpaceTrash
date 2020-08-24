@@ -11,70 +11,39 @@ export default {
 
     dispatch({ type: ActionTypes.NEW_COMMAND, payload: `< ${value}` })
 
-    if (split[0] === "SAY") {
-      broadcast({ say: split[1] })
+    if (split[0] === "help") {
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `help: a list of system commands` })
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `- about` })
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `- login` })
       return
     }
 
-    if (split[0] === "Q") {
-      dispatch({
-        type: ActionTypes.QUEUE_COMMAND, payload: {
-          drone: split[1],
-          instruction: split[2]
-        }
-      })
+    if (split[0] === "about") {
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `spaceTrash is a MMO roguelike game about robots fighting on spaceships.` })
+
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `` })
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `spaceTrash combines elements of Duskes, FTL, Cogmind, Factorio and SpaceStation 13` })
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `` })
+
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `After logging into the spaceTrash network and connecting to a ship, you dock with other ships, then send your bots to explore, trade, pillage and destroy.` })
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `You can upload a javascript bundle to the client terminal, then use your own code to control your bots.` })
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `You can also include react views to create custom interfaces to your drones.` })
+
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `` })
+
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `The official spaceTrash server is set to "permadeath" but you can run the server locally to test your code.` })
       return
     }
 
-    if (split[0] === "QQ") {
-      for(var i=0; i < parseInt(split[3]); i++){
-        dispatch({
-          type: ActionTypes.QUEUE_COMMAND, payload: {
-            drone: split[1],
-            instruction: split[2]
-          }
-        })
-      }
-      return
-    }
-
-    if (split[0] === "DQ") {
-      dispatch({
-        type: "DEQUEUE_COMMANDS", payload: {
-          drone: split[1]
-        }
-      })
+    if (split[0] === "login") {
+      dispatch({ type: ActionTypes.NEW_COMMAND, payload: `"login" is disabled. Please try again later.` })
       return
     }
 
 
-
-    if (split[0] === "CODE_UPLOAD") {
-      dispatch({ type: ActionTypes.NEW_COMMAND, payload: "I hope you are running trusted code. Caveat Empetor!" })
-      fileDialog()
-        .then(file => {
-          file[0].text().then((e) => {
-            // Window.USER_CONFIG = eval(e);
-            dispatch({ type: "CODE_UPLOAD", payload: e })
-            dispatch({ type: ActionTypes.NEW_COMMAND, payload: "Your profile has been updated" })
-          })
-        })
-      return
-    }
-
-    if (split[0] === "CODE_DOWNLOAD") {
-      dispatch({ type: ActionTypes.NEW_COMMAND, payload: "I hope you are running trusted code. Caveat Empetor!" })
-      fetch('https://raw.githubusercontent.com/adamwong246/SpaceTrash/websockets/dist/adam.bundle.js')
-        .then(response => response.text())
-        .then(data => {
-          dispatch({ type: "CODE_UPLOAD", payload: data })
-          dispatch({ type: ActionTypes.NEW_COMMAND, payload: "Your profile has been updated" })
-        });
-      return
-    }
-
-
-    return dispatch({ type: ActionTypes.NEW_COMMAND, payload: `> Error: ${value}` })
+    dispatch({ type: ActionTypes.NEW_COMMAND, payload: `"${value}" does not compute.` })
+    dispatch({ type: ActionTypes.NEW_COMMAND, payload: `Try "help" for a list of commands.` })
+    return
 
 
   }
