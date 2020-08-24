@@ -131,7 +131,7 @@ module.exports = (session, command, callback) => {
         if (err) {
           console.log(`the error:`, err)
         };
-        console.log(Date.now() - timeflag)
+        console.log(Date.now() - time)
         callback(session)
 
       });

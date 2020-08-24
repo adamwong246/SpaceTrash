@@ -12,7 +12,6 @@ module.exports = (socketServer) => {
     if (!instruction) { setTimeout(dequeuer) }
     else {
 
-
       Session.findById(instruction.sessionId, (err, session) => {
         processInstructionThen(session, instruction, (savedSession) => {
           savedSession.users.forEach(userId => {
