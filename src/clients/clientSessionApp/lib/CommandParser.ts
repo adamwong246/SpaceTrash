@@ -17,23 +17,31 @@ export default {
     }
 
     if (split[0] === "Q") {
-      dispatch({
-        type: ActionTypes.QUEUE_COMMAND, payload: {
-          drone: split[1],
-          instruction: split[2]
-        }
-      })
+      broadcast({ enqueue: {
+        drone: split[1],
+        instruction: split[2]
+      } })
+      // dispatch({
+      //   type: ActionTypes.QUEUE_COMMAND, payload: {
+      //     drone: split[1],
+      //     instruction: split[2]
+      //   }
+      // })
       return
     }
 
     if (split[0] === "QQ") {
       for(var i=0; i < parseInt(split[3]); i++){
-        dispatch({
-          type: ActionTypes.QUEUE_COMMAND, payload: {
-            drone: split[1],
-            instruction: split[2]
-          }
-        })
+        broadcast({ enqueue: {
+          drone: split[1],
+          instruction: split[2]
+        } })
+        // dispatch({
+        //   type: ActionTypes.QUEUE_COMMAND, payload: {
+        //     drone: split[1],
+        //     instruction: split[2]
+        //   }
+        // })
       }
       return
     }

@@ -10,7 +10,6 @@ import TabData from './components/TabData.tsx'
 import TabFile from './components/TabFile.tsx'
 import TabLog from './components/TabLog.tsx'
 import TabView from './components/TabView.tsx'
-import Time from './components/Time.tsx'
 
 require('react-tabs/style/react-tabs.css');
 
@@ -41,7 +40,6 @@ class App extends React.Component<{
               <Tab>chat</Tab>
               <Tab>data</Tab>
               <Tab>user</Tab>
-              <Time/>
             </TabList>
 
             <TabPanel><TabLog/></TabPanel>

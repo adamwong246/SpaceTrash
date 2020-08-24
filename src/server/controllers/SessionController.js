@@ -59,6 +59,9 @@ sessionController.clientApp = function(req, res) {
 };
 
 sessionController.clientSessionApp = function(req, res) {
+  if(!req.user){
+    res.render('login');
+  }
   Session.findById(req.params.id, function(err, session) {
     res.render('clientSessionApp', {
       session,
