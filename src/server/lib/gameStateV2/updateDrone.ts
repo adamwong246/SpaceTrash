@@ -1,4 +1,5 @@
 module.exports = (drone, command) => {
+
   if (drone.id === command.droneId) {
 
     if (command.command === "DRONE_MOVE_FORWARD") {

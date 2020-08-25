@@ -13,32 +13,25 @@ module.exports = combineReducers({
     switch (action.type) {
 
       case "TICK": {
+        console.log("TICK", Date.now())
         const newGameStates = Object.assign({}, state)
 
         Object.keys(newGameStates).forEach((sessionKey) => {
           const sessionState = newGameStates[sessionKey];
 
-          // loop over the drones first to update positions
-          Object.keys(newGameStates.drones).forEach((droneKey) => {
-            const drone = newGameStates[sessionKey][droneKey];
-            const instructions = drone.instructions
+          newGameStates[sessionKey].drones = newGameStates[sessionKey].drones
+          .map((drone) => {
 
-            const insutruction = insutructions.shift()
+            if(drone.instructions && drone.instructions.length){
+              return updateDrone(drone, drone.instructions.shift())
+            } else {return drone}
 
-            // do the instruction
-            newGameStates[sessionId][droneKey] = updateDrone(drone, insutruction)
-          })
-
-          // loop over the drones second to cast rays
-          Object.keys(newGameStates.drones).forEach((droneKey) => {
-            const drone = newGameStates[sessionKey][droneKey];
-            const instructions = drone.instructions
-
-            // do the render
-            // do the instruction
-            const foundShip = session.gameState.shipsWithoutFogOfWar.filter((s) => drone.ship === s.id)[0]
-            newGameStates[sessionId][droneKey] = getRays(drone, foundShip.matrix)
-
+          }).map((drone) => {
+            if(drone.instructions && drone.instructions.length){
+              const foundShip = newGameStates[sessionKey].ships.filter((s) => drone.ship === s.id)[0]
+              drone.rays = getRays(drone, foundShip.matrix)
+              return drone
+            } else {return drone}
           })
 
 
@@ -48,22 +41,34 @@ module.exports = combineReducers({
       }
 
       case "ENQUEUE_INSTRUCTION": {
-        process.exit()
         const instruction = action.payload;
-        const sessionId = instruction.sessionId;
-        const command = instruction.command;
+
+        console.log(instruction)
+
+        // FIXME
+        const sessionId = instruction.room.split('-')[1];
+        const command = instruction.msg.enqueue.instruction
+        const droneId = instruction.msg.enqueue.drone
 
         return {
           ...state,
           [sessionId]: {
             ...state[sessionId],
-            drones: {
-              ...(state[sessionId] || {drones: {}}).drones,
-              instructions: [
-                ...(state[sessionId] || {drones: {instructions: []}}).drones.instructions,
-                command
-              ]
-            }
+            drones: state[sessionId].drones.map((drone) => {
+              if (!drone.instructions){drone.instructions = []}
+              if (drone.id === droneId){drone.instructions.push(command)}
+              return drone
+            })
+            // drones: {
+            //   ...state[sessionId].drones,
+            //   [droneId]: {
+            //     ...state[sessionId].drones[droneId],
+            //     instructions: [
+            //       ...(state[sessionId].drones[droneId] || {instructions: []}).instructions,
+            //       command
+            //     ]
+            //   }
+            // }
           }
         }
       }

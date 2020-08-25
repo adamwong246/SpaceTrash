@@ -24,12 +24,12 @@ module.exports = (socketServer, broadcaster) => {
 
 
 
-  // // a function which calls itself. Evey cycle, it dispatches a "clock signal"
-  // const dequeuer = () => {
-  //   store.dispatch({ type: "TICK", payload: {} })
-  //   setTimeout(dequeuer);
-  // }
-  // setTimeout(dequeuer);
+  // a function which calls itself. Evey cycle, it dispatches a "clock signal"
+  const dequeuer = () => {
+    store.dispatch({ type: "TICK", payload: {} })
+    setTimeout(dequeuer, 1000);
+  }
+  setTimeout(dequeuer, 1000);
 
 
 
@@ -54,6 +54,9 @@ module.exports = (socketServer, broadcaster) => {
         session.users.map((u)=>`session-${sessionId}-user-${u}`),
         sessionId
       )
+    },
+    enqueuer: (instruction) => {
+      store.dispatch({type: "ENQUEUE_INSTRUCTION", payload: instruction})
     }
   }
 }
