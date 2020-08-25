@@ -47,7 +47,7 @@ class TabData extends React.Component<{}, {}> {
           <Tabs>
             <TabList>
               <Tab>ships</Tab>
-              <Tab>drones</Tab>
+              <Tab>bots</Tab>
               <Tab>meta</Tab>
             </TabList>
 

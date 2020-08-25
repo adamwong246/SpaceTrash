@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-const gameStateV2 = require("../lib/gameStateV2/gameStateV2.ts");
-
 const Drone = require("../models/Drone");
 const Session = require("../models/Session");
 const Ship = require("../models/Ship");
