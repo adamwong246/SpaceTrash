@@ -145,11 +145,11 @@ export default combineReducers({
         const returnedTarget = Object.assign({}, state)
 
         Object.assign(returnedTarget, {
-          drones: action.payload.dronesWithoutRays,
-          ships: action.payload.shipsWithoutFogOfWar
+          drones: action.payload.drones,
+          ships: action.payload.ship
         })
 
-        action.payload.dronesWithoutRays.forEach((drone) => {
+        action.payload.drones.forEach((drone) => {
 
           const droneId = drone._id;
           const shipId = drone.ship

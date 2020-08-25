@@ -3,25 +3,74 @@ const combineReducers = require("redux").combineReducers;
 const getRays = require("../../../getRays.js");
 
 const initialState = require("../initialState.ts");
+const updateDrone = require("../../updateDrone.ts");
 
 const blankCharacter = '_';
 
 module.exports = combineReducers({
 
-  instructions: (state = initialState, action) => {
+  gameStates: (state = initialState, action) => {
     switch (action.type) {
-      case "NEW_INSTRUCTION": {
-        return [...state, action.payload]
-      }
-      default:
-        return state;
-    }
-  },
 
-  gameState: (state = initialState, action) => {
-    switch (action.type) {
+      case "TICK": {
+        const newGameStates = Object.assign({}, state)
+
+        Object.keys(newGameStates).forEach((sessionKey) => {
+          const sessionState = newGameStates[sessionKey];
+
+          // loop over the drones first to update positions
+          Object.keys(newGameStates.drones).forEach((droneKey) => {
+            const drone = newGameStates[sessionKey][droneKey];
+            const instructions = drone.instructions
+
+            const insutruction = insutructions.shift()
+
+            // do the instruction
+            newGameStates[sessionId][droneKey] = updateDrone(drone, insutruction)
+          })
+
+          // loop over the drones second to cast rays
+          Object.keys(newGameStates.drones).forEach((droneKey) => {
+            const drone = newGameStates[sessionKey][droneKey];
+            const instructions = drone.instructions
+
+            // do the render
+            // do the instruction
+            const foundShip = session.gameState.shipsWithoutFogOfWar.filter((s) => drone.ship === s.id)[0]
+            newGameStates[sessionId][droneKey] = getRays(drone, foundShip.matrix)
+
+          })
+
+
+        })
+
+        return newGameStates;
+      }
+
+      case "ENQUEUE_INSTRUCTION": {
+        process.exit()
+        const instruction = action.payload;
+        const sessionId = instruction.sessionId;
+        const command = instruction.command;
+
+        return {
+          ...state,
+          [sessionId]: {
+            ...state[sessionId],
+            drones: {
+              ...(state[sessionId] || {drones: {}}).drones,
+              instructions: [
+                ...(state[sessionId] || {drones: {instructions: []}}).drones.instructions,
+                command
+              ]
+            }
+          }
+        }
+      }
+
       case "INITIALIZE_SESSION": {
 
+        const sessionId = action.payload.sessionId;
         const ships = action.payload.ships;
         const drones = action.payload.drones;
 
@@ -68,7 +117,17 @@ module.exports = combineReducers({
           return drone
         })
 
-        return {...state, ships: mappedShips, drones: raycastedDrones, metadata:{timestamp: Date.now()}}
+        return {
+          ...state,
+          [sessionId]: {
+            ...state[sessionId],
+            ships: mappedShips,
+            drones: raycastedDrones,
+            metadata: {
+              timestamp: Date.now()
+            }
+          }
+        }
       }
       default:
         return state;

@@ -9,7 +9,7 @@ const Session = require('./models/Session.js');
 const Ship = require('./models/Ship.js');
 const User = require('./models/User.js');
 
-const renderSlave = require("./renderSlave.ts");
+// const renderSlave = require("./renderSlave.ts");
 
 const bserver = http.createServer({});
 const webPort = 5000;
@@ -20,7 +20,7 @@ const wss = new WebSocket.Server({
   server: bserver
 });
 
-const renderSlaveInterval = renderSlave(wss)
+// const renderSlaveInterval = renderSlave(wss)
 
 wss.on('connection', ws => {
   ws.send(JSON.stringify({
@@ -34,14 +34,17 @@ wss.on('connection', ws => {
   ws.on('close', (e) => console.log('websocket closed' + e))
 
   ws.on('message', message => {
-    console.log("on mesage", message)
+    // console.log("on mesage", message)
     const start = Date.now();
 
     var messag = JSON.parse(message);
     messag.createdAt = new Date()
 
     if (messag.join) {
-      ws.room.push(messag.join)
+
+      if ( ws.room.indexOf(messag.join) === -1 ) {
+        ws.room.push(messag.join)
+      }
     }
 
     if (messag.room) {
@@ -54,64 +57,70 @@ wss.on('connection', ws => {
 
         }
 
-        // if (roomsAddress[0] === 'session') {
-        //   if (roomsAddress[2] === 'user') {
-        //
-        //     if (messag.msg.load) {
-        //       Session.findById(
-        //         roomsAddress[1],
-        //         (err, session) => {
-        //           broadcastSession2(session, session.gameState, messag.msg.timestamp)
-        //         }
-        //       )
-        //     } else if (messag.msg.say) {
-        //
-        //       Session.findByIdAndUpdate(
-        //         roomsAddress[1], {
-        //           $push: {
-        //             chatLog: {
-        //               createdAt: Date.now(),
-        //               msg: messag.msg.say,
-        //               user: roomsAddress[3]
-        //             }
-        //           }
-        //         }, {}, (err, doc) => {
-        //           pushUpdateToAllUsers(roomsAddress[1], doc.users)
-        //         }
-        //       )
-        //     } else if (messag.msg.enqueue) {
-        //       renderSlaveInterval(messag)
-        //     }
-        //   } else {
-        //     Session.findByIdAndUpdate(
-        //       roomsAddress[1], {
-        //         $push: {
-        //           chatLog: messag
-        //         }
-        //       }, {}, (doc) => {
-        //         broadcast(messag);
-        //       }
-        //     )
-        //   }
-        // }
+        if (roomsAddress[0] === 'session') {
+          if (roomsAddress[2] === 'user') {
+
+            if (messag.msg.load) {
+              Session.findById(
+                roomsAddress[1],
+                (err, session) => {
+                  broadcastSession2(session, session.gameState, messag.msg.timestamp)
+                }
+              )
+            } else if (messag.msg.say) {
+
+              Session.findByIdAndUpdate(
+                roomsAddress[1], {
+                  $push: {
+                    chatLog: {
+                      createdAt: Date.now(),
+                      msg: messag.msg.say,
+                      user: roomsAddress[3]
+                    }
+                  }
+                }, {}, (err, doc) => {
+                  pushUpdateToAllUsers(roomsAddress[1], doc.users)
+                }
+              )
+            } else if (messag.msg.enqueue) {
+              // renderSlaveInterval(messag)
+              // store.dispatch({type: "ENQUEUE_INSTRUCTION", payload: messag})
+            }
+          } else {
+            Session.findByIdAndUpdate(
+              roomsAddress[1], {
+                $push: {
+                  chatLog: messag
+                }
+              }, {}, (doc) => {
+                broadcast(messag);
+              }
+            )
+          }
+        }
       }
     }
   })
 })
 
 module.exports = {
+
   socketServer: wss,
+
   broadcaster: (room, payload) => {
-    // console.log("mark2", payload)
+    console.log("broadcaster", room)
     wss.clients.forEach(client => {
-      console.log("mark3", client.room, room)
+      console.log("client.room", client.room)
       if (client.room.indexOf(room) > -1) {
+
+
         const stringPayload = JSON.stringify({
           room,
           msg: payload,
           timestamp: Date.now()
         })
-        // console.log("mark4", stringPayload)
+
+        // console.log("sending", stringPayload)
         client.send(stringPayload)
       }
     })
@@ -121,22 +130,22 @@ module.exports = {
 // //////////////////////////////////////////////////////////////////////////
 // // Send gameState to all users
 // //////////////////////////////////////////////////////////////////////////
-// function broadcastSession2(session, updateData, now) {
-//   session.users.forEach(userId => {
-//     wss.clients.forEach(client => {
-//       const address = `session-${session._id}-user-${userId}`
-//       if (client.room.indexOf(address) > -1) {
-//         const stringPayload = JSON.stringify({
-//           room: address,
-//           msg: updateData,
-//           timestamp: now
-//         })
-//         client.send(stringPayload)
-//         console.log("response time:", Date.now() - now )
-//       }
-//     })
-//   })
-// };
+function broadcastSession2(session, updateData, now) {
+  session.users.forEach(userId => {
+    wss.clients.forEach(client => {
+      const address = `session-${session._id}-user-${userId}`
+      if (client.room.indexOf(address) > -1) {
+        const stringPayload = JSON.stringify({
+          room: address,
+          msg: updateData,
+          timestamp: now
+        })
+        client.send(stringPayload)
+        console.log("response time:", Date.now() - now )
+      }
+    })
+  })
+};
 //
 //
 // module.exports = wss

@@ -39333,16 +39333,20 @@ ws.onopen = function (e) {
 };
 ws.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    // console.log(`onmessage`, data)
+    console.log(`onmessage`, data);
     if (data.msg === "user joined") {
         store_1.default.dispatch({ type: "NEW_COMMAND", payload: "connection established" });
     }
+    console.log("mark3");
     if (data.room) {
+        console.log("mark2");
         const roomsAddress = data.room.split('-');
         if (roomsAddress[0] === 'session') {
+            console.log("mark1", roomsAddress[2]);
             if (roomsAddress[2] === 'user') {
                 console.log("timeflag: ", data.timestamp - timeflag);
                 timeflag = data.timestamp;
+                console.log("mark0");
                 store_1.default.dispatch({ type: "OBSERVE_DRONES_RAYS", payload: data.msg });
             }
         }
@@ -39353,11 +39357,11 @@ function send(msg) {
     ws.send(JSON.stringify({ msg: msg }));
 }
 function broadcast(msg, room, user) {
-    // console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`)
+    console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`);
     ws.send(JSON.stringify({ room: room, msg: msg, user: user, timestamp: Date.now() }));
 }
 function join(room) {
-    // console.log(`join: ${room}`)
+    console.log(`join: ${room}`);
     ws.send(JSON.stringify({ join: room }));
 }
 function bootApp(wrapper) {
@@ -39365,9 +39369,9 @@ function bootApp(wrapper) {
     const userId = wrapper.dataset.userId;
     ReactDOM.render(React.createElement(react_redux_1.Provider, { store: store_1.default },
         React.createElement(App_tsx_1.default, { newCommand: (command) => store_1.default.dispatch(actionTypes_js_1.NEW_COMMAND, command), broadcast: (msg) => { broadcast(msg, `session-${sessionId}-user-${userId}`, userId); } })), wrapper);
-    join(`session-${sessionId}`);
-    join(`session-${sessionId}-user-${userId}`);
-    broadcast({ load: true }, `session-${sessionId}-user-${userId}`, userId);
+    const roomsAddress = `session-${sessionId}-user-${userId}`;
+    join(roomsAddress);
+    broadcast({ load: true }, roomsAddress, userId);
 }
 
 
@@ -40014,11 +40018,11 @@ const commandQueueWaitTime = 1;
         const returnedTarget = Object.assign({}, state)
 
         Object.assign(returnedTarget, {
-          drones: action.payload.dronesWithoutRays,
-          ships: action.payload.shipsWithoutFogOfWar
+          drones: action.payload.drones,
+          ships: action.payload.ship
         })
 
-        action.payload.dronesWithoutRays.forEach((drone) => {
+        action.payload.drones.forEach((drone) => {
 
           const droneId = drone._id;
           const shipId = drone.ship

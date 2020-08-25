@@ -1,8 +1,12 @@
+// {
+//   SESION_ID: {
+//       ships: {},
+//       drones: {},
+//       metadata: {}
+//     }
+// }
+
 module.exports = {
-  instructions: [],
-  gameState:{
-    ships: {},
-    drones: {},
-    metadata: {}
-  }
+  gameStates: {},
+  userStates: {}
 };
