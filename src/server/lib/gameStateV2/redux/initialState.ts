@@ -1,3 +1,5 @@
+const { fromJS } = require('immutable');
+
 // {
 //   SESION_ID: {
 //       ships: {},

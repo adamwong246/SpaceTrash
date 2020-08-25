@@ -14,53 +14,51 @@ module.exports = combineReducers({
 
       case "TICK": {
         console.log("TICK", Date.now())
-        const newGameStates = Object.assign({}, state)
 
-        Object.keys(newGameStates).forEach((sessionKey) => {
-          const sessionState = newGameStates[sessionKey];
+        Object.keys(state).forEach((sessionKey) => {
+          // const sessionState = state[sessionKey];
 
-          newGameStates[sessionKey].drones = newGameStates[sessionKey].drones
+          state[sessionKey].drones = state[sessionKey].drones
           .map((drone) => {
 
             if(drone.instructions && drone.instructions.length){
-              const newDrone = updateDrone(drone, drone.instructions.shift())
-              return newDrone;
+              return updateDrone(drone, drone.instructions.shift())
+
             } else {return drone}
 
           }).map((drone) => {
-
-              const foundShip = newGameStates[sessionKey].ships.filter((s) => drone.ship === s.id)[0]
-              const newDrone = renderDrone(drone, foundShip.matrix)
-              return newDrone;
-
+              const foundShip = state[sessionKey].ships.filter((s) => drone.ship === s.id)[0]
+              return renderDrone(drone, foundShip.matrix)
           })
         })
 
-        return newGameStates;
+        return state;
       }
 
       case "ENQUEUE_INSTRUCTION": {
         const instruction = action.payload;
-
-        console.log(instruction)
 
         // FIXME
         const sessionId = instruction.room.split('-')[1];
         const command = instruction.msg.enqueue.instruction
         const droneId = instruction.msg.enqueue.drone
 
-        console.log(sessionId)
+
         return {
           ...state,
           [sessionId]: {
             ...state[sessionId],
             drones: state[sessionId].drones.map((drone) => {
               if (!drone.instructions){drone.instructions = []}
-              if (drone.id === droneId){drone.instructions.push(command)}
+
+              if (drone.id === droneId){
+                drone.instructions = drone.instructions.concat([command])
+              }
               return drone
             })
           }
         }
+        return state
       }
 
       case "INITIALIZE_SESSION": {

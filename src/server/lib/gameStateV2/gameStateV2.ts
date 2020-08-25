@@ -1,43 +1,74 @@
+const createSelector = require("reselect").createSelector;
 const initSubscriber = require('redux-subscriber').default;
+const { fromJS } = require('immutable');
 
 const getRays = require("../getRays.js");
 const store = require("./redux/store.ts");
 
 const subscriptions = {};
 
-const dequeSpeed = 100;
+const dequeSpeed = 1000;
 
 const subscribe = initSubscriber(store);
 
+const changed = (name, keys, old, v) => {
+  for (var i = 0; i < keys.length; i++) {
+    if (v[keys[i]] !== old[keys[i]]) {
+      console.log('%c %s: %s has changed from %o to %o', 'color: #c00', name, keys[i], old[keys[i]], v[keys[i]])
+      return true
+    }
+  }
+
+  return false
+}
+
+const baseSelector = ((state) => {
+  console.log("mark-2");
+  return state
+})
+
+const getPropsTestV0n1 = createSelector([baseSelector], (base) => {
+  console.log("mark-1");
+  return base.gameStates || {gameStates: {}}
+})
+
+const getPropsTestV0 = createSelector([getPropsTestV0n1], (gameStates) => {
+  console.log("mark0");
+  return gameStates["5f3f8063e7274e786d5758c6"] || {drones: {}}
+})
+
+const getPropsTestV1 = createSelector([getPropsTestV0], (gameState) => {
+  console.log("mark1");
+  return gameState.drones || {drones: {instructions: []}}
+})
+
+const getPropsTestV2 = createSelector([getPropsTestV1], (drones) => {
+  console.log("mark2");
+  return drones["5f3ee4743634bb5433b68b7d"] || {instructions: []}
+})
+
+const getPropsTestV3 = createSelector([getPropsTestV2], (drone) => {
+  console.log("mark3");
+  return drone.instructions || []
+})
+
+
+
 module.exports = (socketServer, broadcaster) => {
 
-  // const createSubscription = (statePath, listBroadcastTo, sessionId) => {
-  //   console.log("SUBSCRIPTION creating...", statePath, listBroadcastTo)
-  //   if (!subscriptions[statePath]) {
-  //     console.log("MARK")
-  //     subscriptions[statePath] = subscribe(statePath, (state) => {
-  //       listBroadcastTo.forEach((broadcastTo) => broadcaster(broadcastTo, state.gameStates[sessionId]))
-  //     })
-  //   } else {
-  //     // console.log("susbsciption alrady existed")
-  //   };
-  // };
+  const broadcastPropsTestV0 = createSelector([getPropsTestV3], state => {
+    // console.log("MARK", state);
+    broadcaster(`sessionSudo-5f3f8063e7274e786d5758c6`, state)
+    return
+  })
+
 
   // a function which calls itself. Every cycle, it dispatches a "clock signal"
-  //
   const dequeuer = () => {
     store.dispatch({ type: "TICK", payload: {} })
 
     const state = store.getState()
-
-    Object.keys(state.gameStates).forEach((sessionId) => {
-      broadcaster(`sessionSudo-${sessionId}`, state.gameStates[sessionId])
-
-      broadcaster(`session-${sessionId}-user-5f3b0eca72a5dfd350990fbf`, {drones: state.gameStates[sessionId].drones})
-
-    })
-
-
+    broadcastPropsTestV0(state)
     setTimeout(dequeuer, dequeSpeed);
   }
 
