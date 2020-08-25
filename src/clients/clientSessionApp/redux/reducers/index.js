@@ -204,7 +204,7 @@ export default combineReducers({
           returnedTarget.droneData[droneId].y = drone.y
           returnedTarget.droneData[droneId].direction = drone.direction
 
-          returnedTarget.gridData[shipId].tiles[Math.round(drone.x)][Math.round(drone.y)][1] = `drone-${drone.id}`
+          // returnedTarget.gridData[shipId].tiles[Math.round(drone.x)][Math.round(drone.y)][1] = `drone-${drone.id}`
 
         })
         return returnedTarget;

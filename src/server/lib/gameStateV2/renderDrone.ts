@@ -47,14 +47,13 @@ const brenshams = (x0, y0, x1, y1, matrix) => {
 
    return tiles;
 }
-
 module.exports = (drone, matrix) => {
-  console.log(drone,matrix)
+
   const mapHeight = matrix.length;
   const mapWidth = matrix[0].length;
   const gridMap = matrix
 
-  return Array.from(Array(numRays).keys()).map((i, stripIdx) => {
+  drone.rays = Array.from(Array(numRays).keys()).map((i, stripIdx) => {
     // where on the screen does ray go through?
     var rayScreenPos = (-numRays/2 + i) * stripWidth;
 
@@ -250,4 +249,6 @@ module.exports = (drone, matrix) => {
       return newStripStyle
     }
   })
+
+  return drone;
 }

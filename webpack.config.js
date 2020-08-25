@@ -83,5 +83,5 @@ module.exports = [
   clientSessionApp,
   clientSessionSudoApp,
   server,
-  // userConfig
+  userConfig
 ];

@@ -1,9 +1,9 @@
 const combineReducers = require("redux").combineReducers;
 
-const getRays = require("../../../getRays.js");
+const renderDrone = require("../../renderDrone.ts");
+const updateDrone = require("../../updateDrone.ts");
 
 const initialState = require("../initialState.ts");
-const updateDrone = require("../../updateDrone.ts");
 
 const blankCharacter = '_';
 
@@ -23,18 +23,17 @@ module.exports = combineReducers({
           .map((drone) => {
 
             if(drone.instructions && drone.instructions.length){
-              return updateDrone(drone, drone.instructions.shift())
+              const newDrone = updateDrone(drone, drone.instructions.shift())
+              return newDrone;
             } else {return drone}
 
           }).map((drone) => {
-            if(drone.instructions && drone.instructions.length){
+
               const foundShip = newGameStates[sessionKey].ships.filter((s) => drone.ship === s.id)[0]
-              drone.rays = getRays(drone, foundShip.matrix)
-              return drone
-            } else {return drone}
+              const newDrone = renderDrone(drone, foundShip.matrix)
+              return newDrone;
+
           })
-
-
         })
 
         return newGameStates;
@@ -50,6 +49,7 @@ module.exports = combineReducers({
         const command = instruction.msg.enqueue.instruction
         const droneId = instruction.msg.enqueue.drone
 
+        console.log(sessionId)
         return {
           ...state,
           [sessionId]: {
@@ -59,16 +59,6 @@ module.exports = combineReducers({
               if (drone.id === droneId){drone.instructions.push(command)}
               return drone
             })
-            // drones: {
-            //   ...state[sessionId].drones,
-            //   [droneId]: {
-            //     ...state[sessionId].drones[droneId],
-            //     instructions: [
-            //       ...(state[sessionId].drones[droneId] || {instructions: []}).instructions,
-            //       command
-            //     ]
-            //   }
-            // }
           }
         }
       }
@@ -118,8 +108,10 @@ module.exports = combineReducers({
 
         const raycastedDrones = drones.map((drone) => {
           const foundShip = mappedShips.filter((s) => drone.ship === s.id)[0]
-          drone.rays = getRays(drone, foundShip.matrix)
-          return drone
+          const newDrone = renderDrone(drone, foundShip.matrix)
+          return newDrone
+          // drone.rays = getRays(drone, foundShip.matrix);
+          // return drone
         })
 
         return {

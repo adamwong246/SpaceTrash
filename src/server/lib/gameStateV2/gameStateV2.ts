@@ -5,33 +5,43 @@ const store = require("./redux/store.ts");
 
 const subscriptions = {};
 
+const dequeSpeed = 100;
+
 const subscribe = initSubscriber(store);
 
 module.exports = (socketServer, broadcaster) => {
 
-  const createSubscription = (statePath, listBroadcastTo, sessionId) => {
-    console.log("SUBSCRIPTION creating...", statePath, listBroadcastTo)
-    if (!subscriptions[statePath]) {
+  // const createSubscription = (statePath, listBroadcastTo, sessionId) => {
+  //   console.log("SUBSCRIPTION creating...", statePath, listBroadcastTo)
+  //   if (!subscriptions[statePath]) {
+  //     console.log("MARK")
+  //     subscriptions[statePath] = subscribe(statePath, (state) => {
+  //       listBroadcastTo.forEach((broadcastTo) => broadcaster(broadcastTo, state.gameStates[sessionId]))
+  //     })
+  //   } else {
+  //     // console.log("susbsciption alrady existed")
+  //   };
+  // };
 
-      subscriptions[statePath] = subscribe(statePath, (state) => {
-
-        listBroadcastTo.forEach((broadcastTo) => broadcaster(broadcastTo, state.gameStates[sessionId]))
-      })
-    } else {
-      // console.log("susbsciption alrady existed")
-    };
-  };
-
-
-
-  // a function which calls itself. Evey cycle, it dispatches a "clock signal"
+  // a function which calls itself. Every cycle, it dispatches a "clock signal"
+  //
   const dequeuer = () => {
     store.dispatch({ type: "TICK", payload: {} })
-    setTimeout(dequeuer, 1000);
+
+    const state = store.getState()
+
+    Object.keys(state.gameStates).forEach((sessionId) => {
+      broadcaster(`sessionSudo-${sessionId}`, state.gameStates[sessionId])
+
+      broadcaster(`session-${sessionId}-user-5f3b0eca72a5dfd350990fbf`, {drones: state.gameStates[sessionId].drones})
+
+    })
+
+
+    setTimeout(dequeuer, dequeSpeed);
   }
-  setTimeout(dequeuer, 1000);
 
-
+  setTimeout(dequeuer, dequeSpeed);
 
   return {
     store,
@@ -47,13 +57,15 @@ module.exports = (socketServer, broadcaster) => {
         }
       })
 
-      createSubscription(`gameStates`, [`sessionSudo-${sessionId}`], sessionId)
-
-      createSubscription(
-        `gameStates.${sessionId}.drones`,
-        session.users.map((u)=>`session-${sessionId}-user-${u}`),
-        sessionId
-      )
+      // // createSubscription(`gameStates`, [`sessionSudo-${sessionId}`], sessionId)
+      //
+      // createSubscription(`gameStates.${sessionId}`, session.users.map((u)=>`session-${sessionId}-user-${u}`), sessionId)
+      //
+      // // createSubscription(
+      // //   `gameStates.${sessionId}.drones`,
+      // //   session.users.map((u)=>`session-${sessionId}-user-${u}`),
+      // //   sessionId
+      // // )
     },
     enqueuer: (instruction) => {
       store.dispatch({type: "ENQUEUE_INSTRUCTION", payload: instruction})
