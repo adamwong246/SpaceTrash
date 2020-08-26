@@ -40,11 +40,13 @@ class App extends React.Component<{
               <Tab>chat</Tab>
               <Tab>data</Tab>
               <Tab>user</Tab>
+              <Tab>code</Tab>
             </TabList>
 
             <TabPanel><TabLog/></TabPanel>
             <TabPanel><TabChat/></TabPanel>
             <TabPanel><TabData/></TabPanel>
+            <TabPanel><TabView/></TabPanel>
             <TabPanel><TabView/></TabPanel>
           </Tabs>
       </div>

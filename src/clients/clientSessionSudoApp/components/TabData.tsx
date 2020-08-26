@@ -8,7 +8,7 @@ import JSONTree from 'react-json-tree'
 import {getTabDataProps} from '../redux/selectors.js';
 
 const theme = {
-  scheme: 'green',
+  scheme: 'red',
   author: 'adam wong',
 
   base00: '#000000',
@@ -20,14 +20,14 @@ const theme = {
   base06: '#000000',
   base07: '#000000',
 
-  base08: '#008000',
-  base09: '#008000',
-  base0A: '#008000',
-  base0B: '#008000',
-  base0C: '#008000',
-  base0D: '#008000',
-  base0E: '#008000',
-  base0F: '#008000'
+  base08: '#FF0000',
+  base09: '#FF0000',
+  base0A: '#FF0000',
+  base0B: '#FF0000',
+  base0C: '#FF0000',
+  base0D: '#FF0000',
+  base0E: '#FF0000',
+  base0F: '#FF0000'
 };
 
 const dataDumper = (data) =>

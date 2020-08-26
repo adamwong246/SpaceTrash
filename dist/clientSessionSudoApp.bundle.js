@@ -1747,7 +1747,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, ".vertical {\n  display: flex;\n}\n\n.vertical > ul.react-tabs__tab-list li.react-tabs__tab{\n  display: block;\n}\n\n.react-tabs__tab-list{\n  border-bottom: 1px solid green;\n}\n\n.react-tabs__tab.react-tabs__tab--selected{\n  background-color: green;\n  color: black;\n  border: none;\n  border-radius: 0px;\n  padding: 10px;\n}\n\n.react-tabs__tab-panel.react-tabs__tab-panel--selected{\n  border: 1px solid green;\n}\n\n.react-tabs__tab {\n  border: 1px dotted green;\n}\n\nhr {\n  border: 1px solid green;\n}\n\n\n#tabs .react-tabs__tab{\n  padding: 1px 6px;\n}\n", ""]);
+exports.push([module.i, ".vertical {\n  display: flex;\n}\n\n.vertical > ul.react-tabs__tab-list li.react-tabs__tab{\n  display: block;\n}\n\n.react-tabs__tab-list{\n  border-bottom: 1px solid green;\n}\n\n.react-tabs__tab.react-tabs__tab--selected{\n  background-color: green;\n  color: black;\n  border: none;\n  border-radius: 0px;\n  padding: 10px;\n}\n\n.react-tabs__tab-panel.react-tabs__tab-panel--selected{\n  border: 1px solid green;\n}\n\n.react-tabs__tab {\n  border: 1px dotted green;\n}\n\nhr {\n  border: 1px solid green;\n}\n\n\n#tabs .react-tabs__tab{\n  padding: 1px 6px;\n}\n\n.react-tabs__tab-list {\n  border-bottom-width: 1px;\n  border-bottom-style: solid;\n  margin: 0 0 10px;\n  padding: 0;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -39310,7 +39310,7 @@ ws.onmessage = function (e) {
     if (data.msg === "user joined") {
         store_1.default.dispatch({ type: "NEW_COMMAND", payload: "connection established" });
     }
-    if (data.msg.drones && data.msg.ships && data.msg.metadata) {
+    if (data.msg.drones) {
         store_1.default.dispatch({ type: "LOAD_STATE", payload: data.msg });
     }
     // if (data.room) {
@@ -39426,7 +39426,7 @@ const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react
 const react_json_tree_1 = __webpack_require__(/*! react-json-tree */ "./node_modules/react-json-tree/lib/index.js");
 const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/clients/clientSessionSudoApp/redux/selectors.js");
 const theme = {
-    scheme: 'green',
+    scheme: 'red',
     author: 'adam wong',
     base00: '#000000',
     base01: '#000000',
@@ -39436,14 +39436,14 @@ const theme = {
     base05: '#000000',
     base06: '#000000',
     base07: '#000000',
-    base08: '#008000',
-    base09: '#008000',
-    base0A: '#008000',
-    base0B: '#008000',
-    base0C: '#008000',
-    base0D: '#008000',
-    base0E: '#008000',
-    base0F: '#008000'
+    base08: '#FF0000',
+    base09: '#FF0000',
+    base0A: '#FF0000',
+    base0B: '#FF0000',
+    base0C: '#FF0000',
+    base0D: '#FF0000',
+    base0E: '#FF0000',
+    base0F: '#FF0000'
 };
 const dataDumper = (data) => React.createElement(react_tabs_1.TabPanel, { className: "codish" },
     React.createElement("div", { className: "scrolly" },

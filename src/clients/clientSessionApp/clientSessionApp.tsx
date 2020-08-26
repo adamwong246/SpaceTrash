@@ -44,10 +44,10 @@ ws.onmessage = function(e) {
   }
 }
 
-function send(msg) {
-  console.log(`send: ${msg}`)
-  ws.send(JSON.stringify({ msg: msg }));
-}
+// function send(msg) {
+//   console.log(`send: ${msg}`)
+//   ws.send(JSON.stringify({ msg: msg }));
+// }
 
 function broadcast(msg, room, user) {
   console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`)

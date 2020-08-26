@@ -30,11 +30,7 @@ body{
   height: calc(90vh);
 }
 
-.react-tabs__tab-list {
-  border-bottom: 1px solid green;
-  margin: 0 0 10px;
-  padding: 0;
-}
+
 
 .react-tabs__tab  {
   text-decoration: underline;

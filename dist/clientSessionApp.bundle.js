@@ -1693,7 +1693,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "a {\n  color: green;\n}\n\nbody{\n  color: green;\n}\n\n#command-line * {\n  background-color: green;\n  color: black;\n}\n\n\n#command-bar > span {\n  border-color: green;\n}\n", ""]);
+exports.push([module.i, "a {\n  color: green;\n}\n\nbody{\n  color: green;\n}\n\n#command-line * {\n  background-color: green;\n  color: black;\n}\n\n\n#command-bar > span {\n  border-color: green;\n}\n\n.react-tabs__tab-list {\n  border-bottom: 1px solid green;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -1765,7 +1765,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, ".vertical {\n  display: flex;\n}\n\n.vertical > ul.react-tabs__tab-list li.react-tabs__tab{\n  display: block;\n}\n\n.react-tabs__tab-list{\n  border-bottom: 1px solid green;\n}\n\n.react-tabs__tab.react-tabs__tab--selected{\n  background-color: green;\n  color: black;\n  border: none;\n  border-radius: 0px;\n  padding: 10px;\n}\n\n.react-tabs__tab-panel.react-tabs__tab-panel--selected{\n  border: 1px solid green;\n}\n\n.react-tabs__tab {\n  border: 1px dotted green;\n}\n\nhr {\n  border: 1px solid green;\n}\n\n\n#tabs .react-tabs__tab{\n  padding: 1px 6px;\n}\n", ""]);
+exports.push([module.i, ".vertical {\n  display: flex;\n}\n\n.vertical > ul.react-tabs__tab-list li.react-tabs__tab{\n  display: block;\n}\n\n.react-tabs__tab-list{\n  border-bottom: 1px solid green;\n}\n\n.react-tabs__tab.react-tabs__tab--selected{\n  background-color: green;\n  color: black;\n  border: none;\n  border-radius: 0px;\n  padding: 10px;\n}\n\n.react-tabs__tab-panel.react-tabs__tab-panel--selected{\n  border: 1px solid green;\n}\n\n.react-tabs__tab {\n  border: 1px dotted green;\n}\n\nhr {\n  border: 1px solid green;\n}\n\n\n#tabs .react-tabs__tab{\n  padding: 1px 6px;\n}\n\n.react-tabs__tab-list {\n  border-bottom-width: 1px;\n  border-bottom-style: solid;\n  margin: 0 0 10px;\n  padding: 0;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -39287,13 +39287,16 @@ class App extends React.Component {
                         React.createElement(react_tabs_1.Tab, null, "logs"),
                         React.createElement(react_tabs_1.Tab, null, "chat"),
                         React.createElement(react_tabs_1.Tab, null, "data"),
-                        React.createElement(react_tabs_1.Tab, null, "user")),
+                        React.createElement(react_tabs_1.Tab, null, "user"),
+                        React.createElement(react_tabs_1.Tab, null, "code")),
                     React.createElement(react_tabs_1.TabPanel, null,
                         React.createElement(TabLog_tsx_1.default, null)),
                     React.createElement(react_tabs_1.TabPanel, null,
                         React.createElement(TabChat_tsx_1.default, null)),
                     React.createElement(react_tabs_1.TabPanel, null,
                         React.createElement(TabData_tsx_1.default, null)),
+                    React.createElement(react_tabs_1.TabPanel, null,
+                        React.createElement(TabView_tsx_1.default, null)),
                     React.createElement(react_tabs_1.TabPanel, null,
                         React.createElement(TabView_tsx_1.default, null))))));
     }
@@ -39352,10 +39355,10 @@ ws.onmessage = function (e) {
         }
     }
 };
-function send(msg) {
-    console.log(`send: ${msg}`);
-    ws.send(JSON.stringify({ msg: msg }));
-}
+// function send(msg) {
+//   console.log(`send: ${msg}`)
+//   ws.send(JSON.stringify({ msg: msg }));
+// }
 function broadcast(msg, room, user) {
     console.log(`broadcast: ${JSON.stringify(msg)}, ${room}, ${user}`);
     ws.send(JSON.stringify({ room: room, msg: msg, user: user, timestamp: Date.now() }));
@@ -39516,7 +39519,7 @@ class TabChat extends React.Component {
                 React.createElement(react_tabs_1.Tabs, { className: "vertical" },
                     React.createElement(react_tabs_1.TabList, null,
                         React.createElement("li", null, "Default rooms "),
-                        React.createElement(react_tabs_1.Tab, null, "Public room"),
+                        React.createElement(react_tabs_1.Tab, null, "Session"),
                         React.createElement(react_tabs_1.Tab, null, "My room"),
                         React.createElement("hr", null),
                         React.createElement("li", null,
@@ -39573,9 +39576,9 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabChat);
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const react_json_tree_1 = __webpack_require__(/*! react-json-tree */ "./node_modules/react-json-tree/lib/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
-const react_json_tree_1 = __webpack_require__(/*! react-json-tree */ "./node_modules/react-json-tree/lib/index.js");
 const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/clients/clientSessionApp/redux/selectors.js");
 const theme = {
     scheme: 'green',
@@ -39606,12 +39609,10 @@ class TabData extends React.Component {
             React.createElement("div", { id: "tabs" },
                 React.createElement(react_tabs_1.Tabs, null,
                     React.createElement(react_tabs_1.TabList, null,
-                        React.createElement(react_tabs_1.Tab, null, "ships"),
                         React.createElement(react_tabs_1.Tab, null, "drones"),
                         React.createElement(react_tabs_1.Tab, null, "user-scripts"),
                         React.createElement(react_tabs_1.Tab, null, "user-space")),
                     [
-                        dataDumper(this.props.ships),
                         dataDumper(this.props.drones),
                         dataDumper(this.props.userScripts),
                         dataDumper(this.props.usr),
@@ -39702,6 +39703,7 @@ const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/c
 class TabView extends React.Component {
     render() {
         const userScripts = this.props.userScripts;
+        console.log("TabBiew props", this.props);
         return (React.createElement("div", null,
             !userScripts && (React.createElement("p", null, "You need to upload some files first. Try the command CODE_UPLOAD to upload a js file.")),
             userScripts && React.createElement('div', null, [
@@ -39877,107 +39879,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const commandQueueWaitTime = 1;
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-
-  commandQueues: function(state = {}, action) {
-    switch (action.type) {
-      case 'QUEUE_COMMAND': {
-
-        const commands = state[`${action.payload.drone}`] || []
-        const lastTime = commands[commands.length - 1] ? commands[commands.length - 1].timestamp : Date.now()
-
-        const newCommand = {
-          instruction: action.payload.instruction,
-          timestamp: lastTime + commandQueueWaitTime
-        }
-
-        return {
-          ...state,
-          [`${action.payload.drone}`]: [
-            ...state[`${action.payload.drone}`] || [],
-            newCommand
-          ]
-        }
-      }
-
-      case 'DEQUEUE_COMMANDS': {
-        return {
-          ...state,
-          [`${action.payload.drone}`]: []
-        }
-      }
-
-      case 'CLEAR_STALE_QUEUE_COMMANDS': {
-        const now = action.payload;
-
-        const freshCommandQueues = {};
-
-        Object.keys(state).forEach((k) => {
-          const freshCommands = state[k].filter((c) => c.timestamp > now)
-
-          if (freshCommands.length) {
-            freshCommandQueues[k] = freshCommands
-          }
-        })
-
-        return freshCommandQueues
-      }
-
-      default:
-        return state;
-    }
-  },
-
-  clock: (clockState = {}, action) => {
-    switch (action.type) {
-      case 'UPDATE_CLOCK': {
-        return {
-          ...clockState,
-          time: Date.now()
-        }
-      }
-
-      case 'HALT': {
-        return {
-          ...clockState,
-          halted: true,
-          lastTime: Date.now()
-        }
-      }
-
-      case 'RESUME': {
-        return {
-          ...clockState,
-          halted: false,
-          lastTime: clockState.lastTime
-        }
-      }
-
-      default:
-        return clockState;
-    }
-  },
-
-  // loadState: function(state = {}, action) {
-  //   switch (action.type) {
-  //     case 'LOAD_GAME_STATE': {
-  //       console.log('LOAD_GAME_STATE', action.payload)
-  //       return {
-  //         ...state,
-  //         drones: action.payload.dronesWithoutRays,
-  //         ships: action.payload.shipsWithoutFogOfWar
-  //         // chatLog: action.payload.chatLog,
-  //         // ships: action.payload.ships,
-  //         // drones: action.payload.drones
-  //       }
-  //     }
-  //
-  //     default:
-  //       return state;
-  //   }
-  // },
 
   terminalLines: (state = _initialState_ts__WEBPACK_IMPORTED_MODULE_1___default.a, action) => {
     switch (action.type) {
@@ -40003,7 +39905,11 @@ const commandQueueWaitTime = 1;
   userScripts: (state = _initialState_ts__WEBPACK_IMPORTED_MODULE_1___default.a, action) => {
     switch (action.type) {
       case "CODE_UPLOAD": {
-        return eval(action.payload)
+        try {
+            return eval(action.payload)
+        } catch (e) {
+            console.log(e)
+        }
       }
 
       default:
@@ -40017,12 +39923,16 @@ const commandQueueWaitTime = 1;
       case "OBSERVE_DRONES_RAYS": {
         const returnedTarget = Object.assign({}, state)
 
+        const drones = Object.keys(action.payload).map((droneId) => {
+          return action.payload[droneId]
+        });
+
         Object.assign(returnedTarget, {
-          drones: action.payload.drones,
-          ships: action.payload.ship
+          drones: drones,
+          // ships: action.payload.ship
         })
 
-        action.payload.drones.forEach((drone) => {
+        drones.forEach((drone) => {
 
           const droneId = drone._id;
           const shipId = drone.ship
@@ -40080,6 +39990,7 @@ const commandQueueWaitTime = 1;
           // returnedTarget.gridData[shipId].tiles[Math.round(drone.x)][Math.round(drone.y)][1] = `drone-${drone.id}`
 
         })
+        debugger
         return returnedTarget;
       }
 
@@ -40124,7 +40035,7 @@ const getTabIoProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelect
 })
 
 const getTabViewProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], state => {
-
+  debugger
   return {
     userScripts: state.userScripts,
     drones: state.usr.drones,

@@ -17,17 +17,13 @@ const blankCharacter = '_';
 
 var groupBy = function(xs, key) {
   return xs.reduce(function(rv, x) {
-    // (rv[x[key]] = rv[x[key]] || []).push(x);
     rv[x[key]] = x;
     return rv;
   }, {});
 };
 
-
 module.exports = combineReducers({
-
   myReducer: (state = initialState, action) => {
-    // console.log("myReducer", JSON.stringify(action))
 
     switch (action.type) {
       case "INITIALIZE_SESSION": {
@@ -73,16 +69,8 @@ module.exports = combineReducers({
             return ship
           })
 
-        const raycastedDrones = drones.map((drone) => {
-          const foundShip = mappedShips.filter((s) => drone.ship === s.id)[0]
-          const newDrone = renderDrone(drone, foundShip.matrix)
-          return newDrone
-          // drone.rays = getRays(drone, foundShip.matrix);
-          // return drone
-        })
-
         const groupedShips = groupBy(mappedShips, 'id')
-        const groupedDrones = groupBy(raycastedDrones, 'id')
+        const groupedDrones = groupBy(drones, 'id')
 
         return updateIn(updateIn(state, ['gameStates', sessionId, 'ships'], val => fromJS(groupedShips)), ['gameStates', sessionId, 'drones'], val => fromJS(groupedDrones))
       }
@@ -128,46 +116,30 @@ module.exports = combineReducers({
                     return new Map({})
                   }
 
-
                   const droneReduction = dronesEntrySeqs.reduce((droneEntrySeqMemo, dronesEntrySeq) => {
                     const droneId = dronesEntrySeq[0]
                     const drone = dronesEntrySeq[1]
 
-
-
-
                     const instructions = drone.get('instructions')
-                    if(instructions && instructions.size){
+                    if (instructions && instructions.size) {
                       const instructionHead = instructions.get(0)
-                      const instructionTail = instructions.slice(1).filter((x)=> x)
-
-                      // console.log(drone.toJS())
+                      const instructionTail = instructions.slice(1).filter((x) => x)
 
                       const updatedDrone = updateDrone(drone.toJS(), instructionHead)
-                      console.log(updatedDrone.direction)
 
                       const d = drone.set('instructions', instructionTail)
-                      .set('x', updatedDrone.x)
-                      .set('y', updatedDrone.y)
-                      .set('direction', updatedDrone.direction)
-
-
+                        .set('x', updatedDrone.x)
+                        .set('y', updatedDrone.y)
+                        .set('direction', updatedDrone.direction)
 
                       return droneEntrySeqMemo.set(droneId, d)
                     } else {
                       return droneEntrySeqMemo
                     }
 
-
-
-
-
-
                   }, drones)
 
                   return droneReduction
-
-
 
                 })
               )

@@ -79,7 +79,7 @@ userConfig.output.publicPath = __dirname
 userConfig.devtool = false
 
 module.exports = [
-  // clientApp,
+  clientApp,
   clientSessionApp,
   clientSessionSudoApp,
   server,

@@ -15,3 +15,7 @@ body{
 #command-bar > span {
   border-color: green;
 }
+
+.react-tabs__tab-list {
+  border-bottom: 1px solid green;
+}

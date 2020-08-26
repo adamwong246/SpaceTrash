@@ -141,7 +141,7 @@ class TabChat extends React.Component<{
 
           <TabList>
             <li>Default rooms </li>
-            <Tab>Public room</Tab>
+            <Tab>Session</Tab>
             <Tab>My room</Tab>
             <hr />
 

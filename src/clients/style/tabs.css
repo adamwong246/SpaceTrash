@@ -34,3 +34,10 @@ hr {
 #tabs .react-tabs__tab{
   padding: 1px 6px;
 }
+
+.react-tabs__tab-list {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  margin: 0 0 10px;
+  padding: 0;
+}

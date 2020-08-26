@@ -130,7 +130,11 @@ export default combineReducers({
   userScripts: (state = initialState, action) => {
     switch (action.type) {
       case "CODE_UPLOAD": {
-        return eval(action.payload)
+        try {
+            return eval(action.payload)
+        } catch (e) {
+            console.log(e)
+        }
       }
 
       default:

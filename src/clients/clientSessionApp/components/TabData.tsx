@@ -1,11 +1,9 @@
 import * as React from 'react';
+import JSONTree from 'react-json-tree'
 import { connect } from "react-redux";
-
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import JSONTree from 'react-json-tree'
-
-import {getTabDataProps} from '../redux/selectors.js';
+import { getTabDataProps } from '../redux/selectors.js';
 
 const theme = {
   scheme: 'green',
@@ -33,7 +31,7 @@ const theme = {
 const dataDumper = (data) =>
   <TabPanel className="codish" >
     <div className="scrolly">
-      <JSONTree data={data} theme={theme} invertTheme={false}/>
+      <JSONTree data={data} theme={theme} invertTheme={false} />
     </div>
   </TabPanel>
 
@@ -44,24 +42,22 @@ class TabData extends React.Component<{}, {}> {
 
       <div id="tabs">
 
-          <Tabs>
-            <TabList>
-              <Tab>ships</Tab>
-              <Tab>drones</Tab>
-              <Tab>user-scripts</Tab>
-              <Tab>user-space</Tab>
+        <Tabs>
+          <TabList>
+            <Tab>drones</Tab>
+            <Tab>user-scripts</Tab>
+            <Tab>user-space</Tab>
 
-            </TabList>
+          </TabList>
 
-            {
-              [
-                dataDumper(this.props.ships),
-                dataDumper(this.props.drones),
-                dataDumper(this.props.userScripts),
-                dataDumper(this.props.usr),
-              ]
-            }
-          </Tabs>
+          {
+            [
+              dataDumper(this.props.drones),
+              dataDumper(this.props.userScripts),
+              dataDumper(this.props.usr),
+            ]
+          }
+        </Tabs>
       </div>
     </div>);
   }

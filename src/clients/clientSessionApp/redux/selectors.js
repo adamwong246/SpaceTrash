@@ -13,7 +13,7 @@ export const getTabIoProps = createSelector([baseSelector], state => {
 })
 
 export const getTabViewProps = createSelector([baseSelector], state => {
-
+  debugger
   return {
     userScripts: state.userScripts,
     drones: state.usr.drones,

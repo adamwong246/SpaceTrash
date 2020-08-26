@@ -1,6 +1,6 @@
 require("./mongoose.js");
 
-const gameStateV2 = require("./lib/gameStateV2/gameStateV2.ts");
+const gameStateV2 = require("./lib/gameStateV2.ts");
 
 const {socketServer, broadcaster} = require("./socketServer.js");
 
