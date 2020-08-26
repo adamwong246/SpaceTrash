@@ -6,6 +6,38 @@ import store from "./store.js";
 
 const baseSelector = (state => state)
 
+export const getTabCodeProps = createSelector([baseSelector], base => {
+
+
+  return {
+    userFiles: base.userFiles,
+
+    openFileContents: base.openFileContents,
+
+    openFile: (file) => {
+      store.dispatch({type: 'SET_OPEN_FILE', payload: file.fileText})
+    },
+
+    onUploadFolder: (e) => {
+      const files = e.target.files;
+
+      const promises = Object.keys(files).map((ndx) => {
+        return files[ndx].text().then((fileText) =>{
+          return {
+            name: files[ndx].name,
+            fileText
+          }
+        })
+      })
+
+      Promise.all(promises).then((f) => {
+        store.dispatch({type: 'UPLOAD_FOLDER', payload: f})
+      })
+
+    }
+  }
+})
+
 export const getTabIoProps = createSelector([baseSelector], state => {
   return {
     drones: state.usr.drones

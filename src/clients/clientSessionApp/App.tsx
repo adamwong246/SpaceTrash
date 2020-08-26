@@ -6,6 +6,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import CommandLine from './components/CommandLine.tsx'
 
 import TabChat from './components/TabChat.tsx'
+import TabCode from './components/TabCode.tsx'
 import TabData from './components/TabData.tsx'
 import TabFile from './components/TabFile.tsx'
 import TabLog from './components/TabLog.tsx'
@@ -47,7 +48,7 @@ class App extends React.Component<{
             <TabPanel><TabChat/></TabPanel>
             <TabPanel><TabData/></TabPanel>
             <TabPanel><TabView/></TabPanel>
-            <TabPanel><TabView/></TabPanel>
+            <TabPanel><TabCode/></TabPanel>
           </Tabs>
       </div>
     </div>);

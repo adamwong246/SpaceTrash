@@ -4235,6 +4235,10 @@ mocha@^5.2.0:
     mkdirp "0.5.1"
     supports-color "5.4.0"
 
+monaco-editor@*:
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.20.0.tgz#5d5009343a550124426cb4d965a4d27a348b4dea"
+
 mongodb-core@2.1.18:
   version "2.1.18"
   resolved "https://registry.yarnpkg.com/mongodb-core/-/mongodb-core-2.1.18.tgz#4c46139bdf3a1f032ded91db49f38eec01659050"
@@ -5410,6 +5414,13 @@ react-jsx-parser@^1.25.1:
     acorn "^7.2.0"
     acorn-jsx "^5.2.0"
     core-js "^3.6.5"
+
+react-monaco-editor@^0.40.0:
+  version "0.40.0"
+  resolved "https://registry.yarnpkg.com/react-monaco-editor/-/react-monaco-editor-0.40.0.tgz#f1b021b32952cfc63a4bf2661fd20f61b2b8309f"
+  dependencies:
+    monaco-editor "*"
+    prop-types "^15.7.2"
 
 react-redux@^7.2.0:
   version "7.2.0"

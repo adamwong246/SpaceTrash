@@ -17,6 +17,8 @@ export default {
 
   usr: {},
 
-  userScripts: null
+  userScripts: null,
 
+  userFiles: [],
+  openFileContents: "Hello initial state"
 };
