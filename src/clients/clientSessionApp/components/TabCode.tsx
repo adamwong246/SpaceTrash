@@ -27,7 +27,10 @@ class TabCode extends React.Component<{
               type="file" directory="" webkitdirectory="" />
           </td>
 
-          <td></td>
+          <td>
+          <button>Save</button>
+
+          </td>
         </tr>
 
         <tr>

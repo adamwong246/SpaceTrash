@@ -17,7 +17,7 @@ const wss = new WebSocket.Server({
 
 module.exports = {
 
-  socketServer: (enqueuer) => {
+  socketServer: (enqueuer, loader) => {
     wss.on('connection', ws => {
       ws.send(JSON.stringify({
         msg: "user joined"
@@ -50,7 +50,6 @@ module.exports = {
 
             if (roomsAddress[0] === 'sessionSudo') {
               console.log("message received from a sessionSudo")
-
             }
 
             if (roomsAddress[0] === 'session') {
@@ -60,7 +59,7 @@ module.exports = {
                   Session.findById(
                     roomsAddress[1],
                     (err, session) => {
-                      // broadcastSession2(session, session.gameState, messag.msg.timestamp)
+                      loader(session, messag)
                     }
                   )
                 } else if (messag.msg.say) {
