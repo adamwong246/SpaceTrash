@@ -2,6 +2,7 @@ const moveStepSize = 0.25;
 const rotateStepSize = 0.005;
 
 module.exports = (drone, command) => {
+
   if (command === "DRONE_MOVE_FORWARD") {
     const roundOldX = Math.round(drone.x)
     const roundOldY = Math.round(drone.y)
@@ -52,7 +53,7 @@ module.exports = (drone, command) => {
     // }
   }
 
-  if (command === "DRONE_MOVE_BACK") {
+  else if (command === "DRONE_MOVE_BACK") {
 
     const roundOldX = Math.round(drone.x)
     const roundOldY = Math.round(drone.y)
@@ -84,12 +85,16 @@ module.exports = (drone, command) => {
     // }
   }
 
-  if (command === "DRONE_ROTATE_LEFT") {
+  else if (command === "DRONE_ROTATE_LEFT") {
     drone.direction = drone.direction - rotateStepSize
   }
 
-  if (command === "DRONE_ROTATE_RIGHT") {
+  else if (command === "DRONE_ROTATE_RIGHT") {
     drone.direction = drone.direction + rotateStepSize
+  }
+
+  else {
+    throw("IDK", command)
   }
 
 

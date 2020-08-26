@@ -49,7 +49,7 @@ const brenshams = (x0, y0, x1, y1, matrix) => {
 }
 
 module.exports = (drone, matrix) => {
-  console.log(drone,matrix)
+  // console.log(drone,matrix)
   const mapHeight = matrix.length;
   const mapWidth = matrix[0].length;
   const gridMap = matrix

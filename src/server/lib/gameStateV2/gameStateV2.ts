@@ -7,7 +7,7 @@ const store = require("./redux/store.ts");
 
 const subscriptions = {};
 
-const dequeSpeed = 1000;
+const dequeSpeed = 2000;
 
 const subscribe = initSubscriber(store);
 
@@ -57,14 +57,16 @@ const getPropsTestV3 = createSelector([getPropsTestV2], (drone) => {
 module.exports = (socketServer, broadcaster) => {
 
   const broadcastPropsTestV0 = createSelector([getPropsTestV3], state => {
-    // console.log("MARK", state);
-    broadcaster(`sessionSudo-5f3f8063e7274e786d5758c6`, state)
+    console.log("MARK", state);
+    // process.exit()
+    // broadcaster(`sessionSudo-5f3f8063e7274e786d5758c6`, state)
     return
   })
 
 
   // a function which calls itself. Every cycle, it dispatches a "clock signal"
   const dequeuer = () => {
+    console.log("tick", Date.now())
     store.dispatch({ type: "TICK", payload: {} })
 
     const state = store.getState()

@@ -8,7 +8,11 @@ const { fromJS } = require('immutable');
 //     }
 // }
 
-module.exports = {
-  gameStates: {},
-  userStates: {}
-};
+module.exports = fromJS({
+  // foo: "bar",
+  // dig: "boo",
+  gameStates: fromJS({
+    // idk: "bff"
+  }),
+  // userStates: fromJS({})
+});

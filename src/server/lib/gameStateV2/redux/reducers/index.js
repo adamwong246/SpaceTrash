@@ -1,3 +1,11 @@
+const {
+  fromJS,
+  updateIn,
+  setIn,
+  List,
+  update,
+  Map
+} = require('immutable')
 const combineReducers = require("redux").combineReducers;
 
 const renderDrone = require("../../renderDrone.ts");
@@ -7,60 +15,21 @@ const initialState = require("../initialState.ts");
 
 const blankCharacter = '_';
 
+var groupBy = function(xs, key) {
+  return xs.reduce(function(rv, x) {
+    // (rv[x[key]] = rv[x[key]] || []).push(x);
+    rv[x[key]] = x;
+    return rv;
+  }, {});
+};
+
+
 module.exports = combineReducers({
 
-  gameStates: (state = initialState, action) => {
+  myReducer: (state = initialState, action) => {
+    // console.log("myReducer", JSON.stringify(action))
+
     switch (action.type) {
-
-      case "TICK": {
-        console.log("TICK", Date.now())
-
-        Object.keys(state).forEach((sessionKey) => {
-          // const sessionState = state[sessionKey];
-
-          state[sessionKey].drones = state[sessionKey].drones
-          .map((drone) => {
-
-            if(drone.instructions && drone.instructions.length){
-              return updateDrone(drone, drone.instructions.shift())
-
-            } else {return drone}
-
-          }).map((drone) => {
-              const foundShip = state[sessionKey].ships.filter((s) => drone.ship === s.id)[0]
-              return renderDrone(drone, foundShip.matrix)
-          })
-        })
-
-        return state;
-      }
-
-      case "ENQUEUE_INSTRUCTION": {
-        const instruction = action.payload;
-
-        // FIXME
-        const sessionId = instruction.room.split('-')[1];
-        const command = instruction.msg.enqueue.instruction
-        const droneId = instruction.msg.enqueue.drone
-
-
-        return {
-          ...state,
-          [sessionId]: {
-            ...state[sessionId],
-            drones: state[sessionId].drones.map((drone) => {
-              if (!drone.instructions){drone.instructions = []}
-
-              if (drone.id === droneId){
-                drone.instructions = drone.instructions.concat([command])
-              }
-              return drone
-            })
-          }
-        }
-        return state
-      }
-
       case "INITIALIZE_SESSION": {
 
         const sessionId = action.payload.sessionId;
@@ -112,21 +81,107 @@ module.exports = combineReducers({
           // return drone
         })
 
-        return {
-          ...state,
-          [sessionId]: {
-            ...state[sessionId],
-            ships: mappedShips,
-            drones: raycastedDrones,
-            metadata: {
-              timestamp: Date.now()
-            }
-          }
-        }
+        const groupedShips = groupBy(mappedShips, 'id')
+        const groupedDrones = groupBy(raycastedDrones, 'id')
+
+        return updateIn(updateIn(state, ['gameStates', sessionId, 'ships'], val => fromJS(groupedShips)), ['gameStates', sessionId, 'drones'], val => fromJS(groupedDrones))
       }
+
+      case "ENQUEUE_INSTRUCTION": {
+        const instruction = action.payload;
+
+        // FIXME
+        const sessionId = instruction.room.split('-')[1];
+        const command = instruction.msg.enqueue.instruction
+        const droneId = instruction.msg.enqueue.drone
+
+        return updateIn(state,
+          ['gameStates', sessionId, 'drones', droneId, 'instructions'],
+          (v) => {
+            return v ? v.push(command) : new List([command])
+          }
+        )
+      }
+
+      case "TICK": {
+        return updateIn(state, ['gameStates'], (gameStates) => {
+
+          if (!gameStates) {
+            return new Map()
+          }
+
+          const sessions = gameStates.entrySeq();
+
+          if (sessions.size < 1) {
+            return new Map({})
+          }
+
+          const sessionReduction = sessions.reduce((sessionEntrySeqMemo, sessionEntrySeq) => {
+            const sessionId = sessionEntrySeq[0]
+            const session = sessionEntrySeq[1]
+
+            return sessionEntrySeqMemo.set(sessionId,
+              (
+                session.updateIn(['drones'], (drones) => {
+                  const dronesEntrySeqs = drones.entrySeq();
+                  if (dronesEntrySeqs.size < 1) {
+                    return new Map({})
+                  }
+
+
+                  const droneReduction = dronesEntrySeqs.reduce((droneEntrySeqMemo, dronesEntrySeq) => {
+                    const droneId = dronesEntrySeq[0]
+                    const drone = dronesEntrySeq[1]
+
+
+
+
+                    const instructions = drone.get('instructions')
+                    if(instructions && instructions.size){
+                      const instructionHead = instructions.get(0)
+                      const instructionTail = instructions.slice(1).filter((x)=> x)
+
+                      // console.log(drone.toJS())
+
+                      const updatedDrone = updateDrone(drone.toJS(), instructionHead)
+                      console.log(updatedDrone.direction)
+
+                      const d = drone.set('instructions', instructionTail)
+                      .set('x', updatedDrone.x)
+                      .set('y', updatedDrone.y)
+                      .set('direction', updatedDrone.direction)
+
+
+
+                      return droneEntrySeqMemo.set(droneId, d)
+                    } else {
+                      return droneEntrySeqMemo
+                    }
+
+
+
+
+
+
+                  }, drones)
+
+                  return droneReduction
+
+
+
+                })
+              )
+            )
+          }, gameStates)
+
+          return sessionReduction
+        })
+      }
+
       default:
         return state;
     }
+    return state;
   },
 
 });
