@@ -39338,7 +39338,7 @@ function bootApp(wrapper) {
     const sessionId = wrapper.dataset.sessionId;
     const userId = wrapper.dataset.userId;
     const broadcaster = (command, droneId) => {
-        return broadcast({ command, droneId }, `session-${sessionId}-user-${userId}`);
+        return broadcast({ enqueue: { command, droneId } }, `session-${sessionId}-user-${userId}`);
     };
     ReactDOM.render(React.createElement(react_redux_1.Provider, { store: store_1.default },
         React.createElement(App_tsx_1.default, { broadcaster: broadcaster })), wrapper);
@@ -39657,10 +39657,7 @@ class Commands extends React.Component {
                     React.createElement("td", null)),
                 React.createElement("tr", null,
                     React.createElement("td", null,
-                        React.createElement("button", { onClick: (e) => {
-                                debugger;
-                                this.props.broadcaster("LEFT", this.props.drone.id);
-                            } }, "LEFT")),
+                        React.createElement("button", { onClick: (e) => { this.props.broadcaster("LEFT", this.props.drone.id); } }, "LEFT")),
                     React.createElement("td", null),
                     React.createElement("td", null,
                         React.createElement("button", { onClick: (e) => this.props.broadcaster("RIGHT", this.props.drone.id) }, "RIGHT"))),

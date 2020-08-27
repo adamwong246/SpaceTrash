@@ -14,21 +14,12 @@ class Commands extends React.Component<{
 
       <tr>
         <td></td>
-        <td>
-          <button
-            onClick={(e) => this.props.broadcaster("FORWARD", this.props.drone.id)}
-          >
-            FORWARD
-      </button>
-        </td>
+        <td><button onClick={(e) => this.props.broadcaster("FORWARD", this.props.drone.id)}>FORWARD</button></td>
         <td></td>
       </tr>
 
       <tr>
-        <td><button onClick={(e) => {
-          debugger
-          this.props.broadcaster("LEFT", this.props.drone.id)
-        }}>LEFT</button></td>
+        <td><button onClick={(e) => {this.props.broadcaster("LEFT", this.props.drone.id)}}>LEFT</button></td>
         <td></td>
         <td><button onClick={(e) => this.props.broadcaster("RIGHT", this.props.drone.id)}>RIGHT</button></td>
       </tr>

@@ -60,7 +60,7 @@ function bootApp(wrapper) {
   const userId = wrapper.dataset.userId
 
   const broadcaster = (command, droneId) => {
-    return broadcast(   {command, droneId}   , `session-${sessionId}-user-${userId}`)
+    return broadcast(   {enqueue: {command, droneId}}   , `session-${sessionId}-user-${userId}`)
   }
 
   ReactDOM.render(<Provider store={store}>

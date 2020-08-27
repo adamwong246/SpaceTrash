@@ -13,23 +13,10 @@ const subscribe = initSubscriber(store);
 module.exports = (socketServer, broadcaster) => {
 
   const runAllSubscriptions = () => {
-    Object.keys(subscriptions).forEach((subscriptionKey) =>{
+    Object.keys(subscriptions).forEach((subscriptionKey) => {
       subscriptions[subscriptionKey](store.getState())
     })
   }
-
-  // a function which calls itself. Every cycle, it dispatches a "clock signal"
-  const dequeuer = () => {
-    console.log("tick", Date.now())
-    store.dispatch({ type: "TICK", payload: {} })
-
-    const state = store.getState().myReducer;
-    runAllSubscriptions()
-
-    setTimeout(dequeuer, dequeSpeed);
-  }
-
-  setTimeout(dequeuer, dequeSpeed);
 
   const selectBase = (state) => state
 
@@ -76,9 +63,9 @@ module.exports = (socketServer, broadcaster) => {
 
     },
 
-    enqueuer: (instruction) => {
-      store.dispatch({ type: "ENQUEUE_INSTRUCTION", payload: instruction })
-      // runAllSubscriptions()
+    enqueuer: (command, droneId, sessionId) => {
+      store.dispatch({ type: "MAKE_MOVE", payload: {command, droneId, sessionId} })
+      runAllSubscriptions()
     },
 
     loader: (session,
@@ -90,17 +77,13 @@ module.exports = (socketServer, broadcaster) => {
 
       const sessionSelector = subscriptions[sessionKey]
 
-      if (!sessionSelector){
+      if (!sessionSelector) {
         broadcaster(room, { "message": `FUBAR` })
         return
       }
 
       subscriptions[room] = createSelector([sessionSelector], (session) => {
         const drones = session.get("drones")
-
-
-
-
 
         const dronesEntrySeqs = drones.entrySeq();
         if (dronesEntrySeqs.size < 1) {
@@ -115,44 +98,42 @@ module.exports = (socketServer, broadcaster) => {
           const updatedDroneRays = renderDrone(drone.toJS(), foundShip.matrix)
 
           const d = drone.set('rays', updatedDroneRays)
-
-
           return drones.set(droneId, d)
 
         }, drones)
 
 
-        const cheater  = dronesWithRays.toJS();
-        const shipMap = Object.keys(cheater).reduce((memo, k) =>{
+        const cheater = dronesWithRays.toJS();
+        const shipMap = Object.keys(cheater).reduce((memo, k) => {
           console.log(memo, k)
           return memo.concat((cheater[k]))
         }, [])
-        .map((drone) => {
-          return drone.rays
-        })
-        .reduce((memo, ray) => {
-          return memo.concat(ray.brenshams)
-        })
-        .map((x) => {
-          return x.brenshams
-        })
-        .reduce((memo, b) => {
-          return memo.concat(b)
-        }, [])
-        .reduce((memo, tile) => {
-          return {
-            ...memo,
-            [tile.x]: {
-              ...memo[tile.x],
-              [tile.y]: {
-              ...((memo[tile.x] || {})[tile.y] || {}),
-                ...tile.tile
+          .map((drone) => {
+            return drone.rays
+          })
+          .reduce((memo, ray) => {
+            return memo.concat(ray.brenshams)
+          })
+          .map((x) => {
+            return x.brenshams
+          })
+          .reduce((memo, b) => {
+            return memo.concat(b)
+          }, [])
+          .reduce((memo, tile) => {
+            return {
+              ...memo,
+              [tile.x]: {
+                ...memo[tile.x],
+                [tile.y]: {
+                  ...((memo[tile.x] || {})[tile.y] || {}),
+                  ...tile.tile
+                }
               }
             }
-          }
-        }, {})
+          }, {})
 
-        broadcaster(room, {drones: dronesWithRays, shipMap})
+        broadcaster(room, { drones: dronesWithRays, shipMap })
         return dronesWithRays
       })
       runAllSubscriptions()

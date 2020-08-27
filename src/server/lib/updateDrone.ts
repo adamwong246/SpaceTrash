@@ -3,7 +3,7 @@ const rotateStepSize = 0.05;
 
 module.exports = (drone, command) => {
 
-  if (command === "DRONE_MOVE_FORWARD") {
+  if (command === "FORWARD") {
     const roundOldX = Math.round(drone.x)
     const roundOldY = Math.round(drone.y)
     const newX = drone.x + Math.cos(drone.direction) * moveStepSize
@@ -53,7 +53,7 @@ module.exports = (drone, command) => {
     // }
   }
 
-  else if (command === "DRONE_MOVE_BACK") {
+  else if (command === "BACK") {
 
     const roundOldX = Math.round(drone.x)
     const roundOldY = Math.round(drone.y)
@@ -85,16 +85,16 @@ module.exports = (drone, command) => {
     // }
   }
 
-  else if (command === "DRONE_ROTATE_LEFT") {
+  else if (command === "LEFT") {
     drone.direction = drone.direction - rotateStepSize
   }
 
-  else if (command === "DRONE_ROTATE_RIGHT") {
+  else if (command === "RIGHT") {
     drone.direction = drone.direction + rotateStepSize
   }
 
   else {
-    throw("IDK", command)
+    console.log("I don't recognize the command", command)
   }
 
 

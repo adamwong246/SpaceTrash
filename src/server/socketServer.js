@@ -78,7 +78,10 @@ module.exports = {
                     }
                   )
                 } else if (messag.msg.enqueue) {
-                  enqueuer(messag)
+                  const command = messag.msg.enqueue.command
+                  const droneId = messag.msg.enqueue.droneId
+                  const sessionId = roomsAddress[1]
+                  enqueuer(command, droneId, sessionId)
                 }
               } else {
                 Session.findByIdAndUpdate(
@@ -91,6 +94,7 @@ module.exports = {
                   }
                 )
               }
+
             }
           }
         }
