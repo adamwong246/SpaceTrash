@@ -45,10 +45,12 @@ export const getTabIoProps = createSelector([baseSelector], state => {
 })
 
 export const getTabViewProps = createSelector([baseSelector], state => {
-  debugger
+  const drones = Object.keys(state.usr.drones).map((dKey) => {
+    return state.usr.drones[dKey]
+  })
   return {
     userScripts: state.userScripts,
-    drones: state.usr.drones,
+    drones: drones,
     ships: state.usr.ships,
     droneData: state.usr.droneData,
     gridData: state.usr.gridData,

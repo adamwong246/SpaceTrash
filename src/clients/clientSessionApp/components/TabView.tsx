@@ -15,7 +15,7 @@ class TabView extends React.Component<{
 
   render() {
     const userScripts = this.props.userScripts
-    console.log("TabBiew props", this.props)
+    console.log("TabView props", this.props)
     return (<div>
 
       {!userScripts && (<p>

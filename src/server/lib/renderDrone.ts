@@ -53,7 +53,7 @@ module.exports = (drone, matrix) => {
   const mapWidth = matrix[0].length;
   const gridMap = matrix
 
-  Array.from(Array(numRays).keys()).map((i, stripIdx) => {
+  return Array.from(Array(numRays).keys()).map((i, stripIdx) => {
     // where on the screen does ray go through?
     var rayScreenPos = (-numRays/2 + i) * stripWidth;
 

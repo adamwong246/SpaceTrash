@@ -1,5 +1,5 @@
 const moveStepSize = 0.25;
-const rotateStepSize = 0.005;
+const rotateStepSize = 0.05;
 
 module.exports = (drone, command) => {
 

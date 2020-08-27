@@ -26,16 +26,16 @@ class MainView extends React.Component {
             return (React.createElement(this.props.tabs.Tab, {}, drone.name));
           })),
 
-          // this.props.drones.map((drone) => {
-          //   return React.createElement(this.props.tabs.TabPanel, {}, [
-          //     React.createElement(Video, {
-          //       drone,
-          //       dispatcher: this.props.dispatcher,
-          //       gridData: this.props.gridData,
-          //       droneData: this.props.droneData
-          //     })
-          //   ])
-          // })
+          this.props.drones.map((drone) => {
+            return React.createElement(this.props.tabs.TabPanel, {}, [
+              React.createElement(Video, {
+                drone,
+                dispatcher: this.props.dispatcher,
+                gridData: this.props.gridData,
+                droneData: this.props.droneData
+              })
+            ])
+          })
         ])),
 
         // React.createElement(this.props.tabs.TabPanel, {}, [React.createElement(ShipSchematics, {

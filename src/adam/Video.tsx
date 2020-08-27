@@ -21,7 +21,9 @@ class Video extends React.Component<{ drone, dispatcher, droneData }, {}>{
       xMax: Number.NEGATIVE_INFINITY,
       yMax: Number.NEGATIVE_INFINITY,
     }
-    drone.rays.forEach((ray) => {
+
+    const rays = drone.rays || []
+    rays.forEach((ray) => {
 
       const listOfTiles = (ray.brenshams || [])
       listOfTiles.forEach((tile) => {
@@ -47,27 +49,27 @@ class Video extends React.Component<{ drone, dispatcher, droneData }, {}>{
       return (<span>idk, no drone found </span>)
     }
 
-    const rays = drone.rays;
+
     const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0)
 
-    const height = metaData.yMax - metaData.yMin + 1
-    const width = metaData.xMax - metaData.xMin + 1
-
-    const matrix = new Array(height).fill(blankCharacter).map(() => new Array(width).fill(blankCharacter).map(() => new Array(2).fill(blankCharacter)));
-
-    for (var yNdx = 0; yNdx < height; yNdx++) {
-      for (var xNdx = 0; xNdx < width; xNdx++) {
-
-        const x = xNdx + metaData.xMin
-        const y = yNdx + metaData.yMin
-
-        if (droneData[drone.id].tiles[x]) {
-          if (droneData[drone.id].tiles[x][y]) {
-            matrix[yNdx][xNdx] = droneData[drone.id].tiles[x][y]
-          }
-        }
-      }
-    }
+    // const height = metaData.yMax - metaData.yMin + 1
+    // const width = metaData.xMax - metaData.xMin + 1
+    //
+    // const matrix = new Array(height).fill(blankCharacter).map(() => new Array(width).fill(blankCharacter).map(() => new Array(2).fill(blankCharacter)));
+    //
+    // for (var yNdx = 0; yNdx < height; yNdx++) {
+    //   for (var xNdx = 0; xNdx < width; xNdx++) {
+    //
+    //     const x = xNdx + metaData.xMin
+    //     const y = yNdx + metaData.yMin
+    //
+    //     if (droneData[drone.id].tiles[x]) {
+    //       if (droneData[drone.id].tiles[x][y]) {
+    //         matrix[yNdx][xNdx] = droneData[drone.id].tiles[x][y]
+    //       }
+    //     }
+    //   }
+    // }
 
 
     return (<div id="video" >
@@ -209,35 +211,7 @@ class Video extends React.Component<{ drone, dispatcher, droneData }, {}>{
 
               </svg>
 
-              {
-                matrix && (<table className="matrix codish">
-                  <tbody>
-                    {matrix.map((row) => {
-                      return (
-                        <tr>
-                          {row.map((cell) => {
 
-                            var secondCharacter;
-                            if (cell[1] === "_") { secondCharacter = "_" }
-                            else if (cell[1] === ".") { secondCharacter = "." }
-                            else secondCharacter = "D"
-
-                            return (
-                              <td data-drone={cell[1] ? cell[1] : ""}>
-                                {cell[0]}
-
-                                {secondCharacter}
-
-
-                              </td>
-                            );
-                          })}
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>)
-              }
 
 
 
