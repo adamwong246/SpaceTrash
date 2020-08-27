@@ -3,20 +3,34 @@ import JSONTree from 'react-json-tree'
 import { connect } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
+import MapDetail from "./MapDetail.tsx";
+
 import { getTabShipProps } from '../redux/selectors.js';
 
 const blankCharacter = '.';
 
 class TabShip extends React.Component<{
   shipMap: {},
-}, {}> {
+}, {
+    cursorX, cursorY
+  }> {
+
+  constructor(a) {
+    super(a);
+
+    this.state = { cursorX: 1, cursorY: 1 }
+  }
+
+  setCursor(x, y) {
+    this.setState({ cursorX: x, cursorY: y })
+  }
 
   render() {
     const shipMap = this.props.shipMap
 
 
-    if (Object.keys(shipMap).length === 0){
-      return (<br/>)
+    if (Object.keys(shipMap).length === 0) {
+      return (<br />)
     }
 
     const metaData = {
@@ -26,12 +40,8 @@ class TabShip extends React.Component<{
       yMax: Number.NEGATIVE_INFINITY,
     }
 
-    // console.log("mark0", shipId)
     Object.keys(shipMap).forEach((xKey) => {
-      console.log("mark1")
       Object.keys(shipMap[xKey]).forEach((yKey) => {
-        console.log("mark2")
-
         const xNumber = parseInt(xKey)
         const yNumber = parseInt(yKey)
 
@@ -60,11 +70,8 @@ class TabShip extends React.Component<{
         const x = (xNdx + metaData.xMin).toString()
         const y = (yNdx + metaData.yMin).toString()
 
-        console.log("mark3")
         if (shipMap[x]) {
-          console.log("mark4")
           if (shipMap[x][y]) {
-            console.log("mark5")
             matrix[yNdx][xNdx] = shipMap[x][y]
           }
         }
@@ -74,30 +81,59 @@ class TabShip extends React.Component<{
     return (
 
 
-      matrix && (<table className="matrix codish">
-        <tbody>
-          {matrix.map((row) => {
-            return (
-              <tr>
-                {row.map((cell) => {
 
-                  var secondCharacter;
-                  if (cell[1] === "_") { secondCharacter = "_" }
-                  else if (cell[1] === ".") { secondCharacter = "." }
-                  else secondCharacter = "D"
+      <table><tbody>
 
+        <tr>
+          <td>Detail</td>
+          <td>Map</td>
+        </tr>
+
+        <tr>
+
+
+          <td>
+            <MapDetail
+              cell={matrix[this.state.cursorY][this.state.cursorX]}
+              x={this.state.cursorX}
+              y={this.state.cursorY}
+            />
+          </td>
+
+
+          <td>
+
+            {matrix && (<table className="matrix codish">
+              <tbody>
+                {matrix.map((row, y) => {
                   return (
-                    <td data-drone={cell[1] ? cell[1] : ""}>
-                      {cell[0]}
-                      {secondCharacter}
-                    </td>
+                    <tr>
+                      {row.map((cell, x) => {
+
+                        var secondCharacter;
+                        if (cell[1] === "_") { secondCharacter = "_" }
+                        else if (cell[1] === ".") { secondCharacter = "." }
+                        else secondCharacter = "D"
+
+                        return (
+                          <td onMouseOver={() => this.setCursor(x, y)}
+                            data-drone={cell[1] ? cell[1] : ""}>
+                            {cell[0]}
+                            {secondCharacter}
+                          </td>
+                        );
+                      })}
+                    </tr>
                   );
                 })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>)
+              </tbody>
+            </table>)}</td>
+
+
+        </tr>
+      </tbody></table>
+
+
 
 
 

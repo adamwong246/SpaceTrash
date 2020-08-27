@@ -39674,6 +39674,47 @@ exports.default = Commands;
 
 /***/ }),
 
+/***/ "./src/clients/clientSessionAppV2/components/MapDetail.tsx":
+/*!*****************************************************************!*\
+  !*** ./src/clients/clientSessionAppV2/components/MapDetail.tsx ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+class MapDetail extends React.Component {
+    constructor(a) {
+        super(a);
+    }
+    render() {
+        const x = this.props.x;
+        const y = this.props.y;
+        const cell = this.props.cell;
+        return (React.createElement("table", null,
+            React.createElement("tbody", null,
+                React.createElement("tr", null,
+                    React.createElement("td", null, "x"),
+                    React.createElement("td", null, x)),
+                React.createElement("tr", null,
+                    React.createElement("td", null, "y"),
+                    React.createElement("td", null, y)),
+                React.createElement("tr", null,
+                    React.createElement("td", null, "cell"),
+                    React.createElement("td", null,
+                        React.createElement("ul", null, Object.keys(cell).map((c) => {
+                            return (React.createElement("li", null, `${c}: ${cell[c]}`));
+                        })))))));
+    }
+}
+;
+exports.default = MapDetail;
+
+
+/***/ }),
+
 /***/ "./src/clients/clientSessionAppV2/components/TabBots.tsx":
 /*!***************************************************************!*\
   !*** ./src/clients/clientSessionAppV2/components/TabBots.tsx ***!
@@ -39745,9 +39786,17 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabBots);
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+const MapDetail_tsx_1 = __webpack_require__(/*! ./MapDetail.tsx */ "./src/clients/clientSessionAppV2/components/MapDetail.tsx");
 const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/clients/clientSessionAppV2/redux/selectors.js");
 const blankCharacter = '.';
 class TabShip extends React.Component {
+    constructor(a) {
+        super(a);
+        this.state = { cursorX: 1, cursorY: 1 };
+    }
+    setCursor(x, y) {
+        this.setState({ cursorX: x, cursorY: y });
+    }
     render() {
         const shipMap = this.props.shipMap;
         if (Object.keys(shipMap).length === 0) {
@@ -39759,11 +39808,8 @@ class TabShip extends React.Component {
             xMax: Number.NEGATIVE_INFINITY,
             yMax: Number.NEGATIVE_INFINITY,
         };
-        // console.log("mark0", shipId)
         Object.keys(shipMap).forEach((xKey) => {
-            console.log("mark1");
             Object.keys(shipMap[xKey]).forEach((yKey) => {
-                console.log("mark2");
                 const xNumber = parseInt(xKey);
                 const yNumber = parseInt(yKey);
                 if (xNumber < metaData.xMin) {
@@ -39787,33 +39833,38 @@ class TabShip extends React.Component {
             for (var xNdx = 0; xNdx < width; xNdx++) {
                 const x = (xNdx + metaData.xMin).toString();
                 const y = (yNdx + metaData.yMin).toString();
-                console.log("mark3");
                 if (shipMap[x]) {
-                    console.log("mark4");
                     if (shipMap[x][y]) {
-                        console.log("mark5");
                         matrix[yNdx][xNdx] = shipMap[x][y];
                     }
                 }
             }
         }
-        return (matrix && (React.createElement("table", { className: "matrix codish" },
-            React.createElement("tbody", null, matrix.map((row) => {
-                return (React.createElement("tr", null, row.map((cell) => {
-                    var secondCharacter;
-                    if (cell[1] === "_") {
-                        secondCharacter = "_";
-                    }
-                    else if (cell[1] === ".") {
-                        secondCharacter = ".";
-                    }
-                    else
-                        secondCharacter = "D";
-                    return (React.createElement("td", { "data-drone": cell[1] ? cell[1] : "" },
-                        cell[0],
-                        secondCharacter));
-                })));
-            })))));
+        return (React.createElement("table", null,
+            React.createElement("tbody", null,
+                React.createElement("tr", null,
+                    React.createElement("td", null, "Detail"),
+                    React.createElement("td", null, "Map")),
+                React.createElement("tr", null,
+                    React.createElement("td", null,
+                        React.createElement(MapDetail_tsx_1.default, { cell: matrix[this.state.cursorY][this.state.cursorX], x: this.state.cursorX, y: this.state.cursorY })),
+                    React.createElement("td", null, matrix && (React.createElement("table", { className: "matrix codish" },
+                        React.createElement("tbody", null, matrix.map((row, y) => {
+                            return (React.createElement("tr", null, row.map((cell, x) => {
+                                var secondCharacter;
+                                if (cell[1] === "_") {
+                                    secondCharacter = "_";
+                                }
+                                else if (cell[1] === ".") {
+                                    secondCharacter = ".";
+                                }
+                                else
+                                    secondCharacter = "D";
+                                return (React.createElement("td", { onMouseOver: () => this.setCursor(x, y), "data-drone": cell[1] ? cell[1] : "" },
+                                    cell[0],
+                                    secondCharacter));
+                            })));
+                        })))))))));
     }
 }
 ;
