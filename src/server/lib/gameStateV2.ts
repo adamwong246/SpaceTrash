@@ -4,7 +4,7 @@ const initSubscriber = require('redux-subscriber').default;
 
 const store = require("./redux/store.ts");
 
-const dequeSpeed = 100;
+const dequeSpeed = 1000;
 const subscriptions = {};
 
 const subscribe = initSubscriber(store);
@@ -29,7 +29,7 @@ module.exports = (socketServer, broadcaster) => {
 
   // a function which calls itself. Every cycle, it dispatches a "clock signal"
   const dequeuer = () => {
-    console.log("tick", Date.now())
+    // console.log("tick", Date.now())
     store.dispatch({ type: "TICK", payload: {} })
 
     const state = store.getState().myReducer;

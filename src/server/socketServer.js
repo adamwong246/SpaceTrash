@@ -103,7 +103,7 @@ module.exports = {
   },
 
   broadcaster: (room, payload) => {
-    console.log("broadcaster", room)
+    console.log("BROADCASTING", room)
     wss.clients.forEach(client => {
       // console.log("client.room", client.room)
       if (client.room.indexOf(room) > -1) {

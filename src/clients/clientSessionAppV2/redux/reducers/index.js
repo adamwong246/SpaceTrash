@@ -31,17 +31,6 @@
 //     }
 //   },
 //
-//   userFiles: (state = initialState, action) => {
-//     switch (action.type) {
-//
-//       case "UPLOAD_FOLDER": {
-//         return action.payload
-//
-//       }
-//       default:
-//         return state;
-//     }
-//   },
 //
 //   terminalLines: (state = initialState, action) => {
 //     switch (action.type) {

@@ -9,7 +9,7 @@ const {
 const combineReducers = require("redux").combineReducers;
 
 const updatedDronePosition = require("../updatedDronePosition.ts");
-const updatedDroneRays = require("../updatedDroneRaysV2.ts");
+const updatedDroneRays = require("../updatedDroneRaysV3.ts");
 
 const initialState = require("./initialState.ts");
 
@@ -77,6 +77,8 @@ module.exports = (state = initialState, action) => {
               return drone.update("instructions", (instructions) => {
                 return instructions ? instructions.push(command) : new List([command])
               })
+            } else {
+              return drone
             }
           })
         }
@@ -102,72 +104,88 @@ module.exports = (state = initialState, action) => {
           return sessionEntrySeqMemo.update(sessionId, (session) => {
             const shipMap = session.getIn(["ship", "matrix"])
 
-            return session.updateIn(['drones'], (drones) => {
-                return drones.map((drone) => {
 
-                  const instructions = drone.get('instructions')
+            var instructionsDidRun = false;
 
-                  if (instructions && instructions.size) {
+            const updatedSession = session
+              .updateIn(['drones'], (drones) => {
+                return drones
+                .map((drone) => {
+
+                  const instructions = drone.get('instructions') || new List([])
+
+                  if (instructions.get(0)) {
                     const instructionHead = instructions.get(0)
                     const instructionTail = instructions.slice(1).filter((x) => x)
 
                     const newDronePosition = updatedDronePosition(drone, instructionHead)
+
+                    instructionsDidRun = true
 
                     return drone.set('instructions', instructionTail)
                       .set('x', newDronePosition.get('x'))
                       .set('y', newDronePosition.get('y'))
                       .set('direction', newDronePosition.get('direction'))
                   } else {
-                    const newDronePosition = updatedDronePosition(drone)
-                    return drone
-                      .set('x', newDronePosition.get('x'))
-                      .set('y', newDronePosition.get('y'))
-                      .set('direction', newDronePosition.get('direction'))
+                    return drone.set('instructions', new List([]))
                   }
+
+                  return drone
                 })
                 .map((drone) => {
-                  const rays = updatedDroneRays(drone, shipMap)
-                  return drone
-                    .set('rays', rays)
+                  if (instructionsDidRun) {
+                    return drone.set('rays', updatedDroneRays(drone, shipMap))
+                  } else {
+                    return drone
+                  }
                 })
-
-
-              })
-              .updateIn(['users'], (users) => {
-                return users.map((user) => {
-                  return user.update("shipmap", (shipmap = new Map({})) => {
-                    return session.get("drones")
-                    .filter((drone) => {
-                      return drone.get("user") == user.get("id")
-                    })
-                    .reduce((memo, drone) => {
-                      return memo.push(drone)
-                    }, new List([]))
-                    .reduce((memo, drone) => {
-                      if (drone.get("rays")) {
-                        return memo.concat(drone.get("rays"))
-                      } else {
-                        return memo
-                      }
-                    }, new List([]))
-                    .map((ray) => {
-                      return ray.get("brenshams")
-                    })
-                    .flatten(1)
-                    .reduce((memo, brensham) => {
-                      return {
-                        ...memo,
-                        [brensham.get("x")]: {
-                          ...memo[brensham.get("x")],
-                          [brensham.get("y")]: brensham.get("tile")
-                        }
-                      }
-                    }, shipmap)
-                  })
-                });
               })
 
+              if(instructionsDidRun){
+                return updatedSession.updateIn(['users'], (users) => {
+                  return users.map((user) => {
+                    return user.update("shipmap", (shipmap = new Map({})) => {
+
+                      return session.get("drones")
+                        .filter((drone) => {
+                          return drone.get("user") == user.get("id")
+                        })
+                        .reduce((memo, drone) => {
+                          return memo.push(drone)
+                        }, new List([]))
+                        .reduce((memo, drone) => {
+                          if (drone.get("rays")) {
+                            return memo.concat(drone.get("rays"))
+                          } else {
+                            return memo
+                          }
+                        }, new List([]))
+                        .map((ray) => {
+                          return ray.get("brenshams")
+                        })
+                        .flatten(1)
+                        .reduce((memo, brensham) => {
+                          return {
+                            ...memo,
+                            [brensham.get("x")]: {
+                              ...memo[brensham.get("x")],
+                              [brensham.get("y")]: brensham.get("tile")
+                            }
+                          }
+                        }, shipmap)
+                    })
+                  });
+                })
+              } else {
+                return updatedSession
+              }
+
+
+
+
+            return updatedSession
           })
+
         }, gameStates)
       })
     }

@@ -47,18 +47,17 @@ class TabBots extends React.Component<{
     <Tabs className="vertical">
       <TabList>
         {
-          Object.keys(this.props.drones).map((dId, drone) => {
-            return (<Tab>{drone.name || dId}</Tab>);
+          this.props.drones.map((drone) => {
+            return (<Tab>{drone.name || drone.id}</Tab>);
           })
         }
       </TabList>
 
       {
-        Object.keys(this.props.drones).map((dId) => {
-          return (<Bot drone={this.props.drones[dId]} broadcaster={this.props.broadcaster} ></Bot>)
+        this.props.drones.map((drone) => {
+          return (<TabPanel><Bot drone={drone} broadcaster={this.props.broadcaster} ></Bot></TabPanel>)
         })
       }
-
 
       </Tabs>
 

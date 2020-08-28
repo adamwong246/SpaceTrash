@@ -1,24 +1,28 @@
-// const {
-//   fromJS,
-//   updateIn,
-//   setIn,
-//   List,
-//   update,
-//   Map
-// } = require('immutable')
 import  combineReducers from "redux".;
-//
-// const renderDrone = require("../../renderDrone.ts");
-// const updateDrone = require("../../updateDrone.ts");
 
 import initialState from "./initialState.ts";
 
 const blankCharacter = '_';
 
-
 export default (state = initialState, action) => {
 
   switch (action.type) {
+
+    case "SET_OPEN_FILE": {
+      return {
+        ...state,
+        openFileContents: action.payload
+      }
+    }
+
+
+    case "UPLOAD_FOLDER": {
+      return {
+        ...state,
+        userFiles: action.payload
+      }
+    }
+
     case "RECEIVE_UPDATE": {
 
       return {
@@ -28,7 +32,10 @@ export default (state = initialState, action) => {
     }
 
     default:
+      console.log("IDK". action)
       return state;
+
+
   }
   return state;
 };
