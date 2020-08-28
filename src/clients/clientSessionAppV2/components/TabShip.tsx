@@ -25,9 +25,8 @@ class TabShip extends React.Component<{
     this.setState({ cursorX: x, cursorY: y })
   }
 
-  render() {
+  render() {      
     const shipMap = this.props.shipMap
-
 
     if (Object.keys(shipMap).length === 0) {
       return (<br />)

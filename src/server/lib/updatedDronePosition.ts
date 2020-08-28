@@ -1,13 +1,18 @@
+const { fromJS, List, Map } = require('immutable');
 const moveStepSize = 0.25;
 const rotateStepSize = 0.05;
 
 module.exports = (drone, command) => {
 
+  var x = drone.get("x")
+  var y = drone.get("y")
+  var direction = drone.get("direction")
+
   if (command === "FORWARD") {
-    const roundOldX = Math.round(drone.x)
-    const roundOldY = Math.round(drone.y)
-    const newX = drone.x + Math.cos(drone.direction) * moveStepSize
-    const newY = drone.y + Math.sin(drone.direction) * moveStepSize
+    const roundOldX = Math.round(drone.get("x"))
+    const roundOldY = Math.round(drone.get("y"))
+    const newX = drone.get("x") + Math.cos(drone.get("direction")) * moveStepSize
+    const newY = drone.get("y") + Math.sin(drone.get("direction")) * moveStepSize
     const roundNewX = Math.round(newX)
     const roundNewY = Math.round(newY)
 
@@ -19,10 +24,10 @@ module.exports = (drone, command) => {
     // console.log(drone)
     // console.log(session.gameState.shipsWithoutFogOfWar)
 
-    // console.log("oldX, oldX", drone.x, drone.y)
+    // console.log("oldX, oldX", drone.get("x");, drone.get("y");)
     // console.log("newX, newY", newX, newY)
-    drone.x = newX
-    drone.y = newY
+    x = newX
+    y = newY
 
     // session.gameState.dronesWithoutRays.forEach((d) => {
     //   console.log("mark0")
@@ -39,31 +44,31 @@ module.exports = (drone, command) => {
     //   // if we have moved left or right into a vertical wall
     //   if (roundNewX !== roundOldX) {
     //     // discard the x component of the move
-    //     drone.y = newY
+    //     drone.get("y"); = newY
     //   }
     //
     //   //  the same for Y
     //   if (roundNewY !== roundOldY) {
-    //     drone.x = newX
+    //     drone.get("x"); = newX
     //   }
     //
     // } else {
-    //   drone.x = newX
-    //   drone.y = newY
+    //   drone.get("x"); = newX
+    //   drone.get("y"); = newY
     // }
   }
 
   else if (command === "BACK") {
 
-    const roundOldX = Math.round(drone.x)
-    const roundOldY = Math.round(drone.y)
-    const newX = drone.x + Math.cos(drone.direction) * -moveStepSize
-    const newY = drone.y + Math.sin(drone.direction) * -moveStepSize
+    const roundOldX = Math.round(drone.get("x"))
+    const roundOldY = Math.round(drone.get("y"))
+    const newX = drone.get("x") + Math.cos(drone.get("direction")) * -moveStepSize
+    const newY = drone.get("y") + Math.sin(drone.get("direction")) * -moveStepSize
     const roundNewX = Math.round(newX)
     const roundNewY = Math.round(newY)
 
-    drone.x = newX
-    drone.y = newY
+    x = newX
+    y = newY
 
     // // check where we want to go
     // if (materializedMap.get(roundNewX, roundNewY).type === 'wall') {
@@ -71,32 +76,31 @@ module.exports = (drone, command) => {
     //   // if we have moved left or right into a vertical wall
     //   if (roundNewX !== roundOldX) {
     //     // discard the x component of the move
-    //     drone.y = newY
+    //     drone.get("y"); = newY
     //   }
     //
     //   //  the same for Y
     //   if (roundNewY !== roundOldY) {
-    //     drone.x = newX
+    //     drone.get("x"); = newX
     //   }
     //
     // } else {
-    //   drone.x = newX
-    //   drone.y = newY
+    //   drone.get("x"); = newX
+    //   drone.get("y"); = newY
     // }
   }
 
   else if (command === "LEFT") {
-    drone.direction = drone.direction - rotateStepSize
+    direction = drone.get("direction") - rotateStepSize
   }
 
   else if (command === "RIGHT") {
-    drone.direction = drone.direction + rotateStepSize
+    direction = drone.get("direction") + rotateStepSize
   }
 
   else {
     console.log("I don't recognize the command", command)
   }
 
-
-  return drone;
+  return new Map({x, y, direction});
 }

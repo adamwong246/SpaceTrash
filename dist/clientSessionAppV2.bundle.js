@@ -39371,6 +39371,7 @@ class Scope extends React.Component {
         super(a);
     }
     render() {
+        console.log(this.props);
         const rays = this.props.drone.rays;
         const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0);
         return (React.createElement("svg", { height: scopeSize, width: scopeSize },
@@ -39421,6 +39422,9 @@ class Visualization extends React.Component {
     }
     render() {
         const rays = this.props.drone.rays;
+        if (!rays) {
+            return (React.createElement("span", null, "idk, no rays found "));
+        }
         const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0);
         return (React.createElement("table", null,
             React.createElement("tr", null,
@@ -39605,13 +39609,9 @@ class Bot extends React.Component {
     }
     render() {
         const drone = this.props.drone;
-        const rays = drone.rays;
+        console.log(this.props);
         if (!drone) {
             return (React.createElement("span", null, "idk, no drone found "));
-        }
-        if (!rays) {
-            debugger;
-            return (React.createElement("span", null, "idk, no rays found "));
         }
         return (React.createElement(react_tabs_1.Tabs, null,
             React.createElement(react_tabs_1.TabList, null,

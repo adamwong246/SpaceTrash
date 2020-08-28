@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import  Commands from "./Commands.tsx";
+import Commands from "./Commands.tsx";
 
 const scopeSize = 200;
 const halfScopeSize = scopeSize / 2;
@@ -15,6 +15,7 @@ class Scope extends React.Component<{
   }
 
   render() {
+    console.log(this.props)
     const rays = this.props.drone.rays
     const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0)
 
@@ -85,6 +86,7 @@ class Screen extends React.Component<{
   }
 
   render() {
+
     const rays = this.props.drone.rays
     return (
 
@@ -134,7 +136,15 @@ class Visualization extends React.Component<{
   }
 
   render() {
+
+
     const rays = this.props.drone.rays
+
+
+    if (!rays) {
+      return (<span>idk, no rays found </span>)
+    }
+
     const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0)
 
     return (
@@ -353,7 +363,7 @@ class Conf extends React.Component<{
       </TabList>
 
       {
-        upgrades.map((u) => <TabPanel><Upgrade upgrade={u}/></TabPanel>)
+        upgrades.map((u) => <TabPanel><Upgrade upgrade={u} /></TabPanel>)
       }
 
 
@@ -371,16 +381,12 @@ class Bot extends React.Component<{
 
   render() {
     const drone = this.props.drone
-    const rays = drone.rays;
-
+    console.log(this.props)
     if (!drone) {
       return (<span>idk, no drone found </span>)
     }
 
-    if (!rays) {
-      debugger
-      return (<span>idk, no rays found </span>)
-    }
+
     return (
       <Tabs>
         <TabList>

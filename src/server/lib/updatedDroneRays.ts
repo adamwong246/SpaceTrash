@@ -1,3 +1,5 @@
+const { fromJS, List } = require('immutable');
+
 const ABSOLLUTE = 'absolute';
 
 const screenWidth = 320;
@@ -32,11 +34,11 @@ const brenshams = (x0, y0, x1, y1, matrix) => {
    var sy = (y0 < y1) ? 1 : -1;
    var err = dx - dy;
 
-   const tiles = []
+   const tiles = new List([])
 
    while(true) {
       tiles.push({
-        x: x0, y: y0, tile: matrix[y0][x0]
+        x: x0, y: y0, tile: matrix.get(y0).get(x0)
       })
 
       if ((x0 === x1) && (y0 === y1)) break;
@@ -45,15 +47,15 @@ const brenshams = (x0, y0, x1, y1, matrix) => {
       if (e2 < dx) { err += dx; y0  += sy; }
    }
 
+
    return tiles;
 }
 module.exports = (drone, matrix) => {
 
-  const mapHeight = matrix.length;
-  const mapWidth = matrix[0].length;
-  const gridMap = matrix
+  const mapHeight = matrix.size;
+  const mapWidth = matrix.get(0).size;
 
-  return Array.from(Array(numRays).keys()).map((i, stripIdx) => {
+  return fromJS([Array.from(Array(numRays).keys()).map((i, stripIdx) => {
     // where on the screen does ray go through?
     var rayScreenPos = (-numRays/2 + i) * stripWidth;
 
@@ -122,7 +124,7 @@ module.exports = (drone, matrix) => {
       const wallY = (y)>>0;
 
       // if (materializedMap.get(wallX, wallY).type !== 'floor') {
-      if(gridMap[wallY] && gridMap[wallY][wallX] && gridMap[wallY][wallX][0] !== 'f'){
+      if(matrix.get(wallY) && matrix.get(wallY).get(wallX) && matrix.get(wallY).get(wallX).get(0) !== 'f'){
 
         var distX = x - drone.x;
         var distY = y - drone.y;
@@ -163,7 +165,7 @@ module.exports = (drone, matrix) => {
       const wallX = (x)>>0;
 
       // if (materializedMap.get(wallX, wallY).type !== 'floor') {
-      if(gridMap[wallY][wallX][0] !== 'f'){
+      if(matrix.get(wallY).get(wallX).get(0) !== 'f'){
 
         var distX = x - drone.x;
         var distY = y - drone.y;
@@ -187,7 +189,7 @@ module.exports = (drone, matrix) => {
 
     if (dist) {
       // if (materializedMap.get(xWallHit, yWallHit).type === 'door'){
-      if(gridMap[yWallHit][xWallHit][0] === 'd'){
+      if(matrix.get(yWallHit).get(xWallHit).get(0) === 'd'){
         newStripStyle.style.src = "/walls_4.png"
       }
 
@@ -197,7 +199,7 @@ module.exports = (drone, matrix) => {
         Math.round(drone.x),
         Math.round(drone.y),
         xWallHit, yWallHit,
-        gridMap
+        matrix
       )
 
 
@@ -243,11 +245,11 @@ module.exports = (drone, matrix) => {
       newStripStyle.x = xWallHit
       newStripStyle.y = yWallHit
 
-      return newStripStyle
+      return fromJS(newStripStyle)
 
     } else {
-      return newStripStyle
+      return fromJS(newStripStyle)
     }
-  })
+  })])
 
 }

@@ -2,10 +2,9 @@ const { fromJS, Map } = require('immutable');
 const createSelector = require("reselect").createSelector;
 const initSubscriber = require('redux-subscriber').default;
 
-const renderDrone = require("./renderDrone.ts");
 const store = require("./redux/store.ts");
 
-const dequeSpeed = 1000;
+const dequeSpeed = 100;
 const subscriptions = {};
 
 const subscribe = initSubscriber(store);
@@ -18,19 +17,39 @@ module.exports = (socketServer, broadcaster) => {
     })
   }
 
-  const selectBase = (state) => state
+  const selectBase = (state) => {
+    console.log("SELECT - selectBase")
+    return state
+  }
 
-  const selectGameStates = createSelector([selectBase], (base) => base.get('gameStates'))
+  const selectGameStates = createSelector([selectBase], (base) => {
+    console.log("SELECT - selectGameStates")
+    return base.get('gameStates')
+  })
+
+  // a function which calls itself. Every cycle, it dispatches a "clock signal"
+  const dequeuer = () => {
+    console.log("tick", Date.now())
+    store.dispatch({ type: "TICK", payload: {} })
+
+    const state = store.getState().myReducer;
+    runAllSubscriptions()
+
+    setTimeout(dequeuer, dequeSpeed);
+  }
+
+  setTimeout(dequeuer, dequeSpeed);
 
   return {
 
     store,
 
-    initializeGameStateV2: (session, ships, drones, semaphore = "init") => {
+    initializeGameStateV2: (session, ship, users, drones, semaphore = "init") => {
       const sessionId = session.id;
       const sessionKey = `session-${sessionId}`
 
       subscriptions[sessionKey] = createSelector([selectGameStates], (gameStates) => {
+        console.log("SELECTOR", sessionKey)
 
         if (!gameStates) {
           broadcaster(sessionKey, { "message": `// WARNING: Game state does not exist` })
@@ -42,12 +61,12 @@ module.exports = (socketServer, broadcaster) => {
           broadcaster(sessionKey, { "message": `// WARNING: Game state for session #${sessionId} does not exist` })
         }
 
-        const drones = gameState.drones
-        if (!drones) {
-          broadcaster(sessionKey, { "message": `// WARNING: Drones of session #${sessionId} do no exist` })
-        }
-
-        broadcaster(sessionKey, { "message": `AOK`, drones })
+        // const drones = gameState.drones
+        // if (!drones) {
+        //   broadcaster(sessionKey, { "message": `// WARNING: Drones of session #${sessionId} do no exist` })
+        // }
+        //
+        // broadcaster(sessionKey, { "message": `AOK`, drones })
 
         return gameStates.get(sessionId)
       })
@@ -55,7 +74,8 @@ module.exports = (socketServer, broadcaster) => {
       store.dispatch({
         type: "INITIALIZE_SESSION", payload: {
           sessionId,
-          ships,
+          ship,
+          users,
           drones
         }
       })
@@ -64,7 +84,7 @@ module.exports = (socketServer, broadcaster) => {
     },
 
     enqueuer: (command, droneId, sessionId) => {
-      store.dispatch({ type: "MAKE_MOVE", payload: {command, droneId, sessionId} })
+      store.dispatch({ type: "ENQUEUE_INSTRUCTION", payload: {command, droneId, sessionId} })
       runAllSubscriptions()
     },
 
@@ -83,58 +103,23 @@ module.exports = (socketServer, broadcaster) => {
       }
 
       subscriptions[room] = createSelector([sessionSelector], (session) => {
+        console.log("SELECTOR", room)
         const drones = session.get("drones")
 
-        const dronesEntrySeqs = drones.entrySeq();
-        if (dronesEntrySeqs.size < 1) {
-          return new Map({})
+
+        const matchingUsers = session.getIn(["users"]).filter((user) => {
+          return user.get("id") == userId
+        })
+
+        var shipMap = {}
+        if (matchingUsers.size){
+          shipMap = matchingUsers.get(0).get("shipmap")
+        } else {
+          shipMap = new Map({})
         }
 
-        const dronesWithRays = dronesEntrySeqs.reduce((droneEntrySeqMemo, dronesEntrySeq) => {
-          const droneId = dronesEntrySeq[0]
-          const drone = dronesEntrySeq[1]
-
-          const foundShip = session.get("ships").get(drone.get("ship")).toJS()
-          const updatedDroneRays = renderDrone(drone.toJS(), foundShip.matrix)
-
-          const d = drone.set('rays', updatedDroneRays)
-          return drones.set(droneId, d)
-
-        }, drones)
-
-
-        const cheater = dronesWithRays.toJS();
-        const shipMap = Object.keys(cheater).reduce((memo, k) => {
-          console.log(memo, k)
-          return memo.concat((cheater[k]))
-        }, [])
-          .map((drone) => {
-            return drone.rays
-          })
-          .reduce((memo, ray) => {
-            return memo.concat(ray.brenshams)
-          })
-          .map((x) => {
-            return x.brenshams
-          })
-          .reduce((memo, b) => {
-            return memo.concat(b)
-          }, [])
-          .reduce((memo, tile) => {
-            return {
-              ...memo,
-              [tile.x]: {
-                ...memo[tile.x],
-                [tile.y]: {
-                  ...((memo[tile.x] || {})[tile.y] || {}),
-                  ...tile.tile
-                }
-              }
-            }
-          }, {})
-
-        broadcaster(room, { drones: dronesWithRays, shipMap })
-        return dronesWithRays
+        broadcaster(room, { drones, shipMap })
+        return drones
       })
       runAllSubscriptions()
 

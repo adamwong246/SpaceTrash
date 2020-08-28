@@ -1,4 +1,6 @@
-const {toJs} = require("immutable");
+const {
+  toJs
+} = require("immutable");
 const mongoose = require("mongoose");
 
 const Drone = require("../models/Drone");
@@ -92,32 +94,44 @@ sessionController.start = (cache) => {
     const sessionId = req.params.id;
 
 
-    Session.findById(sessionId, (err, session) => {
-      Ship.find({}, (err, ships) => {
-        Drone.find({}, (err, drones) => {
+    Session.findById(sessionId, (err, sessionDoc) => {
 
-          cache.initializeGameStateV2(
-            session,
-            ships.map((e) => e.toObject({
-              virtuals: true
-            })),
-            drones.map((e) => e.toObject({
-              virtuals: true
-            })),
-            "renitialized"
-          )
+      User.find({
+        '_id': {
+          $in: sessionDoc.users
+        }
+      }, (err2, usersDocs) => {
 
-          session.save().then((s) => {
+        const users = usersDocs
+          .map((user) => {
+            return user.toObject()
+          })
+
+        Ship.find({}, (err2, shipsDocs) => {
+          const ship = shipsDocs[0].toObject({
+            virtuals: true
+          })
+
+          Drone.find({}, (err3, dronesDocs) => {
+            const drones = dronesDocs
+              .map((drone) => drone.toObject({
+                virtuals: true
+              }))
+
+            cache.initializeGameStateV2(
+              sessionDoc,
+              ship,
+              users,
+              drones
+            )
+
             res.redirect(`/sessions/${sessionId}`)
-          });
 
+          })
         })
       })
     })
-
   };
 }
-
-
 
 module.exports = sessionController;
