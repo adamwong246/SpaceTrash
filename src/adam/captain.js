@@ -8,9 +8,13 @@ class CaptainBot {
       return [
         {}
       ]
+  },
+
+  view(){
+    return REact
   }
 
-  
+
 }
 
 module.exports = CaptainBot;

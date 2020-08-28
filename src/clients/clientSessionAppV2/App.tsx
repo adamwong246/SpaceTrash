@@ -9,6 +9,7 @@ import TabBots from './components/TabBots.tsx'
 import TabEdit from './components/TabEdit.tsx'
 import TabExec from './components/TabExec.tsx'
 import TabShip from './components/TabShip.tsx'
+import TabView from './components/TabView.tsx'
 
 require('react-tabs/style/react-tabs.css');
 

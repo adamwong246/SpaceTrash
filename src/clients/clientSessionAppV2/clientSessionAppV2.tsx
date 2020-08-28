@@ -1,11 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
-import store from "./redux/store";
+
+import{webpack} from "webpack";
 
 import App from "./App.tsx"
 
 import { NEW_COMMAND, LOAD_GAME_STATE } from "./redux/actionTypes.js"
+import store from "./redux/store";
 
 var timeflag = Date.now()
 

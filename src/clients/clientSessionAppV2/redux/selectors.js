@@ -6,9 +6,6 @@ import store from "./store.js";
 
 const baseSelector = (state => state)
 
-export const getTabShipProps = createSelector([baseSelector], base => {
-  return {shipMap: base.shipMap}
-})
 
 export const getTabBotsProps = createSelector([baseSelector], base => {
   return {
@@ -68,4 +65,12 @@ export const getTabExecProps = createSelector([baseSelector], state => {
       }
     })
   }
+})
+
+export const getTabShipProps = createSelector([baseSelector], base => {
+  return {shipMap: base.shipMap}
+})
+
+export const getTabViewProps = createSelector([baseSelector], base => {
+  return {shipMap: base.shipMap}
 })
