@@ -64,22 +64,25 @@ module.exports = (state = initialState, action) => {
 
     case "ENQUEUE_INSTRUCTION": {
       const {
-        command,
-        droneId,
-        sessionId
+        commands,
+        sessionId,
       } = action.payload
 
       return updateIn(state,
         ['gameStates', sessionId, 'drones'],
         (drones) => {
           return drones.map((drone) => {
-            if (drone.get("_id") == droneId.toString()) {
-              return drone.update("instructions", (instructions) => {
-                return instructions ? instructions.push(command) : new List([command])
+
+            return drone.update("instructions", (instructions = []) => {
+
+              const commandsForDrone = new List(commands)
+              .filter((c) => c.droneId == drone.get("id"))
+              .map((c) => {
+                return c.action
               })
-            } else {
-              return drone
-            }
+
+              return new List([]).concat(instructions,commandsForDrone)
+            })
           })
         }
       )

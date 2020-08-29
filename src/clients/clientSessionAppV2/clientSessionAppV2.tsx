@@ -28,17 +28,12 @@ ws.onmessage = function(e) {
     store.dispatch({ type: "NEW_COMMAND", payload: "connection established" })
   }
 
-  console.log("mark3")
   if (data.room) {
-    console.log("mark2")
     const roomsAddress = data.room.split('-')
     if (roomsAddress[0] === 'session') {
-      console.log("mark1", roomsAddress[2])
-
       if (roomsAddress[2] === 'user') {
         console.log("timeflag: ", data.timestamp - timeflag)
         timeflag = data.timestamp
-        console.log("mark0")
         store.dispatch({ type: "RECEIVE_UPDATE", payload: data.msg })
 
       }

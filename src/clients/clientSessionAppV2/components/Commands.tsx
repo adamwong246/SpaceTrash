@@ -14,21 +14,47 @@ class Commands extends React.Component<{
 
       <tr>
         <td></td>
-        <td><button onClick={(e) => this.props.broadcaster("FORWARD", this.props.drone.id)}>FORWARD</button></td>
+        <td>
+          <button onClick={
+            (e) => {
+              this.props.broadcaster([{action: "FORWARD", droneId: drone.id}])
+            }
+          }> FORWARD</button>
+        </td>
         <td></td>
       </tr>
 
+
       <tr>
-        <td><button onClick={(e) => {this.props.broadcaster("LEFT", this.props.drone.id)}}>LEFT</button></td>
+        <td>
+        <button onClick={
+          (e) => {
+            this.props.broadcaster([{action: "LEFT", droneId: drone.id}])
+          }
+        }> LEFT</button>
+        </td>
         <td></td>
-        <td><button onClick={(e) => this.props.broadcaster("RIGHT", this.props.drone.id)}>RIGHT</button></td>
+        <td>
+        <button onClick={
+          (e) => {
+            this.props.broadcaster([{action: "RIGHT", droneId: drone.id}])
+          }
+        }> RIGHT</button>
+        </td>
       </tr>
 
       <tr>
         <td></td>
-        <td><button onClick={(e) => this.props.broadcaster("BACK", this.props.drone.id)}>BACK</button></td>
+        <td>
+        <button onClick={
+          (e) => {
+            this.props.broadcaster([{action: "BACK", droneId: drone.id}])
+          }
+        }> BACK</button>
+          </td>
         <td></td>
       </tr>
+
 
     </tbody></table>)
   }

@@ -39315,16 +39315,12 @@ ws.onmessage = function (e) {
     if (data.msg === "user joined") {
         store_1.default.dispatch({ type: "NEW_COMMAND", payload: "connection established" });
     }
-    console.log("mark3");
     if (data.room) {
-        console.log("mark2");
         const roomsAddress = data.room.split('-');
         if (roomsAddress[0] === 'session') {
-            console.log("mark1", roomsAddress[2]);
             if (roomsAddress[2] === 'user') {
                 console.log("timeflag: ", data.timestamp - timeflag);
                 timeflag = data.timestamp;
-                console.log("mark0");
                 store_1.default.dispatch({ type: "RECEIVE_UPDATE", payload: data.msg });
             }
         }
@@ -39367,6 +39363,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
 const Commands_tsx_1 = __webpack_require__(/*! ./Commands.tsx */ "./src/clients/clientSessionAppV2/components/Commands.tsx");
+const Raycast_tsx_1 = __webpack_require__(/*! ./Raycast.tsx */ "./src/clients/clientSessionAppV2/components/Raycast.tsx");
 const scopeSize = 200;
 const halfScopeSize = scopeSize / 2;
 const blankCharacter = '.';
@@ -39393,33 +39390,6 @@ class Scope extends React.Component {
     }
 }
 ;
-class Screen extends React.Component {
-    constructor(a) {
-        super(a);
-    }
-    render() {
-        const rays = this.props.drone.rays;
-        return (React.createElement("div", { id: "screen" },
-            React.createElement("div", { id: "floor" }),
-            React.createElement("div", { id: "ceiling" }),
-            React.createElement("div", null, rays.map((r, ndx) => {
-                if (r) {
-                    /** @type {React.CSSProperties} */
-                    const style = {
-                        position: 'absolute',
-                        height: r.style.height,
-                        top: r.style.top,
-                        left: r.style.left,
-                        width: r.style.width,
-                        clip: r.style.clip,
-                        zIndex: r.style.zIndex
-                    };
-                    return (React.createElement("img", { key: `strip-${ndx}`, src: r.style.src, style: style }));
-                }
-            }))));
-    }
-}
-;
 class Visualization extends React.Component {
     constructor(a) {
         super(a);
@@ -39429,105 +39399,16 @@ class Visualization extends React.Component {
         if (!rays) {
             return (React.createElement("span", null, "idk, no rays found "));
         }
-        const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0);
         return (React.createElement("table", null,
             React.createElement("tr", null,
                 React.createElement("td", null,
-                    React.createElement(Screen, { drone: this.props.drone }))),
+                    React.createElement(Raycast_tsx_1.default, { drone: this.props.drone }))),
             React.createElement("tr", null,
                 React.createElement("td", null,
                     React.createElement(Scope, { drone: this.props.drone })))));
     }
 }
 ;
-//
-//
-// class Script extends React.Component<{
-//   drone, broadcaster
-// }, {}>{
-//   constructor(a) {
-//     super(a);
-//   }
-//
-//   render() {
-//     return (<p>Scripts go here</p>)
-//   }
-// };
-// class OutputTable extends React.Component<{
-//   drone, broadcaster
-// }, {}>{
-//   constructor(a) {
-//     super(a);
-//   }
-//
-//   render() {
-//     return (<table><tbody>
-//
-//       <tr>
-//         <td>Queue</td>
-//         <td>Visualization</td>
-//
-//       </tr>
-//
-//       <tr>
-//
-//
-//         <td>
-//           <Queue drone={this.props.drone} broadcaster={this.props.broadcaster} />
-//         </td>
-//         <td>
-//           <Visualization drone={this.props.drone} broadcaster={this.props.broadcaster} />
-//         </td>
-//
-//       </tr>
-//
-//       <tr>
-//
-//       </tr>
-//     </tbody></table>)
-//   }
-// };
-//
-//
-// class InputTable extends React.Component<{
-//   drone, broadcaster
-// }, {}>{
-//   constructor(a) {
-//     super(a);
-//   }
-//
-//   render() {
-//     return (<table><tbody>
-//
-//       <tr>
-//         <td>Commands</td>
-//         <td>Script</td>
-//
-//       </tr>
-//
-//       <tr>
-//         <td>
-//
-//           <td>
-//             <Commands drone={this.props.drone} broadcaster={this.props.broadcaster} />
-//           </td>
-//
-//         </td>
-//
-//         <td>
-//           <td>
-//             <Script drone={this.props.drone} broadcaster={this.props.broadcaster} />
-//           </td>
-//         </td>
-//
-//       </tr>
-//
-//       <tr>
-//
-//       </tr>
-//     </tbody></table>)
-//   }
-// };
 class MainTable extends React.Component {
     constructor(a) {
         super(a);
@@ -39550,7 +39431,17 @@ class Info extends React.Component {
         super(a);
     }
     render() {
-        return (React.createElement("p", null, "Info go here"));
+        const drone = this.props.drone;
+        return (React.createElement("div", null,
+            React.createElement("p", null,
+                "x: ",
+                drone.x),
+            React.createElement("p", null,
+                "y: ",
+                drone.y),
+            React.createElement("p", null,
+                "direction: ",
+                drone.direction)));
     }
 }
 ;
@@ -39657,18 +39548,26 @@ class Commands extends React.Component {
                 React.createElement("tr", null,
                     React.createElement("td", null),
                     React.createElement("td", null,
-                        React.createElement("button", { onClick: (e) => this.props.broadcaster("FORWARD", this.props.drone.id) }, "FORWARD")),
+                        React.createElement("button", { onClick: (e) => {
+                                this.props.broadcaster([{ action: "FORWARD", droneId: drone.id }]);
+                            } }, " FORWARD")),
                     React.createElement("td", null)),
                 React.createElement("tr", null,
                     React.createElement("td", null,
-                        React.createElement("button", { onClick: (e) => { this.props.broadcaster("LEFT", this.props.drone.id); } }, "LEFT")),
+                        React.createElement("button", { onClick: (e) => {
+                                this.props.broadcaster([{ action: "LEFT", droneId: drone.id }]);
+                            } }, " LEFT")),
                     React.createElement("td", null),
                     React.createElement("td", null,
-                        React.createElement("button", { onClick: (e) => this.props.broadcaster("RIGHT", this.props.drone.id) }, "RIGHT"))),
+                        React.createElement("button", { onClick: (e) => {
+                                this.props.broadcaster([{ action: "RIGHT", droneId: drone.id }]);
+                            } }, " RIGHT"))),
                 React.createElement("tr", null,
                     React.createElement("td", null),
                     React.createElement("td", null,
-                        React.createElement("button", { onClick: (e) => this.props.broadcaster("BACK", this.props.drone.id) }, "BACK")),
+                        React.createElement("button", { onClick: (e) => {
+                                this.props.broadcaster([{ action: "BACK", droneId: drone.id }]);
+                            } }, " BACK")),
                     React.createElement("td", null)))));
     }
 }
@@ -39715,6 +39614,56 @@ class MapDetail extends React.Component {
 }
 ;
 exports.default = MapDetail;
+
+
+/***/ }),
+
+/***/ "./src/clients/clientSessionAppV2/components/Raycast.tsx":
+/*!***************************************************************!*\
+  !*** ./src/clients/clientSessionAppV2/components/Raycast.tsx ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const ABSOLLUTE = 'absolute';
+const screenWidth = 320;
+const screenHeight = 200;
+const styleV3 = ({ hit, stripIdx, stripWidth, xWallHit, yWallHit, playerX, playerY, height, width, texX }) => {
+    return {
+        position: ABSOLLUTE,
+        zIndex: -((Math.pow((xWallHit - playerX), 2) + Math.pow((yWallHit - playerY), 2)) * 1000) >> 0,
+        height: height,
+        width: (width * 2) >> 0,
+        top: Math.round((screenHeight - height) / 2),
+        left: stripIdx * stripWidth - texX,
+        clip: "rect( 0px, " + (texX + stripWidth) + "px, " + (height) + "px, " + texX + "px)",
+        src: hit ? "/walls_4.png" : "/walls_3.png"
+    };
+};
+class Raycast extends React.Component {
+    constructor(a) {
+        super(a);
+    }
+    render() {
+        const rays = this.props.drone.rays;
+        return (React.createElement("div", { id: "screen" },
+            React.createElement("div", { id: "floor" }),
+            React.createElement("div", { id: "ceiling" }),
+            React.createElement("div", null, rays.map((ray, ndx) => {
+                if (ray) {
+                    /** @type {React.CSSProperties} */
+                    const style = styleV3(ray.style);
+                    return (React.createElement("img", { key: `strip-${ndx}`, src: style.src, style: style }));
+                }
+            }))));
+    }
+}
+exports.default = Raycast;
+;
 
 
 /***/ }),

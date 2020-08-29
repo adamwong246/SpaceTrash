@@ -7,25 +7,20 @@ class CaptainBot {
   }
 
   move3Paces(drones, command) {
-    drones.map((drone) => {
-      return [{
-          action: command,
-          droneId: drone.id
-        },
+    this.broadcaster(drones.map((drone) => {
+      return [
         {
           action: command,
           droneId: drone.id
-        },
-        {
+        }, {
           action: command,
           droneId: drone.id
-        }
+        }, {
+          action: command,
+          droneId: drone.id
+        },
       ]
-    })
-    .flat(1).
-    forEach((command) => {
-      this.broadcaster(command.action, command.droneId)
-    })
+    }).flat(1))
   }
 
   onUpdate(previousWorldState, nextWorldState) {
@@ -40,8 +35,6 @@ class CaptainBot {
       move3Paces: this.move3Paces.bind(this)
     })
   }
-
-
 
 }
 

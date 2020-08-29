@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import Commands from "./Commands.tsx";
+import Raycast from "./Raycast.tsx";
 
 const scopeSize = 200;
 const halfScopeSize = scopeSize / 2;
@@ -78,56 +79,6 @@ class Scope extends React.Component<{
   }
 };
 
-class Screen extends React.Component<{
-  drone
-}, {}>{
-  constructor(a) {
-    super(a);
-  }
-
-  render() {
-
-    const rays = this.props.drone.rays
-    return (
-
-
-      <div id="screen">
-        <div id="floor"></div>
-        <div id="ceiling"></div>
-
-        <div>
-          {
-            rays.map((r, ndx) => {
-              if (r) {
-                /** @type {React.CSSProperties} */
-                const style = {
-                  position: 'absolute',
-                  height: r.style.height,
-                  top: r.style.top,
-                  left: r.style.left,
-                  width: r.style.width,
-                  clip: r.style.clip,
-                  zIndex: r.style.zIndex
-                } as any
-                return (
-                  <img
-                    key={`strip-${ndx}`}
-                    src={r.style.src}
-                    style={style}
-                  />
-                )
-              }
-
-            })
-          }
-        </div>
-
-      </div>
-
-    )
-  }
-};
-
 class Visualization extends React.Component<{
   drone, broadcaster
 }, {}>{
@@ -136,128 +87,20 @@ class Visualization extends React.Component<{
   }
 
   render() {
-
-
     const rays = this.props.drone.rays
-
 
     if (!rays) {
       return (<span>idk, no rays found </span>)
     }
 
-    const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0)
-
     return (
-
-
       <table>
-        <tr><td><Screen drone={this.props.drone} /></td></tr>
+        <tr><td><Raycast drone={this.props.drone} /></td></tr>
         <tr><td><Scope drone={this.props.drone} /></td></tr>
       </table>
-
-
-
-
-
-
     )
   }
 };
-
-
-//
-//
-// class Script extends React.Component<{
-//   drone, broadcaster
-// }, {}>{
-//   constructor(a) {
-//     super(a);
-//   }
-//
-//   render() {
-//     return (<p>Scripts go here</p>)
-//   }
-// };
-
-
-
-// class OutputTable extends React.Component<{
-//   drone, broadcaster
-// }, {}>{
-//   constructor(a) {
-//     super(a);
-//   }
-//
-//   render() {
-//     return (<table><tbody>
-//
-//       <tr>
-//         <td>Queue</td>
-//         <td>Visualization</td>
-//
-//       </tr>
-//
-//       <tr>
-//
-//
-//         <td>
-//           <Queue drone={this.props.drone} broadcaster={this.props.broadcaster} />
-//         </td>
-//         <td>
-//           <Visualization drone={this.props.drone} broadcaster={this.props.broadcaster} />
-//         </td>
-//
-//       </tr>
-//
-//       <tr>
-//
-//       </tr>
-//     </tbody></table>)
-//   }
-// };
-//
-//
-// class InputTable extends React.Component<{
-//   drone, broadcaster
-// }, {}>{
-//   constructor(a) {
-//     super(a);
-//   }
-//
-//   render() {
-//     return (<table><tbody>
-//
-//       <tr>
-//         <td>Commands</td>
-//         <td>Script</td>
-//
-//       </tr>
-//
-//       <tr>
-//         <td>
-//
-//           <td>
-//             <Commands drone={this.props.drone} broadcaster={this.props.broadcaster} />
-//           </td>
-//
-//         </td>
-//
-//         <td>
-//           <td>
-//             <Script drone={this.props.drone} broadcaster={this.props.broadcaster} />
-//           </td>
-//         </td>
-//
-//       </tr>
-//
-//       <tr>
-//
-//       </tr>
-//     </tbody></table>)
-//   }
-// };
-
-
 
 class MainTable extends React.Component<{
   drone, broadcaster
@@ -297,7 +140,13 @@ class Info extends React.Component<{
   }
 
   render() {
-    return (<p>Info go here</p>)
+    const drone = this.props.drone;
+
+    return (<div>
+      <p>x: {drone.x}</p>
+      <p>y: {drone.y}</p>
+      <p>direction: {drone.direction}</p>
+    </div>)
   }
 };
 

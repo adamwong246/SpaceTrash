@@ -2283,25 +2283,20 @@ class CaptainBot {
   }
 
   move3Paces(drones, command) {
-    drones.map((drone) => {
-      return [{
-          action: command,
-          droneId: drone.id
-        },
+    this.broadcaster(drones.map((drone) => {
+      return [
         {
           action: command,
           droneId: drone.id
-        },
-        {
+        }, {
           action: command,
           droneId: drone.id
-        }
+        }, {
+          action: command,
+          droneId: drone.id
+        },
       ]
-    })
-    .flat(1).
-    forEach((command) => {
-      this.broadcaster(command.action, command.droneId)
-    })
+    }).flat(1))
   }
 
   onUpdate(previousWorldState, nextWorldState) {
@@ -2317,8 +2312,6 @@ class CaptainBot {
     })
   }
 
-
-
 }
 
 module.exports = CaptainBot;
@@ -2333,21 +2326,77 @@ module.exports = CaptainBot;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const Raycast_tsx_1 = __webpack_require__(/*! ../clients/clientSessionAppV2/components/Raycast.tsx */ "./src/clients/clientSessionAppV2/components/Raycast.tsx");
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 class View extends React.Component {
     render() {
         const drones = this.props.drones;
         return (React.createElement("div", { id: "main" },
-            React.createElement("p", null, "Hello view.tsx"),
             React.createElement("button", { onClick: (e) => this.props.move3Paces(drones, "FORWARD") }, "Move forward 3 paces"),
             React.createElement("button", { onClick: (e) => this.props.move3Paces(drones, "BACK") }, "Move back 3 paces"),
             React.createElement("button", { onClick: (e) => this.props.move3Paces(drones, "LEFT") }, "Move left 3 paces"),
             React.createElement("button", { onClick: (e) => this.props.move3Paces(drones, "RIGHT") }, "Move right 3 paces"),
             React.createElement("br", null),
+            this.props.drones.map((drone) => {
+                return (React.createElement(Raycast_tsx_1.default, { drone: drone }));
+            }),
             JSON.stringify(this.props.drones)));
     }
 }
 module.exports = View;
+
+
+/***/ }),
+
+/***/ "./src/clients/clientSessionAppV2/components/Raycast.tsx":
+/*!***************************************************************!*\
+  !*** ./src/clients/clientSessionAppV2/components/Raycast.tsx ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const ABSOLLUTE = 'absolute';
+const screenWidth = 320;
+const screenHeight = 200;
+const styleV3 = ({ hit, stripIdx, stripWidth, xWallHit, yWallHit, playerX, playerY, height, width, texX }) => {
+    return {
+        position: ABSOLLUTE,
+        zIndex: -((Math.pow((xWallHit - playerX), 2) + Math.pow((yWallHit - playerY), 2)) * 1000) >> 0,
+        height: height,
+        width: (width * 2) >> 0,
+        top: Math.round((screenHeight - height) / 2),
+        left: stripIdx * stripWidth - texX,
+        clip: "rect( 0px, " + (texX + stripWidth) + "px, " + (height) + "px, " + texX + "px)",
+        src: hit ? "/walls_4.png" : "/walls_3.png"
+    };
+};
+class Raycast extends React.Component {
+    constructor(a) {
+        super(a);
+    }
+    render() {
+        const rays = this.props.drone.rays;
+        return (React.createElement("div", { id: "screen" },
+            React.createElement("div", { id: "floor" }),
+            React.createElement("div", { id: "ceiling" }),
+            React.createElement("div", null, rays.map((ray, ndx) => {
+                if (ray) {
+                    /** @type {React.CSSProperties} */
+                    const style = styleV3(ray.style);
+                    return (React.createElement("img", { key: `strip-${ndx}`, src: style.src, style: style }));
+                }
+            }))));
+    }
+}
+exports.default = Raycast;
+;
 
 
 /***/ })

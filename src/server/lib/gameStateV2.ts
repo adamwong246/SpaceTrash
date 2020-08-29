@@ -9,6 +9,9 @@ const subscriptions = {};
 
 const subscribe = initSubscriber(store);
 
+var timeflag = Date.now();
+var timeMax = Number.NEGATIVE_INFINITY
+
 module.exports = (socketServer, broadcaster) => {
 
   const runAllSubscriptions = () => {
@@ -18,18 +21,25 @@ module.exports = (socketServer, broadcaster) => {
   }
 
   const selectBase = (state) => {
-    console.log("SELECT - selectBase")
     return state
   }
 
   const selectGameStates = createSelector([selectBase], (base) => {
-    console.log("SELECT - selectGameStates")
     return base.get('gameStates')
   })
 
   // a function which calls itself. Every cycle, it dispatches a "clock signal"
   const dequeuer = () => {
-    // console.log("tick", Date.now())
+    const now = Date.now();
+    const diff = now - timeflag
+
+    if (diff  > timeMax){
+      timeMax = diff
+    }
+    // console.log("tick", timeMax, "\t", diff  )
+    timeflag = now
+
+
     store.dispatch({ type: "TICK", payload: {} })
 
     const state = store.getState().myReducer;
@@ -49,7 +59,6 @@ module.exports = (socketServer, broadcaster) => {
       const sessionKey = `session-${sessionId}`
 
       subscriptions[sessionKey] = createSelector([selectGameStates], (gameStates) => {
-        console.log("SELECTOR", sessionKey)
 
         if (!gameStates) {
           broadcaster(sessionKey, { "message": `// WARNING: Game state does not exist` })
@@ -83,8 +92,8 @@ module.exports = (socketServer, broadcaster) => {
 
     },
 
-    enqueuer: (command, droneId, sessionId) => {
-      store.dispatch({ type: "ENQUEUE_INSTRUCTION", payload: {command, droneId, sessionId} })
+    enqueuer: (commands, sessionId) => {
+      store.dispatch({ type: "ENQUEUE_INSTRUCTION", payload: {commands: commands.command, sessionId} })
       runAllSubscriptions()
     },
 
@@ -103,7 +112,7 @@ module.exports = (socketServer, broadcaster) => {
       }
 
       subscriptions[room] = createSelector([sessionSelector], (session) => {
-        console.log("SELECTOR", room)
+        console.log(new Date().toISOString(), "subscription")
         const drones = session.get("drones")
 
 
