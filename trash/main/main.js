@@ -22,13 +22,13 @@ function createWindow(socketName) {
   })
 
   // clientWin.loadFile('client-index.html')
-  clientWin.loadFile('index.html')
-
-  clientWin.webContents.on('did-finish-load', () => {
-    clientWin.webContents.send('set-socket', {
-      name: socketName
-    })
-  })
+  // clientWin.loadFile('index.html')
+  //
+  // clientWin.webContents.on('did-finish-load', () => {
+  //   clientWin.webContents.send('set-socket', {
+  //     name: socketName
+  //   })
+  // })
 }
 
 // function createBackgroundWindow(socketName) {
@@ -60,7 +60,7 @@ function createWindow(socketName) {
 
 function createBackgroundProcess(socketName) {
   console.log('createBackgroundProcess')
-  const bundlePath = 'dist/server.bundle.js';
+  const bundlePath = 'dist/electron-server.bundle.js';
   console.log(bundlePath);
   console.log(socketName);
   const args = [
@@ -81,7 +81,7 @@ app.on('ready', async () => {
 
   createWindow(serverSocket)
 
-  createBackgroundProcess(serverSocket)
+  // createBackgroundProcess(serverSocket)
   // if (isDev) {
   //   createBackgroundWindow(serverSocket)
   // } else {

@@ -4,10 +4,10 @@
 import  serverHandlers from "./server-handlers";
 import  ipc from "./server-ipc";
 
-console.log('server.js')
-console.log(process.argv)
-let socketName = process.argv[4]
+// let socketName = process.argv[3]
+let socketName = "spacetrash"
 
+console.log('spaceTrash server.js on socket: ', socketName)
 
 ipc.init(socketName, serverHandlers)
 

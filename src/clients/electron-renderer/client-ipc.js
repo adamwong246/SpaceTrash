@@ -1,3 +1,5 @@
+console.log("client-ipc.js")
+
 // Init
 async function init() {
   const socketName = await window.getServerSocket()
@@ -15,7 +17,7 @@ let messageQueue = []
 let socketClient = null
 
 // Functions
-function connectSocket(name, onOpen) {
+const connectSocket = (name, onOpen) => {
   window.ipcConnect(name, function(client) {
     client.on('message', data => {
       const msg = JSON.parse(data)
@@ -76,7 +78,7 @@ export const send = (name, args) => {
   })
 }
 
-export const function listen(name, cb) {
+export const listen = (name, cb) => {
   if (!listeners.get(name)) {
     listeners.set(name, [])
   }

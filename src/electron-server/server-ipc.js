@@ -2,11 +2,13 @@
 import ipc from "node-ipc";
 
 function init(socketName, handlers) {
+  console.log("ipc init")
   ipc.config.id = socketName
   ipc.config.silent = true
 
   ipc.serve(() => {
     ipc.server.on('message', (data, socket) => {
+      console.log("message", data)
       let msg = JSON.parse(data)
       let { id, name, args } = msg
 
@@ -45,6 +47,7 @@ function init(socketName, handlers) {
 }
 
 function send(name, args) {
+  console.log("ipc send")
   ipc.server.broadcast('message', JSON.stringify({ type: 'push', name, args }))
 }
 

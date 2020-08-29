@@ -3,15 +3,15 @@
   "version": "0.0.8",
   "description": "a roguelike with javascript bots",
   "scripts": {
-    "serve": "node --inspect src/server/bin/www",
-    "electron": "electron ./dist/electron-main.bundle.js",
-    "dev": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --colors",
-    "prod": "rimraf dist && cross-env NODE_ENV=production webpack --progress --colors",
-    "test": "mocha -r ts-node/register -r tsconfig-paths/register \"test/**/*.ts\""
+    "htmlServer": "node --inspect src/server/bin/www",
+    "electronMain": "electron ./dist/electron-main.bundle.js",
+    "electronServer": "electron ./dist/electron-server.bundle.js",
+    "dev": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --colors"
   },
   "author": "adamowng246",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.10.4",
     "@types/node-sass": "^4.11.0",
     "@types/react": "^16.9.13",
     "@types/react-dom": "^16.9.4",

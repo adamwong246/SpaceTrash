@@ -1756,14 +1756,14 @@ __webpack_require__.r(__webpack_exports__);
 // import ship0 from "../lib/ship0.ts"
 // import {screenWidth, emptyStrip, stripWidth} from "../lib/raycast/constantsAndTypes.ts"
 
-let handlers = {}
+let handlers = {};
 
-handlers._history = []
+handlers._history = [];
 
 handlers['ping'] = async () => {
-  console.log('pinged')
-  return 'pong'
-}
+  console.log('pinged');
+  return 'pong';
+};
 
 // handlers['materializeMap'] = async (drones) => {
 //   // console.log('materializeMap ->')
@@ -1780,7 +1780,6 @@ handlers['ping'] = async () => {
 // }
 
 /* harmony default export */ __webpack_exports__["default"] = (handlers);
-
 
 /***/ }),
 
@@ -1799,54 +1798,41 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function init(socketName, handlers) {
-  node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.config.id = socketName
-  node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.config.silent = true
+  console.log("ipc init");
+  node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.config.id = socketName;
+  node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.config.silent = true;
 
   node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.serve(() => {
     node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.on('message', (data, socket) => {
-      let msg = JSON.parse(data)
-      let { id, name, args } = msg
+      console.log("message", data);
+      let msg = JSON.parse(data);
+      let { id, name, args } = msg;
 
       if (handlers[name]) {
-        handlers[name](args).then(
-          result => {
-            node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(
-              socket,
-              'message',
-              JSON.stringify({ type: 'reply', id, result })
-            )
-          },
-          error => {
-            // Up to you how to handle errors, if you want to forward
-            // them, etc
-            node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(
-              socket,
-              'message',
-              JSON.stringify({ type: 'error', id })
-            )
-            throw error
-          }
-        )
+        handlers[name](args).then(result => {
+          node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(socket, 'message', JSON.stringify({ type: 'reply', id, result }));
+        }, error => {
+          // Up to you how to handle errors, if you want to forward
+          // them, etc
+          node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(socket, 'message', JSON.stringify({ type: 'error', id }));
+          throw error;
+        });
       } else {
-        console.warn('Unknown method: ' + name)
-        node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(
-          socket,
-          'message',
-          JSON.stringify({ type: 'reply', id, result: null })
-        )
+        console.warn('Unknown method: ' + name);
+        node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(socket, 'message', JSON.stringify({ type: 'reply', id, result: null }));
       }
-    })
-  })
+    });
+  });
 
-  node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.start()
+  node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.start();
 }
 
 function send(name, args) {
-  node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.broadcast('message', JSON.stringify({ type: 'push', name, args }))
+  console.log("ipc send");
+  node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.broadcast('message', JSON.stringify({ type: 'push', name, args }));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = ({ init, send });
-
 
 /***/ }),
 
@@ -1867,12 +1853,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-console.log('server.js')
-console.log(process.argv)
-let socketName = process.argv[4]
+// let socketName = process.argv[3]
+let socketName = "spacetrash";
 
+console.log('spaceTrash server.js on socket: ', socketName);
 
-_server_ipc__WEBPACK_IMPORTED_MODULE_1__["default"].init(socketName, _server_handlers__WEBPACK_IMPORTED_MODULE_0__["default"])
+_server_ipc__WEBPACK_IMPORTED_MODULE_1__["default"].init(socketName, _server_handlers__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 // let isDev, version
 //
@@ -1893,7 +1879,6 @@ _server_ipc__WEBPACK_IMPORTED_MODULE_1__["default"].init(socketName, _server_han
 // }
 //
 // console.log(version, isDev)
-
 
 /***/ }),
 

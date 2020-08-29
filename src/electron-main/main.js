@@ -1,7 +1,7 @@
 import path from 'path';
 import electron, {app, BrowserWindow} from 'electron';
 import {fork} from 'child_process';
-import findOpenSocket from './find-open-socket';
+// import findOpenSocket from './find-open-socket';
 import isDev from 'electron-is-dev';
 
 let clientWin
@@ -9,16 +9,18 @@ let serverWin
 let serverProcess
 
 function createWindow(socketName) {
+
   clientWin = new BrowserWindow({
     width: 1000,
     height: 700,
     webPreferences: {
-      // nodeIntegration: false,
       nodeIntegration: true,
-      // preload: __dirname + '/client-preload.js'
+      // preload: "./preload.js"
+      // preload: path.resolve('./dist', 'preload.js'),
+      // preload: "preload.jsasdasd"
       preload: path.resolve('dist', 'preload.js'),
     },
-    title: "SpaceTrash v0"
+    title: "SpaceTrash v0.0.8"
   })
 
   // clientWin.loadFile('client-index.html')
@@ -58,30 +60,31 @@ function createWindow(socketName) {
 //   serverWin = win
 // }
 
-function createBackgroundProcess(socketName) {
-  console.log('createBackgroundProcess')
-  const bundlePath = 'dist/electron-main.bundle.js';
-  console.log(bundlePath);
-  console.log(socketName);
-  const args = [
-    '--subprocess',
-    app.getVersion(),
-    socketName
-  ];
-  console.log(args)
-  serverProcess = fork(bundlePath, args);
-
-  serverProcess.on('message', msg => {
-    console.log('message: ', msg)
-  })
-}
+// function createBackgroundProcess(socketName) {
+//   console.log('createBackgroundProcess')
+//   const bundlePath = 'dist/electron-main.bundle.js';
+//   console.log(bundlePath);
+//   console.log(socketName);
+//   const args = [
+//     '--subprocess',
+//     app.getVersion(),
+//     socketName
+//   ];
+//   console.log(args)
+//   serverProcess = fork(bundlePath, args);
+//
+//   serverProcess.on('message', msg => {
+//     console.log('message: ', msg)
+//   })
+// }
 
 app.on('ready', async () => {
-  const serverSocket = await findOpenSocket()
+  const serverSocket = "spacetrash"; //await findOpenSocket()
 
   createWindow(serverSocket)
 
-  createBackgroundProcess(serverSocket)
+  console.log("listening on ", serverSocket)
+  // createBackgroundProcess(serverSocket)
   // if (isDev) {
   //   createBackgroundWindow(serverSocket)
   // } else {
