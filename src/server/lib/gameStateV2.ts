@@ -4,7 +4,7 @@ const initSubscriber = require('redux-subscriber').default;
 
 const store = require("./redux/store.ts");
 
-const dequeSpeed = 1000;
+const dequeSpeed = 0;
 const subscriptions = {};
 
 const subscribe = initSubscriber(store);

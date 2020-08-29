@@ -6,10 +6,8 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import CommandLine from './components/CommandLine.tsx'
 
 import TabBots from './components/TabBots.tsx'
-import TabEdit from './components/TabEdit.tsx'
 import TabExec from './components/TabExec.tsx'
 import TabShip from './components/TabShip.tsx'
-import TabView from './components/TabView.tsx'
 
 require('react-tabs/style/react-tabs.css');
 
@@ -34,19 +32,16 @@ class App extends React.Component<{
 
           <Tabs>
             <TabList>
+
               <Tab>ship</Tab>
               <Tab>bots</Tab>
               <Tab>code</Tab>
-              <Tab>exec</Tab>
-              <Tab>view</Tab>
             </TabList>
+
 
             <TabPanel><TabShip/></TabPanel>
             <TabPanel><TabBots broadcaster={this.props.broadcaster}/></TabPanel>
-
-            <TabPanel><TabEdit/></TabPanel>
-            <TabPanel><TabExec/></TabPanel>
-            <TabPanel><TabEdit/></TabPanel>
+            <TabPanel><TabExec broadcaster={this.props.broadcaster}/></TabPanel>
 
           </Tabs>
       </div>

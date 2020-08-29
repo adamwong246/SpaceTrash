@@ -8,23 +8,22 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
 
-    case "SET_OPEN_FILE": {
-      return {
-        ...state,
-        openFileContents: action.payload
-      }
-    }
+    // case "SET_OPEN_FILE": {
+    //   return {
+    //     ...state,
+    //     openFileContents: action.payload
+    //   }
+    // }
 
 
-    case "UPLOAD_FOLDER": {
+    case "LOAD_FILE": {
       return {
         ...state,
-        userFiles: action.payload
+        userBot: action.payload
       }
     }
 
     case "RECEIVE_UPDATE": {
-
       return {
         ...state,
         ...action.payload

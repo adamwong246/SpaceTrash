@@ -2,5 +2,8 @@ import * as React from "react";
 
 export default {
   shipMap: {},
-  drones: {}
+  drones: {},
+  terminalLines: [
+    "booting spaceTrash session terminal",
+  ],
 }
