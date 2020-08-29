@@ -146,9 +146,9 @@ electronServerConfig.output.publicPath = __dirname
 
 module.exports = [
   // clientSessionAppV2,
-  // server,
-  //
-  // userConfig,
+  //userConfig,
+
+  server,
 
   electronMainConfig,
   electronRendereConfig,

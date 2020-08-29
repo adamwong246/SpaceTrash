@@ -1,32 +1,12 @@
-// let serverHandlers = require('./server-handlers')
-// let ipc = require('./server-ipc')
+import serverHandlersFactory from "./server-handlers";
+import websocketFactory from "./websocketFactory.ts";
 
-import  serverHandlers from "./server-handlers";
-import  ipc from "./server-ipc";
+const {socketServer, ping} = websocketFactory();
+const serverHandlers = serverHandlersFactory(ping);
 
-// let socketName = process.argv[3]
+import ipc from "./server-ipc";
+
+
 let socketName = "spacetrash"
-
 console.log('spaceTrash server.js on socket: ', socketName)
-
 ipc.init(socketName, serverHandlers)
-
-// let isDev, version
-//
-// if (process.argv[2] === '--subprocess') {
-//   isDev = false
-//   version = process.argv[3]
-//
-//   let socketName = process.argv[4]
-//   ipc.init(socketName, serverHandlers)
-// } else {
-//   let { ipcRenderer, remote } = require('electron')
-//   isDev = true
-//   version = remote.app.getVersion()
-//
-//   ipcRenderer.on('set-socket', (event, { name }) => {
-//     ipc.init(name, serverHandlers)
-//   })
-// }
-//
-// console.log(version, isDev)

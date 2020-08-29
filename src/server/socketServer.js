@@ -30,8 +30,8 @@ module.exports = {
       ws.on('close', (e) => console.log('websocket closed' + e))
 
       ws.on('message', message => {
-        // console.log("on mesage", message)
-        console.log(new Date().toISOString(), "message")
+        console.log("on mesage", message)
+        // console.log(new Date().toISOString(), "message")
         const start = Date.now();
 
         var messag = JSON.parse(message);

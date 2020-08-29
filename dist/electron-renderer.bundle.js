@@ -38945,10 +38945,7 @@ const ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/
 const App_tsx_1 = __webpack_require__(/*! ./App.tsx */ "./src/clients/electron-renderer/App.tsx");
 const client_ipc_js_1 = __webpack_require__(/*! ./client-ipc.js */ "./src/clients/electron-renderer/client-ipc.js");
 console.log("renderer.tsx");
-const wrapper = document.getElementById("app");
-wrapper
-    ? ReactDOM.render(React.createElement(App_tsx_1.default, null), wrapper)
-    : false;
+console.log("pinging...");
 client_ipc_js_1.send('ping', {}).then((v) => {
     console.log('then ping');
 }).catch((e) => {
@@ -38956,6 +38953,17 @@ client_ipc_js_1.send('ping', {}).then((v) => {
 }).finally(() => {
     console.log('finally ping');
 });
+client_ipc_js_1.send('ping2', {}).then((v) => {
+    console.log('then ping2');
+}).catch((e) => {
+    console.log('catch ping2');
+}).finally(() => {
+    console.log('finally ping2');
+});
+const wrapper = document.getElementById("app");
+wrapper
+    ? ReactDOM.render(React.createElement(App_tsx_1.default, null), wrapper)
+    : false;
 
 
 /***/ }),

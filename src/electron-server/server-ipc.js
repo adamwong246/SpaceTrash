@@ -1,4 +1,3 @@
-// const ipc = require('node-ipc')
 import ipc from "node-ipc";
 
 function init(socketName, handlers) {

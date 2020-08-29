@@ -7,11 +7,7 @@ import {send} from "./client-ipc.js";
 
 console.log("renderer.tsx")
 
-const wrapper = document.getElementById("app");
-wrapper
-  ? ReactDOM.render(<App/>, wrapper)
-  : false;
-
+console.log("pinging...")
 send('ping', {} ).then((v) => {
   console.log('then ping')
 }).catch((e) => {
@@ -19,3 +15,17 @@ send('ping', {} ).then((v) => {
 }).finally(() => {
   console.log('finally ping')
 })
+
+send('ping2', {} ).then((v) => {
+  console.log('then ping2')
+}).catch((e) => {
+  console.log('catch ping2')
+}).finally(() => {
+  console.log('finally ping2')
+})
+
+
+const wrapper = document.getElementById("app");
+wrapper
+  ? ReactDOM.render(<App/>, wrapper)
+  : false;
