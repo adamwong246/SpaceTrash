@@ -36,11 +36,16 @@ export default class Raycast extends React.Component<{
   }
 
   render() {
-
+    const drone = this.props.drone;
     const rays = this.props.drone.rays
 
     return (
 
+      <div>
+        <p>x: {drone.x}</p>
+        <p>y: {drone.y}</p>
+        <p>direction: {drone.direction}</p>
+      </div>
 
       <div id="screen">
         <div id="floor"></div>

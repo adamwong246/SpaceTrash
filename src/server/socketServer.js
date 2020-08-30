@@ -104,7 +104,7 @@ module.exports = {
   },
 
   broadcaster: (room, payload) => {
-    console.log(new Date().toISOString(), "BROADCASTING", room)
+    console.log(new Date().toISOString(), "BROADCASTING", room, payload)
     wss.clients.forEach(client => {
       // console.log("client.room", client.room)
       if (client.room.indexOf(room) > -1) {

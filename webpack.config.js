@@ -146,11 +146,10 @@ electronServerConfig.output.filename = 'electron-server.bundle.js';
 electronServerConfig.output.publicPath = __dirname
 
 module.exports = [
-  // clientSessionAppV2,
-  //userConfig,
+  clientSessionAppV2,
 
+  userConfig,
   server,
-
   electronMainConfig,
   electronRendereConfig,
   electronServerConfig

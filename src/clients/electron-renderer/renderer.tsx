@@ -32,13 +32,10 @@ listen("update", (e) => {
   store.dispatch({type: "RECEIVE_UPDATE", payload: e})
 });
 
-Window.ping = () => {
-  ipcSend('load', {}).then((v) => {
-    console.log('then load', v)
-  }).catch((e) => {
-    console.log('catch load')
-  }).finally(() => {
-    console.log('finally load')
-  })
-
-}
+ipcSend('load', {}).then((v) => {
+  console.log('then load', v)
+}).catch((e) => {
+  console.log('catch load')
+}).finally(() => {
+  console.log('finally load')
+})

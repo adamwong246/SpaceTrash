@@ -1,6 +1,6 @@
 const { fromJS, List, Map } = require('immutable');
 const moveStepSize = 0.25;
-const rotateStepSize = 0.05;
+const rotateStepSize = 0.2;
 
 module.exports = (drone, command) => {
 

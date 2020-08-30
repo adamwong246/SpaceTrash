@@ -49977,7 +49977,11 @@ class TabShip extends React.Component {
         this.setState({ cursorX: x, cursorY: y });
     }
     render() {
-        const shipMap = this.props.shipMap;
+        // debugger
+        const shipMap = this.props.base.shipmap;
+        if (!shipMap) {
+            return React.createElement("p", null, "idk");
+        }
         if (Object.keys(shipMap).length === 0) {
             return (React.createElement("br", null));
         }
@@ -50239,13 +50243,13 @@ const getTabExecProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
 
 const getTabShipProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
   return {
-    shipMap: base.shipMap
+    base: base
   }
 })
 
 const getTabViewProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
   return {
-    shipMap: base.shipMap
+    base: base
   }
 })
 
@@ -50311,15 +50315,13 @@ wrapper
 client_ipc_js_1.listen("update", (e) => {
     store_1.default.dispatch({ type: "RECEIVE_UPDATE", payload: e });
 });
-Window.ping = () => {
-    client_ipc_js_1.ipcSend('load', {}).then((v) => {
-        console.log('then load', v);
-    }).catch((e) => {
-        console.log('catch load');
-    }).finally(() => {
-        console.log('finally load');
-    });
-};
+client_ipc_js_1.ipcSend('load', {}).then((v) => {
+    console.log('then load', v);
+}).catch((e) => {
+    console.log('catch load');
+}).finally(() => {
+    console.log('finally load');
+});
 
 
 /***/ }),

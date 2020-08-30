@@ -25,9 +25,11 @@ class TabShip extends React.Component<{
     this.setState({ cursorX: x, cursorY: y })
   }
 
-  render() {      
-    const shipMap = this.props.shipMap
+  render() {
+    // debugger
+    const shipMap = this.props.base.shipmap
 
+    if (!shipMap){return <p>idk</p>}
     if (Object.keys(shipMap).length === 0) {
       return (<br />)
     }

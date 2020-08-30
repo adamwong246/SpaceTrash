@@ -16,10 +16,20 @@ class View extends React.Component<{}, {}> {
 
       {
         this.props.drones.map((drone) => {
-          return (<Raycast drone={drone} />);
+          return (
+
+            <div>
+              <Raycast drone={drone} />
+              <p>x: {drone.x}</p>
+              <p>y: {drone.y}</p>
+              <p>direction: {drone.direction}</p>
+
+            </div>
+
+            );
         })
       }
-      {JSON.stringify(this.props.drones)}
+
     </div>);
   }
 }

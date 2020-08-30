@@ -36,7 +36,7 @@ module.exports = (socketServer, broadcaster) => {
     if (diff  > timeMax){
       timeMax = diff
     }
-    console.log("tick", timeMax, "\t", diff  )
+    // console.log("tick", timeMax, "\t", diff  )
     timeflag = now
 
 
@@ -113,23 +113,16 @@ module.exports = (socketServer, broadcaster) => {
 
       subscriptions[room] = createSelector([sessionSelector], (session) => {
         console.log(new Date().toISOString(), "subscription")
-        const drones = session.get("drones")
 
-
-        const matchingUsers = session.getIn(["users"]).filter((user) => {
-          return user.get("id") == userId
-        })
-
-        var shipMap = {}
-        if (matchingUsers.size){
-          shipMap = matchingUsers.get(0).get("shipmap")
-        } else {
-          shipMap = new Map({})
+        const toReturn = {
+          drones: session.get("drones"),
+          ship: session.get("ship")
         }
 
-        broadcaster(room, { drones, shipMap })
-        return drones
+        broadcaster(room, {updateFromCloud: toReturn})
+        return toReturn
       })
+
       runAllSubscriptions()
 
     }

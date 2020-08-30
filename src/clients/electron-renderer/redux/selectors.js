@@ -109,12 +109,12 @@ export const getTabExecProps = createSelector([baseSelector], base => {
 
 export const getTabShipProps = createSelector([baseSelector], base => {
   return {
-    shipMap: base.shipMap
+    base: base
   }
 })
 
 export const getTabViewProps = createSelector([baseSelector], base => {
   return {
-    shipMap: base.shipMap
+    base: base
   }
 })
