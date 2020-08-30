@@ -9,7 +9,6 @@ const {
 const combineReducers = require("redux").combineReducers;
 
 const updatedDronePosition = require("../updatedDronePosition.ts");
-const updatedDroneRays = require("../updatedDroneRaysV3.ts");
 
 const initialState = require("./initialState.ts");
 
@@ -78,12 +77,12 @@ module.exports = (state = initialState, action) => {
             return drone.update("instructions", (instructions = []) => {
 
               const commandsForDrone = new List(commands)
-              .filter((c) => c.droneId == drone.get("id"))
-              .map((c) => {
-                return c.action
-              })
+                .filter((c) => c.droneId == drone.get("id"))
+                .map((c) => {
+                  return c.action
+                })
 
-              return new List([]).concat(instructions,commandsForDrone)
+              return new List([]).concat(instructions, commandsForDrone)
             })
           })
         }
@@ -115,78 +114,29 @@ module.exports = (state = initialState, action) => {
             const updatedSession = session
               .updateIn(['drones'], (drones) => {
                 return drones
-                .map((drone) => {
+                  .map((drone) => {
 
-                  const instructions = drone.get('instructions') || new List([])
+                    const instructions = drone.get('instructions') || new List([])
 
-                  if (instructions.get(0)) {
-                    const instructionHead = instructions.get(0)
-                    const instructionTail = instructions.slice(1).filter((x) => x)
+                    if (instructions.get(0)) {
+                      const instructionHead = instructions.get(0)
+                      const instructionTail = instructions.slice(1).filter((x) => x)
 
-                    const newDronePosition = updatedDronePosition(drone, instructionHead)
+                      const newDronePosition = updatedDronePosition(drone, instructionHead)
 
-                    instructionsDidRun = true
+                      instructionsDidRun = true
 
-                    return drone.set('instructions', instructionTail)
-                      .set('x', newDronePosition.get('x'))
-                      .set('y', newDronePosition.get('y'))
-                      .set('direction', newDronePosition.get('direction'))
-                  } else {
-                    return drone.set('instructions', new List([]))
-                  }
+                      return drone.set('instructions', instructionTail)
+                        .set('x', newDronePosition.get('x'))
+                        .set('y', newDronePosition.get('y'))
+                        .set('direction', newDronePosition.get('direction'))
+                    } else {
+                      return drone.set('instructions', new List([]))
+                    }
 
-                  return drone
-                })
-                // .map((drone) => {
-                //   if (instructionsDidRun) {
-                //     return drone.set('rays', updatedDroneRays(drone, shipMap))
-                //   } else {
-                //     return drone
-                //   }
-                // })
+                    return drone
+                  })
               })
-
-              // if(instructionsDidRun){
-              //   return updatedSession.updateIn(['users'], (users) => {
-              //     return users.map((user) => {
-              //       return user.update("shipmap", (shipmap = new Map({})) => {
-              //
-              //         return session.get("drones")
-              //           .filter((drone) => {
-              //             return drone.get("user") == user.get("id")
-              //           })
-              //           .reduce((memo, drone) => {
-              //             return memo.push(drone)
-              //           }, new List([]))
-              //           .reduce((memo, drone) => {
-              //             if (drone.get("rays")) {
-              //               return memo.concat(drone.get("rays"))
-              //             } else {
-              //               return memo
-              //             }
-              //           }, new List([]))
-              //           .map((ray) => {
-              //             return ray.get("brenshams")
-              //           })
-              //           .flatten(1)
-              //           .reduce((memo, brensham) => {
-              //             return {
-              //               ...memo,
-              //               [brensham.get("x")]: {
-              //                 ...memo[brensham.get("x")],
-              //                 [brensham.get("y")]: brensham.get("tile")
-              //               }
-              //             }
-              //           }, shipmap)
-              //       })
-              //     });
-              //   })
-              // } else {
-              //   return updatedSession
-              // }
-
-
-
 
             return updatedSession
           })

@@ -11971,14 +11971,19 @@ function socketOnError() {
 
 /***/ }),
 
-/***/ "./src/electron-server/getRays.ts":
-/*!****************************************!*\
-  !*** ./src/electron-server/getRays.ts ***!
-  \****************************************/
+/***/ "./src/electron-server/getRaysV2.ts":
+/*!******************************************!*\
+  !*** ./src/electron-server/getRaysV2.ts ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 const { fromJS, List, Map } = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
+const raycastConsts_ts_1 = __webpack_require__(/*! ../raycastConsts.ts */ "./src/raycastConsts.ts");
+;
 const ABSOLLUTE = 'absolute';
 const screenWidth = 320;
 const screenHeight = 200;
@@ -11987,7 +11992,6 @@ const fov = 60 * Math.PI / 180;
 const moveStepSize = 0.1;
 const rotateStepSize = 0.05;
 const commandQueueWaitTime = 3;
-const stripWidth = 1;
 const twoPI = Math.PI * 2;
 const numTextures = 4;
 const wallTextures = [
@@ -11996,7 +12000,7 @@ const wallTextures = [
     "walls_3.png",
     "walls_4.png"
 ];
-const numRays = Math.ceil(screenWidth / stripWidth);
+const numRays = Math.ceil(screenWidth / raycastConsts_ts_1.stripWidth);
 const viewDist = (screenWidth / 2) / Math.tan((fov / 2));
 const brenshams = (x0, y0, x1, y1, matrix) => {
     var dx = Math.abs(x1 - x0);
@@ -12023,14 +12027,14 @@ const brenshams = (x0, y0, x1, y1, matrix) => {
     }
     return tiles;
 };
-module.exports = (drone, matrix) => {
+const getRays = (drone, matrix) => {
     const mapHeight = matrix.size;
     const mapWidth = matrix.get(0).size;
     console.log(new Date().toISOString(), "render...");
     const rays = new fromJS(Array.from(Array(numRays).keys()))
         .map((i, stripIdx) => {
         // where on the screen does ray go through?
-        var rayScreenPos = (-numRays / 2 + i) * stripWidth;
+        var rayScreenPos = (-numRays / 2 + i) * raycastConsts_ts_1.stripWidth;
         // the distance from the viewer to the point on the screen, simply Pythagoras.
         var rayViewDist = Math.sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist);
         // the angle of the ray, relative to the viewing direction.
@@ -12134,10 +12138,10 @@ module.exports = (drone, matrix) => {
             // thus the height on the screen is equal to wall_height_real * viewDist / dist
             var height = Math.round(viewDist / correctedDistance);
             // width is the same, but we have to stretch the texture to a factor of stripWidth to make it fill the strip correctly
-            var width = height * stripWidth;
+            var width = height * raycastConsts_ts_1.stripWidth;
             var texX = Math.round(textureX * width);
-            if (texX > width - stripWidth)
-                texX = width - stripWidth;
+            if (texX > width - raycastConsts_ts_1.stripWidth)
+                texX = width - raycastConsts_ts_1.stripWidth;
             texX += (wallIsShaded ? width : 0);
             return fromJS({
                 id: stripIdx,
@@ -12145,12 +12149,6 @@ module.exports = (drone, matrix) => {
                 x: xWallHit,
                 y: yWallHit,
                 style: ({
-                    stripIdx,
-                    stripWidth,
-                    xWallHit,
-                    yWallHit,
-                    playerX: drone.get("x"),
-                    playerY: drone.get("y"),
                     height,
                     width,
                     texX,
@@ -12176,6 +12174,38 @@ module.exports = (drone, matrix) => {
     });
     console.log(new Date().toISOString(), "...render");
     return rays;
+};
+module.exports = (payloadReponse) => {
+    const matrix = fromJS(payloadReponse.ship.matrix);
+    const drones = fromJS(payloadReponse.drones).map((drone) => {
+        return drone.set('rays', getRays(drone, matrix));
+    });
+    const shipMap = drones
+        .reduce((memo, drone) => {
+        if (drone.get("rays")) {
+            return memo.concat(drone.get("rays"));
+        }
+        else {
+            return memo;
+        }
+    }, new List([]))
+        .map((ray) => {
+        return ray.get("brenshams");
+    })
+        .flatten(1)
+        .reduce((memo, brensham) => {
+        return {
+            ...memo,
+            [brensham.get("x")]: {
+                ...memo[brensham.get("x")],
+                [brensham.get("y")]: brensham.get("tile")
+            }
+        };
+    }, {});
+    return {
+        drones,
+        shipMap
+    };
 };
 
 
@@ -12308,9 +12338,8 @@ exports.default = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const immutable_1 = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
 const initialState_ts_1 = __webpack_require__(/*! ./initialState.ts */ "./src/electron-server/redux/initialState.ts");
-const updatedDroneRays = __webpack_require__(/*! ../getRays.ts */ "./src/electron-server/getRays.ts");
+const updatedDroneRays = __webpack_require__(/*! ../getRaysV2.ts */ "./src/electron-server/getRaysV2.ts");
 exports.default = (state = initialState_ts_1.default, action) => {
     switch (action.type) {
         case "RECEIVE_UPDATE": {
@@ -12322,36 +12351,37 @@ exports.default = (state = initialState_ts_1.default, action) => {
         }
         case "RECEIVE_UPDATE_FROM_SERVER": {
             console.log("RECEIVE_UPDATE_FROM_SERVER", action.payload);
-            const matrix = immutable_1.fromJS(action.payload.ship.matrix);
-            const drones = immutable_1.fromJS(action.payload.drones).map((drone) => {
-                return drone.set('rays', updatedDroneRays(drone, matrix));
-            });
-            const shipmap = drones
-                .reduce((memo, drone) => {
-                if (drone.get("rays")) {
-                    return memo.concat(drone.get("rays"));
-                }
-                else {
-                    return memo;
-                }
-            }, new immutable_1.List([]))
-                .map((ray) => {
-                return ray.get("brenshams");
-            })
-                .flatten(1)
-                .reduce((memo, brensham) => {
-                return {
-                    ...memo,
-                    [brensham.get("x")]: {
-                        ...memo[brensham.get("x")],
-                        [brensham.get("y")]: brensham.get("tile")
-                    }
-                };
-            }, {});
+            // const drones = fromJS(payloadReponse.drones).map((drone) => {
+            //   return drone.set('rays', getRays(drone, matrix))
+            // })
+            // const shipMap = drones
+            //   .reduce((memo, drone) => {
+            //     if (drone.get("rays")) {
+            //       return memo.concat(drone.get("rays"))
+            //     } else {
+            //       return memo
+            //     }
+            //   }, new List([]))
+            //   .map((ray) => {
+            //     return ray.get("brenshams")
+            //   })
+            //   .flatten(1)
+            //   .reduce((memo, brensham) => {
+            //     return {
+            //       ...memo,
+            //       [brensham.get("x")]: {
+            //         ...memo[brensham.get("x")],
+            //         [brensham.get("y")]: brensham.get("tile")
+            //       }
+            //     }
+            //   }, {})
+            //
+            const { drones, shipMap } = updatedDroneRays(action.payload);
+            console.log(drones, shipMap);
             return {
                 ...state,
                 drones,
-                shipmap
+                shipMap
             };
         }
         default:
@@ -12556,6 +12586,21 @@ exports.default = (store) => {
         websocket: ws
     };
 };
+
+
+/***/ }),
+
+/***/ "./src/raycastConsts.ts":
+/*!******************************!*\
+  !*** ./src/raycastConsts.ts ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.stripWidth = 1;
 
 
 /***/ }),

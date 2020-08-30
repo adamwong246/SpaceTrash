@@ -28,11 +28,13 @@ const commonConfig = {
 
   module: {
     rules: [
-      // {
-      //   test: /\.js$/,
-      //   exclude: /node_modules/,
-      //   use: ["babel-loader"]
-      // },
+      {
+        test: /\.(png)$/,
+        use: {
+          loader: 'url-loader',
+        },
+      },
+
       {
         test: /\.scss$/,
         use: [{

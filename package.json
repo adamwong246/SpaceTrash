@@ -43,6 +43,7 @@
     "sass-loader": "^8.0.2",
     "scss-loader": "^0.0.1",
     "typings-for-css-modules-loader": "^1.7.0",
+    "url-loader": "^4.1.0",
     "uuid": "^7.0.3",
     "webpack-dev-server": "^3.10.3",
     "webpack-fork-loader": "^1.0.1",
