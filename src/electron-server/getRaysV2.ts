@@ -4,16 +4,17 @@ import {
   ABSOLLUTE,
   stripWidth,
   screenHeight,
-  screenWidth
-  width
+  screenWidth,
+  width,
+  MMath
 } from "../raycastConsts.ts");
 
 export const useSingleTexture = false;
 export const fov = 60 * Math.PI / 180;
-export const viewDist = (screenWidth / 2) / Math.tan((fov / 2));
+export const viewDist = (screenWidth / 2) / MMath.tan((fov / 2));
 export const twoPI = Math.PI * 2;
 export const numTextures = 4;
-export const numRays = Math.ceil(screenWidth / stripWidth);
+export const numRays = MMath.ceil(screenWidth / stripWidth);
 
 export const wallTextures = [
   "walls_1.png",
@@ -59,11 +60,11 @@ const getRays = (drone, matrix) => {
       var rayScreenPos = (-numRays / 2 + i) * stripWidth;
 
       // the distance from the viewer to the point on the screen, simply Pythagoras.
-      var rayViewDist = Math.sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist);
+      var rayViewDist = MMath.sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist);
 
       // the angle of the ray, relative to the viewing direction.
       // right triangle: a = sin(A) * c
-      var rayAngle = Math.asin(rayScreenPos / rayViewDist);
+      var rayAngle = MMath.asin(rayScreenPos / rayViewDist);
       rayAngle = rayAngle + drone.get("direction")
 
       // first make sure the angle is between 0 and 360 degrees
@@ -77,8 +78,8 @@ const getRays = (drone, matrix) => {
       var wallType = 0;
 
       // only do these once
-      var angleSin = Math.sin(rayAngle);
-      var angleCos = Math.cos(rayAngle);
+      var angleSin = MMath.sin(rayAngle);
+      var angleCos = MMath.cos(rayAngle);
 
       var dist = 0;	// the distance to the block we hit
       var xHit = 0; 	// the x and y coord of where the ray hit the block
@@ -103,7 +104,7 @@ const getRays = (drone, matrix) => {
       const dXVer = right ? 1 : -1; 	// we move either 1 map unit to the left or right
       const dYVer = dXVer * slope; 	// how much to move up or down
 
-      var x = right ? Math.ceil(drone.get("x")) : Math.floor(drone.get("x"));	// starting horizontal position, at one of the edges of the current map block
+      var x = right ? MMath.ceil(drone.get("x")) : MMath.floor(drone.get("x"));	// starting horizontal position, at one of the edges of the current map block
       var y = drone.get("y") + (x - drone.get("x")) * slope;			// starting vertical position. We add the small horizontal step we just made, multiplied by the slope.
       while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
         const wallX = (x + (right ? 0 : -1)) >> 0;
@@ -144,7 +145,7 @@ const getRays = (drone, matrix) => {
       const dYHor = up ? -1 : 1;
       const dXHor = dYHor * slope;
 
-      var y = up ? Math.floor(drone.get("y")) : Math.ceil(drone.get("y"));
+      var y = up ? MMath.floor(drone.get("y")) : MMath.ceil(drone.get("y"));
       var x = drone.get("x") + (y - drone.get("y")) * slope;
 
       while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
@@ -176,23 +177,23 @@ const getRays = (drone, matrix) => {
 
       if (dist) {
 
-        // dist = Math.sqrt(dist);
+        // dist = MMath.sqrt(dist);
         // use perpendicular distance to adjust for fish eye
         // distorted_dist = correct_dist / cos(relative_angle_of_ray)
-        // dist = dist * Math.cos(drone.get("direction") - rayAngle);
+        // dist = dist * MMath.cos(drone.get("direction") - rayAngle);
 
-        const correctedDistance = Math.sqrt(dist) * Math.cos(drone.get("direction") - rayAngle)
+        const correctedDistance = MMath.sqrt(dist) * MMath.cos(drone.get("direction") - rayAngle)
 
         // now calc the position, height and width of the wall strip
         // "real" wall height in the game world is 1 unit, the distance from the player to the screen is viewDist,
         // thus the height on the screen is equal to wall_height_real * viewDist / dist
 
-        const height = Math.round(viewDist / correctedDistance);
+        const height = MMath.round(viewDist / correctedDistance);
 
         // width is the same, but we have to stretch the texture to a factor of stripWidth to make it fill the strip correctly
         const width = height * stripWidth;
 
-        var texX = Math.round(textureX * width);
+        var texX = MMath.round(textureX * width);
         if (texX > width - stripWidth)
           texX = width - stripWidth;
         texX += (wallIsShaded ? width : 0);
@@ -211,8 +212,8 @@ const getRays = (drone, matrix) => {
             hit: matrix.get(yWallHit).get(xWallHit).get(0) === 'd',
           }),
           brenshams: brenshams(
-            Math.round(drone.get("x")),
-            Math.round(drone.get("y")),
+            MMath.round(drone.get("x")),
+            MMath.round(drone.get("y")),
             xWallHit, yWallHit,
             matrix
           ),
