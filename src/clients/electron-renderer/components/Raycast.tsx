@@ -3,11 +3,13 @@ import * as React from 'react';
 import wall3 from '../../images/walls_3.png';
 import wall4 from '../../images/walls_4.png';
 
-import { stripWidth, width}  from "../../../raycastConsts.ts";
-
-const ABSOLLUTE = 'absolute';
-const screenWidth = 320;
-const screenHeight = 200;
+import {
+  ABSOLLUTE,
+  stripWidth,
+  screenHeight,
+  screenWidth
+  width
+} from "../../../raycastConsts.ts";
 
 const styleV3 = (ray, drone) => {
 

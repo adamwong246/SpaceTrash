@@ -1,26 +1,27 @@
 const { fromJS, List, Map } = require('immutable');
 
-import { stripWidth} from "../raycastConsts.ts");
+import {
+  ABSOLLUTE,
+  stripWidth,
+  screenHeight,
+  screenWidth
+  width
+} from "../raycastConsts.ts");
 
-const ABSOLLUTE = 'absolute';
-const screenWidth = 320;
-const screenHeight = 200;
-const useSingleTexture = false;
-const fov = 60 * Math.PI / 180;
-const moveStepSize = 0.1;
-const rotateStepSize = 0.05;
-const commandQueueWaitTime = 3
-const twoPI = Math.PI * 2;
-const numTextures = 4;
-const wallTextures = [
+export const useSingleTexture = false;
+export const fov = 60 * Math.PI / 180;
+export const viewDist = (screenWidth / 2) / Math.tan((fov / 2));
+export const twoPI = Math.PI * 2;
+export const numTextures = 4;
+export const numRays = Math.ceil(screenWidth / stripWidth);
+
+export const wallTextures = [
   "walls_1.png",
   "walls_2.png",
   "walls_3.png",
   "walls_4.png"
 ];
 
-const numRays = Math.ceil(screenWidth / stripWidth);
-const viewDist = (screenWidth / 2) / Math.tan((fov / 2));
 
 const brenshams = (x0, y0, x1, y1, matrix) => {
   var dx = Math.abs(x1 - x0);

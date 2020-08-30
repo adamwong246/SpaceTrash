@@ -11984,24 +11984,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const { fromJS, List, Map } = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
 const raycastConsts_ts_1 = __webpack_require__(/*! ../raycastConsts.ts */ "./src/raycastConsts.ts");
 ;
-const ABSOLLUTE = 'absolute';
-const screenWidth = 320;
-const screenHeight = 200;
-const useSingleTexture = false;
-const fov = 60 * Math.PI / 180;
-const moveStepSize = 0.1;
-const rotateStepSize = 0.05;
-const commandQueueWaitTime = 3;
-const twoPI = Math.PI * 2;
-const numTextures = 4;
-const wallTextures = [
+exports.useSingleTexture = false;
+exports.fov = 60 * Math.PI / 180;
+exports.viewDist = (raycastConsts_ts_1.screenWidth / 2) / Math.tan((exports.fov / 2));
+exports.twoPI = Math.PI * 2;
+exports.numTextures = 4;
+exports.numRays = Math.ceil(raycastConsts_ts_1.screenWidth / raycastConsts_ts_1.stripWidth);
+exports.wallTextures = [
     "walls_1.png",
     "walls_2.png",
     "walls_3.png",
     "walls_4.png"
 ];
-const numRays = Math.ceil(screenWidth / raycastConsts_ts_1.stripWidth);
-const viewDist = (screenWidth / 2) / Math.tan((fov / 2));
 const brenshams = (x0, y0, x1, y1, matrix) => {
     var dx = Math.abs(x1 - x0);
     var dy = Math.abs(y1 - y0);
@@ -12031,22 +12025,22 @@ const getRays = (drone, matrix) => {
     const mapHeight = matrix.size;
     const mapWidth = matrix.get(0).size;
     console.log(new Date().toISOString(), "render...");
-    const rays = new fromJS(Array.from(Array(numRays).keys()))
+    const rays = new fromJS(Array.from(Array(exports.numRays).keys()))
         .map((i, stripIdx) => {
         // where on the screen does ray go through?
-        var rayScreenPos = (-numRays / 2 + i) * raycastConsts_ts_1.stripWidth;
+        var rayScreenPos = (-exports.numRays / 2 + i) * raycastConsts_ts_1.stripWidth;
         // the distance from the viewer to the point on the screen, simply Pythagoras.
-        var rayViewDist = Math.sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist);
+        var rayViewDist = Math.sqrt(rayScreenPos * rayScreenPos + exports.viewDist * exports.viewDist);
         // the angle of the ray, relative to the viewing direction.
         // right triangle: a = sin(A) * c
         var rayAngle = Math.asin(rayScreenPos / rayViewDist);
         rayAngle = rayAngle + drone.get("direction");
         // first make sure the angle is between 0 and 360 degrees
-        rayAngle %= twoPI;
+        rayAngle %= exports.twoPI;
         if (rayAngle < 0)
-            rayAngle += twoPI;
+            rayAngle += exports.twoPI;
         // moving right/left? up/down? Determined by which quadrant the angle is in.
-        var right = (rayAngle > twoPI * 0.75 || rayAngle < twoPI * 0.25);
+        var right = (rayAngle > exports.twoPI * 0.75 || rayAngle < exports.twoPI * 0.25);
         var up = (rayAngle < 0 || rayAngle > Math.PI);
         var wallType = 0;
         // only do these once
@@ -12136,7 +12130,7 @@ const getRays = (drone, matrix) => {
             // now calc the position, height and width of the wall strip
             // "real" wall height in the game world is 1 unit, the distance from the player to the screen is viewDist,
             // thus the height on the screen is equal to wall_height_real * viewDist / dist
-            var height = Math.round(viewDist / correctedDistance);
+            var height = Math.round(exports.viewDist / correctedDistance);
             // width is the same, but we have to stretch the texture to a factor of stripWidth to make it fill the strip correctly
             var width = height * raycastConsts_ts_1.stripWidth;
             var texX = Math.round(textureX * width);
@@ -12164,7 +12158,7 @@ const getRays = (drone, matrix) => {
                 x: 0,
                 y: 0,
                 style: {
-                    position: ABSOLLUTE,
+                    position: raycastConsts_ts_1.ABSOLLUTE,
                     src: "/walls_3.png",
                     height: 0, width: 0, left: 0, top: 0, zIndex: 0, clip: ""
                 },
@@ -12601,6 +12595,9 @@ exports.default = (store) => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stripWidth = 1;
+exports.ABSOLLUTE = 'absolute';
+exports.screenWidth = 320;
+exports.screenHeight = 200;
 
 
 /***/ }),

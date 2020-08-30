@@ -49827,19 +49827,16 @@ const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const walls_3_png_1 = __webpack_require__(/*! ../../images/walls_3.png */ "./src/clients/images/walls_3.png");
 const walls_4_png_1 = __webpack_require__(/*! ../../images/walls_4.png */ "./src/clients/images/walls_4.png");
 const raycastConsts_ts_1 = __webpack_require__(/*! ../../../raycastConsts.ts */ "./src/raycastConsts.ts");
-const ABSOLLUTE = 'absolute';
-const screenWidth = 320;
-const screenHeight = 200;
 const styleV3 = (ray, drone) => {
     const playerX = drone.x;
     const playerY = drone.y;
     const { hit, height, width, texX } = ray.style;
     return {
-        position: ABSOLLUTE,
+        position: raycastConsts_ts_1.ABSOLLUTE,
         zIndex: -((Math.pow((ray.x - playerX), 2) + Math.pow((ray.y - playerY), 2)) * 1000) >> 0,
         height: height,
         width: (width * 2) >> 0,
-        top: Math.round((screenHeight - height) / 2),
+        top: Math.round((raycastConsts_ts_1.screenHeight - height) / 2),
         left: ray.id * raycastConsts_ts_1.stripWidth - texX,
         clip: "rect( 0px, " + (texX + raycastConsts_ts_1.stripWidth) + "px, " + (height) + "px, " + texX + "px)",
         src: hit ? walls_4_png_1.default : walls_3_png_1.default
@@ -50612,6 +50609,9 @@ module.exports = exported;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stripWidth = 1;
+exports.ABSOLLUTE = 'absolute';
+exports.screenWidth = 320;
+exports.screenHeight = 200;
 
 
 /***/ }),
