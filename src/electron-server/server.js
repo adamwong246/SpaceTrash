@@ -1,12 +1,15 @@
+import ipcFactory from "./ipcFactory";
+import selectorsFactory  from  "./redux/selectors.js";
 import serverHandlersFactory from "./server-handlers";
 import websocketFactory from "./websocketFactory.ts";
 
-const {socketServer, ping} = websocketFactory();
-const serverHandlers = serverHandlersFactory(ping);
+import store from "./redux/store.js";
 
-import ipc from "./server-ipc";
+const websocket = websocketFactory(store)
+const ipc = ipcFactory(store)
 
+const serverHandlers = serverHandlersFactory(ipc, websocket);
+const selectors = selectorsFactory(ipc, websocket)
 
-let socketName = "spacetrash"
-console.log('spaceTrash server.js on socket: ', socketName)
-ipc.init(socketName, serverHandlers)
+ipc.init("spacetrash", serverHandlers, selectors)
+websocket.init(selectors)

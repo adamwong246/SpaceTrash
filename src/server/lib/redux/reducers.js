@@ -68,6 +68,8 @@ module.exports = (state = initialState, action) => {
         sessionId,
       } = action.payload
 
+      console.log(action)
+
       return updateIn(state,
         ['gameStates', sessionId, 'drones'],
         (drones) => {
@@ -124,7 +126,7 @@ module.exports = (state = initialState, action) => {
                     const newDronePosition = updatedDronePosition(drone, instructionHead)
 
                     instructionsDidRun = true
-
+                    
                     return drone.set('instructions', instructionTail)
                       .set('x', newDronePosition.get('x'))
                       .set('y', newDronePosition.get('y'))

@@ -2,30 +2,43 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 
+import store from "./redux/store";
 import App from "./App.tsx"
-import {send} from "./client-ipc.js";
+import { ipcSend, listen } from "./client-ipc.js";
 
-console.log("renderer.tsx")
+import selectorsIpcFactory from "./selectors.ts";
+const selectorIpc = selectorsIpcFactory(ipcSend);
 
-console.log("pinging...")
-send('ping', {} ).then((v) => {
-  console.log('then ping')
-}).catch((e) => {
-  console.log('catch ping')
-}).finally(() => {
-  console.log('finally ping')
-})
-
-send('ping2', {} ).then((v) => {
-  console.log('then ping2')
-}).catch((e) => {
-  console.log('catch ping2')
-}).finally(() => {
-  console.log('finally ping2')
-})
-
+const broadcaster = (commands) => {
+  ipcSend('enqueue', commands).then((v) => {
+    console.log('then enqueue', v)
+  }).catch((e) => {
+    console.log('catch enqueue')
+  }).finally(() => {
+    console.log('finally enqueue')
+  })
+}
 
 const wrapper = document.getElementById("app");
 wrapper
-  ? ReactDOM.render(<App/>, wrapper)
+  ? ReactDOM.render(<Provider store={store}>
+    <App
+      broadcaster={broadcaster}
+    />
+  </Provider >, wrapper)
   : false;
+
+listen("update", (e) => {
+  store.dispatch({type: "RECEIVE_UPDATE", payload: e})
+});
+
+Window.ping = () => {
+  ipcSend('load', {}).then((v) => {
+    console.log('then load', v)
+  }).catch((e) => {
+    console.log('catch load')
+  }).finally(() => {
+    console.log('finally load')
+  })
+
+}

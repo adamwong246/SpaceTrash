@@ -66,7 +66,7 @@ const connectSocket = (name, onOpen) => {
   })
 }
 
-export const send = (name, args) => {
+export const ipcSend = (name, args) => {
   return new Promise((resolve, reject) => {
     let id = window.uuid.v4()
     replyHandlers.set(id, { resolve, reject })

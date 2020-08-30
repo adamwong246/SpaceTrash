@@ -1821,6 +1821,923 @@ module.exports=IPC;
 
 /***/ }),
 
+/***/ "./node_modules/redux/es/redux.js":
+/*!****************************************!*\
+  !*** ./node_modules/redux/es/redux.js ***!
+  \****************************************/
+/*! exports provided: __DO_NOT_USE__ActionTypes, applyMiddleware, bindActionCreators, combineReducers, compose, createStore */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__DO_NOT_USE__ActionTypes", function() { return ActionTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applyMiddleware", function() { return applyMiddleware; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bindActionCreators", function() { return bindActionCreators; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return combineReducers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return compose; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return createStore; });
+/* harmony import */ var symbol_observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! symbol-observable */ "./node_modules/symbol-observable/es/index.js");
+
+
+/**
+ * These are private action types reserved by Redux.
+ * For any unknown actions, you must return the current state.
+ * If the current state is undefined, you must return the initial state.
+ * Do not reference these action types directly in your code.
+ */
+var randomString = function randomString() {
+  return Math.random().toString(36).substring(7).split('').join('.');
+};
+
+var ActionTypes = {
+  INIT: "@@redux/INIT" + randomString(),
+  REPLACE: "@@redux/REPLACE" + randomString(),
+  PROBE_UNKNOWN_ACTION: function PROBE_UNKNOWN_ACTION() {
+    return "@@redux/PROBE_UNKNOWN_ACTION" + randomString();
+  }
+};
+
+/**
+ * @param {any} obj The object to inspect.
+ * @returns {boolean} True if the argument appears to be a plain object.
+ */
+function isPlainObject(obj) {
+  if (typeof obj !== 'object' || obj === null) return false;
+  var proto = obj;
+
+  while (Object.getPrototypeOf(proto) !== null) {
+    proto = Object.getPrototypeOf(proto);
+  }
+
+  return Object.getPrototypeOf(obj) === proto;
+}
+
+/**
+ * Creates a Redux store that holds the state tree.
+ * The only way to change the data in the store is to call `dispatch()` on it.
+ *
+ * There should only be a single store in your app. To specify how different
+ * parts of the state tree respond to actions, you may combine several reducers
+ * into a single reducer function by using `combineReducers`.
+ *
+ * @param {Function} reducer A function that returns the next state tree, given
+ * the current state tree and the action to handle.
+ *
+ * @param {any} [preloadedState] The initial state. You may optionally specify it
+ * to hydrate the state from the server in universal apps, or to restore a
+ * previously serialized user session.
+ * If you use `combineReducers` to produce the root reducer function, this must be
+ * an object with the same shape as `combineReducers` keys.
+ *
+ * @param {Function} [enhancer] The store enhancer. You may optionally specify it
+ * to enhance the store with third-party capabilities such as middleware,
+ * time travel, persistence, etc. The only store enhancer that ships with Redux
+ * is `applyMiddleware()`.
+ *
+ * @returns {Store} A Redux store that lets you read the state, dispatch actions
+ * and subscribe to changes.
+ */
+
+function createStore(reducer, preloadedState, enhancer) {
+  var _ref2;
+
+  if (typeof preloadedState === 'function' && typeof enhancer === 'function' || typeof enhancer === 'function' && typeof arguments[3] === 'function') {
+    throw new Error('It looks like you are passing several store enhancers to ' + 'createStore(). This is not supported. Instead, compose them ' + 'together to a single function.');
+  }
+
+  if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
+    enhancer = preloadedState;
+    preloadedState = undefined;
+  }
+
+  if (typeof enhancer !== 'undefined') {
+    if (typeof enhancer !== 'function') {
+      throw new Error('Expected the enhancer to be a function.');
+    }
+
+    return enhancer(createStore)(reducer, preloadedState);
+  }
+
+  if (typeof reducer !== 'function') {
+    throw new Error('Expected the reducer to be a function.');
+  }
+
+  var currentReducer = reducer;
+  var currentState = preloadedState;
+  var currentListeners = [];
+  var nextListeners = currentListeners;
+  var isDispatching = false;
+  /**
+   * This makes a shallow copy of currentListeners so we can use
+   * nextListeners as a temporary list while dispatching.
+   *
+   * This prevents any bugs around consumers calling
+   * subscribe/unsubscribe in the middle of a dispatch.
+   */
+
+  function ensureCanMutateNextListeners() {
+    if (nextListeners === currentListeners) {
+      nextListeners = currentListeners.slice();
+    }
+  }
+  /**
+   * Reads the state tree managed by the store.
+   *
+   * @returns {any} The current state tree of your application.
+   */
+
+
+  function getState() {
+    if (isDispatching) {
+      throw new Error('You may not call store.getState() while the reducer is executing. ' + 'The reducer has already received the state as an argument. ' + 'Pass it down from the top reducer instead of reading it from the store.');
+    }
+
+    return currentState;
+  }
+  /**
+   * Adds a change listener. It will be called any time an action is dispatched,
+   * and some part of the state tree may potentially have changed. You may then
+   * call `getState()` to read the current state tree inside the callback.
+   *
+   * You may call `dispatch()` from a change listener, with the following
+   * caveats:
+   *
+   * 1. The subscriptions are snapshotted just before every `dispatch()` call.
+   * If you subscribe or unsubscribe while the listeners are being invoked, this
+   * will not have any effect on the `dispatch()` that is currently in progress.
+   * However, the next `dispatch()` call, whether nested or not, will use a more
+   * recent snapshot of the subscription list.
+   *
+   * 2. The listener should not expect to see all state changes, as the state
+   * might have been updated multiple times during a nested `dispatch()` before
+   * the listener is called. It is, however, guaranteed that all subscribers
+   * registered before the `dispatch()` started will be called with the latest
+   * state by the time it exits.
+   *
+   * @param {Function} listener A callback to be invoked on every dispatch.
+   * @returns {Function} A function to remove this change listener.
+   */
+
+
+  function subscribe(listener) {
+    if (typeof listener !== 'function') {
+      throw new Error('Expected the listener to be a function.');
+    }
+
+    if (isDispatching) {
+      throw new Error('You may not call store.subscribe() while the reducer is executing. ' + 'If you would like to be notified after the store has been updated, subscribe from a ' + 'component and invoke store.getState() in the callback to access the latest state. ' + 'See https://redux.js.org/api-reference/store#subscribelistener for more details.');
+    }
+
+    var isSubscribed = true;
+    ensureCanMutateNextListeners();
+    nextListeners.push(listener);
+    return function unsubscribe() {
+      if (!isSubscribed) {
+        return;
+      }
+
+      if (isDispatching) {
+        throw new Error('You may not unsubscribe from a store listener while the reducer is executing. ' + 'See https://redux.js.org/api-reference/store#subscribelistener for more details.');
+      }
+
+      isSubscribed = false;
+      ensureCanMutateNextListeners();
+      var index = nextListeners.indexOf(listener);
+      nextListeners.splice(index, 1);
+      currentListeners = null;
+    };
+  }
+  /**
+   * Dispatches an action. It is the only way to trigger a state change.
+   *
+   * The `reducer` function, used to create the store, will be called with the
+   * current state tree and the given `action`. Its return value will
+   * be considered the **next** state of the tree, and the change listeners
+   * will be notified.
+   *
+   * The base implementation only supports plain object actions. If you want to
+   * dispatch a Promise, an Observable, a thunk, or something else, you need to
+   * wrap your store creating function into the corresponding middleware. For
+   * example, see the documentation for the `redux-thunk` package. Even the
+   * middleware will eventually dispatch plain object actions using this method.
+   *
+   * @param {Object} action A plain object representing “what changed”. It is
+   * a good idea to keep actions serializable so you can record and replay user
+   * sessions, or use the time travelling `redux-devtools`. An action must have
+   * a `type` property which may not be `undefined`. It is a good idea to use
+   * string constants for action types.
+   *
+   * @returns {Object} For convenience, the same action object you dispatched.
+   *
+   * Note that, if you use a custom middleware, it may wrap `dispatch()` to
+   * return something else (for example, a Promise you can await).
+   */
+
+
+  function dispatch(action) {
+    if (!isPlainObject(action)) {
+      throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
+    }
+
+    if (typeof action.type === 'undefined') {
+      throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
+    }
+
+    if (isDispatching) {
+      throw new Error('Reducers may not dispatch actions.');
+    }
+
+    try {
+      isDispatching = true;
+      currentState = currentReducer(currentState, action);
+    } finally {
+      isDispatching = false;
+    }
+
+    var listeners = currentListeners = nextListeners;
+
+    for (var i = 0; i < listeners.length; i++) {
+      var listener = listeners[i];
+      listener();
+    }
+
+    return action;
+  }
+  /**
+   * Replaces the reducer currently used by the store to calculate the state.
+   *
+   * You might need this if your app implements code splitting and you want to
+   * load some of the reducers dynamically. You might also need this if you
+   * implement a hot reloading mechanism for Redux.
+   *
+   * @param {Function} nextReducer The reducer for the store to use instead.
+   * @returns {void}
+   */
+
+
+  function replaceReducer(nextReducer) {
+    if (typeof nextReducer !== 'function') {
+      throw new Error('Expected the nextReducer to be a function.');
+    }
+
+    currentReducer = nextReducer; // This action has a similiar effect to ActionTypes.INIT.
+    // Any reducers that existed in both the new and old rootReducer
+    // will receive the previous state. This effectively populates
+    // the new state tree with any relevant data from the old one.
+
+    dispatch({
+      type: ActionTypes.REPLACE
+    });
+  }
+  /**
+   * Interoperability point for observable/reactive libraries.
+   * @returns {observable} A minimal observable of state changes.
+   * For more information, see the observable proposal:
+   * https://github.com/tc39/proposal-observable
+   */
+
+
+  function observable() {
+    var _ref;
+
+    var outerSubscribe = subscribe;
+    return _ref = {
+      /**
+       * The minimal observable subscription method.
+       * @param {Object} observer Any object that can be used as an observer.
+       * The observer object should have a `next` method.
+       * @returns {subscription} An object with an `unsubscribe` method that can
+       * be used to unsubscribe the observable from the store, and prevent further
+       * emission of values from the observable.
+       */
+      subscribe: function subscribe(observer) {
+        if (typeof observer !== 'object' || observer === null) {
+          throw new TypeError('Expected the observer to be an object.');
+        }
+
+        function observeState() {
+          if (observer.next) {
+            observer.next(getState());
+          }
+        }
+
+        observeState();
+        var unsubscribe = outerSubscribe(observeState);
+        return {
+          unsubscribe: unsubscribe
+        };
+      }
+    }, _ref[symbol_observable__WEBPACK_IMPORTED_MODULE_0__["default"]] = function () {
+      return this;
+    }, _ref;
+  } // When a store is created, an "INIT" action is dispatched so that every
+  // reducer returns their initial state. This effectively populates
+  // the initial state tree.
+
+
+  dispatch({
+    type: ActionTypes.INIT
+  });
+  return _ref2 = {
+    dispatch: dispatch,
+    subscribe: subscribe,
+    getState: getState,
+    replaceReducer: replaceReducer
+  }, _ref2[symbol_observable__WEBPACK_IMPORTED_MODULE_0__["default"]] = observable, _ref2;
+}
+
+/**
+ * Prints a warning in the console if it exists.
+ *
+ * @param {String} message The warning message.
+ * @returns {void}
+ */
+function warning(message) {
+  /* eslint-disable no-console */
+  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+    console.error(message);
+  }
+  /* eslint-enable no-console */
+
+
+  try {
+    // This error was thrown as a convenience so that if you enable
+    // "break on all exceptions" in your console,
+    // it would pause the execution at this line.
+    throw new Error(message);
+  } catch (e) {} // eslint-disable-line no-empty
+
+}
+
+function getUndefinedStateErrorMessage(key, action) {
+  var actionType = action && action.type;
+  var actionDescription = actionType && "action \"" + String(actionType) + "\"" || 'an action';
+  return "Given " + actionDescription + ", reducer \"" + key + "\" returned undefined. " + "To ignore an action, you must explicitly return the previous state. " + "If you want this reducer to hold no value, you can return null instead of undefined.";
+}
+
+function getUnexpectedStateShapeWarningMessage(inputState, reducers, action, unexpectedKeyCache) {
+  var reducerKeys = Object.keys(reducers);
+  var argumentName = action && action.type === ActionTypes.INIT ? 'preloadedState argument passed to createStore' : 'previous state received by the reducer';
+
+  if (reducerKeys.length === 0) {
+    return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
+  }
+
+  if (!isPlainObject(inputState)) {
+    return "The " + argumentName + " has unexpected type of \"" + {}.toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + "\". Expected argument to be an object with the following " + ("keys: \"" + reducerKeys.join('", "') + "\"");
+  }
+
+  var unexpectedKeys = Object.keys(inputState).filter(function (key) {
+    return !reducers.hasOwnProperty(key) && !unexpectedKeyCache[key];
+  });
+  unexpectedKeys.forEach(function (key) {
+    unexpectedKeyCache[key] = true;
+  });
+  if (action && action.type === ActionTypes.REPLACE) return;
+
+  if (unexpectedKeys.length > 0) {
+    return "Unexpected " + (unexpectedKeys.length > 1 ? 'keys' : 'key') + " " + ("\"" + unexpectedKeys.join('", "') + "\" found in " + argumentName + ". ") + "Expected to find one of the known reducer keys instead: " + ("\"" + reducerKeys.join('", "') + "\". Unexpected keys will be ignored.");
+  }
+}
+
+function assertReducerShape(reducers) {
+  Object.keys(reducers).forEach(function (key) {
+    var reducer = reducers[key];
+    var initialState = reducer(undefined, {
+      type: ActionTypes.INIT
+    });
+
+    if (typeof initialState === 'undefined') {
+      throw new Error("Reducer \"" + key + "\" returned undefined during initialization. " + "If the state passed to the reducer is undefined, you must " + "explicitly return the initial state. The initial state may " + "not be undefined. If you don't want to set a value for this reducer, " + "you can use null instead of undefined.");
+    }
+
+    if (typeof reducer(undefined, {
+      type: ActionTypes.PROBE_UNKNOWN_ACTION()
+    }) === 'undefined') {
+      throw new Error("Reducer \"" + key + "\" returned undefined when probed with a random type. " + ("Don't try to handle " + ActionTypes.INIT + " or other actions in \"redux/*\" ") + "namespace. They are considered private. Instead, you must return the " + "current state for any unknown actions, unless it is undefined, " + "in which case you must return the initial state, regardless of the " + "action type. The initial state may not be undefined, but can be null.");
+    }
+  });
+}
+/**
+ * Turns an object whose values are different reducer functions, into a single
+ * reducer function. It will call every child reducer, and gather their results
+ * into a single state object, whose keys correspond to the keys of the passed
+ * reducer functions.
+ *
+ * @param {Object} reducers An object whose values correspond to different
+ * reducer functions that need to be combined into one. One handy way to obtain
+ * it is to use ES6 `import * as reducers` syntax. The reducers may never return
+ * undefined for any action. Instead, they should return their initial state
+ * if the state passed to them was undefined, and the current state for any
+ * unrecognized action.
+ *
+ * @returns {Function} A reducer function that invokes every reducer inside the
+ * passed object, and builds a state object with the same shape.
+ */
+
+
+function combineReducers(reducers) {
+  var reducerKeys = Object.keys(reducers);
+  var finalReducers = {};
+
+  for (var i = 0; i < reducerKeys.length; i++) {
+    var key = reducerKeys[i];
+
+    if (true) {
+      if (typeof reducers[key] === 'undefined') {
+        warning("No reducer provided for key \"" + key + "\"");
+      }
+    }
+
+    if (typeof reducers[key] === 'function') {
+      finalReducers[key] = reducers[key];
+    }
+  }
+
+  var finalReducerKeys = Object.keys(finalReducers); // This is used to make sure we don't warn about the same
+  // keys multiple times.
+
+  var unexpectedKeyCache;
+
+  if (true) {
+    unexpectedKeyCache = {};
+  }
+
+  var shapeAssertionError;
+
+  try {
+    assertReducerShape(finalReducers);
+  } catch (e) {
+    shapeAssertionError = e;
+  }
+
+  return function combination(state, action) {
+    if (state === void 0) {
+      state = {};
+    }
+
+    if (shapeAssertionError) {
+      throw shapeAssertionError;
+    }
+
+    if (true) {
+      var warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action, unexpectedKeyCache);
+
+      if (warningMessage) {
+        warning(warningMessage);
+      }
+    }
+
+    var hasChanged = false;
+    var nextState = {};
+
+    for (var _i = 0; _i < finalReducerKeys.length; _i++) {
+      var _key = finalReducerKeys[_i];
+      var reducer = finalReducers[_key];
+      var previousStateForKey = state[_key];
+      var nextStateForKey = reducer(previousStateForKey, action);
+
+      if (typeof nextStateForKey === 'undefined') {
+        var errorMessage = getUndefinedStateErrorMessage(_key, action);
+        throw new Error(errorMessage);
+      }
+
+      nextState[_key] = nextStateForKey;
+      hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
+    }
+
+    hasChanged = hasChanged || finalReducerKeys.length !== Object.keys(state).length;
+    return hasChanged ? nextState : state;
+  };
+}
+
+function bindActionCreator(actionCreator, dispatch) {
+  return function () {
+    return dispatch(actionCreator.apply(this, arguments));
+  };
+}
+/**
+ * Turns an object whose values are action creators, into an object with the
+ * same keys, but with every function wrapped into a `dispatch` call so they
+ * may be invoked directly. This is just a convenience method, as you can call
+ * `store.dispatch(MyActionCreators.doSomething())` yourself just fine.
+ *
+ * For convenience, you can also pass an action creator as the first argument,
+ * and get a dispatch wrapped function in return.
+ *
+ * @param {Function|Object} actionCreators An object whose values are action
+ * creator functions. One handy way to obtain it is to use ES6 `import * as`
+ * syntax. You may also pass a single function.
+ *
+ * @param {Function} dispatch The `dispatch` function available on your Redux
+ * store.
+ *
+ * @returns {Function|Object} The object mimicking the original object, but with
+ * every action creator wrapped into the `dispatch` call. If you passed a
+ * function as `actionCreators`, the return value will also be a single
+ * function.
+ */
+
+
+function bindActionCreators(actionCreators, dispatch) {
+  if (typeof actionCreators === 'function') {
+    return bindActionCreator(actionCreators, dispatch);
+  }
+
+  if (typeof actionCreators !== 'object' || actionCreators === null) {
+    throw new Error("bindActionCreators expected an object or a function, instead received " + (actionCreators === null ? 'null' : typeof actionCreators) + ". " + "Did you write \"import ActionCreators from\" instead of \"import * as ActionCreators from\"?");
+  }
+
+  var boundActionCreators = {};
+
+  for (var key in actionCreators) {
+    var actionCreator = actionCreators[key];
+
+    if (typeof actionCreator === 'function') {
+      boundActionCreators[key] = bindActionCreator(actionCreator, dispatch);
+    }
+  }
+
+  return boundActionCreators;
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    keys.push.apply(keys, Object.getOwnPropertySymbols(object));
+  }
+
+  if (enumerableOnly) keys = keys.filter(function (sym) {
+    return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+  });
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(source, true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(source).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+/**
+ * Composes single-argument functions from right to left. The rightmost
+ * function can take multiple arguments as it provides the signature for
+ * the resulting composite function.
+ *
+ * @param {...Function} funcs The functions to compose.
+ * @returns {Function} A function obtained by composing the argument functions
+ * from right to left. For example, compose(f, g, h) is identical to doing
+ * (...args) => f(g(h(...args))).
+ */
+function compose() {
+  for (var _len = arguments.length, funcs = new Array(_len), _key = 0; _key < _len; _key++) {
+    funcs[_key] = arguments[_key];
+  }
+
+  if (funcs.length === 0) {
+    return function (arg) {
+      return arg;
+    };
+  }
+
+  if (funcs.length === 1) {
+    return funcs[0];
+  }
+
+  return funcs.reduce(function (a, b) {
+    return function () {
+      return a(b.apply(void 0, arguments));
+    };
+  });
+}
+
+/**
+ * Creates a store enhancer that applies middleware to the dispatch method
+ * of the Redux store. This is handy for a variety of tasks, such as expressing
+ * asynchronous actions in a concise manner, or logging every action payload.
+ *
+ * See `redux-thunk` package as an example of the Redux middleware.
+ *
+ * Because middleware is potentially asynchronous, this should be the first
+ * store enhancer in the composition chain.
+ *
+ * Note that each middleware will be given the `dispatch` and `getState` functions
+ * as named arguments.
+ *
+ * @param {...Function} middlewares The middleware chain to be applied.
+ * @returns {Function} A store enhancer applying the middleware.
+ */
+
+function applyMiddleware() {
+  for (var _len = arguments.length, middlewares = new Array(_len), _key = 0; _key < _len; _key++) {
+    middlewares[_key] = arguments[_key];
+  }
+
+  return function (createStore) {
+    return function () {
+      var store = createStore.apply(void 0, arguments);
+
+      var _dispatch = function dispatch() {
+        throw new Error('Dispatching while constructing your middleware is not allowed. ' + 'Other middleware would not be applied to this dispatch.');
+      };
+
+      var middlewareAPI = {
+        getState: store.getState,
+        dispatch: function dispatch() {
+          return _dispatch.apply(void 0, arguments);
+        }
+      };
+      var chain = middlewares.map(function (middleware) {
+        return middleware(middlewareAPI);
+      });
+      _dispatch = compose.apply(void 0, chain)(store.dispatch);
+      return _objectSpread2({}, store, {
+        dispatch: _dispatch
+      });
+    };
+  };
+}
+
+/*
+ * This is a dummy function to check if the function name has been altered by minification.
+ * If the function has been minified and NODE_ENV !== 'production', warn the user.
+ */
+
+function isCrushed() {}
+
+if ( true && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
+  warning('You are currently using minified code outside of NODE_ENV === "production". ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or setting mode to production in webpack (https://webpack.js.org/concepts/mode/) ' + 'to ensure you have the correct code for your production build.');
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/reselect/es/index.js":
+/*!*******************************************!*\
+  !*** ./node_modules/reselect/es/index.js ***!
+  \*******************************************/
+/*! exports provided: defaultMemoize, createSelectorCreator, createSelector, createStructuredSelector */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultMemoize", function() { return defaultMemoize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSelectorCreator", function() { return createSelectorCreator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSelector", function() { return createSelector; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStructuredSelector", function() { return createStructuredSelector; });
+function defaultEqualityCheck(a, b) {
+  return a === b;
+}
+
+function areArgumentsShallowlyEqual(equalityCheck, prev, next) {
+  if (prev === null || next === null || prev.length !== next.length) {
+    return false;
+  }
+
+  // Do this in a for loop (and not a `forEach` or an `every`) so we can determine equality as fast as possible.
+  var length = prev.length;
+  for (var i = 0; i < length; i++) {
+    if (!equalityCheck(prev[i], next[i])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function defaultMemoize(func) {
+  var equalityCheck = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : defaultEqualityCheck;
+
+  var lastArgs = null;
+  var lastResult = null;
+  // we reference arguments instead of spreading them for performance reasons
+  return function () {
+    if (!areArgumentsShallowlyEqual(equalityCheck, lastArgs, arguments)) {
+      // apply arguments instead of spreading for performance.
+      lastResult = func.apply(null, arguments);
+    }
+
+    lastArgs = arguments;
+    return lastResult;
+  };
+}
+
+function getDependencies(funcs) {
+  var dependencies = Array.isArray(funcs[0]) ? funcs[0] : funcs;
+
+  if (!dependencies.every(function (dep) {
+    return typeof dep === 'function';
+  })) {
+    var dependencyTypes = dependencies.map(function (dep) {
+      return typeof dep;
+    }).join(', ');
+    throw new Error('Selector creators expect all input-selectors to be functions, ' + ('instead received the following types: [' + dependencyTypes + ']'));
+  }
+
+  return dependencies;
+}
+
+function createSelectorCreator(memoize) {
+  for (var _len = arguments.length, memoizeOptions = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    memoizeOptions[_key - 1] = arguments[_key];
+  }
+
+  return function () {
+    for (var _len2 = arguments.length, funcs = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      funcs[_key2] = arguments[_key2];
+    }
+
+    var recomputations = 0;
+    var resultFunc = funcs.pop();
+    var dependencies = getDependencies(funcs);
+
+    var memoizedResultFunc = memoize.apply(undefined, [function () {
+      recomputations++;
+      // apply arguments instead of spreading for performance.
+      return resultFunc.apply(null, arguments);
+    }].concat(memoizeOptions));
+
+    // If a selector is called with the exact same arguments we don't need to traverse our dependencies again.
+    var selector = memoize(function () {
+      var params = [];
+      var length = dependencies.length;
+
+      for (var i = 0; i < length; i++) {
+        // apply arguments instead of spreading and mutate a local list of params for performance.
+        params.push(dependencies[i].apply(null, arguments));
+      }
+
+      // apply arguments instead of spreading for performance.
+      return memoizedResultFunc.apply(null, params);
+    });
+
+    selector.resultFunc = resultFunc;
+    selector.dependencies = dependencies;
+    selector.recomputations = function () {
+      return recomputations;
+    };
+    selector.resetRecomputations = function () {
+      return recomputations = 0;
+    };
+    return selector;
+  };
+}
+
+var createSelector = createSelectorCreator(defaultMemoize);
+
+function createStructuredSelector(selectors) {
+  var selectorCreator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : createSelector;
+
+  if (typeof selectors !== 'object') {
+    throw new Error('createStructuredSelector expects first argument to be an object ' + ('where each property is a selector, instead received a ' + typeof selectors));
+  }
+  var objectKeys = Object.keys(selectors);
+  return selectorCreator(objectKeys.map(function (key) {
+    return selectors[key];
+  }), function () {
+    for (var _len3 = arguments.length, values = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      values[_key3] = arguments[_key3];
+    }
+
+    return values.reduce(function (composition, value, index) {
+      composition[objectKeys[index]] = value;
+      return composition;
+    }, {});
+  });
+}
+
+/***/ }),
+
+/***/ "./node_modules/symbol-observable/es/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/symbol-observable/es/index.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ponyfill.js */ "./node_modules/symbol-observable/es/ponyfill.js");
+/* global window */
+
+
+var root;
+
+if (typeof self !== 'undefined') {
+  root = self;
+} else if (typeof window !== 'undefined') {
+  root = window;
+} else if (typeof global !== 'undefined') {
+  root = global;
+} else if (true) {
+  root = module;
+} else {}
+
+var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__["default"])(root);
+/* harmony default export */ __webpack_exports__["default"] = (result);
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+
+/***/ }),
+
+/***/ "./node_modules/symbol-observable/es/ponyfill.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/symbol-observable/es/ponyfill.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return symbolObservablePonyfill; });
+function symbolObservablePonyfill(root) {
+	var result;
+	var Symbol = root.Symbol;
+
+	if (typeof Symbol === 'function') {
+		if (Symbol.observable) {
+			result = Symbol.observable;
+		} else {
+			result = Symbol('observable');
+			Symbol.observable = result;
+		}
+	} else {
+		result = '@@observable';
+	}
+
+	return result;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/webpack/buildin/harmony-module.js":
+/*!*******************************************!*\
+  !*** (webpack)/buildin/harmony-module.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(originalModule) {
+	if (!originalModule.webpackPolyfill) {
+		var module = Object.create(originalModule);
+		// module.parent = undefined by default
+		if (!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		Object.defineProperty(module, "exports", {
+			enumerable: true
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/ws/index.js":
 /*!**********************************!*\
   !*** ./node_modules/ws/index.js ***!
@@ -5186,60 +6103,9 @@ function socketOnError() {
 
 /***/ }),
 
-/***/ "./src/electron-server/server-handlers.js":
-/*!************************************************!*\
-  !*** ./src/electron-server/server-handlers.js ***!
-  \************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// import getMaterializedMap from "./raycast/getMaterializedMap.ts";
-// import updatePositionsAndGetRaysAndMakeVisibleMap from "./raycast/updatePositionsAndGetRaysAndMakeVisibleMap.ts"
-// import ship0 from "../lib/ship0.ts"
-// import {screenWidth, emptyStrip, stripWidth} from "../lib/raycast/constantsAndTypes.ts"
-
-
-// handlers['materializeMap'] = async (drones) => {
-//   // console.log('materializeMap ->')
-//   const start = Date.now()
-//   const shipMap = ship0.makeMap();
-//   const materializedMap = getMaterializedMap(drones, shipMap )
-//   const {visibleDrones, visibleMap}  = updatePositionsAndGetRaysAndMakeVisibleMap(drones, materializedMap)
-//   console.log('<- materializeMap', Date.now() - start)
-//
-//   return {
-//     visibleMap,
-//     drones: visibleDrones
-//   }
-// }
-
-/* harmony default export */ __webpack_exports__["default"] = (ping => {
-
-  let handlers = {};
-
-  handlers._history = [];
-
-  handlers['ping'] = async () => {
-    console.log('pinged');
-    return 'pong';
-  };
-
-  handlers['ping2'] = async () => {
-    console.log('pinged2');
-    ping();
-    return 'pong2';
-  };
-
-  return handlers;
-});
-
-/***/ }),
-
-/***/ "./src/electron-server/server-ipc.js":
+/***/ "./src/electron-server/ipcFactory.js":
 /*!*******************************************!*\
-  !*** ./src/electron-server/server-ipc.js ***!
+  !*** ./src/electron-server/ipcFactory.js ***!
   \*******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -5250,42 +6116,345 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var node_ipc__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(node_ipc__WEBPACK_IMPORTED_MODULE_0__);
 
 
-function init(socketName, handlers) {
-  console.log("ipc init");
-  node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.config.id = socketName;
-  node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.config.silent = true;
+/* harmony default export */ __webpack_exports__["default"] = ((store) => {
 
-  node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.serve(() => {
-    node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.on('message', (data, socket) => {
-      console.log("message", data);
-      let msg = JSON.parse(data);
-      let { id, name, args } = msg;
+  function init(socketName, handlers, selector) {
+    console.log("ipc init")
+    node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.config.id = socketName
+    node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.config.silent = true
 
-      if (handlers[name]) {
-        handlers[name](args).then(result => {
-          node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(socket, 'message', JSON.stringify({ type: 'reply', id, result }));
-        }, error => {
-          // Up to you how to handle errors, if you want to forward
-          // them, etc
-          node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(socket, 'message', JSON.stringify({ type: 'error', id }));
-          throw error;
-        });
-      } else {
-        console.warn('Unknown method: ' + name);
-        node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(socket, 'message', JSON.stringify({ type: 'reply', id, result: null }));
-      }
-    });
-  });
+    node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.serve(() => {
+      node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.on('message', (data, socket) => {
+        console.log("message", data)
 
-  node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.start();
-}
+        selector(store.getState())
 
-function send(name, args) {
-  console.log("ipc send");
-  node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.broadcast('message', JSON.stringify({ type: 'push', name, args }));
-}
+        let msg = JSON.parse(data)
+        let {
+          id,
+          name,
+          args
+        } = msg
 
-/* harmony default export */ __webpack_exports__["default"] = ({ init, send });
+        if (handlers[name]) {
+          handlers[name](args).then(
+            result => {
+              node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(
+                socket,
+                'message',
+                JSON.stringify({
+                  type: 'reply',
+                  id,
+                  result
+                })
+              )
+            },
+            error => {
+              // Up to you how to handle errors, if you want to forward
+              // them, etc
+              node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(
+                socket,
+                'message',
+                JSON.stringify({
+                  type: 'error',
+                  id
+                })
+              )
+              throw error
+            }
+          )
+        } else {
+          console.warn('Unknown method: ' + name)
+          node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(
+            socket,
+            'message',
+            JSON.stringify({
+              type: 'reply',
+              id,
+              result: null
+            })
+          )
+        }
+      })
+    })
+
+    node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.start()
+  }
+
+  function send(name, args) {
+    console.log("ipc send", name, args)
+    node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.broadcast('message', JSON.stringify({
+      type: 'push',
+      name,
+      args
+    }))
+  }
+
+  return {
+    init,
+    send
+  }
+});
+
+
+/***/ }),
+
+/***/ "./src/electron-server/redux/initialState.ts":
+/*!***************************************************!*\
+  !*** ./src/electron-server/redux/initialState.ts ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = {
+    shipMap: {},
+    drones: {},
+    terminalLines: [
+        "booting spaceTrash session terminal",
+    ],
+};
+
+
+/***/ }),
+
+/***/ "./src/electron-server/redux/reducers.ts":
+/*!***********************************************!*\
+  !*** ./src/electron-server/redux/reducers.ts ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+;
+const initialState_ts_1 = __webpack_require__(/*! ./initialState.ts */ "./src/electron-server/redux/initialState.ts");
+exports.default = (state = initialState_ts_1.default, action) => {
+    switch (action.type) {
+        case "RECEIVE_UPDATE": {
+            console.log("RECEIVE_UPDATE", action.payload);
+            return {
+                ...state,
+                ...action.payload
+            };
+        }
+        default:
+            console.log("IDK".action);
+            return state;
+    }
+    return state;
+};
+
+
+/***/ }),
+
+/***/ "./src/electron-server/redux/selectors.js":
+/*!************************************************!*\
+  !*** ./src/electron-server/redux/selectors.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
+
+
+/* harmony default export */ __webpack_exports__["default"] = ((ipcSocket, webSocket) =>{
+  return ((state) => {
+      ipcSocket.send("update", state)
+      return state
+    })
+
+});
+//
+// const baseSelector = (state => state)
+//
+// export const getTabChatProps = createSelector([baseSelector], state => {
+//   return {
+//     chatLog: []
+//   }
+// })
+//
+// export const getTabLogProps = createSelector([baseSelector], state => {
+//
+//   return {
+//     terminalLines: state.terminalLines
+//   }
+// })
+//
+// export const getTabBotsProps = createSelector([baseSelector], base => {
+//   return {
+//     drones: base.drones,
+//     dispatcher: (type, payload) => store.dispatch({
+//       type,
+//       payload
+//     })
+//   }
+// })
+//
+// export const getTabEditProps = createSelector([baseSelector], base => {
+//
+//
+//   return {
+//     userFiles: base.userFiles,
+//
+//     openFileContents: base.openFileContents,
+//
+//     openFile: (file) => {
+//       store.dispatch({
+//         type: 'SET_OPEN_FILE',
+//         payload: file.fileText
+//       })
+//     },
+//
+//     onUploadFolder: (e) => {
+//       const files = e.target.files;
+//
+//       const promises = Object.keys(files).map((ndx) => {
+//         return files[ndx].text().then((fileText) => {
+//           return {
+//             name: files[ndx].name,
+//             fileText
+//           }
+//         })
+//       })
+//
+//       Promise.all(promises).then((f) => {
+//         store.dispatch({
+//           type: 'UPLOAD_FOLDER',
+//           payload: f
+//         })
+//       })
+//
+//     }
+//   }
+// })
+//
+// export const getTabExecProps = createSelector([baseSelector], base => {
+//   return {
+//     ...base,
+//     onUploadFile: (e) => {
+//       e.target.files[0].text().then((t) => {
+//
+//         try {
+//           const evaluated = eval(t)
+//           console.log(evaluated)
+//           store.dispatch(
+//           {
+//             type: "LOAD_FILE", payload: new evaluated(
+//               (commands) => {
+//                 debugger
+//                 commands.forEach((command) => {
+//                   store.dispatch({
+//                     type: "QUEUE_COMMAND",
+//                     payload: command
+//                   })
+//                 })
+//               }
+//             )
+//           }
+//         )
+//         }catch(e){
+//           console.log(e)
+//         }
+//
+//       })
+//     },
+//     dispatcher: (instruction, droneId) => store.dispatch({
+//       type: "QUEUE_COMMAND",
+//       payload: {
+//         drone: droneId,
+//         instruction
+//       }
+//     }),
+//     userBot: base.userBot
+//   }
+// })
+//
+// export const getTabShipProps = createSelector([baseSelector], base => {
+//   return {
+//     shipMap: base.shipMap
+//   }
+// })
+//
+// export const getTabViewProps = createSelector([baseSelector], base => {
+//   return {
+//     shipMap: base.shipMap
+//   }
+// })
+
+
+/***/ }),
+
+/***/ "./src/electron-server/redux/store.js":
+/*!********************************************!*\
+  !*** ./src/electron-server/redux/store.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _reducers_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducers.ts */ "./src/electron-server/redux/reducers.ts");
+/* harmony import */ var _reducers_ts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_reducers_ts__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./initialState.ts */ "./src/electron-server/redux/initialState.ts");
+/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_initialState_ts__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_ts__WEBPACK_IMPORTED_MODULE_1___default.a, _initialState_ts__WEBPACK_IMPORTED_MODULE_2___default.a));
+
+
+/***/ }),
+
+/***/ "./src/electron-server/server-handlers.js":
+/*!************************************************!*\
+  !*** ./src/electron-server/server-handlers.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ((ipcSocket, webSocket) => {
+
+  let handlers = {}
+
+  handlers._history = []
+
+  handlers['ping'] = async () => {
+    console.log('pinged')
+    return 'pong'
+  }
+
+  handlers['ping2'] = async () => {
+    console.log('pinged2')
+    webSocket.ping()
+    return 'pong2'
+  }
+
+  handlers['load'] = async () => {
+    return webSocket.load()
+  }
+
+  handlers['idk'] = async () => {
+    return 'idk'
+  }
+
+  handlers['enqueue'] = async (commands) => {
+    return webSocket.enqueue(commands)
+  }
+
+  return handlers;
+});
+
 
 /***/ }),
 
@@ -5298,21 +6467,28 @@ function send(name, args) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _server_handlers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./server-handlers */ "./src/electron-server/server-handlers.js");
-/* harmony import */ var _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./websocketFactory.ts */ "./src/electron-server/websocketFactory.ts");
-/* harmony import */ var _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_websocketFactory_ts__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _server_ipc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./server-ipc */ "./src/electron-server/server-ipc.js");
+/* harmony import */ var _ipcFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ipcFactory */ "./src/electron-server/ipcFactory.js");
+/* harmony import */ var _redux_selectors_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./redux/selectors.js */ "./src/electron-server/redux/selectors.js");
+/* harmony import */ var _server_handlers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./server-handlers */ "./src/electron-server/server-handlers.js");
+/* harmony import */ var _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./websocketFactory.ts */ "./src/electron-server/websocketFactory.ts");
+/* harmony import */ var _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_websocketFactory_ts__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _redux_store_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./redux/store.js */ "./src/electron-server/redux/store.js");
 
 
 
-const { socketServer, ping } = _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_1___default()();
-const serverHandlers = Object(_server_handlers__WEBPACK_IMPORTED_MODULE_0__["default"])(ping);
 
 
 
-let socketName = "spacetrash";
-console.log('spaceTrash server.js on socket: ', socketName);
-_server_ipc__WEBPACK_IMPORTED_MODULE_2__["default"].init(socketName, serverHandlers);
+
+const websocket = _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_3___default()(_redux_store_js__WEBPACK_IMPORTED_MODULE_4__["default"])
+const ipc = Object(_ipcFactory__WEBPACK_IMPORTED_MODULE_0__["default"])(_redux_store_js__WEBPACK_IMPORTED_MODULE_4__["default"])
+
+const serverHandlers = Object(_server_handlers__WEBPACK_IMPORTED_MODULE_2__["default"])(ipc, websocket);
+const selectors = Object(_redux_selectors_js__WEBPACK_IMPORTED_MODULE_1__["default"])(ipc, websocket)
+
+ipc.init("spacetrash", serverHandlers, selectors)
+websocket.init(selectors)
+
 
 /***/ }),
 
@@ -5328,20 +6504,55 @@ _server_ipc__WEBPACK_IMPORTED_MODULE_2__["default"].init(socketName, serverHandl
 Object.defineProperty(exports, "__esModule", { value: true });
 const http = __webpack_require__(/*! http */ "http");
 const WebSocket = __webpack_require__(/*! ws */ "./node_modules/ws/index.js");
-exports.default = () => {
+exports.default = (store) => {
     var ws = new WebSocket('ws://localhost:5000');
     ws.onerror = function (e) { console.log(`onerror: ${JSON.stringify(e)}`); };
     ws.onclose = function (e) { console.log(`onclose: ${JSON.stringify(e)}`); };
     ws.onopen = function (e) {
-        console.log(`onopen: ${JSON.stringify(e)}`);
-    };
-    ws.onmessage = function (e) {
-        const data = JSON.parse(e.data);
-        console.log(`onmessage`, data);
+        // console.log(`onopen: ${JSON.stringify(e)}`)
     };
     return {
+        init: (selector) => {
+            ws.onmessage = function (e) {
+                const data = JSON.parse(e.data);
+                console.log(`onmessage`, data);
+                if (data.msg === "user joined") {
+                    // store.dispatch({ type: "NEW_COMMAND", payload: "connection established" })
+                }
+                else {
+                    console.log(store.getState());
+                    store.dispatch({ type: "RECEIVE_UPDATE", payload: data.msg });
+                    // selector(store.getState())
+                    // console.log(selector(store.getState()))
+                    console.log(store.getState());
+                    selector(store.getState());
+                }
+                // console.log(store.getState())
+                //
+            };
+        },
         ping: () => {
             return ws.send(JSON.stringify({ msg: "ping" }));
+        },
+        load: () => {
+            ws.send(JSON.stringify({ join: "session-5f48a56a6f5e6f4ecb568e5a" }));
+            ws.send(JSON.stringify({ join: "session-5f48a56a6f5e6f4ecb568e5a-user-5f48a50a6f5e6f4ecb568e56" }));
+            return ws.send(JSON.stringify({
+                msg: { load: true },
+                room: "session-5f48a56a6f5e6f4ecb568e5a-user-5f48a50a6f5e6f4ecb568e56"
+            }));
+        },
+        enqueue: (commands) => {
+            return ws.send(JSON.stringify({
+                msg: { enqueue: commands },
+                room: "session-5f48a56a6f5e6f4ecb568e5a-user-5f48a50a6f5e6f4ecb568e56"
+            }));
+        },
+        send: (message) => {
+            ws.send(JSON.stringify({
+                msg: message,
+                room: "session-5f48a56a6f5e6f4ecb568e5a-user-5f48a50a6f5e6f4ecb568e56"
+            }));
         },
         websocket: ws
     };

@@ -1,25 +1,4 @@
-// import getMaterializedMap from "./raycast/getMaterializedMap.ts";
-// import updatePositionsAndGetRaysAndMakeVisibleMap from "./raycast/updatePositionsAndGetRaysAndMakeVisibleMap.ts"
-// import ship0 from "../lib/ship0.ts"
-// import {screenWidth, emptyStrip, stripWidth} from "../lib/raycast/constantsAndTypes.ts"
-
-
-
-// handlers['materializeMap'] = async (drones) => {
-//   // console.log('materializeMap ->')
-//   const start = Date.now()
-//   const shipMap = ship0.makeMap();
-//   const materializedMap = getMaterializedMap(drones, shipMap )
-//   const {visibleDrones, visibleMap}  = updatePositionsAndGetRaysAndMakeVisibleMap(drones, materializedMap)
-//   console.log('<- materializeMap', Date.now() - start)
-//
-//   return {
-//     visibleMap,
-//     drones: visibleDrones
-//   }
-// }
-
-export default (ping) => {
+export default (ipcSocket, webSocket) => {
 
   let handlers = {}
 
@@ -32,8 +11,20 @@ export default (ping) => {
 
   handlers['ping2'] = async () => {
     console.log('pinged2')
-    ping()
+    webSocket.ping()
     return 'pong2'
+  }
+
+  handlers['load'] = async () => {
+    return webSocket.load()
+  }
+
+  handlers['idk'] = async () => {
+    return 'idk'
+  }
+
+  handlers['enqueue'] = async (commands) => {
+    return webSocket.enqueue(commands)
   }
 
   return handlers;

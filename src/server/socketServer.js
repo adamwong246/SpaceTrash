@@ -22,6 +22,7 @@ module.exports = {
       ws.send(JSON.stringify({
         msg: "user joined"
       }));
+
       console.log('connected');
 
       ws.room = [];
@@ -79,6 +80,7 @@ module.exports = {
                     }
                   )
                 } else if (messag.msg.enqueue) {
+                  console.log("ENQUEU MESSAGE RECEIVED")
                   const sessionId = roomsAddress[1]
                   enqueuer(messag.msg.enqueue, sessionId)
                 }

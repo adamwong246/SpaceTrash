@@ -36,7 +36,7 @@ module.exports = (socketServer, broadcaster) => {
     if (diff  > timeMax){
       timeMax = diff
     }
-    // console.log("tick", timeMax, "\t", diff  )
+    console.log("tick", timeMax, "\t", diff  )
     timeflag = now
 
 
@@ -93,7 +93,7 @@ module.exports = (socketServer, broadcaster) => {
     },
 
     enqueuer: (commands, sessionId) => {
-      store.dispatch({ type: "ENQUEUE_INSTRUCTION", payload: {commands: commands.command, sessionId} })
+      store.dispatch({ type: "ENQUEUE_INSTRUCTION", payload: {commands, sessionId} })
       runAllSubscriptions()
     },
 

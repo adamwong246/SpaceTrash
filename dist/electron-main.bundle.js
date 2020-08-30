@@ -134,9 +134,9 @@ __webpack_require__.r(__webpack_exports__);
 // import findOpenSocket from './find-open-socket';
 
 
-let clientWin;
-let serverWin;
-let serverProcess;
+let clientWin
+let serverWin
+let serverProcess
 
 function createWindow(socketName) {
 
@@ -148,19 +148,19 @@ function createWindow(socketName) {
       // preload: "./preload.js"
       // preload: path.resolve('./dist', 'preload.js'),
       // preload: "preload.jsasdasd"
-      preload: path__WEBPACK_IMPORTED_MODULE_0___default.a.resolve('dist', 'preload.js')
+      preload: path__WEBPACK_IMPORTED_MODULE_0___default.a.resolve('dist', 'preload.js'),
     },
     title: "SpaceTrash v0.0.8"
-  });
+  })
 
   // clientWin.loadFile('client-index.html')
-  clientWin.loadFile('index.html');
+  clientWin.loadFile('index.html')
 
   clientWin.webContents.on('did-finish-load', () => {
     clientWin.webContents.send('set-socket', {
       name: socketName
-    });
-  });
+    })
+  })
 }
 
 // function createBackgroundWindow(socketName) {
@@ -211,23 +211,24 @@ function createWindow(socketName) {
 electron__WEBPACK_IMPORTED_MODULE_1__["app"].on('ready', async () => {
   const serverSocket = "spacetrash"; //await findOpenSocket()
 
-  createWindow(serverSocket);
+  createWindow(serverSocket)
 
-  console.log("listening on ", serverSocket);
+  console.log("listening on ", serverSocket)
   // createBackgroundProcess(serverSocket)
   // if (isDev) {
   //   createBackgroundWindow(serverSocket)
   // } else {
   //   createBackgroundProcess(serverSocket)
   // }
-});
+})
 
 electron__WEBPACK_IMPORTED_MODULE_1__["app"].on('before-quit', () => {
   if (serverProcess) {
-    serverProcess.kill();
-    serverProcess = null;
+    serverProcess.kill()
+    serverProcess = null
   }
-});
+})
+
 
 /***/ }),
 
