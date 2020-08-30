@@ -1,6 +1,10 @@
 const { fromJS, List, Map } = require('immutable');
-const moveStepSize = 0.25;
+const moveStepSize = 0.2;
 const rotateStepSize = 0.2;
+
+function rounder(value, decimals) {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
 
 module.exports = (drone, command) => {
 
@@ -57,7 +61,6 @@ module.exports = (drone, command) => {
     //   drone.get("y"); = newY
     // }
   }
-
   else if (command === "BACK") {
 
     const roundOldX = Math.round(drone.get("x"))
@@ -89,18 +92,21 @@ module.exports = (drone, command) => {
     //   drone.get("y"); = newY
     // }
   }
-
   else if (command === "LEFT") {
     direction = drone.get("direction") - rotateStepSize
   }
-
   else if (command === "RIGHT") {
     direction = drone.get("direction") + rotateStepSize
   }
-
   else {
     console.log("I don't recognize the command", command)
   }
 
-  return new Map({x, y, direction});
+  console.log(x, y, direction);
+
+  return new Map({
+    x: rounder(x, 2),
+    y: rounder(y, 2),
+    direction: rounder(direction, 2),
+  });
 }
