@@ -7,8 +7,9 @@ import {
   ABSOLLUTE,
   stripWidth,
   screenHeight,
-  screenWidth
-  width
+  screenWidth,
+  width,
+  MMath
 } from "../../../raycastConsts.ts";
 
 const styleV3 = (ray, drone) => {
@@ -25,10 +26,10 @@ const styleV3 = (ray, drone) => {
 
   return {
     position: ABSOLLUTE,
-    zIndex: -((Math.pow((ray.x - playerX), 2) + Math.pow((ray.y - playerY), 2)) * 1000) >> 0,
+    zIndex: -((MMath.pow((ray.x - playerX), 2) + MMath.pow((ray.y - playerY), 2)) * 1000) >> 0,
     height: height,
     width: (width * 2) >> 0,
-    top: Math.round((screenHeight - height) / 2),
+    top: MMath.round((screenHeight - height) / 2),
     left: ray.id * stripWidth - texX,
     clip: "rect( 0px, " + (texX + stripWidth) + "px, " + (height) + "px, " + texX + "px)",
     src: hit ? wall4 : wall3
