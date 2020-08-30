@@ -12061,8 +12061,8 @@ const getRays = (drone, matrix) => {
         // and then moving in 1 map unit steps horizontally. The amount we have to move vertically
         // is determined by the slope of the ray, which is simply defined as sin(angle) / cos(angle).
         var slope = angleSin / angleCos; // the slope of the straight line made by the ray
-        var dXVer = right ? 1 : -1; // we move either 1 map unit to the left or right
-        var dYVer = dXVer * slope; // how much to move up or down
+        const dXVer = right ? 1 : -1; // we move either 1 map unit to the left or right
+        const dYVer = dXVer * slope; // how much to move up or down
         var x = right ? Math.ceil(drone.get("x")) : Math.floor(drone.get("x")); // starting horizontal position, at one of the edges of the current map block
         var y = drone.get("y") + (x - drone.get("x")) * slope; // starting vertical position. We add the small horizontal step we just made, multiplied by the slope.
         while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
@@ -12093,8 +12093,8 @@ const getRays = (drone, matrix) => {
         // we check if there we also found one in the earlier, vertical run. We'll know that if dist != 0.
         // If so, we only register this hit if this distance is smaller.
         var slope = angleCos / angleSin;
-        var dYHor = up ? -1 : 1;
-        var dXHor = dYHor * slope;
+        const dYHor = up ? -1 : 1;
+        const dXHor = dYHor * slope;
         var y = up ? Math.floor(drone.get("y")) : Math.ceil(drone.get("y"));
         var x = drone.get("x") + (y - drone.get("y")) * slope;
         while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
@@ -12102,9 +12102,9 @@ const getRays = (drone, matrix) => {
             const wallX = (x) >> 0;
             // if (materializedMap.get(wallX, wallY).type !== 'floor') {
             if (matrix.get(wallY).get(wallX).get(0) !== 'f') {
-                var distX = x - drone.get("x");
-                var distY = y - drone.get("y");
-                var blockDist = distX * distX + distY * distY;
+                const distX = x - drone.get("x");
+                const distY = y - drone.get("y");
+                const blockDist = distX * distX + distY * distY;
                 if (!dist || blockDist < dist) {
                     dist = blockDist;
                     xHit = x;
@@ -12130,9 +12130,9 @@ const getRays = (drone, matrix) => {
             // now calc the position, height and width of the wall strip
             // "real" wall height in the game world is 1 unit, the distance from the player to the screen is viewDist,
             // thus the height on the screen is equal to wall_height_real * viewDist / dist
-            var height = Math.round(exports.viewDist / correctedDistance);
+            const height = Math.round(exports.viewDist / correctedDistance);
             // width is the same, but we have to stretch the texture to a factor of stripWidth to make it fill the strip correctly
-            var width = height * raycastConsts_ts_1.stripWidth;
+            const width = height * raycastConsts_ts_1.stripWidth;
             var texX = Math.round(textureX * width);
             if (texX > width - raycastConsts_ts_1.stripWidth)
                 texX = width - raycastConsts_ts_1.stripWidth;
