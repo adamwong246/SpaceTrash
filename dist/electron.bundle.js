@@ -29390,8 +29390,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var electron_is_dev__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! electron-is-dev */ "./node_modules/electron-is-dev/index.js");
 /* harmony import */ var electron_is_dev__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(electron_is_dev__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _ipcFactory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ipcFactory */ "./src/electron/ipcFactory.js");
-/* harmony import */ var _redux_selectors_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./redux/selectors.js */ "./src/electron/redux/selectors.js");
-/* harmony import */ var _server_handlers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./server-handlers */ "./src/electron/server-handlers.js");
+/* harmony import */ var _redux_selectorsFactory_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./redux/selectorsFactory.js */ "./src/electron/redux/selectorsFactory.js");
+/* harmony import */ var _ipcsocketHandlers_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ipcsocketHandlers.js */ "./src/electron/ipcsocketHandlers.js");
 /* harmony import */ var _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./websocketFactory.ts */ "./src/electron/websocketFactory.ts");
 /* harmony import */ var _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _redux_store_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./redux/store.js */ "./src/electron/redux/store.js");
@@ -29410,12 +29410,11 @@ __webpack_require__.r(__webpack_exports__);
 const websocket = _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7___default()(_redux_store_js__WEBPACK_IMPORTED_MODULE_8__["default"])
 const ipc = Object(_ipcFactory__WEBPACK_IMPORTED_MODULE_4__["default"])(_redux_store_js__WEBPACK_IMPORTED_MODULE_8__["default"])
 
-const serverHandlers = Object(_server_handlers__WEBPACK_IMPORTED_MODULE_6__["default"])(ipc, websocket);
-const selectors = Object(_redux_selectors_js__WEBPACK_IMPORTED_MODULE_5__["default"])(ipc, websocket)
+const selectors = Object(_redux_selectorsFactory_js__WEBPACK_IMPORTED_MODULE_5__["default"])(ipc, websocket, _redux_store_js__WEBPACK_IMPORTED_MODULE_8__["default"])
+const ipcsocketHandlers = Object(_ipcsocketHandlers_js__WEBPACK_IMPORTED_MODULE_6__["default"])(ipc, websocket, _redux_store_js__WEBPACK_IMPORTED_MODULE_8__["default"], selectors);
 
-ipc.init("spacetrash", serverHandlers, selectors)
+ipc.init(ipcsocketHandlers, selectors)
 websocket.init(selectors)
-
 
 let clientWin
 let serverWin
@@ -29464,7 +29463,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ((store) => {
 
-  function init(socketName, handlers, selector) {
+  function init(handlers, selector) {
+    const socketName = "spaceTrash"
     console.log("ipc init")
     node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.config.id = socketName
     node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.config.silent = true
@@ -29545,6 +29545,66 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/electron/ipcsocketHandlers.js":
+/*!*******************************************!*\
+  !*** ./src/electron/ipcsocketHandlers.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const { dialog } = __webpack_require__(/*! electron */ "electron")
+
+/* harmony default export */ __webpack_exports__["default"] = ((ipcSocket, webSocket, store, selectors) => {
+
+  let handlers = {}
+
+  handlers._history = []
+
+  handlers['ping'] = async () => {
+    console.log('pinged')
+    return 'pong'
+  }
+
+  handlers['ping2'] = async () => {
+    console.log('pinged2')
+    webSocket.ping()
+    return 'pong2'
+  }
+
+  handlers['load'] = async () => {
+    return webSocket.load()
+  }
+
+  handlers['idk'] = async () => {
+    return 'idk'
+  }
+
+  handlers['enqueue'] = async (commands) => {
+    return webSocket.enqueue(commands)
+  }
+
+  handlers['PICK_FOLDER'] = async (commands) => {
+
+    dialog.showOpenDialog({
+      title: "spaceTrash",
+      message: "Pick a source folder",
+      properties: ['openDirectory']
+    }).then((folder) => {
+      store.dispatch({type: "PICK_FOLDER", payload: folder.filePaths[0]})
+      selectors(store.getState())
+    })
+
+
+  }
+
+  return handlers;
+});
+
+
+/***/ }),
+
 /***/ "./src/electron/redux/initialState.ts":
 /*!********************************************!*\
   !*** ./src/electron/redux/initialState.ts ***!
@@ -29558,9 +29618,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
     shipMap: {},
     drones: {},
-    terminalLines: [
-        "booting spaceTrash session terminal",
-    ],
+    sourceFolder: false
 };
 
 
@@ -29596,6 +29654,13 @@ exports.default = (state = initialState_ts_1.default, action) => {
                 shipMap
             };
         }
+        case "PICK_FOLDER": {
+            console.log(action.payload);
+            return {
+                ...state,
+                sourceFolder: action.payload
+            };
+        }
         default:
             console.log("IDK", action);
             return state;
@@ -29606,21 +29671,50 @@ exports.default = (state = initialState_ts_1.default, action) => {
 
 /***/ }),
 
-/***/ "./src/electron/redux/selectors.js":
-/*!*****************************************!*\
-  !*** ./src/electron/redux/selectors.js ***!
-  \*****************************************/
+/***/ "./src/electron/redux/selectorsFactory.js":
+/*!************************************************!*\
+  !*** ./src/electron/redux/selectorsFactory.js ***!
+  \************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fs */ "fs");
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
 
 
-/* harmony default export */ __webpack_exports__["default"] = ((ipcSocket, webSocket) =>{
+
+
+// Map all files in a directory in Node.js recursively in a synchronous fashion
+var getFiles = function(directory) {
+  if(!directory)return {}
+  let out = {};
+
+  fs__WEBPACK_IMPORTED_MODULE_0___default.a.readdirSync(directory).forEach(item => {
+    const itemPath = `${directory}/${item}`;
+
+    if (fs__WEBPACK_IMPORTED_MODULE_0___default.a.statSync(itemPath).isDirectory()) {
+      out[item] = getFiles(itemPath);
+    } else {
+      out[item] = fs__WEBPACK_IMPORTED_MODULE_0___default.a.readFileSync(itemPath, {
+        encoding: 'utf8',
+        flag: 'r'
+      });;
+    }
+  });
+  return out;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = ((ipcSocket, webSocket) => {
   return ((state) => {
-    ipcSocket.send("update", state)
+
+    const stateWithFiles = {
+      ...state,
+      sourceCode: getFiles(state.sourceFolder)
+    }
+    ipcSocket.send("update", stateWithFiles)
     return state
   })
 });
@@ -29648,50 +29742,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_ts__WEBPACK_IMPORTED_MODULE_1___default.a, _initialState_ts__WEBPACK_IMPORTED_MODULE_2___default.a));
-
-
-/***/ }),
-
-/***/ "./src/electron/server-handlers.js":
-/*!*****************************************!*\
-  !*** ./src/electron/server-handlers.js ***!
-  \*****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ((ipcSocket, webSocket) => {
-
-  let handlers = {}
-
-  handlers._history = []
-
-  handlers['ping'] = async () => {
-    console.log('pinged')
-    return 'pong'
-  }
-
-  handlers['ping2'] = async () => {
-    console.log('pinged2')
-    webSocket.ping()
-    return 'pong2'
-  }
-
-  handlers['load'] = async () => {
-    return webSocket.load()
-  }
-
-  handlers['idk'] = async () => {
-    return 'idk'
-  }
-
-  handlers['enqueue'] = async (commands) => {
-    return webSocket.enqueue(commands)
-  }
-
-  return handlers;
-});
 
 
 /***/ }),

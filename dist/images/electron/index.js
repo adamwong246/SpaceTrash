@@ -4,8 +4,8 @@ import {fork} from 'child_process';
 import isDev from 'electron-is-dev';
 
 import ipcFactory from "./ipcFactory";
-import selectorsFactory  from  "./redux/selectors.js";
-import serverHandlersFactory from "./server-handlers";
+import selectorsFactory  from  "./redux/selectorsFactory.js";
+import ipcsocketHandlersFactory from "./ipcsocketHandlers.js";
 import websocketFactory from "./websocketFactory.ts";
 
 import store from "./redux/store.js";
@@ -13,12 +13,11 @@ import store from "./redux/store.js";
 const websocket = websocketFactory(store)
 const ipc = ipcFactory(store)
 
-const serverHandlers = serverHandlersFactory(ipc, websocket);
-const selectors = selectorsFactory(ipc, websocket)
+const selectors = selectorsFactory(ipc, websocket, store)
+const ipcsocketHandlers = ipcsocketHandlersFactory(ipc, websocket, store, selectors);
 
-ipc.init("spacetrash", serverHandlers, selectors)
+ipc.init(ipcsocketHandlers, selectors)
 websocket.init(selectors)
-
 
 let clientWin
 let serverWin

@@ -5,51 +5,66 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { getTabEditProps } from '../redux/selectors.js';
 
+class Folder extends React.Component<{},{}>{
+  render(){
+    console.log(this.props.sourceCode)
+
+    return <ul>
+      {
+        (Object.keys(this.props.sourceCode).map((k, v) => {
+          console.log(typeof this.props.sourceCode[k])
+          return (<li>
+            {
+              typeof this.props.sourceCode[k] === 'string' && <button>{k}</button>
+            }
+            {
+              typeof this.props.sourceCode[k] === 'object' && <div><button>{k}</button><Folder sourceCode={this.props.sourceCode[k]}/></div>
+            }
+          </li>)
+        })
+      }
+    </ul>
+  }
+}
+
 class TabEdit extends React.Component<{
-  userFiles: {},
+  sourceCode: {},
   openFileContents: String,
+  sourceFolder: String,
   onUploadFolder(): any,
   openFile(): any,
 }, {}> {
 
   render() {
-    const onOpenFile = (f) => this.props.openFile(f)
-    const userFiles = this.props.userFiles || []
+    const sourceCode = this.props.sourceCode
     return (<div>
 
       <table><tbody>
 
         <tr>
           <td>
-            <input
-              onChange={this.props.onUploadFolder}
-              type="file" directory="" webkitdirectory="" />
-              <br/>
+            <button
+              onClick={() => this.props.broadcasterV2({action: "PICK_FOLDER", payload: {}})}>
+              Pick folder
+            </button>
 
             {
-              userFiles.length && <button>EXECUTE</button>
+              this.props.sourceFolder && <p>{this.props.sourceFolder}</p>
             }
 
           </td>
 
           <td>
-            <button>Save</button>
+            {
+              this.props.sourceFolder && <button>Save</button>
+            }
 
           </td>
         </tr>
 
         <tr>
           <td>
-            <ul>
-              {userFiles.map((file) => {
-                return (<li>
-                  <button onClick={(e) => onOpenFile(file)}>
-                    {file.name}
-                  </button>
-                </li>)
-              })}
-
-            </ul>
+            <Folder sourceCode={sourceCode} />
           </td>
 
           <td>

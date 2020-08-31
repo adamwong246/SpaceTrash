@@ -33,37 +33,18 @@ export const getTabEditProps = createSelector([baseSelector], base => {
 
 
   return {
-    userFiles: base.userFiles,
+    sourceFolder: base.sourceFolder,
 
     openFileContents: base.openFileContents,
 
+    sourceCode: base.sourceCode,
+    
     openFile: (file) => {
       store.dispatch({
         type: 'SET_OPEN_FILE',
         payload: file.fileText
       })
     },
-
-    onUploadFolder: (e) => {
-      const files = e.target.files;
-
-      const promises = Object.keys(files).map((ndx) => {
-        return files[ndx].text().then((fileText) => {
-          return {
-            name: files[ndx].name,
-            fileText
-          }
-        })
-      })
-
-      Promise.all(promises).then((f) => {
-        store.dispatch({
-          type: 'UPLOAD_FOLDER',
-          payload: f
-        })
-      })
-
-    }
   }
 })
 

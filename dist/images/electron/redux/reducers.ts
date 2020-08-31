@@ -26,6 +26,14 @@ export default (state = initialState, action) => {
       }
     }
 
+    case "PICK_FOLDER": {
+      console.log(action.payload)
+      return {
+        ...state,
+        sourceFolder: action.payload
+      }
+    }
+
     default:
       console.log("IDK", action)
       return state;

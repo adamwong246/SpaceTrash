@@ -14,6 +14,7 @@ export default (state = initialState, action) => {
     }
 
     case "RECEIVE_UPDATE": {
+      console.log(action)
       return {
         ...state,
         ...action.payload
@@ -32,7 +33,7 @@ export default (state = initialState, action) => {
         openFileContents: action.payload
       }
     }
-    
+
     default:
       console.log("IDK".action)
       return state;

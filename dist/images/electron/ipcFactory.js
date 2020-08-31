@@ -2,7 +2,8 @@ import ipc from "node-ipc";
 
 export default (store) => {
 
-  function init(socketName, handlers, selector) {
+  function init(handlers, selector) {
+    const socketName = "spaceTrash"
     console.log("ipc init")
     ipc.config.id = socketName
     ipc.config.silent = true

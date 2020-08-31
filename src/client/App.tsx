@@ -24,7 +24,8 @@ require("./style/color.css");
 require("./style/color.css");
 
 class App extends React.Component<{
-  broadcaster
+  broadcaster,
+  broadcasterV2
 }, {}> {
 
   render() {
@@ -44,7 +45,7 @@ class App extends React.Component<{
 
           <TabPanel><Root /></TabPanel>
 
-          <TabPanel><TabEdit /></TabPanel>
+          <TabPanel><TabEdit broadcasterV2={this.props.broadcasterV2}/></TabPanel>
 
           <TabPanel>
 

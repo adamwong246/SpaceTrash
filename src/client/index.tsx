@@ -19,11 +19,22 @@ const broadcaster = (commands) => {
   })
 }
 
+const broadcasterV2 = ({action, payload}) => {
+  ipcSend(action, payload).then((v) => {
+    console.log('then enqueue', v)
+  }).catch((e) => {
+    console.log('catch enqueue')
+  }).finally(() => {
+    console.log('finally enqueue')
+  })
+}
+
 const wrapper = document.getElementById("app");
 wrapper
   ? ReactDOM.render(<Provider store={store}>
     <App
       broadcaster={broadcaster}
+      broadcasterV2={broadcasterV2}
     />
   </Provider >, wrapper)
   : false;
