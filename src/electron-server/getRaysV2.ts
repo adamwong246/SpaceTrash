@@ -24,10 +24,12 @@ export const wallTextures = [
 ];
 
 const getRays = (drone, matrix) => {
+  const startTime = Date.now();
+
   const mapHeight = matrix.size;
   const mapWidth = matrix.get(0).size;
 
-  console.log(new Date().toISOString(), "render...")
+
   const rays = new fromJS(Array.from(Array(numRays).keys()))
 
     .map((i, stripIdx) => {
@@ -205,7 +207,7 @@ const getRays = (drone, matrix) => {
       }
     })
 
-  console.log(new Date().toISOString(), "...render")
+  console.log(Date.now() - startTime, "...render")
   return rays
 }
 
@@ -225,11 +227,7 @@ module.exports = (payloadReponse) => {
     dronesWithRays.forEach((drone, ndx) => {
       if (drone.get("rays")) {
 
-        var rayShouldContinue;
         drone.get("rays").forEach((ray) => {
-
-          rayShouldContinue = true;
-
           var x0 = MMath.round(drone.get("x"))
           var y0 = MMath.round(drone.get("y"))
           var x1 = ray.get("x");
@@ -240,17 +238,16 @@ module.exports = (payloadReponse) => {
           var sy = (y0 < y1) ? 1 : -1;
           var err = dx - dy;
 
-
-
+          var rayShouldContinue = true
           while (rayShouldContinue) {
             if (!shipMap[y0]) shipMap[y0] = {}
 
-            shipMap[y0][x0] = matrix.get(y0).get(x0)
-            // if (shipMap[y0][x0]) {
-            //   rayShouldContinue = false;
-            // } else {
-            //   shipMap[y0][x0] = matrix.get(y0).get(x0)
-            // }
+            if (shipMap[y0][x0]) {
+              // rayShouldContinue = false;
+            } else {
+              shipMap[y0][x0] = matrix.get(y0).get(x0)
+              rayShouldContinue = true;
+            }
 
             if ((x0 === x1) && (y0 === y1)) {
               rayShouldContinue = false;

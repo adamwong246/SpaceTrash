@@ -1747,7 +1747,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, ".codish {\n  font-family: monospace;\n}\n\n.react-tabs__tab-list.vertical {\n  display: flex;\n  flex-direction: column;\n  width: 170px;\n  margin: 0;\n  padding: 0;\n  color: white;\n  background: #3c3e43;\n}\n\np {\n  max-width: 40em;\n}\n\ntable {\n    border-collapse: collapse;\n}\nth, td {\n    padding: 0;\n}\n\n#time {\n  float:right;\n}\n\n.react-tabs__tab-list {\n  border-bottom-width: 1px;\n  border-botom-style: solid;\n  margin: 0 0 10px;\n  padding: 0;\n}\n", ""]);
+exports.push([module.i, "body{\n  margin: 0px;\n}\n\nbody, #app, #main {\n  height: 100vh;\n}\n\n.codish {\n  font-family: monospace;\n}\n\n.react-tabs__tab-list.vertical {\n  display: flex;\n  flex-direction: column;\n  width: 170px;\n  margin: 0;\n  padding: 0;\n  color: white;\n  background: #3c3e43;\n}\n\np {\n  max-width: 40em;\n}\n\ntable {\n    border-collapse: collapse;\n}\nth, td {\n    padding: 0;\n}\n\n.react-tabs__tab-list {\n  border-bottom-width: 1px;\n  border-botom-style: solid;\n  margin: 0px;\n  padding: 0px;;\n}\n\n#status {\n  float: right;\n}\n\n#tabs {\n  height: 100%;\n}\n\n.react-tabs, .react-tabs__tab-panel--selected{\n  height: 100%;\n  overflow-y: scroll;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -1765,7 +1765,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, ".vertical {\n  display: flex;\n}\n\n.vertical > ul.react-tabs__tab-list li.react-tabs__tab{\n  display: block;\n}\n\n.react-tabs__tab-list{\n  border-bottom: 1px solid green;\n}\n\n.react-tabs__tab.react-tabs__tab--selected{\n  background-color: green;\n  color: black;\n  border: none;\n  border-radius: 0px;\n  padding: 10px;\n}\n\n.react-tabs__tab-panel.react-tabs__tab-panel--selected{\n  border: 1px solid green;\n}\n\n.react-tabs__tab {\n  border: 1px dotted green;\n}\n\nhr {\n  border: 1px solid green;\n}\n\n\n#tabs .react-tabs__tab{\n  padding: 0em 1em;\n}\n\n.react-tabs__tab-list {\n  border-bottom-width: 1px;\n  border-bottom-style: solid;\n  margin: 0 0 10px;\n  padding: 0;\n}\n", ""]);
+exports.push([module.i, ".vertical {\n  display: flex;\n}\n\n.vertical > ul.react-tabs__tab-list li.react-tabs__tab{\n  display: block;\n}\n\n.react-tabs__tab.react-tabs__tab--selected{\n  background-color: green;\n  color: black;\n  border: none;\n  border-radius: 0px;\n  padding: 10px;\n  height: 95%;\n}\n\n.react-tabs__tab-panel {\n  padding: 0.5rem;\n}\n\n.react-tabs__tab-panel.react-tabs__tab-panel--selected{\n  border: 1px solid green;\n  height: 90%;\n  overflow: scroll;\n}\n\n.react-tabs__tab {\n  border: 1px dotted green;\n}\n\nhr {\n  border: 1px solid green;\n}\n\n\n#tabs .react-tabs__tab{\n  padding: 0em 1em;\n}\n\n.react-tabs__tab-list {\n  border-bottom: 1px solid red;\n  border-bottom-width: 1px;\n  border-bottom-style: solid;\n}\n", ""]);
 // Exports
 module.exports = exports;
 

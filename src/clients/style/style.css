@@ -26,10 +26,6 @@ body{
   height: 100%;
 }
 
-.react-tabs__tab-panel.react-tabs__tab-panel--selected {
-  height: calc(90vh);
-}
-
 
 
 .react-tabs__tab  {

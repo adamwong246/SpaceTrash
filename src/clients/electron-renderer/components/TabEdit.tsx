@@ -21,14 +21,19 @@ class TabEdit extends React.Component<{
 
         <tr>
           <td>
-            <p>Upload a folder</p>
             <input
               onChange={this.props.onUploadFolder}
               type="file" directory="" webkitdirectory="" />
+              <br/>
+
+            {
+              userFiles.length && <button>EXECUTE</button>
+            }
+
           </td>
 
           <td>
-          <button>Save</button>
+            <button>Save</button>
 
           </td>
         </tr>
@@ -51,10 +56,13 @@ class TabEdit extends React.Component<{
             <MonacoEditor
               language="javascript"
               theme="vs-dark"
-              width="800"
-              height="600"
+              width="400"
+              height="400"
               options={
-                { minimap: { enabled: false } }
+                {
+                  // automaticLayout: true,
+                  minimap: { enabled: false }
+                }
               }
               value={this.props.openFileContents}
             />

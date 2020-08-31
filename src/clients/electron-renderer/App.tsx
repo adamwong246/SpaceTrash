@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import CommandLine from './components/CommandLine.tsx'
-
+import Root from './components/Root.tsx'
 import TabBots from './components/TabBots.tsx'
+import TabEdit from './components/TabEdit.tsx'
 import TabExec from './components/TabExec.tsx'
 import TabShip from './components/TabShip.tsx'
+import TabSudo from './components/TabSudo.tsx'
 
 require('react-tabs/style/react-tabs.css');
 
@@ -31,21 +32,46 @@ class App extends React.Component<{
 
       <div id="tabs">
 
-          <Tabs>
-            <TabList>
+        <Tabs>
+          <TabList>
 
-              <Tab>ship</Tab>
-              <Tab>bots</Tab>
-              <Tab>code</Tab>
-            </TabList>
+            <Tab>root</Tab>
+            <Tab>code</Tab>
+            <Tab>play</Tab>
+
+            <div id="status">connected!</div>
+          </TabList>
+
+          <TabPanel><Root /></TabPanel>
+
+          <TabPanel><TabEdit /></TabPanel>
+
+          <TabPanel>
+
+            <Tabs>
+              <TabList>
+
+                <Tab>ship</Tab>
+                <Tab>bots</Tab>
+                <Tab>exec</Tab>
+                <Tab>sudo</Tab>
+              </TabList>
 
 
-            <TabPanel><TabShip/></TabPanel>
-            <TabPanel><TabBots broadcaster={this.props.broadcaster}/></TabPanel>
-            <TabPanel><TabExec broadcaster={this.props.broadcaster}/></TabPanel>
+              <TabPanel><TabShip /></TabPanel>
+              <TabPanel><TabBots broadcaster={this.props.broadcaster} /></TabPanel>
+              <TabPanel><TabExec broadcaster={this.props.broadcaster} /></TabPanel>
 
-          </Tabs>
+              <TabPanel><TabSudo /></TabPanel>
+
+            </Tabs>
+
+          </TabPanel>
+
+        </Tabs>
+
       </div>
+
     </div>);
   }
 }

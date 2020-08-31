@@ -20,6 +20,19 @@ export default (state = initialState, action) => {
       }
     }
 
+    case "UPLOAD_FOLDER": {
+      return {
+        ...state, userFiles: action.payload
+      }
+    }
+
+    case "SET_OPEN_FILE": {
+      return {
+        ...state,
+        openFileContents: action.payload
+      }
+    }
+    
     default:
       console.log("IDK".action)
       return state;

@@ -4,7 +4,7 @@
   "description": "a roguelike with javascript bots",
   "scripts": {
     "htmlServer": "node --inspect src/server/bin/www",
-    "electronMain": "electron ./dist/electron-main.bundle.js",
+    "electronMain": "electron --inspect ./dist/electron-main.bundle.js",
     "electronServer": "electron ./dist/electron-server.bundle.js",
     "dev": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --colors"
   },

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import wall3 from '../../images/walls_3.png';
-import wall4 from '../../images/walls_4.png';
+import wall3 from '../../../images/walls_3.png';
+import wall4 from '../../../images/walls_4.png';
 
 import {
   ABSOLLUTE,

@@ -1,3 +1,11 @@
+body{
+  margin: 0px;
+}
+
+body, #app, #main {
+  height: 100vh;
+}
+
 .codish {
   font-family: monospace;
 }
@@ -23,13 +31,22 @@ th, td {
     padding: 0;
 }
 
-#time {
-  float:right;
-}
-
 .react-tabs__tab-list {
   border-bottom-width: 1px;
   border-botom-style: solid;
-  margin: 0 0 10px;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;;
+}
+
+#status {
+  float: right;
+}
+
+#tabs {
+  height: 100%;
+}
+
+.react-tabs, .react-tabs__tab-panel--selected{
+  height: 100%;
+  overflow-y: scroll;
 }

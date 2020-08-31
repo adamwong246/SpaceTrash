@@ -113,17 +113,9 @@ class TabShip extends React.Component<{
                   return (
                     <tr>
                       {row.map((cell, x) => {
-
-                        var secondCharacter;
-                        if (cell[1] === "_") { secondCharacter = "_" }
-                        else if (cell[1] === ".") { secondCharacter = "." }
-                        else secondCharacter = "D"
-
                         return (
-                          <td onMouseOver={() => this.setCursor(x, y)}
-                            data-drone={cell[1] ? cell[1] : ""}>
-                            {cell[0]}
-                            {secondCharacter}
+                          <td onMouseOver={() => this.setCursor(x, y)}>
+                            {cell}
                           </td>
                         );
                       })}
