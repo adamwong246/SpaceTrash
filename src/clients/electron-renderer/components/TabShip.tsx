@@ -94,11 +94,14 @@ class TabShip extends React.Component<{
 
 
           <td>
-            <MapDetail
+          {
+            matrix && matrix[this.state.cursorY] && matrix[this.state.cursorY][this.state.cursorX] && <MapDetail
               cell={matrix[this.state.cursorY][this.state.cursorX]}
               x={this.state.cursorX}
               y={this.state.cursorY}
             />
+          }
+
           </td>
 
 

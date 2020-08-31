@@ -67182,8 +67182,7 @@ class TabShip extends React.Component {
                     React.createElement("td", null, "Detail"),
                     React.createElement("td", null, "Map")),
                 React.createElement("tr", null,
-                    React.createElement("td", null,
-                        React.createElement(MapDetail_tsx_1.default, { cell: matrix[this.state.cursorY][this.state.cursorX], x: this.state.cursorX, y: this.state.cursorY })),
+                    React.createElement("td", null, matrix && matrix[this.state.cursorY] && matrix[this.state.cursorY][this.state.cursorX] && React.createElement(MapDetail_tsx_1.default, { cell: matrix[this.state.cursorY][this.state.cursorX], x: this.state.cursorX, y: this.state.cursorY })),
                     React.createElement("td", null, matrix && (React.createElement("table", { className: "matrix codish" },
                         React.createElement("tbody", null, matrix.map((row, y) => {
                             return (React.createElement("tr", null, row.map((cell, x) => {

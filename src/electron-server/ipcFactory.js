@@ -66,7 +66,7 @@ export default (store) => {
   }
 
   function send(name, args) {
-    console.log("ipc send", name, args)
+    // console.log("ipc send", name, args)
     ipc.server.broadcast('message', JSON.stringify({
       type: 'push',
       name,

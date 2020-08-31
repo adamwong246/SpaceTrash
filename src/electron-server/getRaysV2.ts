@@ -23,31 +23,6 @@ export const wallTextures = [
   "walls_4.png"
 ];
 
-const brenshams = (x0, y0, x1, y1, matrix) => {
-  var dx = Math.abs(x1 - x0);
-  var dy = Math.abs(y1 - y0);
-  var sx = (x0 < x1) ? 1 : -1;
-  var sy = (y0 < y1) ? 1 : -1;
-  var err = dx - dy;
-
-  const tiles = []
-
-  while (true) {
-    tiles.push(
-      fromJS({
-        x: x0, y: y0, tile: matrix.get(y0).get(x0)
-      })
-    )
-
-    if ((x0 === x1) && (y0 === y1)) break;
-    var e2 = 2 * err;
-    if (e2 > -dy) { err -= dy; x0 += sx; }
-    if (e2 < dx) { err += dx; y0 += sy; }
-  }
-
-  return tiles;
-}
-
 const getRays = (drone, matrix) => {
   const mapHeight = matrix.size;
   const mapWidth = matrix.get(0).size;
@@ -211,12 +186,6 @@ const getRays = (drone, matrix) => {
             texX,
             hit: matrix.get(yWallHit).get(xWallHit).get(0) === 'd',
           }),
-          brenshams: brenshams(
-            MMath.round(drone.get("x")),
-            MMath.round(drone.get("y")),
-            xWallHit, yWallHit,
-            matrix
-          ),
         })
 
       } else {
@@ -232,9 +201,6 @@ const getRays = (drone, matrix) => {
             src: "/walls_3.png",
             height: 0, width: 0, left: 0, top: 0, zIndex: 0, clip: ""
           },
-
-
-          brenshams: new List([])
         })
       }
     })
@@ -246,36 +212,59 @@ const getRays = (drone, matrix) => {
 module.exports = (payloadReponse) => {
 
   const matrix = fromJS(payloadReponse.ship.matrix)
+  const drones = fromJS(payloadReponse.drones)
 
-  const drones = fromJS(payloadReponse.drones).map((drone) => {
-    return drone.set('rays', getRays(drone, matrix))
+  const dronesWithRays = drones.map((drone) => {
+    return drone.update("rays", (rays) => {
+      return getRays(drone, matrix)
+    })
   })
 
-  const shipMap = drones
-    .reduce((memo, drone) => {
+  var shipMap = {};
+  if (dronesWithRays) {
+    dronesWithRays.forEach((drone, ndx) => {
       if (drone.get("rays")) {
-        return memo.concat(drone.get("rays"))
-      } else {
-        return memo
+
+        var rayShouldContinue;
+        drone.get("rays").forEach((ray) => {
+
+          rayShouldContinue = true;
+
+          var x0 = MMath.round(drone.get("x"))
+          var y0 = MMath.round(drone.get("y"))
+          var x1 = ray.get("x");
+          var y1 = ray.get("y");
+          var dx = Math.abs(x1 - x0);
+          var dy = Math.abs(y1 - y0);
+          var sx = (x0 < x1) ? 1 : -1;
+          var sy = (y0 < y1) ? 1 : -1;
+          var err = dx - dy;
+
+
+
+          while (rayShouldContinue) {
+            if (!shipMap[y0]) shipMap[y0] = {}
+
+            shipMap[y0][x0] = matrix.get(y0).get(x0)
+            // if (shipMap[y0][x0]) {
+            //   rayShouldContinue = false;
+            // } else {
+            //   shipMap[y0][x0] = matrix.get(y0).get(x0)
+            // }
+
+            if ((x0 === x1) && (y0 === y1)) {
+              rayShouldContinue = false;
+            }
+
+            var e2 = 2 * err;
+            if (e2 > -dy) { err -= dy; x0 += sx; }
+            if (e2 < dx) { err += dx; y0 += sy; }
+          }
+
+        })
       }
-    }, new List([]))
-    .map((ray) => {
-      return ray.get("brenshams")
     })
-    .flatten(1)
-    .reduce((memo, brensham) => {
-      return {
-        ...memo,
-        [brensham.get("x")]: {
-          ...memo[brensham.get("x")],
-          [brensham.get("y")]: brensham.get("tile")
-        }
-      }
-    }, {})
+  }
 
-    return {
-      drones,
-      shipMap
-    }
-
+  return { drones: dronesWithRays, shipMap: fromJS(shipMap) }
 }
