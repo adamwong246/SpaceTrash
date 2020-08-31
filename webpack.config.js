@@ -27,8 +27,7 @@ const commonConfig = {
   },
 
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.(png)$/,
         use: {
           loader: 'url-loader',
@@ -86,11 +85,11 @@ const commonConfig = {
 };
 
 
-const clientSessionAppV2 = lodash.cloneDeep(commonConfig);
-clientSessionAppV2.target = "web"
-clientSessionAppV2.entry = './src/clients/clientSessionAppV2/clientSessionAppV2.tsx';
-clientSessionAppV2.output.filename = 'clientSessionAppV2.bundle.js';
-clientSessionAppV2.output.publicPath = __dirname
+// const clientSessionAppV2 = lodash.cloneDeep(commonConfig);
+// clientSessionAppV2.target = "web"
+// clientSessionAppV2.entry = './src/clients/clientSessionAppV2/clientSessionAppV2.tsx';
+// clientSessionAppV2.output.filename = 'clientSessionAppV2.bundle.js';
+// clientSessionAppV2.output.publicPath = __dirname
 
 const server = require("./src/server/webpack.config.js")
 
@@ -101,33 +100,11 @@ userConfig.output.filename = 'adam.bundle.js';
 userConfig.output.publicPath = __dirname
 userConfig.devtool = false
 
-
-
-
-
-
-
-const electronMainConfig = lodash.cloneDeep(commonConfig);
-electronMainConfig.entry = './src/electron-main/main.js';
-electronMainConfig.target = 'electron-main';
-electronMainConfig.output.filename = 'electron-main.bundle.js';
-electronMainConfig.plugins = [
-  ...commonConfig.plugins,
-
-  new CopyWebpackPlugin([{
-    from: './src/electron-main/preload.js',
-    to: 'preload.js'
-  }, ]),
-
-];
-
-const electronRendereConfig = lodash.cloneDeep(commonConfig);
-// electronRendereConfig.entry = './src/clients/electron-renderer/renderer.tsx';
-electronRendereConfig.entry = ["@babel/polyfill", './src/clients/electron-renderer/renderer.tsx'],
-
-  electronRendereConfig.target = 'electron-renderer';
-electronRendereConfig.output.filename = 'electron-renderer.bundle.js';
-electronRendereConfig.plugins = [
+const electronRendererConfig = lodash.cloneDeep(commonConfig);
+electronRendererConfig.entry = ["@babel/polyfill", './src/clients/electron-renderer/renderer.tsx'];
+electronRendererConfig.target = 'electron-renderer';
+electronRendererConfig.output.filename = 'electron-renderer.bundle.js';
+electronRendererConfig.plugins = [
   ...commonConfig.plugins,
   new HtmlWebpackPlugin({
     template: path.resolve(__dirname, 'src/clients/electron-renderer/index.html'),
@@ -141,18 +118,31 @@ electronRendereConfig.plugins = [
   }]),
 ];
 
-const electronServerConfig = lodash.cloneDeep(commonConfig);
-electronServerConfig.entry = './src/electron-server/server.js';
-electronServerConfig.target = 'node';
-electronServerConfig.output.filename = 'electron-server.bundle.js';
-electronServerConfig.output.publicPath = __dirname
+// const electronServerConfig = lodash.cloneDeep(commonConfig);
+// electronServerConfig.entry = './src/electron-server/server.js';
+// electronServerConfig.target = 'node';
+// electronServerConfig.output.filename = 'electron-server.bundle.js';
+// electronServerConfig.output.publicPath = __dirname
+
+const electronMainConfig = lodash.cloneDeep(commonConfig);
+electronMainConfig.entry = './src/electron-main/main.js';
+electronMainConfig.target = 'electron-main';
+electronMainConfig.output.filename = 'electron-main.bundle.js';
+electronMainConfig.plugins = [
+  ...commonConfig.plugins,
+
+  new CopyWebpackPlugin([{
+    from: './src/electron-main/preload.js',
+    to: 'preload.js'
+  }, ]),
+];
 
 module.exports = [
-  clientSessionAppV2,
+  // clientSessionAppV2,
 
   userConfig,
   server,
   electronMainConfig,
-  electronRendereConfig,
-  electronServerConfig
+  electronRendererConfig,
+  // electronServerConfig
 ];

@@ -2,7 +2,7 @@ import {fromJS, List} from "immutable";
 import combineReducers from "redux";
 
 import initialState from "./initialState.ts";
-const updatedDroneRays = require("../getRaysV2.ts");
+const updatedDroneRays = require("../getRays.ts");
 
 export default (state = initialState, action) => {
 
