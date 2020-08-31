@@ -4,7 +4,7 @@
   "description": "a roguelike with javascript bots",
   "scripts": {
     "server": "node --inspect src/server/bin/www",
-    "electron": "electron --inspect ./dist/electron-main.bundle.js",
+    "electron": "electron --inspect ./dist/electron.bundle.js",
     "dev": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --colors"
   },
   "author": "adamowng246",

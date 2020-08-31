@@ -101,48 +101,39 @@ userConfig.output.publicPath = __dirname
 userConfig.devtool = false
 
 const electronRendererConfig = lodash.cloneDeep(commonConfig);
-electronRendererConfig.entry = ["@babel/polyfill", './src/clients/electron-renderer/renderer.tsx'];
+electronRendererConfig.entry = ["@babel/polyfill", './src/client/index.tsx'];
 electronRendererConfig.target = 'electron-renderer';
-electronRendererConfig.output.filename = 'electron-renderer.bundle.js';
+electronRendererConfig.output.filename = 'client.bundle.js';
 electronRendererConfig.plugins = [
   ...commonConfig.plugins,
   new HtmlWebpackPlugin({
-    template: path.resolve(__dirname, 'src/clients/electron-renderer/index.html'),
+    template: path.resolve(__dirname, 'src/client/index.html'),
   }),
   new webpack.DefinePlugin({
     __MODE__: JSON.stringify('full')
   }),
   new CopyWebpackPlugin([{
-    from: './src/electron-renderer/images',
+    from: './src',
     to: 'images'
   }]),
 ];
 
-// const electronServerConfig = lodash.cloneDeep(commonConfig);
-// electronServerConfig.entry = './src/electron-server/server.js';
-// electronServerConfig.target = 'node';
-// electronServerConfig.output.filename = 'electron-server.bundle.js';
-// electronServerConfig.output.publicPath = __dirname
-
 const electronMainConfig = lodash.cloneDeep(commonConfig);
-electronMainConfig.entry = './src/electron-main/main.js';
+electronMainConfig.entry = './src/electron/index.js';
 electronMainConfig.target = 'electron-main';
-electronMainConfig.output.filename = 'electron-main.bundle.js';
+electronMainConfig.output.filename = 'electron.bundle.js';
 electronMainConfig.plugins = [
   ...commonConfig.plugins,
 
   new CopyWebpackPlugin([{
-    from: './src/electron-main/preload.js',
+    from: './src/electron/preload.js',
     to: 'preload.js'
   }, ]),
 ];
 
 module.exports = [
-  // clientSessionAppV2,
-
   userConfig,
   server,
   electronMainConfig,
   electronRendererConfig,
-  // electronServerConfig
 ];
