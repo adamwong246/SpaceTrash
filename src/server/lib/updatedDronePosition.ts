@@ -1,6 +1,6 @@
 const { fromJS, List, Map } = require('immutable');
-const moveStepSize = 0.2;
-const rotateStepSize = 0.2;
+const moveStepSize = 0.1;
+const rotateStepSize = 0.1;
 
 function rounder(value, decimals) {
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);

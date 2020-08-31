@@ -67758,11 +67758,11 @@ module.exports = exported;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-exports.stripWidth = 2;
+exports.stripWidth = 1;
 exports.ABSOLLUTE = 'absolute';
-exports.screenWidth = 160;
+exports.screenWidth = 320;
 exports.screenHeight = 200;
-const precision = 2;
+const precision = 3;
 exports.MMath = {
     round: lodash_1.memoize((a) => Math.round(a)),
     ceil: lodash_1.memoize((a) => Math.ceil(a)),

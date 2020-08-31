@@ -1,12 +1,12 @@
 import {createSelector} from "reselect";
 import {memoize} from 'lodash'
 
-export const stripWidth = 2;
+export const stripWidth = 1;
 export const ABSOLLUTE = 'absolute';
-export const screenWidth = 160;
+export const screenWidth = 320;
 export const screenHeight = 200;
 
-const precision = 2;
+const precision = 3;
 
 export const MMath = {
   round: memoize((a) => Math.round(a)),
