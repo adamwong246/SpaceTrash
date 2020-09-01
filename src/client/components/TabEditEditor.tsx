@@ -49,61 +49,49 @@ class TabEditEditor extends React.Component<{
   render() {
     const { openFile, sourceCode } = this.props;
 
-    return (<div>
+    return (<div className="horizontal">
 
-      <table><tbody>
+      <div>
 
-        <tr>
-          <td>
-            <button
-              onClick={() => this.props.broadcasterV2({ action: "PICK_FOLDER", payload: {} })}>
-              Pick folder
-            </button>
+        <button
+          onClick={() => this.props.broadcasterV2({ action: "PICK_FOLDER", payload: {} })}>
+          Pick folder
+    </button>
 
-            <button
-              onClick={() => this.props.broadcasterV2({ action: "PACK_FOLDER", payload: {} })}>
-              pack it
-            </button>
+        {
+          this.props.sourceFolder && <p>{this.props.sourceFolder}</p>
+        }
 
+
+
+        <Folder sourceCode={sourceCode} openFile={openFile} />
+
+      </div>
+      <div id="monaco-wrapper">
+
+      {
+        this.props.sourceFolder && <button>Save</button>
+      }
+
+        <MonacoEditor
+          language="javascript"
+          theme="vs-dark"
+          options={
             {
-              this.props.sourceFolder && <p>{this.props.sourceFolder}</p>
+              fontFamily: "monospace"
+              automaticLayout: true,
+              minimap: { enabled: false }
             }
+          }
+          value={typeof this.props.openFileContents === "object" ? "NO" : this.props.openFileContents}
+        />
 
-          </td>
+      </div>
 
-          <td>
-            {
-              this.props.sourceFolder && <button>Save</button>
-            }
 
-          </td>
-        </tr>
 
-        <tr>
-          <td>
-            <Folder sourceCode={sourceCode} openFile={openFile} />
-          </td>
 
-          <td>
-            <MonacoEditor
-              language="javascript"
-              theme="vs-dark"
-              width="400"
-              height="400"
-              options={
-                {
-                  // automaticLayout: true,
-                  minimap: { enabled: false }
-                }
-              }
-              value={typeof this.props.openFileContents === "object" ? "NO" : this.props.openFileContents}
-            />
 
-          </td>
-
-        </tr>
-
-      </tbody></table>
     </div>);
   }
 }

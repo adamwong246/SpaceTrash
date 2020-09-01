@@ -20,8 +20,7 @@ require("../style/style.css");
 
 require("./style/video.css");
 require("./style/color.css");
-
-require("./style/color.css");
+require("./style/layout.css");
 
 class App extends React.Component<{
   broadcaster,

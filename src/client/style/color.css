@@ -19,3 +19,7 @@ body{
 .react-tabs__tab-list {
   border-bottom: 1px solid green;
 }
+
+.monaco-editor * {
+  color: green !important;
+}

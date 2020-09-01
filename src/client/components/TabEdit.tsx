@@ -43,10 +43,12 @@ class TabEdit extends React.Component<{
         sourceCode={sourceCode}
         onUploadFolder={openFile}
         broadcasterV2={broadcasterV2}
+        openFile={openFile}
       /></TabPanel>
 
       <TabPanel><TabEditLogs
         packErrors={packErrors}
+        broadcasterV2={broadcasterV2}
       /></TabPanel>
 
 

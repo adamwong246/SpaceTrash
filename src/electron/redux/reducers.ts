@@ -1,4 +1,4 @@
-import {fromJS, List} from "immutable";
+import { fromJS, List } from "immutable";
 import combineReducers from "redux";
 
 import initialState from "./initialState.ts";
@@ -9,7 +9,6 @@ export default (state = initialState, action) => {
   switch (action.type) {
 
     case "PACK_ERRORS": {
-      console.log(action)
       return {
         ...state,
         packErrors: action.payload
@@ -24,7 +23,7 @@ export default (state = initialState, action) => {
     }
 
     case "RECEIVE_UPDATE_FROM_SERVER": {
-      const {drones, shipMap} = updatedDroneRays(action.payload)
+      const { drones, shipMap } = updatedDroneRays(action.payload)
       return {
         ...state,
         drones,
