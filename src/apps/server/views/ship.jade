@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  h1 Ship
+  h2= ship.name
+
+  pre
+    code
+      |status: 
+      = ship.shipMap.status
+    
+  
+  //- table
+  //-   tbody
+  //-     - for row in ship.shipMap.matrix
+  //-       tr
+  //-         - for cell in row
+  //-           td= cell
+
+  form(role='form', action='/ships/#{ship.id}', method='post')
+    input(type='text', name='name', id='name', placeholder='new ship name', required)
+    button(type='submit') rename
+                  
+  form(role='form', action='/ships/#{ship.id}', method='post')
+    input(type='text', name='newRoomName', id='newRoomName', placeholder='Room name')
+    input(type='number', name='newRoomX', id='newRoomX', placeholder='Room x', required)
+    input(type='number', name='newRoomY', id='newRoomY', placeholder='Room y', required)
+    input(type='number', name='newRoomX2', id='newRoomX2', placeholder='Room x2', required)
+    input(type='number', name='newRoomY2', id='newRoomY2', placeholder='Room y2', required)
+    button(type='submit') add room
+
+  form(role='form', action='/ships/#{ship.id}', method='post')
+    input(type='text', name='newDoorName', id='newDoorName', placeholder='Door name')
+    input(type='number', name='newDoorX', id='newDoorX', placeholder='Door x', required)
+    input(type='number', name='newDoorY', id='newDoorY', placeholder='Door y', required)
+    button(type='submit') add door
+
+    p= JSON.stringify(ship)

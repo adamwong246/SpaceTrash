@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/electron/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/apps/electron/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -29145,10 +29145,10 @@ function socketOnError() {
 
 /***/ }),
 
-/***/ "./src/electron/getRays.ts":
-/*!*********************************!*\
-  !*** ./src/electron/getRays.ts ***!
-  \*********************************/
+/***/ "./src/apps/electron/getRays.ts":
+/*!**************************************!*\
+  !*** ./src/apps/electron/getRays.ts ***!
+  \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29156,7 +29156,7 @@ function socketOnError() {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const { fromJS, List, Map } = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
-const raycastConsts_ts_1 = __webpack_require__(/*! ../raycastConsts.ts */ "./src/raycastConsts.ts");
+const raycastConsts_ts_1 = __webpack_require__(/*! ../../raycastConsts.ts */ "./src/raycastConsts.ts");
 ;
 exports.useSingleTexture = false;
 exports.fov = 60 * Math.PI / 180;
@@ -29372,10 +29372,10 @@ module.exports = (payloadReponse) => {
 
 /***/ }),
 
-/***/ "./src/electron/index.js":
-/*!*******************************!*\
-  !*** ./src/electron/index.js ***!
-  \*******************************/
+/***/ "./src/apps/electron/index.js":
+/*!************************************!*\
+  !*** ./src/apps/electron/index.js ***!
+  \************************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -29389,12 +29389,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var child_process__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(child_process__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var electron_is_dev__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! electron-is-dev */ "./node_modules/electron-is-dev/index.js");
 /* harmony import */ var electron_is_dev__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(electron_is_dev__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _ipcFactory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ipcFactory */ "./src/electron/ipcFactory.js");
-/* harmony import */ var _redux_selectorsFactory_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./redux/selectorsFactory.js */ "./src/electron/redux/selectorsFactory.js");
-/* harmony import */ var _ipcsocketHandlers_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ipcsocketHandlers.js */ "./src/electron/ipcsocketHandlers.js");
-/* harmony import */ var _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./websocketFactory.ts */ "./src/electron/websocketFactory.ts");
+/* harmony import */ var _ipcFactory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ipcFactory */ "./src/apps/electron/ipcFactory.js");
+/* harmony import */ var _redux_selectorsFactory_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./redux/selectorsFactory.js */ "./src/apps/electron/redux/selectorsFactory.js");
+/* harmony import */ var _ipcsocketHandlers_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ipcsocketHandlers.js */ "./src/apps/electron/ipcsocketHandlers.js");
+/* harmony import */ var _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./websocketFactory.ts */ "./src/apps/electron/websocketFactory.ts");
 /* harmony import */ var _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _redux_store_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./redux/store.js */ "./src/electron/redux/store.js");
+/* harmony import */ var _redux_store_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./redux/store.js */ "./src/apps/electron/redux/store.js");
 
 
 
@@ -29448,10 +29448,10 @@ electron__WEBPACK_IMPORTED_MODULE_1__["app"].on('ready', async () => {
 
 /***/ }),
 
-/***/ "./src/electron/ipcFactory.js":
-/*!************************************!*\
-  !*** ./src/electron/ipcFactory.js ***!
-  \************************************/
+/***/ "./src/apps/electron/ipcFactory.js":
+/*!*****************************************!*\
+  !*** ./src/apps/electron/ipcFactory.js ***!
+  \*****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -29546,10 +29546,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/electron/ipcsocketHandlers.js":
-/*!*******************************************!*\
-  !*** ./src/electron/ipcsocketHandlers.js ***!
-  \*******************************************/
+/***/ "./src/apps/electron/ipcsocketHandlers.js":
+/*!************************************************!*\
+  !*** ./src/apps/electron/ipcsocketHandlers.js ***!
+  \************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -29676,10 +29676,10 @@ const {
 
 /***/ }),
 
-/***/ "./src/electron/redux/initialState.ts":
-/*!********************************************!*\
-  !*** ./src/electron/redux/initialState.ts ***!
-  \********************************************/
+/***/ "./src/apps/electron/redux/initialState.ts":
+/*!*************************************************!*\
+  !*** ./src/apps/electron/redux/initialState.ts ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29695,18 +29695,18 @@ exports.default = {
 
 /***/ }),
 
-/***/ "./src/electron/redux/reducers.ts":
-/*!****************************************!*\
-  !*** ./src/electron/redux/reducers.ts ***!
-  \****************************************/
+/***/ "./src/apps/electron/redux/reducers.ts":
+/*!*********************************************!*\
+  !*** ./src/apps/electron/redux/reducers.ts ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const initialState_ts_1 = __webpack_require__(/*! ./initialState.ts */ "./src/electron/redux/initialState.ts");
-const updatedDroneRays = __webpack_require__(/*! ../getRays.ts */ "./src/electron/getRays.ts");
+const initialState_ts_1 = __webpack_require__(/*! ./initialState.ts */ "./src/apps/electron/redux/initialState.ts");
+const updatedDroneRays = __webpack_require__(/*! ../getRays.ts */ "./src/apps/electron/getRays.ts");
 exports.default = (state = initialState_ts_1.default, action) => {
     switch (action.type) {
         case "PACK_ERRORS": {
@@ -29745,10 +29745,10 @@ exports.default = (state = initialState_ts_1.default, action) => {
 
 /***/ }),
 
-/***/ "./src/electron/redux/selectorsFactory.js":
-/*!************************************************!*\
-  !*** ./src/electron/redux/selectorsFactory.js ***!
-  \************************************************/
+/***/ "./src/apps/electron/redux/selectorsFactory.js":
+/*!*****************************************************!*\
+  !*** ./src/apps/electron/redux/selectorsFactory.js ***!
+  \*****************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -29800,19 +29800,19 @@ var getFiles = function(directory) {
 
 /***/ }),
 
-/***/ "./src/electron/redux/store.js":
-/*!*************************************!*\
-  !*** ./src/electron/redux/store.js ***!
-  \*************************************/
+/***/ "./src/apps/electron/redux/store.js":
+/*!******************************************!*\
+  !*** ./src/apps/electron/redux/store.js ***!
+  \******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _reducers_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducers.ts */ "./src/electron/redux/reducers.ts");
+/* harmony import */ var _reducers_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducers.ts */ "./src/apps/electron/redux/reducers.ts");
 /* harmony import */ var _reducers_ts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_reducers_ts__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./initialState.ts */ "./src/electron/redux/initialState.ts");
+/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./initialState.ts */ "./src/apps/electron/redux/initialState.ts");
 /* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_initialState_ts__WEBPACK_IMPORTED_MODULE_2__);
 
 
@@ -29824,10 +29824,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/electron/websocketFactory.ts":
-/*!******************************************!*\
-  !*** ./src/electron/websocketFactory.ts ***!
-  \******************************************/
+/***/ "./src/apps/electron/websocketFactory.ts":
+/*!***********************************************!*\
+  !*** ./src/apps/electron/websocketFactory.ts ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

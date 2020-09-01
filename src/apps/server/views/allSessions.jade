@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1 All Sessions
+  table
+    tbody
+      - for session in allSessions
+        tr
+          td= session.name
+          td
+            a(href=`/sessions/${session.id}`)= session.id

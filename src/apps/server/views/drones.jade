@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1 All drones
+  table
+    tbody
+      - for drone in drones
+        tr
+          td= drone.name
+          td
+            a(href=`/drones/${drone.id}`)= drone.id

@@ -84,55 +84,41 @@ const commonConfig = {
   ]
 };
 
-
-// const clientSessionAppV2 = lodash.cloneDeep(commonConfig);
-// clientSessionAppV2.target = "web"
-// clientSessionAppV2.entry = './src/clients/clientSessionAppV2/clientSessionAppV2.tsx';
-// clientSessionAppV2.output.filename = 'clientSessionAppV2.bundle.js';
-// clientSessionAppV2.output.publicPath = __dirname
-
-const server = require("./src/server/webpack.config.js")
-
-// const userConfig = lodash.cloneDeep(commonConfig);
-// userConfig.target = "web"
-// userConfig.entry = './src/adam/index.js';
-// userConfig.output.filename = 'adam.bundle.js';
-// userConfig.output.publicPath = __dirname
-// userConfig.devtool = false
+const server = require("./src/apps/server/webpack.config.js")
 
 const electronRendererConfig = lodash.cloneDeep(commonConfig);
-electronRendererConfig.entry = ["@babel/polyfill", './src/client/index.tsx'];
+electronRendererConfig.entry = ["@babel/polyfill", './src/apps/client/index.tsx'];
 electronRendererConfig.target = 'electron-renderer';
 electronRendererConfig.output.filename = 'client.bundle.js';
 electronRendererConfig.plugins = [
   ...commonConfig.plugins,
   new HtmlWebpackPlugin({
-    template: path.resolve(__dirname, 'src/client/index.html'),
+    template: path.resolve(__dirname, 'src/apps/client/index.html'),
   }),
   new webpack.DefinePlugin({
     __MODE__: JSON.stringify('full')
   }),
   new CopyWebpackPlugin([{
-    from: './src/imags',
+    from: './src/apps/imags',
     to: 'images'
   }]),
 ];
 
 const electronMainConfig = lodash.cloneDeep(commonConfig);
-electronMainConfig.entry = './src/electron/index.js';
+electronMainConfig.entry = './src/apps/electron/index.js';
 electronMainConfig.target = 'electron-main';
 electronMainConfig.output.filename = 'electron.bundle.js';
 electronMainConfig.plugins = [
   ...commonConfig.plugins,
 
   new CopyWebpackPlugin([{
-    from: './src/electron/preload.js',
+    from: './src/apps/electron/preload.js',
     to: 'preload.js'
   }, ]),
 ];
 
 const aiHarnessConfig = lodash.cloneDeep(commonConfig);
-aiHarnessConfig.entry = './src/aiHarness/index.js';
+aiHarnessConfig.entry = './src/apps/aiHarness/index.js';
 aiHarnessConfig.target = 'node';
 aiHarnessConfig.output.filename = 'aiHarness.bundle.js';
 aiHarnessConfig.plugins = [
@@ -143,5 +129,5 @@ module.exports = [
   server,
   electronMainConfig,
   electronRendererConfig,
-  // aiHarnessConfig
+  aiHarnessConfig
 ];
