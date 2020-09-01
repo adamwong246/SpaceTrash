@@ -117,12 +117,15 @@ electronMainConfig.plugins = [
   }, ]),
 ];
 
+// just copy, don't pack. Ignore the warnings.
 const aiHarnessConfig = lodash.cloneDeep(commonConfig);
-aiHarnessConfig.entry = './src/apps/aiHarness/index.js';
-aiHarnessConfig.target = 'node';
-aiHarnessConfig.output.filename = 'aiHarness.bundle.js';
+aiHarnessConfig.output.filename = 'aiHarness.js';
 aiHarnessConfig.plugins = [
   ...commonConfig.plugins,
+  new CopyWebpackPlugin([{
+    from: './src/apps/aiHarness/index.js',
+    to: 'aiHarness.js'
+  }, ]),
 ];
 
 module.exports = [

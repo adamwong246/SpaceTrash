@@ -13,11 +13,13 @@ import store from "./redux/store.js";
 const websocket = websocketFactory(store)
 const ipc = ipcFactory(store)
 
-const selectors = selectorsFactory(ipc, websocket, store)
+const selectors = selectorsFactory(ipc, websocket)
 const ipcsocketHandlers = ipcsocketHandlersFactory(ipc, websocket, store, selectors);
 
 ipc.init(ipcsocketHandlers, selectors)
 websocket.init(selectors)
+
+////////////////////////////////////////////////////////////////////////////////
 
 let clientWin
 let serverWin

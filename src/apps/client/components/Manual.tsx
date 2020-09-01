@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { getManual } from "../redux/selectors";
 
-import signals from "../../data/signals.js";
-import threats from "../../data/threats.js";
-import upgrades from "../../data/upgrades.js";
+import signals from "../../../data/signals.js";
+import threats from "../../../data/threats.js";
+import upgrades from "../../../data/upgrades.js";
 
 const Manual = () => (<div >
   <Tabs className="vertical">

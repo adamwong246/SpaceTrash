@@ -13,27 +13,19 @@ export default (store) => {
 
 
   return {
-    init: (selector) => {
+    init: (selectors) => {
 
       ws.onmessage = function(e) {
         const data = JSON.parse(e.data)
         // console.log(`onmessage`, data)
 
         if (data.msg === "user joined") {
-          // store.dispatch({ type: "NEW_COMMAND", payload: "connection established" })
         } else if (data.msg.updateFromCloud) {
             store.dispatch({ type: "RECEIVE_UPDATE_FROM_SERVER", payload: data.msg.updateFromCloud })
         } else {
-          // console.log(store.getState())
           store.dispatch({ type: "RECEIVE_UPDATE", payload: data.msg })
-          // selector(store.getState())
-          // console.log(selector(store.getState()))
-          // console.log(store.getState())
-          selector(store.getState())
+          selectors.selectAndBroadcastEverything(store.getState())
         }
-        // console.log(store.getState())
-        //
-
       }
 
     },

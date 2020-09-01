@@ -5,7 +5,7 @@ import initialState from "./initialState.ts";
 const updatedDroneRays = require("../getRays.ts");
 
 export default (state = initialState, action) => {
-
+  console.log(action)
   switch (action.type) {
 
     case "PACK_ERRORS": {
@@ -16,11 +16,7 @@ export default (state = initialState, action) => {
     }
 
     case "RECEIVE_UPDATE": {
-      return {
-        ...state,
-        ...action.payload
-      }
-    }
+      return state.set("message", action.payload.message)
 
     case "RECEIVE_UPDATE_FROM_SERVER": {
       const { drones, shipMap } = updatedDroneRays(action.payload)
@@ -32,10 +28,7 @@ export default (state = initialState, action) => {
     }
 
     case "PICK_FOLDER": {
-      return {
-        ...state,
-        sourceFolder: action.payload
-      }
+      return state.set("sourceFolder", action.payload)
     }
 
     default:

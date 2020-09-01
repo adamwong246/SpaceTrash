@@ -1,7 +1,8 @@
+import { fromJS } from 'immutable';
 import * as React from "react";
 
-export default {
+export default fromJS({
   shipMap: {},
   drones: {},
   sourceFolder: false
-}
+})

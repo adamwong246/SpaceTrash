@@ -5,7 +5,7 @@
   "scripts": {
     "server": "node src/apps/server/bin/www",
     "electron": "electron --inspect ./dist/electron.bundle.js",
-    "ai": "node --inspect ./dist/aiHarness.bundle.js",
+    "ai": "node ./dist/aiHarness.js",
     "dev": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --colors",
     "webpackTest": "electron src/apps/electron/tests/index.js"
   },
@@ -83,7 +83,7 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
     "passport-mongoose": "0.0.1",
-    "rimraf": "^2.7.1",
+    "rimraf": "^3.0.2",
     "serve-favicon": "~2.3.2",
     "source-map-loader": "^0.2.4",
     "spectron": "^5.0.0",

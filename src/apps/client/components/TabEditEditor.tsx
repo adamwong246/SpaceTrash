@@ -3,36 +3,63 @@ import * as React from 'react';
 import { connect } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-
 class Folder extends React.Component<{}, {}>{
-  render() {
-    console.log(this.props.sourceCode)
 
+  constructor(a) {
+    super(a);
+
+    this.state = {
+      open: false
+    };
+
+    this.collapse = this.collapse.bind(this);
+  }
+
+  collapse() {
+    this.setState({ open: !this.state.open })
+  }
+
+  render() {
     var filePath = this.props.filePath || []
 
-    return <ul>
+    return (<div><ul>
+
+
       {
-        (Object.keys(this.props.sourceCode).map((k, v) => {
+        this.props.sourceCode.map((file) => {
+          const newPath = filePath.concat(file);
           return (<li>
             {
-              typeof this.props.sourceCode[k] === 'string' &&
+              typeof file === 'string' &&
               <div>
-                <button onClick={() => this.props.openFile(filePath.concat(k))} >{k}</button>
+                <span>{file}</span>
+                <button onClick={() => this.props.openFile(filePath.concat(file))} >open</button>
               </div>
             }
+
             {
-              typeof this.props.sourceCode[k] === 'object' && <div>
-                <p>{k}</p><Folder
-                  sourceCode={this.props.sourceCode[k]
-                  filePath={filePath.concat(k)}
-                  openFile={this.props.openFile}
-                />
+              typeof file === 'object' && <div>
+                <span>
+                  {Object.keys(file)[0]}
+                  <button  >collapse</button>
+                </span>
+                {
+                  <Folder
+                    sourceCode={file[Object.keys(file)[0]]}
+                    filePath={newPath}
+                    openFile={this.props.openFile}
+                  />
+                }
+
               </div>
             }
           </li>)
         })
+
       }
-    </ul>
+
+
+    </ul></div>)
   }
 }
 
@@ -69,9 +96,9 @@ class TabEditEditor extends React.Component<{
       </div>
       <div id="monaco-wrapper">
 
-      {
-        this.props.sourceFolder && <button>Save</button>
-      }
+        {
+          this.props.sourceFolder && <button>Save</button>
+        }
 
         <MonacoEditor
           language="javascript"

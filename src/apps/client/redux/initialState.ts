@@ -7,7 +7,7 @@ export default {
     "booting spaceTrash session terminal",
   ],
   openFile: [],
-  sourceCode: {},
+  sourceCode: [],
   packErrors: ['Nothing yet'],
 
   shipBundles: [

@@ -32,9 +32,9 @@ class TabEdit extends React.Component<{
     return (<Tabs>
       <TabList>
 
-        <Tab>editor</Tab>
+        <Tab>edit</Tab>
         <Tab>logs</Tab>
-        <Tab>bundles</Tab>
+        <Tab>apps</Tab>
 
       </TabList>
 

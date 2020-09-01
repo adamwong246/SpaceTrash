@@ -29410,11 +29410,13 @@ __webpack_require__.r(__webpack_exports__);
 const websocket = _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7___default()(_redux_store_js__WEBPACK_IMPORTED_MODULE_8__["default"])
 const ipc = Object(_ipcFactory__WEBPACK_IMPORTED_MODULE_4__["default"])(_redux_store_js__WEBPACK_IMPORTED_MODULE_8__["default"])
 
-const selectors = Object(_redux_selectorsFactory_js__WEBPACK_IMPORTED_MODULE_5__["default"])(ipc, websocket, _redux_store_js__WEBPACK_IMPORTED_MODULE_8__["default"])
+const selectors = Object(_redux_selectorsFactory_js__WEBPACK_IMPORTED_MODULE_5__["default"])(ipc, websocket)
 const ipcsocketHandlers = Object(_ipcsocketHandlers_js__WEBPACK_IMPORTED_MODULE_6__["default"])(ipc, websocket, _redux_store_js__WEBPACK_IMPORTED_MODULE_8__["default"], selectors);
 
 ipc.init(ipcsocketHandlers, selectors)
 websocket.init(selectors)
+
+////////////////////////////////////////////////////////////////////////////////
 
 let clientWin
 let serverWin
@@ -29463,7 +29465,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ((store) => {
 
-  function init(handlers, selector) {
+  function init(handlers, selectors) {
     const socketName = "spaceTrash"
     console.log("ipc init")
     node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.config.id = socketName
@@ -29472,8 +29474,7 @@ __webpack_require__.r(__webpack_exports__);
     node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.serve(() => {
       node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.on('message', (data, socket) => {
         console.log("message", data)
-
-        selector(store.getState())
+        selectors.selectAndBroadcastEverything(store.getState())
 
 
         let msg = JSON.parse(data)
@@ -29579,6 +29580,8 @@ const {
   }
 
   handlers['load'] = async () => {
+    const state = store.getState()
+    selectors.selectAndBroadcastSourceFiles(state);
     return webSocket.load()
   }
 
@@ -29600,21 +29603,24 @@ const {
         type: "PICK_FOLDER",
         payload: folder.filePaths[0]
       })
-      selectors(store.getState())
+    }).then(() =>{
+      const state = store.getState();
+      selectors.selectAndBroadcastSourceFolder(state)
+      selectors.selectAndBroadcastSourceFiles(state)
     })
   }
 
   handlers['PACK_FOLDER'] = async (commands) => {
     console.log("PACK_FOLDER")
 
-    if (!store.getState().sourceFolder) {
-      store.dispatch({
-        type: "PACK_ERRORS",
-        payload: ["you haven't set a source folder"]
-      })
-      selectors(store.getState())
-      return
-    }
+    // if (!store.getState().sourceFolder) {
+    //   store.dispatch({
+    //     type: "PACK_ERRORS",
+    //     payload: ["you haven't set a source folder"]
+    //   })
+    //   selectors(store.getState())
+    //   return
+    // }
     // // //
     // // // const sourceFolder = selectors(store.getState()).sourceFolder;
     // // // const entry = sourceFolder + 'index.js';
@@ -29636,10 +29642,8 @@ const {
     // // var webpackConfigJson = safeEval(webpackText, {require})
     //
     // console.log(webpackConfigJson)
-
     // const vm = new NodeVM({ require: { builtin: ['events'] } });
     // vm.run(`require('events')`)
-
     // vm.run(`
     //     var request = require('request');
     //     request('http://www.google.com', function (error, response, body) {
@@ -29649,24 +29653,24 @@ const {
     //         }
     //     })
     // `, 'vm.js');
-
-
-    webpack({}, (err, stats) => {
-      if (err || stats.hasErrors()) {
-        store.dispatch({
-          type: "PACK_ERRORS",
-          payload: stats.compilation.errors.map((e) => {
-            return e.message
-          })
-        })
-      } else {
-        store.dispatch({
-          type: "PACK_ERRORS",
-          payload: ["AOK"]
-        })
-      }
-      selectors(store.getState())
-    })
+    //
+    //
+    // webpack({}, (err, stats) => {
+    //   if (err || stats.hasErrors()) {
+    //     store.dispatch({
+    //       type: "PACK_ERRORS",
+    //       payload: stats.compilation.errors.map((e) => {
+    //         return e.message
+    //       })
+    //     })
+    //   } else {
+    //     store.dispatch({
+    //       type: "PACK_ERRORS",
+    //       payload: ["AOK"]
+    //     })
+    //   }
+    //   selectors(store.getState())
+    // })
 
   }
 
@@ -29686,11 +29690,12 @@ const {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+const immutable_1 = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
+exports.default = immutable_1.fromJS({
     shipMap: {},
     drones: {},
     sourceFolder: false
-};
+});
 
 
 /***/ }),
@@ -29708,6 +29713,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const initialState_ts_1 = __webpack_require__(/*! ./initialState.ts */ "./src/apps/electron/redux/initialState.ts");
 const updatedDroneRays = __webpack_require__(/*! ../getRays.ts */ "./src/apps/electron/getRays.ts");
 exports.default = (state = initialState_ts_1.default, action) => {
+    console.log(action);
     switch (action.type) {
         case "PACK_ERRORS": {
             return {
@@ -29716,10 +29722,7 @@ exports.default = (state = initialState_ts_1.default, action) => {
             };
         }
         case "RECEIVE_UPDATE": {
-            return {
-                ...state,
-                ...action.payload
-            };
+            return state.set("message", action.payload.message);
         }
         case "RECEIVE_UPDATE_FROM_SERVER": {
             const { drones, shipMap } = updatedDroneRays(action.payload);
@@ -29730,10 +29733,7 @@ exports.default = (state = initialState_ts_1.default, action) => {
             };
         }
         case "PICK_FOLDER": {
-            return {
-                ...state,
-                sourceFolder: action.payload
-            };
+            return state.set("sourceFolder", action.payload);
         }
         default:
             console.log("IDK", action);
@@ -29763,38 +29763,80 @@ __webpack_require__.r(__webpack_exports__);
 
 // Map all files in a directory in Node.js recursively and synchronously
 var getFiles = function(directory) {
-  if(!directory)return {}
-  let out = {};
+  if(!directory)return []
+  let out = [];
 
   fs__WEBPACK_IMPORTED_MODULE_0___default.a.readdirSync(directory).forEach(item => {
     const itemPath = `${directory}/${item}`;
 
+    const pathSplit = item.split('/')
+    const justThefile = pathSplit[pathSplit.length - 1];
+
     if (fs__WEBPACK_IMPORTED_MODULE_0___default.a.statSync(itemPath).isDirectory()) {
-
       if(item !== '.git'){
-        out[item] = getFiles(itemPath);
+        out = out.concat({ [justThefile]: getFiles(itemPath) } );
       }
-
     } else {
-      out[item] = fs__WEBPACK_IMPORTED_MODULE_0___default.a.readFileSync(itemPath, {
-        encoding: 'utf8',
-        flag: 'r'
-      });
+
+      out = out.concat(justThefile)
     }
   });
   return out;
+
+  // if(!directory)return {}
+  // let out = {};
+  //
+  // fs.readdirSync(directory).forEach(item => {
+  //   const itemPath = `${directory}/${item}`;
+  //
+  //   if (fs.statSync(itemPath).isDirectory()) {
+  //
+  //     if(item !== '.git'){
+  //       out[item] = getFiles(itemPath);
+  //     }
+  //
+  //   } else {
+  //     out[item] = "fs.readFileSync(itemPath, {encoding: 'utf8',flag: 'r'});"
+  //   }
+  // });
+  // return out;
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ((ipcSocket, webSocket) => {
-  return ((state) => {
 
-    const stateWithFiles = {
-      ...state,
-      sourceCode: getFiles(state.sourceFolder)
-    }
-    ipcSocket.send("update", stateWithFiles)
+  const baseSelector = ((state) => {
+    console.log('baseSelector')
     return state
+  });
+
+  const selectAndBroadcastSourceFolder = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([baseSelector], (base) => {
+    const sourceFolder = base.get("sourceFolder")
+    console.log('selectAndBroadcastSourceFolder')
+    ipcSocket.send("update", {sourceFolder})
+    return sourceFolder
   })
+
+  const selectAndBroadcastSourceFiles = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([selectAndBroadcastSourceFolder], (sourceFolder) => {
+    console.log('selectAndBroadcastSourceFiles', sourceFolder)
+
+    const sourceCode = getFiles(sourceFolder);
+
+    ipcSocket.send("update", {sourceCode: sourceCode})
+    return sourceCode
+  })
+
+  const selectAndBroadcastEverything = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([baseSelector], (base) => {
+    ipcSocket.send("update", base)
+    return base
+  })
+
+  return {
+    baseSelector,
+    selectAndBroadcastSourceFolder,
+    selectAndBroadcastEverything,
+    selectAndBroadcastSourceFiles
+  }
+
 });
 
 
@@ -29844,26 +29886,19 @@ exports.default = (store) => {
         // console.log(`onopen: ${JSON.stringify(e)}`)
     };
     return {
-        init: (selector) => {
+        init: (selectors) => {
             ws.onmessage = function (e) {
                 const data = JSON.parse(e.data);
                 // console.log(`onmessage`, data)
                 if (data.msg === "user joined") {
-                    // store.dispatch({ type: "NEW_COMMAND", payload: "connection established" })
                 }
                 else if (data.msg.updateFromCloud) {
                     store.dispatch({ type: "RECEIVE_UPDATE_FROM_SERVER", payload: data.msg.updateFromCloud });
                 }
                 else {
-                    // console.log(store.getState())
                     store.dispatch({ type: "RECEIVE_UPDATE", payload: data.msg });
-                    // selector(store.getState())
-                    // console.log(selector(store.getState()))
-                    // console.log(store.getState())
-                    selector(store.getState());
+                    selectors.selectAndBroadcastEverything(store.getState());
                 }
-                // console.log(store.getState())
-                //
             };
         },
         ping: () => {

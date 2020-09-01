@@ -2,7 +2,7 @@ import ipc from "node-ipc";
 
 export default (store) => {
 
-  function init(handlers, selector) {
+  function init(handlers, selectors) {
     const socketName = "spaceTrash"
     console.log("ipc init")
     ipc.config.id = socketName
@@ -11,8 +11,7 @@ export default (store) => {
     ipc.serve(() => {
       ipc.server.on('message', (data, socket) => {
         console.log("message", data)
-
-        selector(store.getState())
+        selectors.selectAndBroadcastEverything(store.getState())
 
 
         let msg = JSON.parse(data)

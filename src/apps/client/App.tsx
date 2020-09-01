@@ -14,11 +14,11 @@ import Manual from './components/Manual.tsx'
 
 require('react-tabs/style/react-tabs.css');
 
-require('../style/crt.css');
-require('../style/tabs.css');
-require('../style/typo.css');
-require("../style/layout.css");
-require("../style/style.css");
+require('../../style/crt.css');
+require('../../style/tabs.css');
+require('../../style/typo.css');
+require("../../style/layout.css");
+require("../../style/style.css");
 
 require("./style/video.css");
 require("./style/color.css");
