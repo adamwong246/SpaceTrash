@@ -8,5 +8,15 @@ export default {
   ],
   openFile: [],
   sourceCode: {},
-  packErrors: ['Nothing yet']
+  packErrors: ['Nothing yet'],
+
+  shipBundles: [
+    {name : "ship0"}
+  ],
+  viewBundles: [
+    {name : "viewA"}
+  ],
+  aiBundles: [
+    {name : "botOO"}
+  ]
 }

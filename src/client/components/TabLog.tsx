@@ -43,41 +43,39 @@ class TabLog extends React.Component<{
 
   render() {
     return (
-
       <div>
-        <button>upload</button>
-      <div id="terminal" className="scrolly">
+        <div id="terminal" className="scrolly">
 
-        <pre>
-          <code>
-            {
-              this.props.terminalLines.map((c, ndx) => {
+          <pre>
+            <code>
+              {
+                this.props.terminalLines.map((c, ndx) => {
 
-                return (
-                  <div key={`terminal-line-${ndx}`}>
+                  return (
+                    <div key={`terminal-line-${ndx}`}>
 
-                    {(typeof c === "string") &&
-                      (c.split('\n').map((l, ndx2) =>
-                        <span key={`terminal-line-p-${ndx2}`} >{l}</span>
-                      ))}
+                      {(typeof c === "string") &&
+                        (c.split('\n').map((l, ndx2) =>
+                          <span key={`terminal-line-p-${ndx2}`} >{l}</span>
+                        ))}
 
-                    {
-                      (typeof c !== "string") &&
-                      <span key={`terminal-line-p-${ndx}`} >{c}</span>
-                    }
+                      {
+                        (typeof c !== "string") &&
+                        <span key={`terminal-line-p-${ndx}`} >{c}</span>
+                      }
 
-                  </div>
-                );
+                    </div>
+                  );
+                }
+                )
               }
-              )
-            }
 
-          </code>
-        </pre>
+            </code>
+          </pre>
 
-        <div ref={this.messagesEndRef} />
+          <div ref={this.messagesEndRef} />
 
-      </div>
+        </div>
       </div >);
   }
 }

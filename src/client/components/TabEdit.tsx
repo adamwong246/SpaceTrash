@@ -7,6 +7,7 @@ import { getTabEditProps } from '../redux/selectors.js';
 
 import TabEditEditor from "./TabEditEditor.tsx";
 import TabEditLogs from "./TabEditLogs.tsx";
+import TabEditBundles from "./TabEditBundles.tsx";
 
 class TabEdit extends React.Component<{
   sourceCode: {},
@@ -33,6 +34,7 @@ class TabEdit extends React.Component<{
 
         <Tab>editor</Tab>
         <Tab>logs</Tab>
+        <Tab>bundles</Tab>
 
       </TabList>
 
@@ -50,6 +52,10 @@ class TabEdit extends React.Component<{
         packErrors={packErrors}
         broadcasterV2={broadcasterV2}
       /></TabPanel>
+
+      <TabPanel>
+        <TabEditBundles broadcasterV2={broadcasterV2}/>
+      </TabPanel>
 
 
     </Tabs>);

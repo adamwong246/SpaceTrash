@@ -93,12 +93,12 @@ const commonConfig = {
 
 const server = require("./src/server/webpack.config.js")
 
-const userConfig = lodash.cloneDeep(commonConfig);
-userConfig.target = "web"
-userConfig.entry = './src/adam/index.js';
-userConfig.output.filename = 'adam.bundle.js';
-userConfig.output.publicPath = __dirname
-userConfig.devtool = false
+// const userConfig = lodash.cloneDeep(commonConfig);
+// userConfig.target = "web"
+// userConfig.entry = './src/adam/index.js';
+// userConfig.output.filename = 'adam.bundle.js';
+// userConfig.output.publicPath = __dirname
+// userConfig.devtool = false
 
 const electronRendererConfig = lodash.cloneDeep(commonConfig);
 electronRendererConfig.entry = ["@babel/polyfill", './src/client/index.tsx'];
@@ -131,9 +131,17 @@ electronMainConfig.plugins = [
   }, ]),
 ];
 
+const aiHarnessConfig = lodash.cloneDeep(commonConfig);
+aiHarnessConfig.entry = './src/aiHarness/index.js';
+aiHarnessConfig.target = 'node';
+aiHarnessConfig.output.filename = 'aiHarness.bundle.js';
+aiHarnessConfig.plugins = [
+  ...commonConfig.plugins,
+];
+
 module.exports = [
-  userConfig,
   server,
   electronMainConfig,
   electronRendererConfig,
+  // aiHarnessConfig
 ];

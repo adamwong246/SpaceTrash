@@ -7,8 +7,10 @@ import Root from './components/Root.tsx'
 import TabBots from './components/TabBots.tsx'
 import TabEdit from './components/TabEdit.tsx'
 import TabExec from './components/TabExec.tsx'
+import TabLog from './components/TabLog.tsx'
 import TabShip from './components/TabShip.tsx'
 import TabSudo from './components/TabSudo.tsx'
+import Manual from './components/Manual.tsx'
 
 require('react-tabs/style/react-tabs.css');
 
@@ -38,6 +40,7 @@ class App extends React.Component<{
             <Tab>root</Tab>
             <Tab>code</Tab>
             <Tab>play</Tab>
+            <Tab>help</Tab>
 
             <div id="status">connected!</div>
           </TabList>
@@ -54,6 +57,7 @@ class App extends React.Component<{
                 <Tab>ship</Tab>
                 <Tab>bots</Tab>
                 <Tab>exec</Tab>
+                <Tab>logs</Tab>
                 <Tab>sudo</Tab>
               </TabList>
 
@@ -61,11 +65,17 @@ class App extends React.Component<{
               <TabPanel><TabShip /></TabPanel>
               <TabPanel><TabBots broadcaster={this.props.broadcaster} /></TabPanel>
               <TabPanel><TabExec broadcaster={this.props.broadcaster} /></TabPanel>
+              <TabPanel><TabLog /></TabPanel>
 
               <TabPanel><TabSudo /></TabPanel>
 
             </Tabs>
 
+          </TabPanel>
+
+
+          <TabPanel>
+            <Manual />
           </TabPanel>
 
         </Tabs>

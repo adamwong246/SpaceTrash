@@ -6,6 +6,15 @@ import store from "./store.js";
 
 const baseSelector = (state => state)
 
+export const getTabEditBundlesProps =  createSelector([baseSelector], base => {
+
+    return {
+      shipBundles: base.shipBundles,
+      aiBundles: base.aiBundles,
+      viewBundles: base.viewBundles
+    }
+});
+
 export const getTabChatProps = createSelector([baseSelector], state => {
   return {
     chatLog: []
@@ -39,7 +48,7 @@ export const getTabEditProps = createSelector([baseSelector], base => {
   return {
 
     packErrors: base.packErrors,
-    
+
     sourceFolder: base.sourceFolder,
 
     openFileContents: openFileContents === {} ? "" : openFileContents,

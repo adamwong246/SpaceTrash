@@ -4,7 +4,7 @@ import {
   createSelector
 } from "reselect";
 
-// Map all files in a directory in Node.js recursively in a synchronous fashion
+// Map all files in a directory in Node.js recursively and synchronously
 var getFiles = function(directory) {
   if(!directory)return {}
   let out = {};
@@ -13,12 +13,16 @@ var getFiles = function(directory) {
     const itemPath = `${directory}/${item}`;
 
     if (fs.statSync(itemPath).isDirectory()) {
-      out[item] = getFiles(itemPath);
+
+      if(item !== '.git'){
+        out[item] = getFiles(itemPath);
+      }
+
     } else {
       out[item] = fs.readFileSync(itemPath, {
         encoding: 'utf8',
         flag: 'r'
-      });;
+      });
     }
   });
   return out;

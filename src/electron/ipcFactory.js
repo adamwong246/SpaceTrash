@@ -10,9 +10,10 @@ export default (store) => {
 
     ipc.serve(() => {
       ipc.server.on('message', (data, socket) => {
-        // console.log("message", data)
+        console.log("message", data)
 
         selector(store.getState())
+
 
         let msg = JSON.parse(data)
         let {
