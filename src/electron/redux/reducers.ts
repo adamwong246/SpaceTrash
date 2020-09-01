@@ -8,8 +8,15 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
 
+    case "PACK_ERRORS": {
+      console.log(action)
+      return {
+        ...state,
+        packErrors: action.payload
+      }
+    }
+
     case "RECEIVE_UPDATE": {
-      // console.log("RECEIVE_UPDATE", action.payload)
       return {
         ...state,
         ...action.payload
@@ -17,7 +24,6 @@ export default (state = initialState, action) => {
     }
 
     case "RECEIVE_UPDATE_FROM_SERVER": {
-      // console.log("RECEIVE_UPDATE_FROM_SERVER", action.payload)
       const {drones, shipMap} = updatedDroneRays(action.payload)
       return {
         ...state,
@@ -27,7 +33,6 @@ export default (state = initialState, action) => {
     }
 
     case "PICK_FOLDER": {
-      console.log(action.payload)
       return {
         ...state,
         sourceFolder: action.payload

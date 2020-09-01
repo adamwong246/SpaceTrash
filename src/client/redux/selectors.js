@@ -37,6 +37,9 @@ export const getTabEditProps = createSelector([baseSelector], base => {
 
 
   return {
+
+    packErrors: base.packErrors,
+    
     sourceFolder: base.sourceFolder,
 
     openFileContents: openFileContents === {} ? "" : openFileContents,

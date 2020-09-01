@@ -51,16 +51,21 @@ export default (ipcSocket, webSocket, store, selectors) => {
   handlers['PACK_FOLDER'] = async (commands) => {
     console.log("PACK_FOLDER")
     const w = webpack({
-      entry: './../adam/adamShipV0.js',
+      entry: './index.js',
       output: {
         filename: 'adamBundle.js',
         path: path.resolve(__dirname, './dist'),
       },
     }, (err, stats) => { // Stats Object
       if (err || stats.hasErrors()) {
-        console.log(err)
+
+        store.dispatch({
+          type: "PACK_ERRORS",
+          payload: stats.compilation.errors.map((e) => {return e.message})
+        })
+        selectors(store.getState())
       }
-      console.log(stats)
+
     })
 
 
