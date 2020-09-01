@@ -5,26 +5,30 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { getTabEditProps } from '../redux/selectors.js';
 
-class File extends React.Component<{},{}>{
-  render(){
-    return <li>{this.props.filename}</li>
-  }
-}
-
-class Folder extends React.Component<{},{}>{
-  render(){
+class Folder extends React.Component<{}, {}>{
+  render() {
     console.log(this.props.sourceCode)
+
+    var filePath  = this.props.filePath || []
 
     return <ul>
       {
         (Object.keys(this.props.sourceCode).map((k, v) => {
-          console.log(typeof this.props.sourceCode[k])
           return (<li>
             {
-              typeof this.props.sourceCode[k] === 'string' && <button>{k}</button>
+              typeof this.props.sourceCode[k] === 'string' &&
+              <div>
+                <button onClick={() => this.props.openFile(filePath.concat(k))} >{k}</button>
+              </div>
             }
             {
-              typeof this.props.sourceCode[k] === 'object' && <div><button>{k}</button><Folder sourceCode={this.props.sourceCode[k]}/></div>
+              typeof this.props.sourceCode[k] === 'object' && <div>
+                <p>{k}</p><Folder
+                  sourceCode={this.props.sourceCode[k]
+                  filePath={filePath.concat(k)}
+                  openFile={this.props.openFile}
+                  />
+                </div>
             }
           </li>)
         })
@@ -42,7 +46,8 @@ class TabEdit extends React.Component<{
 }, {}> {
 
   render() {
-    const sourceCode = this.props.sourceCode
+    const {openFile, sourceCode} = this.props;
+
     return (<div>
 
       <table><tbody>
@@ -50,7 +55,7 @@ class TabEdit extends React.Component<{
         <tr>
           <td>
             <button
-              onClick={() => this.props.broadcasterV2({action: "PICK_FOLDER", payload: {}})}>
+              onClick={() => this.props.broadcasterV2({ action: "PICK_FOLDER", payload: {} })}>
               Pick folder
             </button>
 
@@ -70,7 +75,7 @@ class TabEdit extends React.Component<{
 
         <tr>
           <td>
-            <Folder sourceCode={sourceCode} />
+            <Folder sourceCode={sourceCode} openFile={openFile}/>
           </td>
 
           <td>
@@ -85,7 +90,7 @@ class TabEdit extends React.Component<{
                   minimap: { enabled: false }
                 }
               }
-              value={this.props.openFileContents}
+              value={typeof this.props.openFileContents === "object" ? "NO" : this.props.openFileContents}
             />
 
           </td>

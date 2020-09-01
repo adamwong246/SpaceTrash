@@ -30,7 +30,7 @@ export default (state = initialState, action) => {
     case "SET_OPEN_FILE": {
       return {
         ...state,
-        openFileContents: action.payload
+        openFile: action.payload
       }
     }
 

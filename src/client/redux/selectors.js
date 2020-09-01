@@ -31,18 +31,22 @@ export const getTabBotsProps = createSelector([baseSelector], base => {
 
 export const getTabEditProps = createSelector([baseSelector], base => {
 
+  const openFileContents = base.openFile.reduce((memo, address) => {
+    return memo[address]
+  }, base.sourceCode)
+
 
   return {
     sourceFolder: base.sourceFolder,
 
-    openFileContents: base.openFileContents,
+    openFileContents: openFileContents === {} ? "" : openFileContents,
 
     sourceCode: base.sourceCode,
-    
-    openFile: (file) => {
+
+    openFile: (filePath) => {
       store.dispatch({
         type: 'SET_OPEN_FILE',
-        payload: file.fileText
+        payload: filePath
       })
     },
   }

@@ -6,4 +6,6 @@ export default {
   terminalLines: [
     "booting spaceTrash session terminal",
   ],
+  openFile: [],
+  sourceCode: {}
 }
