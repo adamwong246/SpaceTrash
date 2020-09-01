@@ -113,7 +113,7 @@ electronRendererConfig.plugins = [
     __MODE__: JSON.stringify('full')
   }),
   new CopyWebpackPlugin([{
-    from: './src',
+    from: './src/imags',
     to: 'images'
   }]),
 ];

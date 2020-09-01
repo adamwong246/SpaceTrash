@@ -21,11 +21,11 @@ const broadcaster = (commands) => {
 
 const broadcasterV2 = ({action, payload}) => {
   ipcSend(action, payload).then((v) => {
-    console.log('then enqueue', v)
+    console.log('then broadcasterV2', v)
   }).catch((e) => {
-    console.log('catch enqueue')
+    console.log('catch broadcasterV2')
   }).finally(() => {
-    console.log('finally enqueue')
+    console.log('finally broadcasterV2')
   })
 }
 

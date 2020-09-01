@@ -26,7 +26,6 @@ class TabShip extends React.Component<{
   }
 
   render() {
-    // debugger
     const shipMap = this.props.base.shipMap
 
     if (!shipMap){return <p>idk</p>}
@@ -129,7 +128,7 @@ class TabShip extends React.Component<{
 
         </tr>
       </tbody></table>
-      
+
       </div>
 
 

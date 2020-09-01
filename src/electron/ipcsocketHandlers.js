@@ -1,4 +1,9 @@
-const { dialog } = require('electron')
+const path = require('path');
+
+const {
+  dialog
+} = require('electron')
+const webpack = require('webpack');
 
 export default (ipcSocket, webSocket, store, selectors) => {
 
@@ -30,15 +35,34 @@ export default (ipcSocket, webSocket, store, selectors) => {
   }
 
   handlers['PICK_FOLDER'] = async (commands) => {
-
     dialog.showOpenDialog({
       title: "spaceTrash",
       message: "Pick a source folder",
       properties: ['openDirectory']
     }).then((folder) => {
-      store.dispatch({type: "PICK_FOLDER", payload: folder.filePaths[0]})
+      store.dispatch({
+        type: "PICK_FOLDER",
+        payload: folder.filePaths[0]
+      })
       selectors(store.getState())
     })
+  }
+
+  handlers['PACK_FOLDER'] = async (commands) => {
+    console.log("PACK_FOLDER")
+    const w = webpack({
+      entry: './../adam/adamShipV0.js',
+      output: {
+        filename: 'adamBundle.js',
+        path: path.resolve(__dirname, './dist'),
+      },
+    }, (err, stats) => { // Stats Object
+      if (err || stats.hasErrors()) {
+        console.log(err)
+      }
+      console.log(stats)
+    })
+
 
 
   }

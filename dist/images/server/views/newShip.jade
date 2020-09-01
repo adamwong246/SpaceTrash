@@ -1,8 +1,0 @@
-extends layout
-
-block content
-  h2 New Ship
-  form(role='form', action='/ships', method='post')
-    label(for='name')
-    input(type='text', name='name', id='name', placeholder='Ship name', required)
-    button(type='submit') Create Ship

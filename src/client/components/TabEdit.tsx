@@ -9,7 +9,7 @@ class Folder extends React.Component<{}, {}>{
   render() {
     console.log(this.props.sourceCode)
 
-    var filePath  = this.props.filePath || []
+    var filePath = this.props.filePath || []
 
     return <ul>
       {
@@ -27,8 +27,8 @@ class Folder extends React.Component<{}, {}>{
                   sourceCode={this.props.sourceCode[k]
                   filePath={filePath.concat(k)}
                   openFile={this.props.openFile}
-                  />
-                </div>
+                />
+              </div>
             }
           </li>)
         })
@@ -46,7 +46,7 @@ class TabEdit extends React.Component<{
 }, {}> {
 
   render() {
-    const {openFile, sourceCode} = this.props;
+    const { openFile, sourceCode } = this.props;
 
     return (<div>
 
@@ -57,6 +57,11 @@ class TabEdit extends React.Component<{
             <button
               onClick={() => this.props.broadcasterV2({ action: "PICK_FOLDER", payload: {} })}>
               Pick folder
+            </button>
+
+            <button
+              onClick={() => this.props.broadcasterV2({ action: "PACK_FOLDER", payload: {} })}>
+              pack it
             </button>
 
             {
@@ -75,7 +80,7 @@ class TabEdit extends React.Component<{
 
         <tr>
           <td>
-            <Folder sourceCode={sourceCode} openFile={openFile}/>
+            <Folder sourceCode={sourceCode} openFile={openFile} />
           </td>
 
           <td>
