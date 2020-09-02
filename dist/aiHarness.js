@@ -13,8 +13,6 @@ const setAutopilot = (someData) => {
 
   autopilot = new evaluated();
 
-
-
   ipc.of.spacetrash.emit(
     'message',
     JSON.stringify({
@@ -22,8 +20,6 @@ const setAutopilot = (someData) => {
       args: {}
     })
   )
-
-
 };
 
 const commandAutopilot = (command = "") => {
@@ -47,23 +43,12 @@ const bundleProject = () => {
     flag: 'r'
   });
 
-  console.log(webpackText)
-
-  // const virtualMachine = new NodeVM({
-  //   require: {
-  //     builtin: ['path']
-  //   },
-  //   sandbox: {}
-  // });
-  //
   const webpackConfig = eval(webpackText).map((config) => {
     return {
       ...config,
       entry: "/Users/adam/Programming/spacetrashConfigs" + config.entry.split('.')[1]
     }
   })
-
-  console.log(webpackConfig)
 
   webpack(webpackConfig, (err, stats) => {
     console.log("done packing")

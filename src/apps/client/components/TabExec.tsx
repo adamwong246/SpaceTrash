@@ -12,8 +12,8 @@ class TabExec extends React.Component<{
 
   render() {
     console.log("TABEXEC props", this.props)
-    const informCaptain = (payload) =>{
-      this.props.broadcasterV2({action: "INFORM_AUTOPILOT", payload})
+    const commandAutopilot = (payload) =>{
+      this.props.broadcasterV2({action: "COMMAND_AUTOPILOT", payload})
     }
 
     return (<div>
@@ -22,7 +22,7 @@ class TabExec extends React.Component<{
       }
 
       {
-        this.props.userView && new this.props.userView().render({informCaptain})
+        this.props.userView && new this.props.userView().render({commandAutopilot})
       }
 
     </div>);
