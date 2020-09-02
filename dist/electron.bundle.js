@@ -29610,9 +29610,36 @@ const {
     })
   }
 
+  handlers['userView'] = async (payload) => {
+    store.dispatch({
+      type: "ADD_USER_VIEW",
+      payload
+    })
+    const state = store.getState();
+    selectors.selectAndBroadcastUserViews(state)
+  }
+
+  handlers['userAi'] = async (payload) => {
+    store.dispatch({
+      type: "ADD_USER_AI",
+      payload
+    })
+    const state = store.getState();
+    selectors.selectAndBroadcastUserAis(state)
+  }
+
+  handlers['userShip'] = async (payload) => {
+    store.dispatch({
+      type: "ADD_USER_SHIP",
+      payload
+    })
+    const state = store.getState();
+    selectors.selectAndBroadcastUserShips(state)
+  }
+
   handlers['PACK_FOLDER'] = async (commands) => {
     console.log("PACK_FOLDER")
-
+    ipcSocket.send("spacetrash", {"PACK_FOLDER": true})
     // if (!store.getState().sourceFolder) {
     //   store.dispatch({
     //     type: "PACK_ERRORS",
@@ -29694,7 +29721,10 @@ const immutable_1 = __webpack_require__(/*! immutable */ "./node_modules/immutab
 exports.default = immutable_1.fromJS({
     shipMap: {},
     drones: {},
-    sourceFolder: false
+    sourceFolder: false,
+    userViews: [],
+    userShips: [],
+    userAis: [],
 });
 
 
@@ -29715,6 +29745,15 @@ const updatedDroneRays = __webpack_require__(/*! ../getRays.ts */ "./src/apps/el
 exports.default = (state = initialState_ts_1.default, action) => {
     console.log(action);
     switch (action.type) {
+        case "ADD_USER_VIEW": {
+            return state.set("userViews", state.get("userViews").concat(action.payload));
+        }
+        case "ADD_USER_SHIP": {
+            return state.set("userShips", state.get("userShips").concat(action.payload));
+        }
+        case "ADD_USER_AI": {
+            return state.set("userAis", state.get("userAis").concat(action.payload));
+        }
         case "PACK_ERRORS": {
             return {
                 ...state,
@@ -29825,6 +29864,24 @@ var getFiles = function(directory) {
     return sourceCode
   })
 
+  const selectAndBroadcastUserViews = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([baseSelector], (base) => {
+    const userViews = base.get("userViews")
+    ipcSocket.send("update", {userViews: base.userViews})
+    return userViews
+  })
+
+  const selectAndBroadcastUserAis = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([baseSelector], (base) => {
+    const userAis = base.get("userAis")
+    ipcSocket.send("update", {userAis: base.userAis})
+    return userAis
+  })
+
+  const selectAndBroadcastUserShips = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([baseSelector], (base) => {
+    const userShips = base.get("userShips")
+    ipcSocket.send("update", {userShips: base.userShips})
+    return userShips
+  })
+
   const selectAndBroadcastEverything = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([baseSelector], (base) => {
     ipcSocket.send("update", base)
     return base
@@ -29834,7 +29891,10 @@ var getFiles = function(directory) {
     baseSelector,
     selectAndBroadcastSourceFolder,
     selectAndBroadcastEverything,
-    selectAndBroadcastSourceFiles
+    selectAndBroadcastSourceFiles,
+    selectAndBroadcastUserViews,
+    selectAndBroadcastUserAis,
+    selectAndBroadcastUserShips
   }
 
 });

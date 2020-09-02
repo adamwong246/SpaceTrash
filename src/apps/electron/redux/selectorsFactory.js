@@ -68,6 +68,24 @@ export default (ipcSocket, webSocket) => {
     return sourceCode
   })
 
+  const selectAndBroadcastUserViews = createSelector([baseSelector], (base) => {
+    const userViews = base.get("userViews")
+    ipcSocket.send("update", {userViews: base.userViews})
+    return userViews
+  })
+
+  const selectAndBroadcastUserAis = createSelector([baseSelector], (base) => {
+    const userAis = base.get("userAis")
+    ipcSocket.send("update", {userAis: base.userAis})
+    return userAis
+  })
+
+  const selectAndBroadcastUserShips = createSelector([baseSelector], (base) => {
+    const userShips = base.get("userShips")
+    ipcSocket.send("update", {userShips: base.userShips})
+    return userShips
+  })
+
   const selectAndBroadcastEverything = createSelector([baseSelector], (base) => {
     ipcSocket.send("update", base)
     return base
@@ -77,7 +95,10 @@ export default (ipcSocket, webSocket) => {
     baseSelector,
     selectAndBroadcastSourceFolder,
     selectAndBroadcastEverything,
-    selectAndBroadcastSourceFiles
+    selectAndBroadcastSourceFiles,
+    selectAndBroadcastUserViews,
+    selectAndBroadcastUserAis,
+    selectAndBroadcastUserShips
   }
 
 }

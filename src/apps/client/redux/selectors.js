@@ -7,12 +7,14 @@ import store from "./store.js";
 const baseSelector = (state => state)
 
 export const getTabEditBundlesProps =  createSelector([baseSelector], base => {
-
-    return {
-      shipBundles: base.shipBundles,
-      aiBundles: base.aiBundles,
-      viewBundles: base.viewBundles
-    }
+  return {
+   userViews: base.userViews || [],
+   userAis: base.userAis || [],
+   userShips: base.userShips || [],
+   shipBundles: base.shipBundles,
+   aiBundles: base.aiBundles,
+   viewBundles: base.viewBundles
+ }
 });
 
 export const getTabChatProps = createSelector([baseSelector], state => {

@@ -52,9 +52,36 @@ export default (ipcSocket, webSocket, store, selectors) => {
     })
   }
 
+  handlers['userView'] = async (payload) => {
+    store.dispatch({
+      type: "ADD_USER_VIEW",
+      payload
+    })
+    const state = store.getState();
+    selectors.selectAndBroadcastUserViews(state)
+  }
+
+  handlers['userAi'] = async (payload) => {
+    store.dispatch({
+      type: "ADD_USER_AI",
+      payload
+    })
+    const state = store.getState();
+    selectors.selectAndBroadcastUserAis(state)
+  }
+
+  handlers['userShip'] = async (payload) => {
+    store.dispatch({
+      type: "ADD_USER_SHIP",
+      payload
+    })
+    const state = store.getState();
+    selectors.selectAndBroadcastUserShips(state)
+  }
+
   handlers['PACK_FOLDER'] = async (commands) => {
     console.log("PACK_FOLDER")
-
+    ipcSocket.send("spacetrash", {"PACK_FOLDER": true})
     // if (!store.getState().sourceFolder) {
     //   store.dispatch({
     //     type: "PACK_ERRORS",

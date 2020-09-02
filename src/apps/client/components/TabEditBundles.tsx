@@ -21,49 +21,94 @@ class TabEditBundles extends React.Component<{
       </TabList>
 
       <TabPanel>
-        <ul>
+        <Tabs className="vertical">
+          <TabList>
+
+            {
+              this.props.userShips.map((viewBundle) => {
+                return (
+                  <Tab>{viewBundle.name}</Tab>
+                )
+              })
+            }
+
+          </TabList>
+
           {
-            this.props.shipBundles.map((shipBundle) => {
+            this.props.userShips.map((viewBundle) => {
               return (
-                <li>
-                  {shipBundle.name}
+                <TabPanel>
                   <button>load</button>
-                </li>
+                  <pre>{viewBundle.contents}</pre>
+                </TabPanel>
               )
             })
           }
-        </ul>
+        </Tabs>
+
+
+
+      </TabPanel>
+
+      <TabPanel>
+        <Tabs className="vertical">
+          <TabList>
+
+            {
+              this.props.userViews.map((viewBundle) => {
+                return (
+                  <Tab>{viewBundle.name}</Tab>
+                )
+              })
+            }
+
+          </TabList>
+
+          {
+            this.props.userViews.map((viewBundle) => {
+              return (
+                <TabPanel>
+                  <button>load</button>
+                  <pre>{viewBundle.contents}</pre>
+                </TabPanel>
+              )
+            })
+          }
+        </Tabs>
+
       </TabPanel>
 
       <TabPanel>
 
-        <ul>
+
+
+        <Tabs className="vertical">
+          <TabList>
+
+            {
+              this.props.userAis.map((viewBundle) => {
+                return (
+                  <Tab>{viewBundle.name}</Tab>
+                )
+              })
+            }
+
+          </TabList>
+
           {
-            this.props.viewBundles.map((viewBundle) => {
+            this.props.userAis.map((viewBundle) => {
               return (
-                <li>
-                  {viewBundle.name}
+                <TabPanel>
                   <button>load</button>
-                </li>
+                  <pre>{viewBundle.contents}</pre>
+                </TabPanel>
               )
             })
           }
-        </ul>
+        </Tabs>
+
 
       </TabPanel>
-
-      <TabPanel>      <ul>
-        {
-          this.props.aiBundles.map((aiBundle) => {
-            return (
-              <li>
-                {aiBundle.name}
-                <button>load</button>
-              </li>
-            )
-          })
-        }
-      </ul></TabPanel>
 
 
     </Tabs>);

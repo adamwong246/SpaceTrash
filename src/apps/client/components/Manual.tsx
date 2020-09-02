@@ -13,13 +13,13 @@ const Manual = () => (<div >
     <TabList>
       <Tab>README</Tab>
       <Tab>game mechanics</Tab>
-      <Tab>user manual</Tab>
+      <Tab>apps</Tab>
     </TabList>
 
     <TabPanel>
       <h1>README</h1>
 
-      <p>spaceTrash is a real-time-strategy, massively-multiplayer-online "rogue-ish" game where you remotely command a small fleet of drones aboard a distant star ship. </p>
+      <p>spaceTrash is a real-time-strategy, massively-multiplayer-online "rogue-ish" game where you command a small fleet of drones aboard a small star ship. You are a QPU- A Quantum Processor Unit (Turing class II), installed in the bridge of a ship and are charged with using the drones aboard to explore, gather resources and survive.</p>
     </TabPanel>
 
     <TabPanel>
@@ -321,9 +321,34 @@ const Manual = () => (<div >
       </Tabs>
     </TabPanel>
 
-
     <TabPanel>
-      <h1>user manual</h1>
+
+
+      <Tabs className="vertical">
+        <TabList>
+          <Tab>README</Tab>
+          <Tab>ships</Tab>
+          <Tab>views</Tab>
+          <Tab>ais</Tab>
+        </TabList>
+
+        <TabPanel>
+          Apps are pieces of player-written code, written in game, compiled with webpack and run in the same game.
+        </TabPanel>
+
+        <TabPanel>
+          Ship apps will generate a playable space. Think of this like a level editor.
+        </TabPanel>
+
+        <TabPanel>
+          View apps will present the player with a customized user interfaace. These will enhance your terminal with more usefull, customized insterfaces.
+        </TabPanel>
+
+        <TabPanel>
+          AI apps are libraries of code which can be invoked by the player at game time. 
+        </TabPanel>
+
+      </Tabs>
     </TabPanel>
 
   </Tabs>

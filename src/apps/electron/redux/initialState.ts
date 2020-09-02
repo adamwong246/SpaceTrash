@@ -4,5 +4,8 @@ import * as React from "react";
 export default fromJS({
   shipMap: {},
   drones: {},
-  sourceFolder: false
+  sourceFolder: false,
+  userViews: [],
+  userShips: [],
+  userAis: [],
 })

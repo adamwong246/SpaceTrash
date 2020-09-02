@@ -8,6 +8,16 @@ export default (state = initialState, action) => {
   console.log(action)
   switch (action.type) {
 
+    case "ADD_USER_VIEW": {
+      return state.set("userViews", state.get("userViews").concat(action.payload))
+    }
+    case "ADD_USER_SHIP": {
+      return state.set("userShips", state.get("userShips").concat(action.payload))
+    }
+    case "ADD_USER_AI": {
+      return state.set("userAis", state.get("userAis").concat(action.payload))
+    }
+
     case "PACK_ERRORS": {
       return {
         ...state,
