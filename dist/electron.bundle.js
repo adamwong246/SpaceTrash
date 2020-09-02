@@ -29913,7 +29913,7 @@ __webpack_require__.r(__webpack_exports__);
 
     const fileContents = base.getIn(["shipYard", "fileContents"]);
 
-    ipcSocket.send("update", base.set("shipMap", fileContents ? eval(fileContents).shipMap.gridMap : new Map() ) )
+    ipcSocket.send("update", base.set("yardedShip", fileContents ? eval(fileContents).shipMap.gridMap : new Map() ) )
 
     return base
   })

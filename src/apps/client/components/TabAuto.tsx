@@ -49,7 +49,7 @@ class TabAuto extends React.Component<{
         <button onClick={() => this.props.broadcasterV2({ action: "PICK_AUTOPILOT", payload: {} })}>Pick a autopilot</button>
         {
           this.props.autoPilot ?
-          (<span> You have set an autoPilot </span>) :
+          (<span> You have set an autoPilot {this.props.autoPilot.fileName}</span>) :
           (<span> You haven't set an autoPilot </span>)
             }
 

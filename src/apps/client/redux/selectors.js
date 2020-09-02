@@ -16,7 +16,7 @@ export const getTabAutoProps = createSelector([baseSelector], base => {
 export const getTabYardProps = createSelector([baseSelector], base => {
   return {
     ...base,
-    shipYard: base.shipYard,
+    yardedShip: base.yardedShip
   }
 })
 

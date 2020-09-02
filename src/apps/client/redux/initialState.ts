@@ -6,22 +6,12 @@ export default {
   terminalLines: [
     "booting spaceTrash session terminal",
   ],
-  openFile: [],
-  sourceCode: [],
-  packErrors: ['Nothing yet'],
 
-  shipBundles: [
-    {name : "ship0"}
-  ],
-  viewBundles: [
-    {name : "viewA"}
-  ],
-  aiBundles: [
-    {name : "botOO"}
-  ],
   userView: false,
 
   autoPilot: false,
   shipYard: false,
-  dashBoard: false
+  dashBoard: false,
+
+  yardedShip: false
 }

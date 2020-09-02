@@ -327,9 +327,9 @@ const TabManual = () => (<div >
       <Tabs className="vertical">
         <TabList>
           <Tab>README</Tab>
-          <Tab>ships</Tab>
-          <Tab>views</Tab>
-          <Tab>ais</Tab>
+          <Tab>shipFactory</Tab>
+          <Tab>dashBoard</Tab>
+          <Tab>autoPilot</Tab>
         </TabList>
 
         <TabPanel>
@@ -337,15 +337,15 @@ const TabManual = () => (<div >
         </TabPanel>
 
         <TabPanel>
-          Ship apps will generate a playable space. Think of this like a level editor.
+          ShipFactories will create a Ship. Think if this as a level editor.
         </TabPanel>
 
         <TabPanel>
-          View apps will present the player with a customized user interfaace. These will enhance your terminal with more usefull, customized insterfaces.
+          Dashboards will present the player with a customized user interfaace.
         </TabPanel>
 
         <TabPanel>
-          AI apps are libraries of code which can be invoked by the player at game time.
+          Autopilots are libraries of code which can be invoked by the player at game time. They can be `commanded` to execute a custom function or `setToAutopilot` which will allow the autopliot automatically submit instructions.
         </TabPanel>
 
       </Tabs>

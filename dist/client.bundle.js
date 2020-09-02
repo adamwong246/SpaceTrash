@@ -61264,13 +61264,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
-const TabRoot_tsx_1 = __webpack_require__(/*! ./components/TabRoot.tsx */ "./src/apps/client/components/TabRoot.tsx");
-const TabBots_tsx_1 = __webpack_require__(/*! ./components/TabBots.tsx */ "./src/apps/client/components/TabBots.tsx");
-const TabShip_tsx_1 = __webpack_require__(/*! ./components/TabShip.tsx */ "./src/apps/client/components/TabShip.tsx");
-const TabDash_tsx_1 = __webpack_require__(/*! ./components/TabDash.tsx */ "./src/apps/client/components/TabDash.tsx");
 const TabAuto_tsx_1 = __webpack_require__(/*! ./components/TabAuto.tsx */ "./src/apps/client/components/TabAuto.tsx");
-const TabYard_tsx_1 = __webpack_require__(/*! ./components/TabYard.tsx */ "./src/apps/client/components/TabYard.tsx");
+const TabBots_tsx_1 = __webpack_require__(/*! ./components/TabBots.tsx */ "./src/apps/client/components/TabBots.tsx");
+const TabDash_tsx_1 = __webpack_require__(/*! ./components/TabDash.tsx */ "./src/apps/client/components/TabDash.tsx");
 const TabManual_tsx_1 = __webpack_require__(/*! ./components/TabManual.tsx */ "./src/apps/client/components/TabManual.tsx");
+const TabRoot_tsx_1 = __webpack_require__(/*! ./components/TabRoot.tsx */ "./src/apps/client/components/TabRoot.tsx");
+const TabShip_tsx_1 = __webpack_require__(/*! ./components/TabShip.tsx */ "./src/apps/client/components/TabShip.tsx");
+const TabYard_tsx_1 = __webpack_require__(/*! ./components/TabYard.tsx */ "./src/apps/client/components/TabYard.tsx");
 __webpack_require__(/*! react-tabs/style/react-tabs.css */ "./node_modules/react-tabs/style/react-tabs.css");
 __webpack_require__(/*! ../../style/crt.css */ "./src/style/crt.css");
 __webpack_require__(/*! ../../style/tabs.css */ "./src/style/tabs.css");
@@ -61750,6 +61750,94 @@ exports.default = Raycast;
 
 /***/ }),
 
+/***/ "./src/apps/client/components/ShipMap.tsx":
+/*!************************************************!*\
+  !*** ./src/apps/client/components/ShipMap.tsx ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const MapDetail_tsx_1 = __webpack_require__(/*! ./MapDetail.tsx */ "./src/apps/client/components/MapDetail.tsx");
+const blankCharacter = '.';
+class ShipMap extends React.Component {
+    constructor(a) {
+        super(a);
+        this.state = { cursorX: 1, cursorY: 1 };
+    }
+    setCursor(x, y) {
+        this.setState({ cursorX: x, cursorY: y });
+    }
+    render() {
+        const shipMap = this.props.shipMap;
+        if (!shipMap) {
+            return React.createElement("p", null, "idk");
+        }
+        if (Object.keys(shipMap).length === 0) {
+            return (React.createElement("div", null, "You haven't boarded a ship."));
+        }
+        const metaData = {
+            xMin: Number.POSITIVE_INFINITY,
+            yMin: Number.POSITIVE_INFINITY,
+            xMax: Number.NEGATIVE_INFINITY,
+            yMax: Number.NEGATIVE_INFINITY,
+        };
+        Object.keys(shipMap).forEach((xKey) => {
+            Object.keys(shipMap[xKey]).forEach((yKey) => {
+                const xNumber = parseInt(xKey);
+                const yNumber = parseInt(yKey);
+                if (xNumber < metaData.xMin) {
+                    metaData.xMin = xNumber;
+                }
+                if (xNumber > metaData.xMax) {
+                    metaData.xMax = xNumber;
+                }
+                if (yNumber < metaData.yMin) {
+                    metaData.yMin = yNumber;
+                }
+                if (yNumber > metaData.yMax) {
+                    metaData.yMax = yNumber;
+                }
+            });
+        });
+        const height = metaData.yMax - metaData.yMin + 1;
+        const width = metaData.xMax - metaData.xMin + 1;
+        const matrix = new Array(height).fill(blankCharacter).map(() => new Array(width).fill(blankCharacter).map(() => new Array(2).fill(blankCharacter)));
+        for (var yNdx = 0; yNdx < height; yNdx++) {
+            for (var xNdx = 0; xNdx < width; xNdx++) {
+                const x = (xNdx + metaData.xMin).toString();
+                const y = (yNdx + metaData.yMin).toString();
+                if (shipMap[x]) {
+                    if (shipMap[x][y]) {
+                        matrix[yNdx][xNdx] = shipMap[x][y];
+                    }
+                }
+            }
+        }
+        return (React.createElement("table", null,
+            React.createElement("tbody", null,
+                React.createElement("tr", null,
+                    React.createElement("td", null, "Detail"),
+                    React.createElement("td", null, "Map")),
+                React.createElement("tr", null,
+                    React.createElement("td", null, matrix && matrix[this.state.cursorY] && matrix[this.state.cursorY][this.state.cursorX] && React.createElement(MapDetail_tsx_1.default, { cell: matrix[this.state.cursorY][this.state.cursorX], x: this.state.cursorX, y: this.state.cursorY })),
+                    React.createElement("td", null, matrix && (React.createElement("table", { className: "matrix codish" },
+                        React.createElement("tbody", null, matrix.map((row, y) => {
+                            return (React.createElement("tr", null, row.map((cell, x) => {
+                                return (React.createElement("td", { onMouseOver: () => this.setCursor(x, y) }, cell));
+                            })));
+                        })))))))));
+    }
+}
+;
+exports.default = ShipMap;
+
+
+/***/ }),
+
 /***/ "./src/apps/client/components/TabAuto.tsx":
 /*!************************************************!*\
   !*** ./src/apps/client/components/TabAuto.tsx ***!
@@ -61791,7 +61879,9 @@ class TabAuto extends React.Component {
         return (React.createElement("div", null,
             React.createElement("button", { onClick: () => this.props.broadcasterV2({ action: "PICK_AUTOPILOT", payload: {} }) }, "Pick a autopilot"),
             this.props.autoPilot ?
-                (React.createElement("span", null, " You have set an autoPilot ")) :
+                (React.createElement("span", null,
+                    " You have set an autoPilot ",
+                    this.props.autoPilot.fileName)) :
                 (React.createElement("span", null, " You haven't set an autoPilot ")),
             React.createElement("div", { id: "terminal", className: "scrolly" },
                 React.createElement("pre", null,
@@ -62054,13 +62144,13 @@ const TabManual = () => (React.createElement("div", null,
             React.createElement(react_tabs_1.Tabs, { className: "vertical" },
                 React.createElement(react_tabs_1.TabList, null,
                     React.createElement(react_tabs_1.Tab, null, "README"),
-                    React.createElement(react_tabs_1.Tab, null, "ships"),
-                    React.createElement(react_tabs_1.Tab, null, "views"),
-                    React.createElement(react_tabs_1.Tab, null, "ais")),
+                    React.createElement(react_tabs_1.Tab, null, "shipFactory"),
+                    React.createElement(react_tabs_1.Tab, null, "dashBoard"),
+                    React.createElement(react_tabs_1.Tab, null, "autoPilot")),
                 React.createElement(react_tabs_1.TabPanel, null, "Apps are pieces of player-written code, written in game, compiled with webpack and run in the same game."),
-                React.createElement(react_tabs_1.TabPanel, null, "Ship apps will generate a playable space. Think of this like a level editor."),
-                React.createElement(react_tabs_1.TabPanel, null, "View apps will present the player with a customized user interfaace. These will enhance your terminal with more usefull, customized insterfaces."),
-                React.createElement(react_tabs_1.TabPanel, null, "AI apps are libraries of code which can be invoked by the player at game time."))))));
+                React.createElement(react_tabs_1.TabPanel, null, "ShipFactories will create a Ship. Think if this as a level editor."),
+                React.createElement(react_tabs_1.TabPanel, null, "Dashboards will present the player with a customized user interfaace."),
+                React.createElement(react_tabs_1.TabPanel, null, "Autopilots are libraries of code which can be invoked by the player at game time. They can be `commanded` to execute a custom function or `setToAutopilot` which will allow the autopliot automatically submit instructions."))))));
 exports.default = TabManual;
 
 
@@ -62255,8 +62345,11 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabShip);
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
+const ShipMap_tsx_1 = __webpack_require__(/*! ./ShipMap.tsx */ "./src/apps/client/components/ShipMap.tsx");
+const TabBots_tsx_1 = __webpack_require__(/*! ./TabBots.tsx */ "./src/apps/client/components/TabBots.tsx");
 const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/apps/client/redux/selectors.js");
-class TabShip extends React.Component {
+class TabYard extends React.Component {
     constructor(a) {
         super(a);
     }
@@ -62269,14 +62362,30 @@ class TabShip extends React.Component {
                     this.props.shipYard.fileName,
                     " ")) :
                 (React.createElement("span", null, " You haven't set an shipYard ")),
-            React.createElement("pre", null, JSON.stringify(this.props.shipYard))));
+            this.props.yardedShip &&
+                React.createElement(react_tabs_1.Tabs, null,
+                    React.createElement(react_tabs_1.TabList, null,
+                        React.createElement(react_tabs_1.Tab, null, "demo"),
+                        React.createElement(react_tabs_1.Tab, null, "make")),
+                    React.createElement(react_tabs_1.TabPanel, null,
+                        React.createElement(react_tabs_1.Tabs, null,
+                            React.createElement(react_tabs_1.TabList, null,
+                                React.createElement(react_tabs_1.Tab, null, "ship"),
+                                React.createElement(react_tabs_1.Tab, null, "bots")),
+                            React.createElement(react_tabs_1.TabPanel, null,
+                                React.createElement(ShipMap_tsx_1.default, { shipMap: this.props.yardedShip })),
+                            React.createElement(react_tabs_1.TabPanel, null,
+                                React.createElement(TabBots_tsx_1.default, { drones: [] })))),
+                    React.createElement(react_tabs_1.TabPanel, null,
+                        React.createElement("h3", null, "If you are happy with this ship, you can launch it on the session server"))),
+            React.createElement("pre", null, JSON.stringify(this.props, null, 2))));
     }
 }
 ;
 const mapStateToProps = state => {
     return selectors_js_1.getTabYardProps(state);
 };
-exports.default = react_redux_1.connect(mapStateToProps)(TabShip);
+exports.default = react_redux_1.connect(mapStateToProps)(TabYard);
 
 
 /***/ }),
@@ -62352,22 +62461,11 @@ exports.default = {
     terminalLines: [
         "booting spaceTrash session terminal",
     ],
-    openFile: [],
-    sourceCode: [],
-    packErrors: ['Nothing yet'],
-    shipBundles: [
-        { name: "ship0" }
-    ],
-    viewBundles: [
-        { name: "viewA" }
-    ],
-    aiBundles: [
-        { name: "botOO" }
-    ],
     userView: false,
     autoPilot: false,
     shipYard: false,
-    dashBoard: false
+    dashBoard: false,
+    yardedShip: false
 };
 
 
@@ -62461,7 +62559,7 @@ const getTabAutoProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
 const getTabYardProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
   return {
     ...base,
-    shipYard: base.shipYard,
+    yardedShip: base.yardedShip
   }
 })
 

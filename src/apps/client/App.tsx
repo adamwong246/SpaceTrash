@@ -3,16 +3,13 @@ import { connect } from "react-redux";
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import TabRoot from './components/TabRoot.tsx'
-import TabBots from './components/TabBots.tsx'
-import TabShip from './components/TabShip.tsx'
-
-
-import TabDash from './components/TabDash.tsx'
 import TabAuto from './components/TabAuto.tsx'
-import TabYard from './components/TabYard.tsx'
-
+import TabBots from './components/TabBots.tsx'
+import TabDash from './components/TabDash.tsx'
 import TabManual from './components/TabManual.tsx'
+import TabRoot from './components/TabRoot.tsx'
+import TabShip from './components/TabShip.tsx'
+import TabYard from './components/TabYard.tsx'
 
 require('react-tabs/style/react-tabs.css');
 
