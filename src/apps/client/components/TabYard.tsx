@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import ShipMap from "./ShipMap.tsx"
-import TabBots from "./TabBots.tsx"
+import Bots from "./Bots.tsx"
 
 import { getTabYardProps } from '../redux/selectors.js';
 
@@ -38,11 +38,11 @@ class TabYard extends React.Component<{}, {}> {
               </TabList>
 
               <TabPanel>
-                <ShipMap shipMap={this.props.yardedShip} />
+                <ShipMap ship={this.props.yardedShip} />
               </TabPanel>
 
               <TabPanel>
-                <TabBots drones={[]} />
+                <Bots bots={this.props.yardedShip.bots} />
               </TabPanel>
             </Tabs>
           </TabPanel>

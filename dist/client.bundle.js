@@ -61604,6 +61604,226 @@ exports.default = Bot;
 
 /***/ }),
 
+/***/ "./src/apps/client/components/BotV2.tsx":
+/*!**********************************************!*\
+  !*** ./src/apps/client/components/BotV2.tsx ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
+const Commands_tsx_1 = __webpack_require__(/*! ./Commands.tsx */ "./src/apps/client/components/Commands.tsx");
+const Raycast_tsx_1 = __webpack_require__(/*! ./Raycast.tsx */ "./src/apps/client/components/Raycast.tsx");
+const scopeSize = 200;
+const halfScopeSize = scopeSize / 2;
+const blankCharacter = '.';
+class Scope extends React.Component {
+    constructor(a) {
+        super(a);
+    }
+    render() {
+        console.log(this.props);
+        const rays = this.props.drone.rays;
+        const longestRay = rays.reduce((mm, ray) => Math.max(mm, ray.rayDistance), 0);
+        return (React.createElement("svg", { height: scopeSize, width: scopeSize },
+            React.createElement("circle", { cx: halfScopeSize, cy: halfScopeSize, r: halfScopeSize, strokeWidth: "3", fill: "gray" }),
+            React.createElement("line", { key: `ray-min`, stroke: 'white', x1: "0", y1: "0", x2: "0", y2: "1", vectorEffect: "non-scaling-stroke", transform: `translate(${halfScopeSize}, ${halfScopeSize}) scale(${halfScopeSize}) rotate(120, 0, 0)`, strokeWidth: "2" }),
+            React.createElement("line", { key: `ray-max`, stroke: 'white', x1: "0", y1: "0", x2: "0", y2: "1", vectorEffect: "non-scaling-stroke", transform: `translate(${halfScopeSize}, ${halfScopeSize}) scale(${halfScopeSize}) rotate(240, 0, 0)`, strokeWidth: "2" }),
+            rays.map((r, ndx) => {
+                if (r) {
+                    return (React.createElement("line", { key: `ray-${ndx}`, stroke: 'white', x1: "0", y1: "0", x2: "0", y2: "1", vectorEffect: "non-scaling-stroke", transform: `
+            translate(${halfScopeSize}, ${halfScopeSize})
+            scale(${halfScopeSize * (r.rayDistance / longestRay) - 1})
+            rotate(${(ndx / 2.6) + 120}, 0, 0)` }));
+                }
+            })));
+    }
+}
+;
+class Visualization extends React.Component {
+    constructor(a) {
+        super(a);
+    }
+    render() {
+        const rays = this.props.drone.rays;
+        if (!rays) {
+            return (React.createElement("span", null, "idk, no rays found "));
+        }
+        return (React.createElement("table", null,
+            React.createElement("tr", null,
+                React.createElement("td", null,
+                    React.createElement(Raycast_tsx_1.default, { drone: this.props.drone }))),
+            React.createElement("tr", null,
+                React.createElement("td", null,
+                    React.createElement(Scope, { drone: this.props.drone })))));
+    }
+}
+;
+class MainTable extends React.Component {
+    constructor(a) {
+        super(a);
+        this.drone = this.props.drone;
+    }
+    render() {
+        return (React.createElement("table", null,
+            React.createElement("tbody", null,
+                React.createElement("tr", null,
+                    React.createElement("td", null,
+                        React.createElement(Commands_tsx_1.default, { drone: this.props.drone, broadcaster: this.props.broadcaster })),
+                    React.createElement("td", null,
+                        React.createElement(Visualization, { drone: this.props.drone, broadcaster: this.props.broadcaster }))),
+                React.createElement("tr", null))));
+    }
+}
+;
+class Info extends React.Component {
+    constructor(a) {
+        super(a);
+    }
+    render() {
+        const drone = this.props.drone;
+        return (React.createElement("div", null,
+            React.createElement("p", null,
+                "x: ",
+                drone.x),
+            React.createElement("p", null,
+                "y: ",
+                drone.y),
+            React.createElement("p", null,
+                "direction: ",
+                drone.direction)));
+    }
+}
+;
+class Upgrade extends React.Component {
+    constructor(a) {
+        super(a);
+    }
+    render() {
+        const upgrade = this.props.upgrade;
+        return (React.createElement("table", null,
+            React.createElement("tr", null,
+                React.createElement("td", null, "id: "),
+                React.createElement("td", null, upgrade.id)),
+            React.createElement("tr", null,
+                React.createElement("td", null, "name: "),
+                React.createElement("td", null, upgrade.name)),
+            React.createElement("tr", null,
+                React.createElement("td", null, "health: "),
+                React.createElement("td", null, upgrade.health)),
+            React.createElement("tr", null,
+                React.createElement("td", null, "ammo: "),
+                React.createElement("td", null, upgrade.ammo))));
+    }
+}
+;
+class Conf extends React.Component {
+    constructor(a) {
+        super(a);
+    }
+    render() {
+        const drone = this.props.drone;
+        const upgrades = [{
+                id: "abc",
+                name: "gun",
+                health: "0.76",
+                ammo: "10"
+            },
+            {
+                id: "zxc",
+                name: "radar",
+                health: "1",
+                ammo: "10"
+            },
+            {
+                id: "asd",
+                name: "power",
+                health: "0.1",
+                ammo: "100"
+            }];
+        return (React.createElement(react_tabs_1.Tabs, { className: "vertical" },
+            React.createElement(react_tabs_1.TabList, null, upgrades.map((u) => React.createElement(react_tabs_1.Tab, null, u.id))),
+            upgrades.map((u) => React.createElement(react_tabs_1.TabPanel, null,
+                React.createElement(Upgrade, { upgrade: u })))));
+    }
+}
+;
+class BotV2 extends React.Component {
+    constructor(a) {
+        super(a);
+    }
+    render() {
+        const bot = this.props.bot;
+        console.log(this.props);
+        if (!bot) {
+            return (React.createElement("span", null, "idk, no bot found "));
+        }
+        return (React.createElement(react_tabs_1.Tabs, { className: "vertical" },
+            React.createElement(react_tabs_1.TabList, null,
+                React.createElement(react_tabs_1.Tab, null, "GPS"),
+                React.createElement(react_tabs_1.Tab, null, "chasis"),
+                React.createElement(react_tabs_1.Tab, null, "battery"),
+                React.createElement(react_tabs_1.Tab, null, "camera")),
+            React.createElement(react_tabs_1.TabPanel, null,
+                React.createElement("p", null, "x: 1.2"),
+                React.createElement("p", null, "y: 4.111"),
+                React.createElement("p", null, "direction: 0.11")),
+            React.createElement(react_tabs_1.TabPanel, null,
+                React.createElement("p", null,
+                    "id: ",
+                    bot.chasis.id),
+                React.createElement(Commands_tsx_1.default, { drone: bot, broadcaster: this.props.broadcaster })),
+            React.createElement(react_tabs_1.TabPanel, null,
+                React.createElement("p", null,
+                    "id: ",
+                    bot.battery.id)),
+            React.createElement(react_tabs_1.TabPanel, null,
+                React.createElement("p", null,
+                    "id: ",
+                    bot.camera.id),
+                React.createElement(Visualization, { drone: bot, broadcaster: this.props.broadcaster }))));
+    }
+}
+exports.default = BotV2;
+
+
+/***/ }),
+
+/***/ "./src/apps/client/components/Bots.tsx":
+/*!*********************************************!*\
+  !*** ./src/apps/client/components/Bots.tsx ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
+const BotV2_tsx_1 = __webpack_require__(/*! ./BotV2.tsx */ "./src/apps/client/components/BotV2.tsx");
+class Bots extends React.Component {
+    render() {
+        const bots = this.props.bots;
+        return (React.createElement("div", { id: "main" }, bots.length > 0 ? (React.createElement(react_tabs_1.Tabs, { className: "vertical" },
+            React.createElement(react_tabs_1.TabList, null, bots.map((bot) => {
+                return (React.createElement(react_tabs_1.Tab, null, bot.name || bot.id));
+            })),
+            bots.map((bot) => {
+                return (React.createElement(react_tabs_1.TabPanel, null,
+                    React.createElement(BotV2_tsx_1.default, { bot: bot, broadcaster: this.props.broadcaster })));
+            }))) : (React.createElement("span", null, " You have no bots "))));
+    }
+}
+exports.default = Bots;
+
+
+/***/ }),
+
 /***/ "./src/apps/client/components/Commands.tsx":
 /*!*************************************************!*\
   !*** ./src/apps/client/components/Commands.tsx ***!
@@ -61772,7 +61992,7 @@ class ShipMap extends React.Component {
         this.setState({ cursorX: x, cursorY: y });
     }
     render() {
-        const shipMap = this.props.shipMap;
+        const shipMap = this.props.ship.gridMap;
         if (!shipMap) {
             return React.createElement("p", null, "idk");
         }
@@ -61817,19 +62037,21 @@ class ShipMap extends React.Component {
                 }
             }
         }
-        return (React.createElement("table", null,
-            React.createElement("tbody", null,
-                React.createElement("tr", null,
-                    React.createElement("td", null, "Detail"),
-                    React.createElement("td", null, "Map")),
-                React.createElement("tr", null,
-                    React.createElement("td", null, matrix && matrix[this.state.cursorY] && matrix[this.state.cursorY][this.state.cursorX] && React.createElement(MapDetail_tsx_1.default, { cell: matrix[this.state.cursorY][this.state.cursorX], x: this.state.cursorX, y: this.state.cursorY })),
-                    React.createElement("td", null, matrix && (React.createElement("table", { className: "matrix codish" },
-                        React.createElement("tbody", null, matrix.map((row, y) => {
-                            return (React.createElement("tr", null, row.map((cell, x) => {
-                                return (React.createElement("td", { onMouseOver: () => this.setCursor(x, y) }, cell));
-                            })));
-                        })))))))));
+        return (React.createElement("div", null,
+            React.createElement("span", null, this.props.ship.name),
+            React.createElement("table", null,
+                React.createElement("tbody", null,
+                    React.createElement("tr", null,
+                        React.createElement("td", null, "Detail"),
+                        React.createElement("td", null, "Map")),
+                    React.createElement("tr", null,
+                        React.createElement("td", null, matrix && matrix[this.state.cursorY] && matrix[this.state.cursorY][this.state.cursorX] && React.createElement(MapDetail_tsx_1.default, { cell: matrix[this.state.cursorY][this.state.cursorX], x: this.state.cursorX, y: this.state.cursorY })),
+                        React.createElement("td", null, matrix && (React.createElement("table", { className: "matrix codish" },
+                            React.createElement("tbody", null, matrix.map((row, y) => {
+                                return (React.createElement("tr", null, row.map((cell, x) => {
+                                    return (React.createElement("td", { onMouseOver: () => this.setCursor(x, y) }, cell));
+                                })));
+                            }))))))))));
     }
 }
 ;
@@ -62347,7 +62569,7 @@ const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
 const ShipMap_tsx_1 = __webpack_require__(/*! ./ShipMap.tsx */ "./src/apps/client/components/ShipMap.tsx");
-const TabBots_tsx_1 = __webpack_require__(/*! ./TabBots.tsx */ "./src/apps/client/components/TabBots.tsx");
+const Bots_tsx_1 = __webpack_require__(/*! ./Bots.tsx */ "./src/apps/client/components/Bots.tsx");
 const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/apps/client/redux/selectors.js");
 class TabYard extends React.Component {
     constructor(a) {
@@ -62373,9 +62595,9 @@ class TabYard extends React.Component {
                                 React.createElement(react_tabs_1.Tab, null, "ship"),
                                 React.createElement(react_tabs_1.Tab, null, "bots")),
                             React.createElement(react_tabs_1.TabPanel, null,
-                                React.createElement(ShipMap_tsx_1.default, { shipMap: this.props.yardedShip })),
+                                React.createElement(ShipMap_tsx_1.default, { ship: this.props.yardedShip })),
                             React.createElement(react_tabs_1.TabPanel, null,
-                                React.createElement(TabBots_tsx_1.default, { drones: [] })))),
+                                React.createElement(Bots_tsx_1.default, { bots: this.props.yardedShip.bots })))),
                     React.createElement(react_tabs_1.TabPanel, null,
                         React.createElement("h3", null, "If you are happy with this ship, you can launch it on the session server"))),
             React.createElement("pre", null, JSON.stringify(this.props, null, 2))));

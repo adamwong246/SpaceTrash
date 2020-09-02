@@ -10,7 +10,7 @@ import { getTabShipProps } from '../redux/selectors.js';
 const blankCharacter = '.';
 
 class ShipMap extends React.Component<{
-  shipMap: {},
+  ship: {},
 }, {
     cursorX, cursorY
   }> {
@@ -26,7 +26,7 @@ class ShipMap extends React.Component<{
   }
 
   render() {
-    const shipMap = this.props.shipMap
+    const shipMap = this.props.ship.gridMap
 
     if (!shipMap) { return <p>idk</p> }
     if (Object.keys(shipMap).length === 0) {
@@ -80,49 +80,51 @@ class ShipMap extends React.Component<{
 
     return (
 
-      <table><tbody>
+      <div>
+        <span>{this.props.ship.name}</span>
+        <table><tbody>
 
-        <tr>
-          <td>Detail</td>
-          <td>Map</td>
-        </tr>
+          <tr>
+            <td>Detail</td>
+            <td>Map</td>
+          </tr>
 
-        <tr>
+          <tr>
 
-          <td>
-            {
-              matrix && matrix[this.state.cursorY] && matrix[this.state.cursorY][this.state.cursorX] && <MapDetail
-                cell={matrix[this.state.cursorY][this.state.cursorX]}
-                x={this.state.cursorX}
-                y={this.state.cursorY}
-              />
-            }
+            <td>
+              {
+                matrix && matrix[this.state.cursorY] && matrix[this.state.cursorY][this.state.cursorX] && <MapDetail
+                  cell={matrix[this.state.cursorY][this.state.cursorX]}
+                  x={this.state.cursorX}
+                  y={this.state.cursorY}
+                />
+              }
 
-          </td>
+            </td>
 
-          <td>
+            <td>
 
-            {matrix && (<table className="matrix codish">
-              <tbody>
-                {matrix.map((row, y) => {
-                  return (
-                    <tr>
-                      {row.map((cell, x) => {
-                        return (
-                          <td onMouseOver={() => this.setCursor(x, y)}>
-                            {cell}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>)}</td>
+              {matrix && (<table className="matrix codish">
+                <tbody>
+                  {matrix.map((row, y) => {
+                    return (
+                      <tr>
+                        {row.map((cell, x) => {
+                          return (
+                            <td onMouseOver={() => this.setCursor(x, y)}>
+                              {cell}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>)}</td>
 
-        </tr>
-      </tbody></table>
-
+          </tr>
+        </tbody></table>
+      </div>
     );
   }
 };
