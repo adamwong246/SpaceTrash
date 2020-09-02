@@ -2,11 +2,11 @@ import * as React from 'react';
 import { createRef } from 'react';
 import { connect } from "react-redux";
 
-import { getTabLogProps } from "../redux/selectors";
+import { getTabAutoProps } from "../redux/selectors";
 
 import CommandLine from './CommandLine.tsx'
 
-class TabLog extends React.Component<{
+class TabAuto extends React.Component<{
   terminalLines: string[];
 }, {
     value: string;
@@ -82,7 +82,7 @@ class TabLog extends React.Component<{
 
 
 const mapStateToProps = state => {
-  return getTabLogProps(state);
+  return getTabAutoProps(state);
 };
 
-export default connect(mapStateToProps)(TabLog);
+export default connect(mapStateToProps)(TabAuto);

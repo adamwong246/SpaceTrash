@@ -31,13 +31,7 @@ export const getTabEditBundlesProps =  createSelector([baseSelector], base => {
  }
 });
 
-export const getTabChatProps = createSelector([baseSelector], state => {
-  return {
-    chatLog: []
-  }
-})
-
-export const getTabLogProps = createSelector([baseSelector], state => {
+export const getTabAutoProps = createSelector([baseSelector], state => {
 
   return {
     terminalLines: state.terminalLines
@@ -80,7 +74,7 @@ export const getTabEditProps = createSelector([baseSelector], base => {
   }
 })
 
-export const getTabExecProps = createSelector([baseSelector], base => {
+export const getTabDashProps = createSelector([baseSelector], base => {
   return {
     ...base,
     onUploadFile: (e) => {

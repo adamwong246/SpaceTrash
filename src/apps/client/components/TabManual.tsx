@@ -8,7 +8,7 @@ import signals from "../../../data/signals.js";
 import threats from "../../../data/threats.js";
 import upgrades from "../../../data/upgrades.js";
 
-const Manual = () => (<div >
+const TabManual = () => (<div >
   <Tabs className="vertical">
     <TabList>
       <Tab>README</Tab>
@@ -345,7 +345,7 @@ const Manual = () => (<div >
         </TabPanel>
 
         <TabPanel>
-          AI apps are libraries of code which can be invoked by the player at game time. 
+          AI apps are libraries of code which can be invoked by the player at game time.
         </TabPanel>
 
       </Tabs>
@@ -355,4 +355,4 @@ const Manual = () => (<div >
 
 </div >);
 
-export default Manual
+export default TabManual

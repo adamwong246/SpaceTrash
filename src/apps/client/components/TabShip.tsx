@@ -30,7 +30,7 @@ class TabShip extends React.Component<{
 
     if (!shipMap){return <p>idk</p>}
     if (Object.keys(shipMap).length === 0) {
-      return (<br />)
+      return (<div>You haven't boarded a ship.</div>)
     }
 
     const metaData = {

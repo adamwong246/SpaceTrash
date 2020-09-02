@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-class Root extends React.Component<{
+class TabRoot extends React.Component<{
   drone, broadcaster
 }, {}>{
   constructor(a) {
@@ -11,11 +11,11 @@ class Root extends React.Component<{
   render() {
     return (
       <div>
-      <Tabs  className="">
+      <Tabs  className="vertical">
         <TabList>
 
           <Tab>home</Tab>
-          <Tab>game</Tab>
+          <Tab>play</Tab>
 
         </TabList>
 
@@ -85,4 +85,4 @@ class Root extends React.Component<{
   }
 };
 
-export default Root
+export default TabRoot

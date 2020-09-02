@@ -3,14 +3,16 @@ import { connect } from "react-redux";
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import Root from './components/Root.tsx'
+import TabRoot from './components/TabRoot.tsx'
 import TabBots from './components/TabBots.tsx'
-import TabEdit from './components/TabEdit.tsx'
-import TabExec from './components/TabExec.tsx'
-import TabLog from './components/TabLog.tsx'
 import TabShip from './components/TabShip.tsx'
-import TabSudo from './components/TabSudo.tsx'
-import Manual from './components/Manual.tsx'
+
+
+import TabDash from './components/TabDash.tsx'
+import TabAuto from './components/TabAuto.tsx'
+import TabYard from './components/TabYard.tsx'
+
+import TabManual from './components/TabManual.tsx'
 
 require('react-tabs/style/react-tabs.css');
 
@@ -33,55 +35,33 @@ class App extends React.Component<{
     return (<div id="main" className="crt">
 
       <div id="tabs">
-
         <Tabs>
-          <TabList>
 
+          <TabList>
             <Tab>root</Tab>
-            <Tab>code</Tab>
-            <Tab>play</Tab>
+            <Tab>ship</Tab>
+            <Tab>bots</Tab>
+            <Tab>dash</Tab>
+            <Tab>auto</Tab>
+            <Tab>yard</Tab>
             <Tab>help</Tab>
 
-            <div id="status">connected!</div>
+            <div id="status">
+              uplink: active, simulator: on
+            </div>
+
           </TabList>
 
-          <TabPanel><Root /></TabPanel>
-
-          <TabPanel><TabEdit broadcasterV2={this.props.broadcasterV2}/></TabPanel>
-
-          <TabPanel>
-
-            <Tabs>
-              <TabList>
-
-                <Tab>ship</Tab>
-                <Tab>bots</Tab>
-                <Tab>exec</Tab>
-                <Tab>logs</Tab>
-                <Tab>sudo</Tab>
-              </TabList>
-
-
-              <TabPanel><TabShip /></TabPanel>
-              <TabPanel><TabBots broadcaster={this.props.broadcaster} /></TabPanel>
-              <TabPanel><TabExec broadcasterV2={this.props.broadcasterV2} /></TabPanel>
-              <TabPanel><TabLog /></TabPanel>
-
-              <TabPanel><TabSudo /></TabPanel>
-
-            </Tabs>
-
-          </TabPanel>
-
-
-          <TabPanel>
-            <Manual />
-          </TabPanel>
+          <TabPanel><TabRoot /></TabPanel>
+          <TabPanel><TabShip /></TabPanel>
+          <TabPanel><TabBots broadcaster={this.props.broadcaster} /></TabPanel>
+          <TabPanel><TabDash broadcasterV2={this.props.broadcasterV2} /></TabPanel>
+          <TabPanel><TabAuto /></TabPanel>
+          <TabPanel><TabYard /></TabPanel>
+          <TabPanel><TabManual /></TabPanel>
 
         </Tabs>
-
       </div>
-
     </div>);
   }
 }
