@@ -29637,6 +29637,25 @@ const {
     selectors.selectAndBroadcastUserShips(state)
   }
 
+  handlers['MAKE_SHIP'] = async (payload) => {
+    ipcSocket.send("MAKE_SHIP", payload)
+    // store.dispatch({
+    //   type: "MAKE_SHIP",
+    //   payload
+    // })
+    // const state = store.getState();
+    // selectors.selectAndBroadcastEverything(state)
+  }
+
+  handlers['setShipData'] = async (payload) => {
+    store.dispatch({
+      type: "SET_SHIP_DATA",
+      payload
+    })
+    const state = store.getState();
+    selectors.selectAndBroadcastEverything(state)
+  }
+
   handlers['PACK_FOLDER'] = async (commands) => {
     console.log("PACK_FOLDER")
     ipcSocket.send("spacetrash", {"PACK_FOLDER": true})
@@ -29740,11 +29759,15 @@ exports.default = immutable_1.fromJS({
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const immutable_1 = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
 const initialState_ts_1 = __webpack_require__(/*! ./initialState.ts */ "./src/apps/electron/redux/initialState.ts");
 const updatedDroneRays = __webpack_require__(/*! ../getRays.ts */ "./src/apps/electron/getRays.ts");
 exports.default = (state = initialState_ts_1.default, action) => {
     console.log(action);
     switch (action.type) {
+        case "SET_SHIP_DATA": {
+            return state.set("shipMap", action.payload.shipMap.gridMap);
+        }
         case "ADD_USER_VIEW": {
             return state.set("userViews", state.get("userViews").concat(action.payload));
         }
@@ -29755,21 +29778,14 @@ exports.default = (state = initialState_ts_1.default, action) => {
             return state.set("userAis", state.get("userAis").concat(action.payload));
         }
         case "PACK_ERRORS": {
-            return {
-                ...state,
-                packErrors: action.payload
-            };
+            return state.set("packErrors", action.payload);
         }
         case "RECEIVE_UPDATE": {
             return state.set("message", action.payload.message);
         }
         case "RECEIVE_UPDATE_FROM_SERVER": {
             const { drones, shipMap } = updatedDroneRays(action.payload);
-            return {
-                ...state,
-                drones,
-                shipMap
-            };
+            return state.set("drone", immutable_1.fromJS(drones)).set("shipMap", immutable_1.fromJS(shipMap));
         }
         case "PICK_FOLDER": {
             return state.set("sourceFolder", action.payload);
@@ -29886,6 +29902,11 @@ var getFiles = function(directory) {
     ipcSocket.send("update", base)
     return base
   })
+
+  // const selectAndBroadcastShipData = createSelector([baseSelector], (base) => {
+  //   ipcSocket.send("update", base)
+  //   return base
+  // })
 
   return {
     baseSelector,

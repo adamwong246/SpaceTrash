@@ -10,15 +10,14 @@ class TabExec extends React.Component<{
 }, {}> {
 
   render() {
-    console.log("TabExec props", this.props)
     return (<div>
+      {
+        !this.props.userView && <p>Looks like you don't have a user view loaded yet.</p>
+      }
 
-      <input
-        onChange={this.props.onUploadFile}
-        type="file"  />
-
-
-      {this.props.userBot && this.props.userBot.view(this.props)}
+      {
+        this.props.userView && new this.props.userView().render()
+      }
 
     </div>);
   }

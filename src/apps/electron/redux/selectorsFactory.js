@@ -91,6 +91,11 @@ export default (ipcSocket, webSocket) => {
     return base
   })
 
+  // const selectAndBroadcastShipData = createSelector([baseSelector], (base) => {
+  //   ipcSocket.send("update", base)
+  //   return base
+  // })
+
   return {
     baseSelector,
     selectAndBroadcastSourceFolder,

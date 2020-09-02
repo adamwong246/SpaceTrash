@@ -79,6 +79,25 @@ export default (ipcSocket, webSocket, store, selectors) => {
     selectors.selectAndBroadcastUserShips(state)
   }
 
+  handlers['MAKE_SHIP'] = async (payload) => {
+    ipcSocket.send("MAKE_SHIP", payload)
+    // store.dispatch({
+    //   type: "MAKE_SHIP",
+    //   payload
+    // })
+    // const state = store.getState();
+    // selectors.selectAndBroadcastEverything(state)
+  }
+
+  handlers['setShipData'] = async (payload) => {
+    store.dispatch({
+      type: "SET_SHIP_DATA",
+      payload
+    })
+    const state = store.getState();
+    selectors.selectAndBroadcastEverything(state)
+  }
+
   handlers['PACK_FOLDER'] = async (commands) => {
     console.log("PACK_FOLDER")
     ipcSocket.send("spacetrash", {"PACK_FOLDER": true})

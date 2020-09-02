@@ -34,6 +34,14 @@ export default (state = initialState, action) => {
       }
     }
 
+    case "SET_USER_VIEW": {
+      const evaled = eval(action.payload)
+      return {
+        ...state,
+        userView: evaled
+      }
+    }
+
     default:
       console.log("IDK".action)
       return state;

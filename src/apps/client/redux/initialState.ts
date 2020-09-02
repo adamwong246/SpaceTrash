@@ -19,4 +19,5 @@ export default {
   aiBundles: [
     {name : "botOO"}
   ]
+  userView: false
 }

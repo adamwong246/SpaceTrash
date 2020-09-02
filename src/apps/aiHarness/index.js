@@ -41,7 +41,7 @@ const bundleProject = () => {
         name: "userView",
         args: {
           name: "view-bundle.js",
-          contents: fs.readFileSync('/Users/adam/Programming/spacetrash/dist/views/view-bundle.js', {
+          contents: fs.readFileSync('/Users/adam/Programming/spacetrashConfigs/src/view.js', {
             encoding: 'utf8',
             flag: 'r'
           })
@@ -54,11 +54,7 @@ const bundleProject = () => {
       JSON.stringify({
         name: "userAi",
         args: {
-          name: "ai-bundle.js",
-          contents: fs.readFileSync('/Users/adam/Programming/spacetrash/dist/ais/ai-bundle.js', {
-            encoding: 'utf8',
-            flag: 'r'
-          })
+          name: "ai-bundle.js"
         }
       })
     )
@@ -69,7 +65,7 @@ const bundleProject = () => {
         name: "userShip",
         args: {
           name: "ship-bundle.js",
-          contents: fs.readFileSync('/Users/adam/Programming/spacetrash/dist/ships/ship-bundle.js', {
+          contents: fs.readFileSync('/Users/adam/Programming/spacetrashConfigs/src/ship.js', {
             encoding: 'utf8',
             flag: 'r'
           })
@@ -81,8 +77,29 @@ const bundleProject = () => {
 
 };
 
+const makeShip = () => {
+  const vm = new NodeVM({});
+
+  const shipData = vm.run(
+    fs.readFileSync('/Users/adam/Programming/spacetrashConfigs/src/ship.js', {
+      encoding: 'utf8',
+      flag: 'r'
+    })
+  )
+
+  ipc.of.spacetrash.emit(
+    'message',
+    JSON.stringify({
+      name: "setShipData",
+      args: shipData
+    })
+  )
+
+};
+
+
 ipc.config.id = 'ai';
-ipc.config.retry = 1500;
+ipc.config.retry = 2000;
 
 ipc.connectTo(
   'spacetrash',
@@ -109,12 +126,17 @@ ipc.connectTo(
       'message', //any event or message type your server listens for
       function(data) {
         ipc.log('got a message from spacetrash : '.debug);
-        console.log("MESSAGE: ", data)
+        console.log("MESSAGE: ", data);
 
         const jsonData = JSON.parse(data)
+
+        if(jsonData.name === "MAKE_SHIP"){
+          makeShip(jsonData.args.userShipBundleName);  
+        }
+
         if (jsonData.args) {
           if (jsonData.args.PACK_FOLDER) {
-            bundleProject()
+            bundleProject();
           }
         }
 

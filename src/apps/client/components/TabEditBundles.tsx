@@ -35,11 +35,12 @@ class TabEditBundles extends React.Component<{
           </TabList>
 
           {
-            this.props.userShips.map((viewBundle) => {
+            this.props.userShips.map((shipBundle) => {
               return (
                 <TabPanel>
-                  <button>load</button>
-                  <pre>{viewBundle.contents}</pre>
+                  <button onClick={() =>
+                    this.props.broadcasterV2({action: "MAKE_SHIP", payload: {userShipBundleName: shipBundle.name}})
+                  }>load</button>
                 </TabPanel>
               )
             })
@@ -68,7 +69,7 @@ class TabEditBundles extends React.Component<{
             this.props.userViews.map((viewBundle) => {
               return (
                 <TabPanel>
-                  <button>load</button>
+                  <button onClick={() => this.props.setUserView(viewBundle.name)}>SET_USER_VIEW</button>
                   <pre>{viewBundle.contents}</pre>
                 </TabPanel>
               )

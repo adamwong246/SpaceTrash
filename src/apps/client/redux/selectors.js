@@ -11,9 +11,23 @@ export const getTabEditBundlesProps =  createSelector([baseSelector], base => {
    userViews: base.userViews || [],
    userAis: base.userAis || [],
    userShips: base.userShips || [],
-   shipBundles: base.shipBundles,
-   aiBundles: base.aiBundles,
-   viewBundles: base.viewBundles
+
+   setUserView: (userViewBundleName) => {
+     base.userViews.forEach((userView) => {
+       if(userView.name === userViewBundleName){
+         store.dispatch({type: "SET_USER_VIEW", payload: userView.contents})
+       }
+     })
+   },
+
+   // makeShip: (userShipBundleName) => {
+   //   base.userShips.forEach((userShip) => {
+   //     if(userShip.name === userShipBundleName){
+   //       store.dispatch({type: "SET_USER_SHIP", payload: userShip.name})
+   //     }
+   //   })
+   // }
+
  }
 });
 
@@ -102,7 +116,8 @@ export const getTabExecProps = createSelector([baseSelector], base => {
         instruction
       }
     }),
-    userBot: base.userBot
+    userBot: base.userBot,
+    userView: base.userView
   }
 })
 

@@ -8,6 +8,10 @@ export default (state = initialState, action) => {
   console.log(action)
   switch (action.type) {
 
+    case "SET_SHIP_DATA": {
+      return state.set("shipMap", action.payload.shipMap.gridMap)
+    }
+
     case "ADD_USER_VIEW": {
       return state.set("userViews", state.get("userViews").concat(action.payload))
     }
@@ -19,10 +23,7 @@ export default (state = initialState, action) => {
     }
 
     case "PACK_ERRORS": {
-      return {
-        ...state,
-        packErrors: action.payload
-      }
+      return state.set("packErrors", action.payload)
     }
 
     case "RECEIVE_UPDATE": {
@@ -30,11 +31,7 @@ export default (state = initialState, action) => {
 
     case "RECEIVE_UPDATE_FROM_SERVER": {
       const { drones, shipMap } = updatedDroneRays(action.payload)
-      return {
-        ...state,
-        drones,
-        shipMap
-      }
+      return state.set("drone", fromJS(drones)).set("shipMap", fromJS(shipMap))
     }
 
     case "PICK_FOLDER": {
