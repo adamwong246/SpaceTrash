@@ -1,12 +1,45 @@
 const fs = require('fs');
-const {
-  NodeVM
-} = require('vm2');
 const webpack = require('webpack');
 const ipc = require('node-ipc');
 
-console.log("hello ai-harness.")
+var autopilot;
 
+const setAutopilot = (someData) => {
+  console.log('setAutopilot', someData)
+  const evaluated = eval(fs.readFileSync('/Users/adam/Programming/spacetrashConfigs/src/ai.js', {
+    encoding: 'utf8',
+    flag: 'r'
+  }))
+
+  autopilot = new evaluated();
+
+
+
+  ipc.of.spacetrash.emit(
+    'message',
+    JSON.stringify({
+      name: "autopilot_engaged",
+      args: {}
+    })
+  )
+
+
+};
+
+const commandAutopilot = (command = "") => {
+  console.log('commandAutopilot', command)
+  if (autopilot) {
+    autopilot.command(command)
+  }
+};
+
+const informAutopilot = (newMap = {}) => {
+  console.log('informAutopilot', newMap)
+  if (autopilot) {
+    debugger
+    autopilot.inform(newMap)
+  }
+};
 
 const bundleProject = () => {
   const webpackText = fs.readFileSync('/Users/adam/Programming/spacetrashConfigs/webpack.config.js', {
@@ -16,14 +49,14 @@ const bundleProject = () => {
 
   console.log(webpackText)
 
-  const vm = new NodeVM({
-    require: {
-      builtin: ['path']
-    },
-    sandbox: {}
-  });
-
-  const webpackConfig = vm.run(webpackText).map((config) => {
+  // const virtualMachine = new NodeVM({
+  //   require: {
+  //     builtin: ['path']
+  //   },
+  //   sandbox: {}
+  // });
+  //
+  const webpackConfig = eval(webpackText).map((config) => {
     return {
       ...config,
       entry: "/Users/adam/Programming/spacetrashConfigs" + config.entry.split('.')[1]
@@ -78,9 +111,9 @@ const bundleProject = () => {
 };
 
 const makeShip = () => {
-  const vm = new NodeVM({});
+  const virtualMachine = new NodeVM({});
 
-  const shipData = vm.run(
+  const shipData = virtualMachine.run(
     fs.readFileSync('/Users/adam/Programming/spacetrashConfigs/src/ship.js', {
       encoding: 'utf8',
       flag: 'r'
@@ -130,14 +163,24 @@ ipc.connectTo(
 
         const jsonData = JSON.parse(data)
 
-        if(jsonData.name === "MAKE_SHIP"){
-          makeShip(jsonData.args.userShipBundleName);  
+        if (jsonData.name === "MAKE_SHIP") {
+          makeShip(jsonData.args.userShipBundleName);
         }
 
         if (jsonData.args) {
           if (jsonData.args.PACK_FOLDER) {
             bundleProject();
           }
+        }
+
+        if (jsonData.name === "SET_AUTOPILOT") {
+          setAutopilot(jsonData.args);
+        }
+        if (jsonData.name === "COMMAND_AUTOPILOT") {
+          commandAutopilot(jsonData.args);
+        }
+        if (jsonData.name === "INFORM_AUTOPILOT") {
+          informAutopilot(jsonData.args);
         }
 
 

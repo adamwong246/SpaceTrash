@@ -98,6 +98,18 @@ export default (ipcSocket, webSocket, store, selectors) => {
     selectors.selectAndBroadcastEverything(state)
   }
 
+  handlers['SET_AUTOPILOT'] = async (payload) => {
+    ipcSocket.send("SET_AUTOPILOT", payload)
+  }
+
+  handlers['INFORM_AUTOPILOT'] = async (payload) => {
+    ipcSocket.send("INFORM_AUTOPILOT", payload)
+  }
+
+  handlers['COMMAND_AUTOPILOT'] = async (payload) => {
+    ipcSocket.send("COMMAND_AUTOPILOT", payload)
+  }
+
   handlers['PACK_FOLDER'] = async (commands) => {
     console.log("PACK_FOLDER")
     ipcSocket.send("spacetrash", {"PACK_FOLDER": true})

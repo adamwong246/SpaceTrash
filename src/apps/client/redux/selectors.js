@@ -117,7 +117,7 @@ export const getTabExecProps = createSelector([baseSelector], base => {
       }
     }),
     userBot: base.userBot,
-    userView: base.userView
+    userView: base.userView,
   }
 })
 

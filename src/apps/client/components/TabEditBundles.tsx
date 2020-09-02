@@ -97,11 +97,13 @@ class TabEditBundles extends React.Component<{
           </TabList>
 
           {
-            this.props.userAis.map((viewBundle) => {
+            this.props.userAis.map((userAi) => {
               return (
                 <TabPanel>
-                  <button>load</button>
-                  <pre>{viewBundle.contents}</pre>
+                <button onClick={() =>
+                  this.props.broadcasterV2({action: "SET_AUTOPILOT", payload: {userShipBundleName: userAi.name}})
+                }>load</button>
+                  <pre>{userAi.contents}</pre>
                 </TabPanel>
               )
             })
