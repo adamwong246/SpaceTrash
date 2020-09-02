@@ -8,6 +8,19 @@ export default (state = initialState, action) => {
   console.log(action)
   switch (action.type) {
 
+    case "PICK_DASHBOARD": {
+      return state.set("dashBoard", action.payload)
+    }
+
+    case "PICK_AUTOPILOT": {
+      return state.set("autoPilot", action.payload)
+    }
+
+    case "PICK_SHIPYARD": {
+      return state.set("shipYard", action.payload)
+    }
+
+
     case "SET_SHIP_DATA": {
       return state.set("shipMap", action.payload.shipMap.gridMap)
     }
@@ -28,6 +41,7 @@ export default (state = initialState, action) => {
 
     case "RECEIVE_UPDATE": {
       return state.set("message", action.payload.message)
+    }
 
     case "RECEIVE_UPDATE_FROM_SERVER": {
       const { drones, shipMap } = updatedDroneRays(action.payload)

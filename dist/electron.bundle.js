@@ -29556,17 +29556,76 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fs */ "fs");
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_0__);
+
 const path = __webpack_require__(/*! path */ "path");
 const {
   dialog
 } = __webpack_require__(/*! electron */ "electron")
-
 
 /* harmony default export */ __webpack_exports__["default"] = ((ipcSocket, webSocket, store, selectors) => {
 
   let handlers = {}
 
   handlers._history = []
+
+  handlers['PICK_DASHBOARD'] = async (commands) => {
+    dialog.showOpenDialog({
+      title: "spaceTrash",
+      message: "Pick a dashboard bundle",
+      properties: ['openFile']
+    }).then((folder) => {
+      store.dispatch({
+        type: "PICK_DASHBOARD",
+        payload: {
+          fileName: folder.filePaths[0],
+          fileContents: fs__WEBPACK_IMPORTED_MODULE_0___default.a.readFileSync(folder.filePaths[0], {encoding: 'utf8',flag: 'r'})
+        }
+      })
+    }).then(() =>{
+      const state = store.getState();
+      selectors.selectAndBroadcastEverything(state)
+    })
+  }
+
+  handlers['PICK_AUTOPILOT'] = async (commands) => {
+    dialog.showOpenDialog({
+      title: "spaceTrash",
+      message: "Pick an autoPilot bundle",
+      properties: ['openFile']
+    }).then((folder) => {
+      store.dispatch({
+        type: "PICK_AUTOPILOT",
+        payload: {
+          fileName: folder.filePaths[0],
+          fileContents: fs__WEBPACK_IMPORTED_MODULE_0___default.a.readFileSync(folder.filePaths[0], {encoding: 'utf8',flag: 'r'})
+        }
+      })
+    }).then(() =>{
+      const state = store.getState();
+      selectors.selectAndBroadcastEverything(state)
+    })
+  }
+
+  handlers['PICK_SHIPYARD'] = async (commands) => {
+    dialog.showOpenDialog({
+      title: "spaceTrash",
+      message: "Pick an shipYard bundle",
+      properties: ['openFile']
+    }).then((folder) => {
+      store.dispatch({
+        type: "PICK_SHIPYARD",
+        payload: {
+          fileName: folder.filePaths[0],
+          fileContents: fs__WEBPACK_IMPORTED_MODULE_0___default.a.readFileSync(folder.filePaths[0], {encoding: 'utf8',flag: 'r'})
+        }
+      })
+    }).then(() =>{
+      const state = store.getState();
+      selectors.selectAndBroadcastEverything(state)
+    })
+  }
 
   handlers['ping'] = async () => {
     console.log('pinged')
@@ -29581,7 +29640,7 @@ const {
 
   handlers['load'] = async () => {
     const state = store.getState()
-    selectors.selectAndBroadcastSourceFiles(state);
+    selectors.selectAndBroadcastEverything(state);
     return webSocket.load()
   }
 
@@ -29593,22 +29652,24 @@ const {
     return webSocket.enqueue(commands)
   }
 
-  handlers['PICK_FOLDER'] = async (commands) => {
-    dialog.showOpenDialog({
-      title: "spaceTrash",
-      message: "Pick a source folder",
-      properties: ['openDirectory']
-    }).then((folder) => {
-      store.dispatch({
-        type: "PICK_FOLDER",
-        payload: folder.filePaths[0]
-      })
-    }).then(() =>{
-      const state = store.getState();
-      selectors.selectAndBroadcastSourceFolder(state)
-      selectors.selectAndBroadcastSourceFiles(state)
-    })
-  }
+  // handlers['PICK_FOLDER'] = async (commands) => {
+  //   dialog.showOpenDialog({
+  //     title: "spaceTrash",
+  //     message: "Pick a source folder",
+  //     properties: ['openDirectory']
+  //   }).then((folder) => {
+  //     store.dispatch({
+  //       type: "PICK_FOLDER",
+  //       payload: folder.filePaths[0]
+  //     })
+  //   }).then(() =>{
+  //     const state = store.getState();
+  //     selectors.selectAndBroadcastSourceFolder(state)
+  //     selectors.selectAndBroadcastSourceFiles(state)
+  //   })
+  // }
+
+
 
   handlers['userView'] = async (payload) => {
     store.dispatch({
@@ -29756,6 +29817,9 @@ exports.default = immutable_1.fromJS({
     userViews: [],
     userShips: [],
     userAis: [],
+    dashBoard: {},
+    autoPilot: {},
+    shipYard: {}
 });
 
 
@@ -29777,6 +29841,15 @@ const updatedDroneRays = __webpack_require__(/*! ../getRays.ts */ "./src/apps/el
 exports.default = (state = initialState_ts_1.default, action) => {
     console.log(action);
     switch (action.type) {
+        case "PICK_DASHBOARD": {
+            return state.set("dashBoard", action.payload);
+        }
+        case "PICK_AUTOPILOT": {
+            return state.set("autoPilot", action.payload);
+        }
+        case "PICK_SHIPYARD": {
+            return state.set("shipYard", action.payload);
+        }
         case "SET_SHIP_DATA": {
             return state.set("shipMap", action.payload.shipMap.gridMap);
         }
@@ -29828,47 +29901,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// Map all files in a directory in Node.js recursively and synchronously
-var getFiles = function(directory) {
-  if(!directory)return []
-  let out = [];
-
-  fs__WEBPACK_IMPORTED_MODULE_0___default.a.readdirSync(directory).forEach(item => {
-    const itemPath = `${directory}/${item}`;
-
-    const pathSplit = item.split('/')
-    const justThefile = pathSplit[pathSplit.length - 1];
-
-    if (fs__WEBPACK_IMPORTED_MODULE_0___default.a.statSync(itemPath).isDirectory()) {
-      if(item !== '.git'){
-        out = out.concat({ [justThefile]: getFiles(itemPath) } );
-      }
-    } else {
-
-      out = out.concat(justThefile)
-    }
-  });
-  return out;
-
-  // if(!directory)return {}
-  // let out = {};
-  //
-  // fs.readdirSync(directory).forEach(item => {
-  //   const itemPath = `${directory}/${item}`;
-  //
-  //   if (fs.statSync(itemPath).isDirectory()) {
-  //
-  //     if(item !== '.git'){
-  //       out[item] = getFiles(itemPath);
-  //     }
-  //
-  //   } else {
-  //     out[item] = "fs.readFileSync(itemPath, {encoding: 'utf8',flag: 'r'});"
-  //   }
-  // });
-  // return out;
-};
-
 /* harmony default export */ __webpack_exports__["default"] = ((ipcSocket, webSocket) => {
 
   const baseSelector = ((state) => {
@@ -29876,44 +29908,74 @@ var getFiles = function(directory) {
     return state
   });
 
-  const selectAndBroadcastSourceFolder = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([baseSelector], (base) => {
-    const sourceFolder = base.get("sourceFolder")
-    console.log('selectAndBroadcastSourceFolder')
-    ipcSocket.send("update", {sourceFolder})
-    return sourceFolder
-  })
-
-  const selectAndBroadcastSourceFiles = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([selectAndBroadcastSourceFolder], (sourceFolder) => {
-    console.log('selectAndBroadcastSourceFiles', sourceFolder)
-
-    const sourceCode = getFiles(sourceFolder);
-
-    ipcSocket.send("update", {sourceCode: sourceCode})
-    return sourceCode
-  })
-
-  const selectAndBroadcastUserViews = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([baseSelector], (base) => {
-    const userViews = base.get("userViews")
-    ipcSocket.send("update", {userViews: base.userViews})
-    return userViews
-  })
-
-  const selectAndBroadcastUserAis = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([baseSelector], (base) => {
-    const userAis = base.get("userAis")
-    ipcSocket.send("update", {userAis: base.userAis})
-    return userAis
-  })
-
-  const selectAndBroadcastUserShips = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([baseSelector], (base) => {
-    const userShips = base.get("userShips")
-    ipcSocket.send("update", {userShips: base.userShips})
-    return userShips
-  })
-
   const selectAndBroadcastEverything = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([baseSelector], (base) => {
-    ipcSocket.send("update", base)
+    console.log('selectAndBroadcastEverything', base)
+
+    const fileContents = base.getIn(["shipYard", "fileContents"]);
+
+    ipcSocket.send("update", base.set("shipMap", fileContents ? eval(fileContents).shipMap.gridMap : new Map() ) )
+
     return base
   })
+
+  // const selectAndBroadcastDashboard = createSelector([baseSelector], (base) => {
+  //   const dashBoard = base.get("dashBoard")
+  //   console.log('dashBoard')
+  //   ipcSocket.send("update", {dashBoard})
+  //   return dashBoard
+  // })
+  //
+  // const selectAndBroadcastAutopilot = createSelector([baseSelector], (base) => {
+  //   const autoPilot = base.get("autoPilot")
+  //   console.log('autoPilot')
+  //   ipcSocket.send("update", {autoPilot})
+  //   return autoPilot
+  // })
+  //
+  // const selectAndBroadcastShipyard = createSelector([baseSelector], (base) => {
+  //   const shipYard = base.get("shipYard")
+  //   console.log('shipYard')
+  //
+  //   const evaled = eval(shipYard.fileContents)
+  //   ipcSocket.send("update", {shipYard: shipYard.name, shipMap: evaled.shipMap.gridMap})
+  //   return shipYard
+  // })
+
+  // const selectAndBroadcastSourceFolder = createSelector([baseSelector], (base) => {
+  //   const sourceFolder = base.get("sourceFolder")
+  //   console.log('selectAndBroadcastSourceFolder')
+  //   ipcSocket.send("update", {sourceFolder})
+  //   return sourceFolder
+  // })
+  //
+  // const selectAndBroadcastSourceFiles = createSelector([selectAndBroadcastSourceFolder], (sourceFolder) => {
+  //   console.log('selectAndBroadcastSourceFiles', sourceFolder)
+  //
+  //   const sourceCode = getFiles(sourceFolder);
+  //
+  //   ipcSocket.send("update", {sourceCode: sourceCode})
+  //   return sourceCode
+  // })
+  //
+  // const selectAndBroadcastUserViews = createSelector([baseSelector], (base) => {
+  //   const userViews = base.get("userViews")
+  //   ipcSocket.send("update", {userViews: base.userViews})
+  //   return userViews
+  // })
+  //
+  // const selectAndBroadcastUserAis = createSelector([baseSelector], (base) => {
+  //   const userAis = base.get("userAis")
+  //   ipcSocket.send("update", {userAis: base.userAis})
+  //   return userAis
+  // })
+  //
+  // const selectAndBroadcastUserShips = createSelector([baseSelector], (base) => {
+  //   const userShips = base.get("userShips")
+  //   ipcSocket.send("update", {userShips: base.userShips})
+  //   return userShips
+  // })
+
+
 
   // const selectAndBroadcastShipData = createSelector([baseSelector], (base) => {
   //   ipcSocket.send("update", base)
@@ -29922,15 +29984,61 @@ var getFiles = function(directory) {
 
   return {
     baseSelector,
-    selectAndBroadcastSourceFolder,
     selectAndBroadcastEverything,
-    selectAndBroadcastSourceFiles,
-    selectAndBroadcastUserViews,
-    selectAndBroadcastUserAis,
-    selectAndBroadcastUserShips
+
+    // selectAndBroadcastDashboard,
+    // selectAndBroadcastAutopilot,
+    // selectAndBroadcastShipyard
+
+    // selectAndBroadcastSourceFolder,
+    // selectAndBroadcastSourceFiles,
+    // selectAndBroadcastUserViews,
+    // selectAndBroadcastUserAis,
+    // selectAndBroadcastUserShips
   }
 
 });
+
+// // Map all files in a directory in Node.js recursively and synchronously
+// var getFiles = function(directory) {
+//   if(!directory)return []
+//   let out = [];
+//
+//   fs.readdirSync(directory).forEach(item => {
+//     const itemPath = `${directory}/${item}`;
+//
+//     const pathSplit = item.split('/')
+//     const justThefile = pathSplit[pathSplit.length - 1];
+//
+//     if (fs.statSync(itemPath).isDirectory()) {
+//       if(item !== '.git'){
+//         out = out.concat({ [justThefile]: getFiles(itemPath) } );
+//       }
+//     } else {
+//
+//       out = out.concat(justThefile)
+//     }
+//   });
+//   return out;
+//
+//   // if(!directory)return {}
+//   // let out = {};
+//   //
+//   // fs.readdirSync(directory).forEach(item => {
+//   //   const itemPath = `${directory}/${item}`;
+//   //
+//   //   if (fs.statSync(itemPath).isDirectory()) {
+//   //
+//   //     if(item !== '.git'){
+//   //       out[item] = getFiles(itemPath);
+//   //     }
+//   //
+//   //   } else {
+//   //     out[item] = "fs.readFileSync(itemPath, {encoding: 'utf8',flag: 'r'});"
+//   //   }
+//   // });
+//   // return out;
+// };
 
 
 /***/ }),

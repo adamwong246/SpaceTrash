@@ -56,8 +56,8 @@ class App extends React.Component<{
           <TabPanel><TabShip /></TabPanel>
           <TabPanel><TabBots broadcaster={this.props.broadcaster} /></TabPanel>
           <TabPanel><TabDash broadcasterV2={this.props.broadcasterV2} /></TabPanel>
-          <TabPanel><TabAuto /></TabPanel>
-          <TabPanel><TabYard /></TabPanel>
+          <TabPanel><TabAuto broadcasterV2={this.props.broadcasterV2} /></TabPanel>
+          <TabPanel><TabYard broadcasterV2={this.props.broadcasterV2} /></TabPanel>
           <TabPanel><TabManual /></TabPanel>
 
         </Tabs>

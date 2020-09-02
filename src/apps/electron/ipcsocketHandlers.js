@@ -1,14 +1,71 @@
+import fs from 'fs';
 const path = require('path');
 const {
   dialog
 } = require('electron')
-
 
 export default (ipcSocket, webSocket, store, selectors) => {
 
   let handlers = {}
 
   handlers._history = []
+
+  handlers['PICK_DASHBOARD'] = async (commands) => {
+    dialog.showOpenDialog({
+      title: "spaceTrash",
+      message: "Pick a dashboard bundle",
+      properties: ['openFile']
+    }).then((folder) => {
+      store.dispatch({
+        type: "PICK_DASHBOARD",
+        payload: {
+          fileName: folder.filePaths[0],
+          fileContents: fs.readFileSync(folder.filePaths[0], {encoding: 'utf8',flag: 'r'})
+        }
+      })
+    }).then(() =>{
+      const state = store.getState();
+      selectors.selectAndBroadcastEverything(state)
+    })
+  }
+
+  handlers['PICK_AUTOPILOT'] = async (commands) => {
+    dialog.showOpenDialog({
+      title: "spaceTrash",
+      message: "Pick an autoPilot bundle",
+      properties: ['openFile']
+    }).then((folder) => {
+      store.dispatch({
+        type: "PICK_AUTOPILOT",
+        payload: {
+          fileName: folder.filePaths[0],
+          fileContents: fs.readFileSync(folder.filePaths[0], {encoding: 'utf8',flag: 'r'})
+        }
+      })
+    }).then(() =>{
+      const state = store.getState();
+      selectors.selectAndBroadcastEverything(state)
+    })
+  }
+
+  handlers['PICK_SHIPYARD'] = async (commands) => {
+    dialog.showOpenDialog({
+      title: "spaceTrash",
+      message: "Pick an shipYard bundle",
+      properties: ['openFile']
+    }).then((folder) => {
+      store.dispatch({
+        type: "PICK_SHIPYARD",
+        payload: {
+          fileName: folder.filePaths[0],
+          fileContents: fs.readFileSync(folder.filePaths[0], {encoding: 'utf8',flag: 'r'})
+        }
+      })
+    }).then(() =>{
+      const state = store.getState();
+      selectors.selectAndBroadcastEverything(state)
+    })
+  }
 
   handlers['ping'] = async () => {
     console.log('pinged')
@@ -23,7 +80,7 @@ export default (ipcSocket, webSocket, store, selectors) => {
 
   handlers['load'] = async () => {
     const state = store.getState()
-    selectors.selectAndBroadcastSourceFiles(state);
+    selectors.selectAndBroadcastEverything(state);
     return webSocket.load()
   }
 
@@ -35,22 +92,24 @@ export default (ipcSocket, webSocket, store, selectors) => {
     return webSocket.enqueue(commands)
   }
 
-  handlers['PICK_FOLDER'] = async (commands) => {
-    dialog.showOpenDialog({
-      title: "spaceTrash",
-      message: "Pick a source folder",
-      properties: ['openDirectory']
-    }).then((folder) => {
-      store.dispatch({
-        type: "PICK_FOLDER",
-        payload: folder.filePaths[0]
-      })
-    }).then(() =>{
-      const state = store.getState();
-      selectors.selectAndBroadcastSourceFolder(state)
-      selectors.selectAndBroadcastSourceFiles(state)
-    })
-  }
+  // handlers['PICK_FOLDER'] = async (commands) => {
+  //   dialog.showOpenDialog({
+  //     title: "spaceTrash",
+  //     message: "Pick a source folder",
+  //     properties: ['openDirectory']
+  //   }).then((folder) => {
+  //     store.dispatch({
+  //       type: "PICK_FOLDER",
+  //       payload: folder.filePaths[0]
+  //     })
+  //   }).then(() =>{
+  //     const state = store.getState();
+  //     selectors.selectAndBroadcastSourceFolder(state)
+  //     selectors.selectAndBroadcastSourceFiles(state)
+  //   })
+  // }
+
+
 
   handlers['userView'] = async (payload) => {
     store.dispatch({

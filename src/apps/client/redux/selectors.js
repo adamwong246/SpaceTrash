@@ -6,37 +6,52 @@ import store from "./store.js";
 
 const baseSelector = (state => state)
 
-export const getTabEditBundlesProps =  createSelector([baseSelector], base => {
+export const getTabAutoProps = createSelector([baseSelector], base => {
   return {
-   userViews: base.userViews || [],
-   userAis: base.userAis || [],
-   userShips: base.userShips || [],
-
-   setUserView: (userViewBundleName) => {
-     base.userViews.forEach((userView) => {
-       if(userView.name === userViewBundleName){
-         store.dispatch({type: "SET_USER_VIEW", payload: userView.contents})
-       }
-     })
-   },
-
-   // makeShip: (userShipBundleName) => {
-   //   base.userShips.forEach((userShip) => {
-   //     if(userShip.name === userShipBundleName){
-   //       store.dispatch({type: "SET_USER_SHIP", payload: userShip.name})
-   //     }
-   //   })
-   // }
-
- }
-});
-
-export const getTabAutoProps = createSelector([baseSelector], state => {
-
-  return {
-    terminalLines: state.terminalLines
+    terminalLines: base.terminalLines,
+    autoPilot: base.autoPilot,
   }
 })
+
+export const getTabYardProps = createSelector([baseSelector], base => {
+  return {
+    ...base,
+    shipYard: base.shipYard,
+  }
+})
+
+export const getTabDashProps = createSelector([baseSelector], base => {
+  return {
+    ...base,
+    dashBoard: base.dashBoard,
+  }
+})
+
+// export const getTabEditBundlesProps =  createSelector([baseSelector], base => {
+//   return {
+//    userViews: base.userViews || [],
+//    userAis: base.userAis || [],
+//    userShips: base.userShips || [],
+//
+//    setUserView: (userViewBundleName) => {
+//      base.userViews.forEach((userView) => {
+//        if(userView.name === userViewBundleName){
+//          store.dispatch({type: "SET_USER_VIEW", payload: userView.contents})
+//        }
+//      })
+//    },
+//
+//    // makeShip: (userShipBundleName) => {
+//    //   base.userShips.forEach((userShip) => {
+//    //     if(userShip.name === userShipBundleName){
+//    //       store.dispatch({type: "SET_USER_SHIP", payload: userShip.name})
+//    //     }
+//    //   })
+//    // }
+//
+//  }
+// });
+
 
 export const getTabBotsProps = createSelector([baseSelector], base => {
   return {
@@ -48,72 +63,31 @@ export const getTabBotsProps = createSelector([baseSelector], base => {
   }
 })
 
-export const getTabEditProps = createSelector([baseSelector], base => {
-
-  const openFileContents = base.openFile.reduce((memo, address) => {
-    return memo[address]
-  }, base.sourceCode)
-
-
-  return {
-
-    packErrors: base.packErrors,
-
-    sourceFolder: base.sourceFolder,
-
-    openFileContents: openFileContents === {} ? "" : openFileContents,
-
-    sourceCode: base.sourceCode,
-
-    openFile: (filePath) => {
-      store.dispatch({
-        type: 'SET_OPEN_FILE',
-        payload: filePath
-      })
-    },
-  }
-})
-
-export const getTabDashProps = createSelector([baseSelector], base => {
-  return {
-    ...base,
-    onUploadFile: (e) => {
-      e.target.files[0].text().then((t) => {
-
-        try {
-          const evaluated = eval(t)
-          console.log(evaluated)
-          store.dispatch(
-          {
-            type: "LOAD_FILE", payload: new evaluated(
-              (commands) => {
-                commands.forEach((command) => {
-                  store.dispatch({
-                    type: "QUEUE_COMMAND",
-                    payload: command
-                  })
-                })
-              }
-            )
-          }
-        )
-        }catch(e){
-          console.log(e)
-        }
-
-      })
-    },
-    dispatcher: (instruction, droneId) => store.dispatch({
-      type: "QUEUE_COMMAND",
-      payload: {
-        drone: droneId,
-        instruction
-      }
-    }),
-    userBot: base.userBot,
-    userView: base.userView,
-  }
-})
+// export const getTabEditProps = createSelector([baseSelector], base => {
+//
+//   const openFileContents = base.openFile.reduce((memo, address) => {
+//     return memo[address]
+//   }, base.sourceCode)
+//
+//
+//   return {
+//
+//     packErrors: base.packErrors,
+//
+//     sourceFolder: base.sourceFolder,
+//
+//     openFileContents: openFileContents === {} ? "" : openFileContents,
+//
+//     sourceCode: base.sourceCode,
+//
+//     openFile: (filePath) => {
+//       store.dispatch({
+//         type: 'SET_OPEN_FILE',
+//         payload: filePath
+//       })
+//     },
+//   }
+// })
 
 export const getTabShipProps = createSelector([baseSelector], base => {
   return {

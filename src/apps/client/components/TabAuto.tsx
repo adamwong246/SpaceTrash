@@ -44,6 +44,15 @@ class TabAuto extends React.Component<{
   render() {
     return (
       <div>
+
+
+        <button onClick={() => this.props.broadcasterV2({ action: "PICK_AUTOPILOT", payload: {} })}>Pick a autopilot</button>
+        {
+          this.props.autoPilot ?
+          (<span> You have set an autoPilot </span>) :
+          (<span> You haven't set an autoPilot </span>)
+            }
+
         <div id="terminal" className="scrolly">
 
           <pre>

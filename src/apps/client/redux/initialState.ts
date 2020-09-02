@@ -18,6 +18,10 @@ export default {
   ],
   aiBundles: [
     {name : "botOO"}
-  ]
-  userView: false
+  ],
+  userView: false,
+
+  autoPilot: false,
+  shipYard: false,
+  dashBoard: false
 }

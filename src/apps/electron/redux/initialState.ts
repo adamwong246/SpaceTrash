@@ -8,4 +8,8 @@ export default fromJS({
   userViews: [],
   userShips: [],
   userAis: [],
+
+  dashBoard: {},
+  autoPilot: {},
+  shipYard: {}
 })

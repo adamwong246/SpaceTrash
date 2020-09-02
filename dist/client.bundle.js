@@ -61303,9 +61303,9 @@ class App extends React.Component {
                     React.createElement(react_tabs_1.TabPanel, null,
                         React.createElement(TabDash_tsx_1.default, { broadcasterV2: this.props.broadcasterV2 })),
                     React.createElement(react_tabs_1.TabPanel, null,
-                        React.createElement(TabAuto_tsx_1.default, null)),
+                        React.createElement(TabAuto_tsx_1.default, { broadcasterV2: this.props.broadcasterV2 })),
                     React.createElement(react_tabs_1.TabPanel, null,
-                        React.createElement(TabYard_tsx_1.default, null)),
+                        React.createElement(TabYard_tsx_1.default, { broadcasterV2: this.props.broadcasterV2 })),
                     React.createElement(react_tabs_1.TabPanel, null,
                         React.createElement(TabManual_tsx_1.default, null))))));
     }
@@ -61789,6 +61789,10 @@ class TabAuto extends React.Component {
     }
     render() {
         return (React.createElement("div", null,
+            React.createElement("button", { onClick: () => this.props.broadcasterV2({ action: "PICK_AUTOPILOT", payload: {} }) }, "Pick a autopilot"),
+            this.props.autoPilot ?
+                (React.createElement("span", null, " You have set an autoPilot ")) :
+                (React.createElement("span", null, " You haven't set an autoPilot ")),
             React.createElement("div", { id: "terminal", className: "scrolly" },
                 React.createElement("pre", null,
                     React.createElement("code", null, this.props.terminalLines.map((c, ndx) => {
@@ -61858,15 +61862,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/apps/client/redux/selectors.js");
+const renderDashboard = (string, props) => {
+    if (!string)
+        return (React.createElement("span", null, "Nothing to render"));
+    const evaled = eval(string);
+    return new evaled().render(props);
+};
 class TabDash extends React.Component {
     render() {
-        console.log("TabDash props", this.props);
         const commandAutopilot = (payload) => {
             this.props.broadcasterV2({ action: "COMMAND_AUTOPILOT", payload });
         };
         return (React.createElement("div", null,
-            !this.props.userView && React.createElement("div", null, "You haven't loaded a dashboard."),
-            this.props.userView && new this.props.userView().render({ commandAutopilot })));
+            !this.props.dashBoard && React.createElement("div", null, "You haven't loaded a dashboard."),
+            React.createElement("button", { onClick: () => this.props.broadcasterV2({ action: "PICK_DASHBOARD", payload: {} }) }, "Pick a dashboard"),
+            React.createElement("br", null),
+            this.props.dashBoard && React.createElement("p", null,
+                "loaded: ",
+                this.props.dashBoard.fileName),
+            React.createElement("pre", null, JSON.stringify(this.props.dashBoard)),
+            this.props.dashBoard && renderDashboard(this.props.dashBoard.fileContents, { commandAutopilot })));
     }
 }
 const mapStateToProps = state => {
@@ -62240,82 +62255,26 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabShip);
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-const MapDetail_tsx_1 = __webpack_require__(/*! ./MapDetail.tsx */ "./src/apps/client/components/MapDetail.tsx");
 const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/apps/client/redux/selectors.js");
-const blankCharacter = '.';
 class TabShip extends React.Component {
     constructor(a) {
         super(a);
-        this.state = { cursorX: 1, cursorY: 1 };
-    }
-    setCursor(x, y) {
-        this.setState({ cursorX: x, cursorY: y });
     }
     render() {
-        const shipMap = this.props.base.shipMap;
-        if (!shipMap) {
-            return React.createElement("p", null, "idk");
-        }
-        if (Object.keys(shipMap).length === 0) {
-            return (React.createElement("span", null, "You haven't loaded a ship factory."));
-        }
-        const metaData = {
-            xMin: Number.POSITIVE_INFINITY,
-            yMin: Number.POSITIVE_INFINITY,
-            xMax: Number.NEGATIVE_INFINITY,
-            yMax: Number.NEGATIVE_INFINITY,
-        };
-        Object.keys(shipMap).forEach((xKey) => {
-            Object.keys(shipMap[xKey]).forEach((yKey) => {
-                const xNumber = parseInt(xKey);
-                const yNumber = parseInt(yKey);
-                if (xNumber < metaData.xMin) {
-                    metaData.xMin = xNumber;
-                }
-                if (xNumber > metaData.xMax) {
-                    metaData.xMax = xNumber;
-                }
-                if (yNumber < metaData.yMin) {
-                    metaData.yMin = yNumber;
-                }
-                if (yNumber > metaData.yMax) {
-                    metaData.yMax = yNumber;
-                }
-            });
-        });
-        const height = metaData.yMax - metaData.yMin + 1;
-        const width = metaData.xMax - metaData.xMin + 1;
-        const matrix = new Array(height).fill(blankCharacter).map(() => new Array(width).fill(blankCharacter).map(() => new Array(2).fill(blankCharacter)));
-        for (var yNdx = 0; yNdx < height; yNdx++) {
-            for (var xNdx = 0; xNdx < width; xNdx++) {
-                const x = (xNdx + metaData.xMin).toString();
-                const y = (yNdx + metaData.yMin).toString();
-                if (shipMap[x]) {
-                    if (shipMap[x][y]) {
-                        matrix[yNdx][xNdx] = shipMap[x][y];
-                    }
-                }
-            }
-        }
         return (React.createElement("div", null,
-            React.createElement("table", null,
-                React.createElement("tbody", null,
-                    React.createElement("tr", null,
-                        React.createElement("td", null, "Detail"),
-                        React.createElement("td", null, "Map")),
-                    React.createElement("tr", null,
-                        React.createElement("td", null, matrix && matrix[this.state.cursorY] && matrix[this.state.cursorY][this.state.cursorX] && React.createElement(MapDetail_tsx_1.default, { cell: matrix[this.state.cursorY][this.state.cursorX], x: this.state.cursorX, y: this.state.cursorY })),
-                        React.createElement("td", null, matrix && (React.createElement("table", { className: "matrix codish" },
-                            React.createElement("tbody", null, matrix.map((row, y) => {
-                                return (React.createElement("tr", null, row.map((cell, x) => {
-                                    return (React.createElement("td", { onMouseOver: () => this.setCursor(x, y) }, cell));
-                                })));
-                            }))))))))));
+            React.createElement("button", { onClick: () => this.props.broadcasterV2({ action: "PICK_SHIPYARD", payload: {} }) }, "Pick a ship plan"),
+            this.props.shipYard ?
+                (React.createElement("span", null,
+                    " You have set an shipYard: ",
+                    this.props.shipYard.fileName,
+                    " ")) :
+                (React.createElement("span", null, " You haven't set an shipYard ")),
+            React.createElement("pre", null, JSON.stringify(this.props.shipYard))));
     }
 }
 ;
 const mapStateToProps = state => {
-    return selectors_js_1.getTabShipProps(state);
+    return selectors_js_1.getTabYardProps(state);
 };
 exports.default = react_redux_1.connect(mapStateToProps)(TabShip);
 
@@ -62405,7 +62364,10 @@ exports.default = {
     aiBundles: [
         { name: "botOO" }
     ],
-    userView: false
+    userView: false,
+    autoPilot: false,
+    shipYard: false,
+    dashBoard: false
 };
 
 
@@ -62470,16 +62432,15 @@ exports.default = (state = initialState_ts_1.default, action) => {
 /*!********************************************!*\
   !*** ./src/apps/client/redux/selectors.js ***!
   \********************************************/
-/*! exports provided: getTabEditBundlesProps, getTabAutoProps, getTabBotsProps, getTabEditProps, getTabDashProps, getTabShipProps, getTabViewProps */
+/*! exports provided: getTabAutoProps, getTabYardProps, getTabDashProps, getTabBotsProps, getTabShipProps, getTabViewProps */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabEditBundlesProps", function() { return getTabEditBundlesProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabAutoProps", function() { return getTabAutoProps; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabBotsProps", function() { return getTabBotsProps; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabEditProps", function() { return getTabEditProps; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabYardProps", function() { return getTabYardProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabDashProps", function() { return getTabDashProps; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabBotsProps", function() { return getTabBotsProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabShipProps", function() { return getTabShipProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabViewProps", function() { return getTabViewProps; });
 /* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
@@ -62490,37 +62451,52 @@ __webpack_require__.r(__webpack_exports__);
 
 const baseSelector = (state => state)
 
-const getTabEditBundlesProps =  Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
+const getTabAutoProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
   return {
-   userViews: base.userViews || [],
-   userAis: base.userAis || [],
-   userShips: base.userShips || [],
-
-   setUserView: (userViewBundleName) => {
-     base.userViews.forEach((userView) => {
-       if(userView.name === userViewBundleName){
-         _store_js__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch({type: "SET_USER_VIEW", payload: userView.contents})
-       }
-     })
-   },
-
-   // makeShip: (userShipBundleName) => {
-   //   base.userShips.forEach((userShip) => {
-   //     if(userShip.name === userShipBundleName){
-   //       store.dispatch({type: "SET_USER_SHIP", payload: userShip.name})
-   //     }
-   //   })
-   // }
-
- }
-});
-
-const getTabAutoProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], state => {
-
-  return {
-    terminalLines: state.terminalLines
+    terminalLines: base.terminalLines,
+    autoPilot: base.autoPilot,
   }
 })
+
+const getTabYardProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
+  return {
+    ...base,
+    shipYard: base.shipYard,
+  }
+})
+
+const getTabDashProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
+  return {
+    ...base,
+    dashBoard: base.dashBoard,
+  }
+})
+
+// export const getTabEditBundlesProps =  createSelector([baseSelector], base => {
+//   return {
+//    userViews: base.userViews || [],
+//    userAis: base.userAis || [],
+//    userShips: base.userShips || [],
+//
+//    setUserView: (userViewBundleName) => {
+//      base.userViews.forEach((userView) => {
+//        if(userView.name === userViewBundleName){
+//          store.dispatch({type: "SET_USER_VIEW", payload: userView.contents})
+//        }
+//      })
+//    },
+//
+//    // makeShip: (userShipBundleName) => {
+//    //   base.userShips.forEach((userShip) => {
+//    //     if(userShip.name === userShipBundleName){
+//    //       store.dispatch({type: "SET_USER_SHIP", payload: userShip.name})
+//    //     }
+//    //   })
+//    // }
+//
+//  }
+// });
+
 
 const getTabBotsProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
   return {
@@ -62532,72 +62508,31 @@ const getTabBotsProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
   }
 })
 
-const getTabEditProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
-
-  const openFileContents = base.openFile.reduce((memo, address) => {
-    return memo[address]
-  }, base.sourceCode)
-
-
-  return {
-
-    packErrors: base.packErrors,
-
-    sourceFolder: base.sourceFolder,
-
-    openFileContents: openFileContents === {} ? "" : openFileContents,
-
-    sourceCode: base.sourceCode,
-
-    openFile: (filePath) => {
-      _store_js__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch({
-        type: 'SET_OPEN_FILE',
-        payload: filePath
-      })
-    },
-  }
-})
-
-const getTabDashProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
-  return {
-    ...base,
-    onUploadFile: (e) => {
-      e.target.files[0].text().then((t) => {
-
-        try {
-          const evaluated = eval(t)
-          console.log(evaluated)
-          _store_js__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch(
-          {
-            type: "LOAD_FILE", payload: new evaluated(
-              (commands) => {
-                commands.forEach((command) => {
-                  _store_js__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch({
-                    type: "QUEUE_COMMAND",
-                    payload: command
-                  })
-                })
-              }
-            )
-          }
-        )
-        }catch(e){
-          console.log(e)
-        }
-
-      })
-    },
-    dispatcher: (instruction, droneId) => _store_js__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch({
-      type: "QUEUE_COMMAND",
-      payload: {
-        drone: droneId,
-        instruction
-      }
-    }),
-    userBot: base.userBot,
-    userView: base.userView,
-  }
-})
+// export const getTabEditProps = createSelector([baseSelector], base => {
+//
+//   const openFileContents = base.openFile.reduce((memo, address) => {
+//     return memo[address]
+//   }, base.sourceCode)
+//
+//
+//   return {
+//
+//     packErrors: base.packErrors,
+//
+//     sourceFolder: base.sourceFolder,
+//
+//     openFileContents: openFileContents === {} ? "" : openFileContents,
+//
+//     sourceCode: base.sourceCode,
+//
+//     openFile: (filePath) => {
+//       store.dispatch({
+//         type: 'SET_OPEN_FILE',
+//         payload: filePath
+//       })
+//     },
+//   }
+// })
 
 const getTabShipProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
   return {
