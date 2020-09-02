@@ -11,18 +11,18 @@ class TabRoot extends React.Component<{
   render() {
     return (
       <div>
-      <Tabs  className="vertical">
-        <TabList>
+        <Tabs className="">
+          <TabList>
 
-          <Tab>home</Tab>
-          <Tab>play</Tab>
+            <Tab>home</Tab>
+            <Tab>play</Tab>
 
-        </TabList>
+          </TabList>
 
 
 
-        <TabPanel>
-<pre>{`
+          <TabPanel>
+            <pre>{`
 
   ███████╗██████╗  █████╗  ██████╗███████╗████████╗██████╗  █████╗ ███████╗██╗  ██╗
   ██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██║  ██║
@@ -40,46 +40,74 @@ class TabRoot extends React.Component<{
 3 Explore, gather resouces and fight other bots.
 4 Write code to manage your bots
 5 GOTO 2`}</pre>
-        </TabPanel>
-        <TabPanel>
-          <ul>
-            <li>Session #1</li>
-            <li>Session #2</li>
-            <li>Session #2</li>
-            <li>Session #1</li>
-            <li>Session #2</li>
-            <li>Session #2</li>
-            <li>Session #1</li>
-            <li>Session #2</li>
-            <li>Session #2</li>
-            <li>Session #1</li>
-            <li>Session #2</li>
-            <li>Session #2</li>
-            <li>Session #1</li>
-            <li>Session #2</li>
-            <li>Session #2</li>
-            <li>Session #1</li>
-            <li>Session #2</li>
-            <li>Session #2</li>
-            <li>Session #1</li>
-            <li>Session #2</li>
-            <li>Session #2</li>
-            <li>Session #1</li>
-            <li>Session #2</li>
-            <li>Session #2</li>
-            <li>Session #1</li>
-            <li>Session #2</li>
-            <li>Session #2</li>
-            <li>Session #1</li>
-            <li>Session #2</li>
-            <li>Session #2</li>
-            <li>Session #1</li>
-            <li>Session #2</li>
-            <li>Session #2</li>
-          </ul>
-        </TabPanel>
+          </TabPanel>
+          <TabPanel>
 
-      </Tabs>
+
+            <Tabs className="vertical">
+              <TabList>
+                <Tab>localhost:5000</Tab>
+              </TabList>
+
+              <TabPanel>
+                <Tabs className="vertical">
+                  <TabList>
+                    <Tab>Sessions</Tab>
+                    <Tab>Ships</Tab>
+                  </TabList>
+
+                  <TabPanel>
+
+                  <ul>
+                    <li>Session #1</li>
+                    <li>Session #2</li>
+                    <li>Session #2</li>
+                    <li>Session #1</li>
+                    <li>Session #2</li>
+                    <li>Session #2</li>
+                    <li>Session #1</li>
+                    <li>Session #2</li>
+                    <li>Session #2</li>
+                    <li>Session #1</li>
+                    <li>Session #2</li>
+                    <li>Session #2</li>
+                    <li>Session #1</li>
+                    <li>Session #2</li>
+                    <li>Session #2</li>
+                    <li>Session #1</li>
+                    <li>Session #2</li>
+                    <li>Session #2</li>
+                    <li>Session #1</li>
+                    <li>Session #2</li>
+                    <li>Session #2</li>
+                    <li>Session #1</li>
+                    <li>Session #2</li>
+                    <li>Session #2</li>
+                    <li>Session #1</li>
+                    <li>Session #2</li>
+                    <li>Session #2</li>
+                    <li>Session #1</li>
+                    <li>Session #2</li>
+                    <li>Session #2</li>
+                    <li>Session #1</li>
+                    <li>Session #2</li>
+                    <li>Session #2</li>
+                  </ul>
+                  </TabPanel>
+                  <TabPanel>
+                    SHIPS GO HERE
+                  </TabPanel>
+
+                </Tabs>
+              </TabPanel>
+
+
+
+            </Tabs>
+
+          </TabPanel>
+
+        </Tabs>
       </div>
     )
   }

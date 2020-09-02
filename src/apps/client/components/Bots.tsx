@@ -11,10 +11,12 @@ class Bots extends React.Component<{
 
   render() {
     const bots = this.props.bots
+
+    if(!bots)return (<span>IDK no bots to be found</span>)
     return (<div id="main" >
 
       {
-        bots.length > 0? (<Tabs className="vertical">
+        bots.length > 0 ? (<Tabs className="vertical">
           <TabList>
             {
               bots.map((bot) => {

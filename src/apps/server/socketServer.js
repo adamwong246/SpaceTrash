@@ -9,7 +9,7 @@ const User = require('./models/User.js');
 const bserver = http.createServer({});
 const webPort = 5000;
 
-bserver.listen(webPort, () => console.log('Web server start. http://localhost:' + webPort));
+bserver.listen(webPort, () => console.log('WebSocket server started on http://localhost:' + webPort));
 
 const wss = new WebSocket.Server({
   server: bserver
