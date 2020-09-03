@@ -6,6 +6,13 @@ import store from "./store.js";
 
 const baseSelector = (state => state)
 
+export const getTabRootProps = createSelector([baseSelector], base => {
+  return {
+    terminalLines: base.terminalLines,
+    autoPilot: base.autoPilot,
+  }
+})
+
 export const getTabAutoProps = createSelector([baseSelector], base => {
   return {
     terminalLines: base.terminalLines,
@@ -16,7 +23,31 @@ export const getTabAutoProps = createSelector([baseSelector], base => {
 export const getTabYardProps = createSelector([baseSelector], base => {
   return {
     ...base,
-    yardedShip: base.yardedShip
+    yardedShip: base.yardedShip,
+    launchShip: (x) => {
+      let xhr = new XMLHttpRequest();
+      let url = "http://localhost:3000/ships";
+
+      // open a connection
+      xhr.open("POST", url, true);
+
+      // Set the request header i.e. which type of content you are sending
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      // Create a state change callback
+      xhr.onreadystatechange = (result) => {
+        console.log(result)
+        // if (xhr.readyState === 4 && xhr.status === 200) {
+        //
+        //   // Print received data from server
+        //   result.innerHTML = this.responseText;
+        //
+        // }
+      };
+
+      // Sending data with the request
+      xhr.send(JSON.stringify(base.yardedShip));
+    }
   }
 })
 
@@ -27,32 +58,6 @@ export const getTabDashProps = createSelector([baseSelector], base => {
   }
 })
 
-// export const getTabEditBundlesProps =  createSelector([baseSelector], base => {
-//   return {
-//    userViews: base.userViews || [],
-//    userAis: base.userAis || [],
-//    userShips: base.userShips || [],
-//
-//    setUserView: (userViewBundleName) => {
-//      base.userViews.forEach((userView) => {
-//        if(userView.name === userViewBundleName){
-//          store.dispatch({type: "SET_USER_VIEW", payload: userView.contents})
-//        }
-//      })
-//    },
-//
-//    // makeShip: (userShipBundleName) => {
-//    //   base.userShips.forEach((userShip) => {
-//    //     if(userShip.name === userShipBundleName){
-//    //       store.dispatch({type: "SET_USER_SHIP", payload: userShip.name})
-//    //     }
-//    //   })
-//    // }
-//
-//  }
-// });
-
-
 export const getTabBotsProps = createSelector([baseSelector], base => {
   return {
     drones: base.drones,
@@ -62,32 +67,6 @@ export const getTabBotsProps = createSelector([baseSelector], base => {
     })
   }
 })
-
-// export const getTabEditProps = createSelector([baseSelector], base => {
-//
-//   const openFileContents = base.openFile.reduce((memo, address) => {
-//     return memo[address]
-//   }, base.sourceCode)
-//
-//
-//   return {
-//
-//     packErrors: base.packErrors,
-//
-//     sourceFolder: base.sourceFolder,
-//
-//     openFileContents: openFileContents === {} ? "" : openFileContents,
-//
-//     sourceCode: base.sourceCode,
-//
-//     openFile: (filePath) => {
-//       store.dispatch({
-//         type: 'SET_OPEN_FILE',
-//         payload: filePath
-//       })
-//     },
-//   }
-// })
 
 export const getTabShipProps = createSelector([baseSelector], base => {
   return {

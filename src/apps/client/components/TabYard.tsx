@@ -48,7 +48,8 @@ class TabYard extends React.Component<{}, {}> {
           </TabPanel>
 
           <TabPanel>
-            <h3>If you are happy with this ship, you can launch it on the session server</h3>
+            <p>If you are happy with this ship, you can launch it on the session server</p>
+            <button onClick={this.props.launchShip}> Launch </button>
           </TabPanel>
         </Tabs>
       }

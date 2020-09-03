@@ -5,24 +5,10 @@ block content
 
   a(href="/sessions/#{session.id}/cache") cache
   </br>  
-  a(href="/sessions/#{session.id}/clientSessionApp") clientSessionApp
-  </br>
-  a(href="/sessions/#{session.id}/clientSessionSudoApp") clientSessionSudoApp
-  </br>
   form(action="/sessions/#{session.id}/start" method="post")
     input(type="submit" value="initialize game state")
-      
-  table
-    tbody
-      tr
-        td user
-        td status
 
-      - for user in session.users
-        tr
-          td= user
-          td status
-          
+  pre= JSON.stringify(session, null, 2)
   //- input#text(type='text' onchange=`broadcast(event.target.value,'session-${session.id}','${user._id}');` )
   //- 
   //- table

@@ -1,9 +1,13 @@
 import * as React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { connect } from "react-redux";
 
-class TabRoot extends React.Component<{
-  drone, broadcaster
-}, {}>{
+import { getTabRootProps } from '../redux/selectors.js';
+
+import Ships from './Ships.tsx';
+import Sessions from './Sessions.tsx';
+
+class TabRoot extends React.Component<{}, {}>{
   constructor(a) {
     super(a);
   }
@@ -50,52 +54,17 @@ class TabRoot extends React.Component<{
               </TabList>
 
               <TabPanel>
-                <Tabs className="vertical">
+                <Tabs>
                   <TabList>
                     <Tab>Sessions</Tab>
                     <Tab>Ships</Tab>
                   </TabList>
 
                   <TabPanel>
-
-                  <ul>
-                    <li>Session #1</li>
-                    <li>Session #2</li>
-                    <li>Session #2</li>
-                    <li>Session #1</li>
-                    <li>Session #2</li>
-                    <li>Session #2</li>
-                    <li>Session #1</li>
-                    <li>Session #2</li>
-                    <li>Session #2</li>
-                    <li>Session #1</li>
-                    <li>Session #2</li>
-                    <li>Session #2</li>
-                    <li>Session #1</li>
-                    <li>Session #2</li>
-                    <li>Session #2</li>
-                    <li>Session #1</li>
-                    <li>Session #2</li>
-                    <li>Session #2</li>
-                    <li>Session #1</li>
-                    <li>Session #2</li>
-                    <li>Session #2</li>
-                    <li>Session #1</li>
-                    <li>Session #2</li>
-                    <li>Session #2</li>
-                    <li>Session #1</li>
-                    <li>Session #2</li>
-                    <li>Session #2</li>
-                    <li>Session #1</li>
-                    <li>Session #2</li>
-                    <li>Session #2</li>
-                    <li>Session #1</li>
-                    <li>Session #2</li>
-                    <li>Session #2</li>
-                  </ul>
+                    <Sessions />
                   </TabPanel>
                   <TabPanel>
-                    SHIPS GO HERE
+                    <Ships />
                   </TabPanel>
 
                 </Tabs>
@@ -113,4 +82,8 @@ class TabRoot extends React.Component<{
   }
 };
 
-export default TabRoot
+const mapStateToProps = state => {
+  return getTabRootProps(state);
+};
+
+export default connect(mapStateToProps)(TabRoot);

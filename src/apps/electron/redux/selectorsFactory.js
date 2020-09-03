@@ -18,7 +18,7 @@ export default (ipcSocket, webSocket) => {
 
     const yardedShip = fileContents ? eval(fileContents) : new Map()
     console.log(yardedShip)
-    ipcSocket.send("update", base.set("yardedShip", yardedShip.shipMap ) )
+    ipcSocket.send("update", base.set("yardedShip", yardedShip ) )
 
     return base
   })

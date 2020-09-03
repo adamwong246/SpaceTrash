@@ -17,19 +17,23 @@ sessionController.home = function(req, res) {
 };
 
 sessionController.allSessions = function(req, res) {
-  Session.find({}, function(err, sessions) {
-    res.render('allSessions', {
-      allSessions: sessions,
-      user: req.user
-    });
+  Session.find({}, function(err, allSessions) {
+    // res.render('allSessions', {
+    //   allSessions: sessions,
+    //   user: req.user
+    // });
+    res.json(allSessions)
   });
 };
 
 sessionController.newSession = function(req, res) {
-  User.find({}, function(err, allUsers) {
-    res.render('newSession', {
-      allUsers: allUsers,
-      user: req.user
+  Ship.find({}, function(err, allShips) {
+    User.find({}, function(err, allUsers) {
+      res.render('newSession', {
+        allUsers: allUsers,
+        allShips: allShips,
+        user: req.user
+      });
     });
   });
 };

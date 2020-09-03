@@ -9730,7 +9730,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "body{\n  margin: 0px;\n}\n\nbody, #app, #main {\n  height: 100vh;\n}\n\n.codish {\n  font-family: monospace;\n}\n\n.react-tabs__tab-list.vertical {\n  display: flex;\n  flex-direction: column;\n  width: 170px;\n  margin: 0;\n  padding: 0;\n  color: white;\n  background: #3c3e43;\n}\n\np {\n  max-width: 40em;\n}\n\ntable {\n    border-collapse: collapse;\n}\nth, td {\n    padding: 0;\n}\n\n.react-tabs__tab-list {\n  border-bottom-width: 1px;\n  border-botom-style: solid;\n  margin: 0px;\n  padding: 0px;;\n}\n\n#status {\n  float: right;\n}\n\n#tabs {\n  height: 100%;\n}\n\n.react-tabs, .react-tabs__tab-panel--selected{\n  height: 100%;\n  overflow-y: scroll;\n}\n", ""]);
+exports.push([module.i, "body{\n  margin: 0px;\n}\n\n#app, #main {\n  height: 100vh;\n}\n\n.codish {\n  font-family: monospace;\n}\n\n.react-tabs__tab-list.vertical {\n  display: flex;\n  flex-direction: column;\n  width: 170px;\n  margin: 0;\n  padding: 0;\n  color: white;\n  background: #3c3e43;\n}\n\np {\n  max-width: 40em;\n}\n\ntable {\n    border-collapse: collapse;\n}\nth, td {\n    padding: 0;\n}\n\n.react-tabs__tab-list {\n  border-bottom-width: 1px;\n  border-botom-style: solid;\n  margin: 0px;\n  padding: 0px;;\n}\n\n#status {\n  float: right;\n}\n\n#tabs {\n  height: 100%;\n}\n\n.react-tabs, .react-tabs__tab-panel--selected{\n  height: 100%;\n  overflow-y: scroll;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -61972,6 +61972,62 @@ exports.default = Raycast;
 
 /***/ }),
 
+/***/ "./src/apps/client/components/Sessions.tsx":
+/*!*************************************************!*\
+  !*** ./src/apps/client/components/Sessions.tsx ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+class Sessions extends React.Component {
+    constructor(a) {
+        super(a);
+        this.state = { content: (React.createElement("p", null, "loading...")) };
+        this.updateWithSessions = this.updateWithSessions.bind(this);
+        const updateWithSessions = this.updateWithSessions;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                updateWithSessions(this.responseText);
+            }
+        };
+        xhttp.open("GET", "http://localhost:3000/sessions", true);
+        xhttp.send();
+    }
+    updateWithSessions(responseText) {
+        console.log(responseText);
+        const newContent = (React.createElement("ul", null, JSON.parse(responseText).map((session) => {
+            console.log(session);
+            return (React.createElement("li", null,
+                React.createElement("p", null,
+                    "id: ",
+                    session._id),
+                React.createElement("p", null,
+                    "user: ",
+                    session.user),
+                React.createElement("p", null,
+                    "ship: ",
+                    session.ship),
+                React.createElement("button", null, "Connect")));
+        })));
+        this.setState({
+            "content": newContent
+        });
+    }
+    render() {
+        return (React.createElement("div", null, this.state.content));
+    }
+}
+;
+exports.default = Sessions;
+
+
+/***/ }),
+
 /***/ "./src/apps/client/components/ShipMap.tsx":
 /*!************************************************!*\
   !*** ./src/apps/client/components/ShipMap.tsx ***!
@@ -61994,7 +62050,7 @@ class ShipMap extends React.Component {
         this.setState({ cursorX: x, cursorY: y });
     }
     render() {
-        const shipMap = this.props.ship.gridMap;
+        const shipMap = this.props.ship.shipMap;
         if (!shipMap) {
             return React.createElement("p", null, "idk");
         }
@@ -62058,6 +62114,53 @@ class ShipMap extends React.Component {
 }
 ;
 exports.default = ShipMap;
+
+
+/***/ }),
+
+/***/ "./src/apps/client/components/Ships.tsx":
+/*!**********************************************!*\
+  !*** ./src/apps/client/components/Ships.tsx ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+class Ships extends React.Component {
+    constructor(a) {
+        super(a);
+        this.state = { content: (React.createElement("p", null, "loading...")) };
+        this.updateWithShips = this.updateWithShips.bind(this);
+        const updateWithShips = this.updateWithShips;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                updateWithShips(this.responseText);
+            }
+        };
+        xhttp.open("GET", "http://localhost:3000/ships", true);
+        xhttp.send();
+    }
+    updateWithShips(responseText) {
+        console.log(responseText);
+        const newContent = (React.createElement("ul", null, JSON.parse(responseText).map((ship) => {
+            return (React.createElement("li", null,
+                ship.name,
+                React.createElement("button", null, "Open in simulator")));
+        })));
+        this.setState({
+            "content": newContent
+        });
+    }
+    render() {
+        return (React.createElement("div", null, this.state.content));
+    }
+}
+;
+exports.default = Ships;
 
 
 /***/ }),
@@ -62392,6 +62495,10 @@ exports.default = TabManual;
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
+const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/apps/client/redux/selectors.js");
+const Ships_tsx_1 = __webpack_require__(/*! ./Ships.tsx */ "./src/apps/client/components/Ships.tsx");
+const Sessions_tsx_1 = __webpack_require__(/*! ./Sessions.tsx */ "./src/apps/client/components/Sessions.tsx");
 class TabRoot extends React.Component {
     constructor(a) {
         super(a);
@@ -62426,50 +62533,21 @@ class TabRoot extends React.Component {
                         React.createElement(react_tabs_1.TabList, null,
                             React.createElement(react_tabs_1.Tab, null, "localhost:5000")),
                         React.createElement(react_tabs_1.TabPanel, null,
-                            React.createElement(react_tabs_1.Tabs, { className: "vertical" },
+                            React.createElement(react_tabs_1.Tabs, null,
                                 React.createElement(react_tabs_1.TabList, null,
                                     React.createElement(react_tabs_1.Tab, null, "Sessions"),
                                     React.createElement(react_tabs_1.Tab, null, "Ships")),
                                 React.createElement(react_tabs_1.TabPanel, null,
-                                    React.createElement("ul", null,
-                                        React.createElement("li", null, "Session #1"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #1"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #1"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #1"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #1"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #1"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #1"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #1"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #1"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #1"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #1"),
-                                        React.createElement("li", null, "Session #2"),
-                                        React.createElement("li", null, "Session #2"))),
-                                React.createElement(react_tabs_1.TabPanel, null, "SHIPS GO HERE"))))))));
+                                    React.createElement(Sessions_tsx_1.default, null)),
+                                React.createElement(react_tabs_1.TabPanel, null,
+                                    React.createElement(Ships_tsx_1.default, null)))))))));
     }
 }
 ;
-exports.default = TabRoot;
+const mapStateToProps = state => {
+    return selectors_js_1.getTabRootProps(state);
+};
+exports.default = react_redux_1.connect(mapStateToProps)(TabRoot);
 
 
 /***/ }),
@@ -62611,7 +62689,8 @@ class TabYard extends React.Component {
                             React.createElement(react_tabs_1.TabPanel, null,
                                 React.createElement(Bots_tsx_1.default, { bots: this.props.yardedShip.bots })))),
                     React.createElement(react_tabs_1.TabPanel, null,
-                        React.createElement("h3", null, "If you are happy with this ship, you can launch it on the session server"))),
+                        React.createElement("p", null, "If you are happy with this ship, you can launch it on the session server"),
+                        React.createElement("button", { onClick: this.props.launchShip }, " Launch "))),
             React.createElement("pre", null, JSON.stringify(this.props, null, 2))));
     }
 }
@@ -62764,11 +62843,12 @@ exports.default = (state = initialState_ts_1.default, action) => {
 /*!********************************************!*\
   !*** ./src/apps/client/redux/selectors.js ***!
   \********************************************/
-/*! exports provided: getTabAutoProps, getTabYardProps, getTabDashProps, getTabBotsProps, getTabShipProps, getTabViewProps */
+/*! exports provided: getTabRootProps, getTabAutoProps, getTabYardProps, getTabDashProps, getTabBotsProps, getTabShipProps, getTabViewProps */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabRootProps", function() { return getTabRootProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabAutoProps", function() { return getTabAutoProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabYardProps", function() { return getTabYardProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabDashProps", function() { return getTabDashProps; });
@@ -62783,6 +62863,13 @@ __webpack_require__.r(__webpack_exports__);
 
 const baseSelector = (state => state)
 
+const getTabRootProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
+  return {
+    terminalLines: base.terminalLines,
+    autoPilot: base.autoPilot,
+  }
+})
+
 const getTabAutoProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
   return {
     terminalLines: base.terminalLines,
@@ -62793,7 +62880,31 @@ const getTabAutoProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
 const getTabYardProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
   return {
     ...base,
-    yardedShip: base.yardedShip
+    yardedShip: base.yardedShip,
+    launchShip: (x) => {
+      let xhr = new XMLHttpRequest();
+      let url = "http://localhost:3000/ships";
+
+      // open a connection
+      xhr.open("POST", url, true);
+
+      // Set the request header i.e. which type of content you are sending
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      // Create a state change callback
+      xhr.onreadystatechange = (result) => {
+        console.log(result)
+        // if (xhr.readyState === 4 && xhr.status === 200) {
+        //
+        //   // Print received data from server
+        //   result.innerHTML = this.responseText;
+        //
+        // }
+      };
+
+      // Sending data with the request
+      xhr.send(JSON.stringify(base.yardedShip));
+    }
   }
 })
 
@@ -62804,32 +62915,6 @@ const getTabDashProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
   }
 })
 
-// export const getTabEditBundlesProps =  createSelector([baseSelector], base => {
-//   return {
-//    userViews: base.userViews || [],
-//    userAis: base.userAis || [],
-//    userShips: base.userShips || [],
-//
-//    setUserView: (userViewBundleName) => {
-//      base.userViews.forEach((userView) => {
-//        if(userView.name === userViewBundleName){
-//          store.dispatch({type: "SET_USER_VIEW", payload: userView.contents})
-//        }
-//      })
-//    },
-//
-//    // makeShip: (userShipBundleName) => {
-//    //   base.userShips.forEach((userShip) => {
-//    //     if(userShip.name === userShipBundleName){
-//    //       store.dispatch({type: "SET_USER_SHIP", payload: userShip.name})
-//    //     }
-//    //   })
-//    // }
-//
-//  }
-// });
-
-
 const getTabBotsProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
   return {
     drones: base.drones,
@@ -62839,32 +62924,6 @@ const getTabBotsProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
     })
   }
 })
-
-// export const getTabEditProps = createSelector([baseSelector], base => {
-//
-//   const openFileContents = base.openFile.reduce((memo, address) => {
-//     return memo[address]
-//   }, base.sourceCode)
-//
-//
-//   return {
-//
-//     packErrors: base.packErrors,
-//
-//     sourceFolder: base.sourceFolder,
-//
-//     openFileContents: openFileContents === {} ? "" : openFileContents,
-//
-//     sourceCode: base.sourceCode,
-//
-//     openFile: (filePath) => {
-//       store.dispatch({
-//         type: 'SET_OPEN_FILE',
-//         payload: filePath
-//       })
-//     },
-//   }
-// })
 
 const getTabShipProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
   return {

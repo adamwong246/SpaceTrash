@@ -2,7 +2,7 @@ body{
   margin: 0px;
 }
 
-body, #app, #main {
+#app, #main {
   height: 100vh;
 }
 

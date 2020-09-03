@@ -26,7 +26,7 @@ class ShipMap extends React.Component<{
   }
 
   render() {
-    const shipMap = this.props.ship.gridMap
+    const shipMap = this.props.ship.shipMap
 
     if (!shipMap) { return <p>idk</p> }
     if (Object.keys(shipMap).length === 0) {

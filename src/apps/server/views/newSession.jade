@@ -4,11 +4,14 @@ block content
   h2 New Session
   .container
     form.form-signin(role='form', action='/sessions', method='post')
-      label(for='name')
-      input(type='text', name='name', id='name', placeholder='Session name', required)
-      
-      label(for="users">Choose users:)
-      select(name="users" id="users" multiple)
+
+      label(for="ship">Choose ship:)
+      select(name="ship" id="ship")
+        - for ship in allShips
+          option(value=ship.id)= ship.name
+          
+      label(for="user">Choose user:)
+      select(name="user" id="user")
         - for user in allUsers
           option(value=user.id)= user.name
             
