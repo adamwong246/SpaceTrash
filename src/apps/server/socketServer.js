@@ -58,12 +58,7 @@ module.exports = {
               if (roomsAddress[2] === 'user') {
 
                 if (messag.msg.load) {
-                  Session.findById(
-                    roomsAddress[1],
-                    (err, session) => {
-                      loader(session, messag)
-                    }
-                  )
+                  loader(roomsAddress[1], messag)
                 } else if (messag.msg.say) {
 
                   Session.findByIdAndUpdate(

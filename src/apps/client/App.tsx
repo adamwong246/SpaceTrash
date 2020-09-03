@@ -49,7 +49,7 @@ class App extends React.Component<{
 
           </TabList>
 
-          <TabPanel><TabRoot /></TabPanel>
+          <TabPanel><TabRoot broadcasterV2={this.props.broadcasterV2}/></TabPanel>
           <TabPanel><TabShip /></TabPanel>
           <TabPanel><TabBots broadcaster={this.props.broadcaster} /></TabPanel>
           <TabPanel><TabDash broadcasterV2={this.props.broadcasterV2} /></TabPanel>

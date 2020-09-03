@@ -29172,6 +29172,7 @@ exports.wallTextures = [
 ];
 const getRays = (drone, matrix) => {
     const startTime = Date.now();
+    // const matrix = ship.matrix;
     const mapHeight = matrix.size;
     const mapWidth = matrix.get(0).size;
     const rays = new fromJS(Array.from(Array(exports.numRays).keys()))
@@ -29317,6 +29318,7 @@ const getRays = (drone, matrix) => {
     return rays;
 };
 module.exports = (payloadReponse) => {
+    // console.log("getrays", payloadReponse)
     const matrix = fromJS(payloadReponse.ship.matrix);
     const drones = fromJS(payloadReponse.drones);
     const dronesWithRays = drones.map((drone) => {
@@ -29366,7 +29368,9 @@ module.exports = (payloadReponse) => {
             }
         });
     }
-    return { drones: dronesWithRays, shipMap: fromJS(shipMap) };
+    const toREturn = { drones: dronesWithRays, shipMap: fromJS(shipMap) };
+    // console.log("done rendering")
+    return toREturn;
 };
 
 
@@ -29473,7 +29477,7 @@ __webpack_require__.r(__webpack_exports__);
 
     node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.serve(() => {
       node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.on('message', (data, socket) => {
-        console.log("message", data)
+        // console.log("message", data)
         selectors.selectAndBroadcastEverything(store.getState())
 
 
@@ -29570,7 +29574,12 @@ const {
 
   handlers._history = []
 
-  handlers['PICK_DASHBOARD'] = async (commands) => {
+  handlers['OPEN_SESSION'] = async (sessionId) => {
+    store.dispatch({type: "SET_SESSION_ID", payload: sessionId})
+    webSocket.openSession()
+  }
+
+  handlers['PICK_DASHBOARD'] = async () => {
     dialog.showOpenDialog({
       title: "spaceTrash",
       message: "Pick a dashboard bundle",
@@ -29589,7 +29598,7 @@ const {
     })
   }
 
-  handlers['PICK_AUTOPILOT'] = async (commands) => {
+  handlers['PICK_AUTOPILOT'] = async () => {
     dialog.showOpenDialog({
       title: "spaceTrash",
       message: "Pick an autoPilot bundle",
@@ -29608,7 +29617,7 @@ const {
     })
   }
 
-  handlers['PICK_SHIPYARD'] = async (commands) => {
+  handlers['PICK_SHIPYARD'] = async () => {
     dialog.showOpenDialog({
       title: "spaceTrash",
       message: "Pick an shipYard bundle",
@@ -29638,7 +29647,7 @@ const {
     return 'pong2'
   }
 
-  handlers['load'] = async () => {
+  handlers['load'] = async (sessionId) => {
     const state = store.getState()
     selectors.selectAndBroadcastEverything(state);
     return webSocket.load()
@@ -29819,7 +29828,8 @@ exports.default = immutable_1.fromJS({
     userAis: [],
     dashBoard: {},
     autoPilot: {},
-    shipYard: {}
+    shipYard: {},
+    sessionId: false
 });
 
 
@@ -29839,8 +29849,11 @@ const immutable_1 = __webpack_require__(/*! immutable */ "./node_modules/immutab
 const initialState_ts_1 = __webpack_require__(/*! ./initialState.ts */ "./src/apps/electron/redux/initialState.ts");
 const updatedDroneRays = __webpack_require__(/*! ../getRays.ts */ "./src/apps/electron/getRays.ts");
 exports.default = (state = initialState_ts_1.default, action) => {
-    console.log(action);
+    // console.log(action)
     switch (action.type) {
+        case "SET_SESSION_ID": {
+            return state.set("sessionId", action.payload);
+        }
         case "PICK_DASHBOARD": {
             return state.set("dashBoard", action.payload);
         }
@@ -29869,8 +29882,9 @@ exports.default = (state = initialState_ts_1.default, action) => {
             return state.set("message", action.payload.message);
         }
         case "RECEIVE_UPDATE_FROM_SERVER": {
+            // debugger
             const { drones, shipMap } = updatedDroneRays(action.payload);
-            return state.set("drone", immutable_1.fromJS(drones)).set("shipMap", immutable_1.fromJS(shipMap));
+            return state.set("drones", immutable_1.fromJS(drones)).set("shipMap", immutable_1.fromJS(shipMap));
         }
         case "PICK_FOLDER": {
             return state.set("sourceFolder", action.payload);
@@ -29904,17 +29918,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ((ipcSocket, webSocket) => {
 
   const baseSelector = ((state) => {
-    console.log('baseSelector')
+    // console.log('baseSelector')
     return state
   });
 
   const selectAndBroadcastEverything = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([baseSelector], (base) => {
-    console.log('selectAndBroadcastEverything', base)
+    // console.log('selectAndBroadcastEverything', base.toJS())
 
     const fileContents = base.getIn(["shipYard", "fileContents"]);
 
     const yardedShip = fileContents ? eval(fileContents) : new Map()
-    console.log(yardedShip)
+    // console.log(yardedShip)
     ipcSocket.send("update", base.set("yardedShip", yardedShip ) )
 
     return base
@@ -30097,6 +30111,7 @@ exports.default = (store) => {
                 }
                 else if (data.msg.updateFromCloud) {
                     store.dispatch({ type: "RECEIVE_UPDATE_FROM_SERVER", payload: data.msg.updateFromCloud });
+                    selectors.selectAndBroadcastEverything(store.getState());
                 }
                 else {
                     store.dispatch({ type: "RECEIVE_UPDATE", payload: data.msg });
@@ -30104,27 +30119,39 @@ exports.default = (store) => {
                 }
             };
         },
+        openSession: () => {
+            const sessionId = store.getState().get("sessionId");
+            ws.send(JSON.stringify({ join: `session-${sessionId}` }));
+            ws.send(JSON.stringify({ join: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56` }));
+            return ws.send(JSON.stringify({
+                msg: { load: true },
+                room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
+            }));
+        },
         ping: () => {
             return ws.send(JSON.stringify({ msg: "ping" }));
         },
         load: () => {
-            ws.send(JSON.stringify({ join: "session-5f48a56a6f5e6f4ecb568e5a" }));
-            ws.send(JSON.stringify({ join: "session-5f48a56a6f5e6f4ecb568e5a-user-5f48a50a6f5e6f4ecb568e56" }));
+            const sessionId = store.getState().get("sessionId");
+            ws.send(JSON.stringify({ join: `session-${sessionId}` }));
+            ws.send(JSON.stringify({ join: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56` }));
             return ws.send(JSON.stringify({
                 msg: { load: true },
-                room: "session-5f48a56a6f5e6f4ecb568e5a-user-5f48a50a6f5e6f4ecb568e56"
+                room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
             }));
         },
         enqueue: (commands) => {
+            const sessionId = store.getState().get("sessionId");
             return ws.send(JSON.stringify({
                 msg: { enqueue: commands },
-                room: "session-5f48a56a6f5e6f4ecb568e5a-user-5f48a50a6f5e6f4ecb568e56"
+                room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
             }));
         },
         send: (message) => {
+            const sessionId = store.getState().get("sessionId");
             ws.send(JSON.stringify({
                 msg: message,
-                room: "session-5f48a56a6f5e6f4ecb568e5a-user-5f48a50a6f5e6f4ecb568e56"
+                room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
             }));
         },
         websocket: ws

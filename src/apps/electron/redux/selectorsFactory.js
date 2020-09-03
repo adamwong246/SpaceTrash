@@ -7,17 +7,17 @@ import {
 export default (ipcSocket, webSocket) => {
 
   const baseSelector = ((state) => {
-    console.log('baseSelector')
+    // console.log('baseSelector')
     return state
   });
 
   const selectAndBroadcastEverything = createSelector([baseSelector], (base) => {
-    console.log('selectAndBroadcastEverything', base)
+    // console.log('selectAndBroadcastEverything', base.toJS())
 
     const fileContents = base.getIn(["shipYard", "fileContents"]);
 
     const yardedShip = fileContents ? eval(fileContents) : new Map()
-    console.log(yardedShip)
+    // console.log(yardedShip)
     ipcSocket.send("update", base.set("yardedShip", yardedShip ) )
 
     return base

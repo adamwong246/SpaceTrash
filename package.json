@@ -3,8 +3,8 @@
   "version": "0.0.8",
   "description": "a roguelike with javascript bots",
   "scripts": {
-    "server": "node src/apps/server/bin/www",
-    "electron": "electron --inspect ./dist/electron.bundle.js",
+    "server": "node --inspect src/apps/server/bin/www",
+    "electron": "electron ./dist/electron.bundle.js",
     "ai": "node ./dist/aiHarness.js",
     "dev": "rimraf dist && cross-env NODE_ENV=development webpack --watch --progress --colors",
     "webpackTest": "electron src/apps/electron/tests/index.js"

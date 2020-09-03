@@ -24,11 +24,12 @@ export const wallTextures = [
 ];
 
 const getRays = (drone, matrix) => {
+
   const startTime = Date.now();
+  // const matrix = ship.matrix;
 
   const mapHeight = matrix.size;
   const mapWidth = matrix.get(0).size;
-
 
   const rays = new fromJS(Array.from(Array(numRays).keys()))
 
@@ -213,6 +214,8 @@ const getRays = (drone, matrix) => {
 
 module.exports = (payloadReponse) => {
 
+  // console.log("getrays", payloadReponse)
+
   const matrix = fromJS(payloadReponse.ship.matrix)
   const drones = fromJS(payloadReponse.drones)
 
@@ -263,5 +266,7 @@ module.exports = (payloadReponse) => {
     })
   }
 
-  return { drones: dronesWithRays, shipMap: fromJS(shipMap) }
+  const toREturn = { drones: dronesWithRays, shipMap: fromJS(shipMap) }
+  // console.log("done rendering")
+  return toREturn
 }

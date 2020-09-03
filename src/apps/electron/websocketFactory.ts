@@ -10,8 +10,6 @@ export default (store) => {
     // console.log(`onopen: ${JSON.stringify(e)}`)
   }
 
-
-
   return {
     init: (selectors) => {
 
@@ -22,6 +20,7 @@ export default (store) => {
         if (data.msg === "user joined") {
         } else if (data.msg.updateFromCloud) {
             store.dispatch({ type: "RECEIVE_UPDATE_FROM_SERVER", payload: data.msg.updateFromCloud })
+            selectors.selectAndBroadcastEverything(store.getState())
         } else {
           store.dispatch({ type: "RECEIVE_UPDATE", payload: data.msg })
           selectors.selectAndBroadcastEverything(store.getState())
@@ -29,27 +28,40 @@ export default (store) => {
       }
 
     },
+    openSession:() => {
+      const sessionId = store.getState().get("sessionId");
+      ws.send(JSON.stringify({ join: `session-${sessionId}` }));
+      ws.send(JSON.stringify({ join: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56` }));
+      return ws.send(JSON.stringify({
+        msg: {load: true},
+        room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
+      }))
+    },
     ping: () => {
       return ws.send(JSON.stringify({msg: "ping"}));
     },
     load: () => {
-      ws.send(JSON.stringify({ join: "session-5f48a56a6f5e6f4ecb568e5a" }));
-      ws.send(JSON.stringify({ join: "session-5f48a56a6f5e6f4ecb568e5a-user-5f48a50a6f5e6f4ecb568e56" }));
+      const sessionId = store.getState().get("sessionId");
+
+      ws.send(JSON.stringify({ join: `session-${sessionId}` }));
+      ws.send(JSON.stringify({ join: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56` }));
       return ws.send(JSON.stringify({
         msg: {load: true},
-        room: "session-5f48a56a6f5e6f4ecb568e5a-user-5f48a50a6f5e6f4ecb568e56"
+        room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
       }))
     },
     enqueue: (commands) => {
+      const sessionId = store.getState().get("sessionId");
       return ws.send(JSON.stringify({
         msg: {enqueue: commands},
-        room: "session-5f48a56a6f5e6f4ecb568e5a-user-5f48a50a6f5e6f4ecb568e56"
+        room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
       }))
     },
     send: (message) => {
+      const sessionId = store.getState().get("sessionId");
       ws.send(JSON.stringify({
         msg: message,
-        room: "session-5f48a56a6f5e6f4ecb568e5a-user-5f48a50a6f5e6f4ecb568e56"
+        room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
       }))
     },
 

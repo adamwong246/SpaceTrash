@@ -61,7 +61,7 @@ class TabRoot extends React.Component<{}, {}>{
                   </TabList>
 
                   <TabPanel>
-                    <Sessions />
+                    <Sessions broadcasterV2={this.props.broadcasterV2} />
                   </TabPanel>
                   <TabPanel>
                     <Ships />

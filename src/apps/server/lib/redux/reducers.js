@@ -29,23 +29,60 @@ module.exports = (state = initialState, action) => {
         sessionId,
         ship,
         users,
-        drones
       } = action.payload
-      const height = ship.shipMap.yMax - ship.shipMap.yMin
-      const width = ship.shipMap.xMax - ship.shipMap.xMin
+
+      const metaData = {
+        xMin: Number.POSITIVE_INFINITY,
+        yMin: Number.POSITIVE_INFINITY,
+        xMax: Number.NEGATIVE_INFINITY,
+        yMax: Number.NEGATIVE_INFINITY,
+      }
+      console.log(action.payload)
+      Object.keys(ship.shipMap).forEach((xKey) => {
+        Object.keys(ship.shipMap[xKey]).forEach((yKey) => {
+          const xNumber = parseInt(xKey)
+          const yNumber = parseInt(yKey)
+
+          if (xNumber < metaData.xMin) {
+            metaData.xMin = xNumber
+          }
+          if (xNumber > metaData.xMax) {
+            metaData.xMax = xNumber
+          }
+          if (yNumber < metaData.yMin) {
+            metaData.yMin = yNumber
+          }
+          if (yNumber > metaData.yMax) {
+            metaData.yMax = yNumber
+          }
+        })
+      })
+
+      const height = metaData.yMax - metaData.yMin
+      const width = metaData.xMax - metaData.xMin
       const depth = 2
 
       ship.matrix = new Array(height).fill(blankCharacter).map(() => new Array(width).fill(blankCharacter).map(() => new Array(depth).fill(blankCharacter)));
 
       for (var yNdx = 0; yNdx < height; yNdx++) {
         for (var xNdx = 0; xNdx < width; xNdx++) {
-          const x = xNdx + ship.shipMap.xMin
-          const y = yNdx + ship.shipMap.yMin
-          if (ship.shipMap.gridMap[x][y]) {
-            ship.matrix[yNdx][xNdx][0] = ship.shipMap.gridMap[x][y]
+          const x = xNdx + metaData.xMin
+          const y = yNdx + metaData.yMin
+          if (ship.shipMap[x][y]) {
+            ship.matrix[yNdx][xNdx][0] = ship.shipMap[x][y]
           }
         }
       }
+
+      const drones = ship.drones;
+      // state.updateIn(['gameStates', sessionId, 'ship'], val => fromJS(ship))
+      //   .updateIn(['gameStates', sessionId, 'users'], val => fromJS(users.map((u) => {
+      //     return {
+      //       id: u._id.toString(),
+      //       ...u
+      //     }
+      //   })))
+      //   .updateIn(['gameStates', sessionId, 'drones'], val => fromJS(drones))
 
       return updateIn(
         updateIn(
@@ -68,7 +105,7 @@ module.exports = (state = initialState, action) => {
       } = action.payload
 
       console.log(action)
-
+      debugger
       return updateIn(state,
         ['gameStates', sessionId, 'drones'],
         (drones) => {

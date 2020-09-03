@@ -13,5 +13,7 @@ export default {
   shipYard: false,
   dashBoard: false,
 
-  yardedShip: false
+  yardedShip: false,
+
+  openSession: false
 }

@@ -10,7 +10,12 @@ export default (ipcSocket, webSocket, store, selectors) => {
 
   handlers._history = []
 
-  handlers['PICK_DASHBOARD'] = async (commands) => {
+  handlers['OPEN_SESSION'] = async (sessionId) => {
+    store.dispatch({type: "SET_SESSION_ID", payload: sessionId})
+    webSocket.openSession()
+  }
+
+  handlers['PICK_DASHBOARD'] = async () => {
     dialog.showOpenDialog({
       title: "spaceTrash",
       message: "Pick a dashboard bundle",
@@ -29,7 +34,7 @@ export default (ipcSocket, webSocket, store, selectors) => {
     })
   }
 
-  handlers['PICK_AUTOPILOT'] = async (commands) => {
+  handlers['PICK_AUTOPILOT'] = async () => {
     dialog.showOpenDialog({
       title: "spaceTrash",
       message: "Pick an autoPilot bundle",
@@ -48,7 +53,7 @@ export default (ipcSocket, webSocket, store, selectors) => {
     })
   }
 
-  handlers['PICK_SHIPYARD'] = async (commands) => {
+  handlers['PICK_SHIPYARD'] = async () => {
     dialog.showOpenDialog({
       title: "spaceTrash",
       message: "Pick an shipYard bundle",
@@ -78,7 +83,7 @@ export default (ipcSocket, webSocket, store, selectors) => {
     return 'pong2'
   }
 
-  handlers['load'] = async () => {
+  handlers['load'] = async (sessionId) => {
     const state = store.getState()
     selectors.selectAndBroadcastEverything(state);
     return webSocket.load()

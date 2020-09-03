@@ -32,7 +32,9 @@ class Sessions extends React.Component<{}, {}>{
             <p>id: {session._id}</p>
             <p>user: {session.user}</p>
             <p>ship: {session.ship}</p>
-            <button>Connect</button>
+            <button onClick={(e) => {
+              this.props.broadcasterV2({action: "OPEN_SESSION", payload: session._id})
+            }}>Connect</button>
           </li>)
         })
       }

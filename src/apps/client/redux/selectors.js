@@ -6,6 +6,17 @@ import store from "./store.js";
 
 const baseSelector = (state => state)
 
+export const getTabBotsProps = createSelector([baseSelector], base => {
+  return {
+    drones: base.drones,
+    dispatcher: (type, payload) => store.dispatch({
+      type,
+      payload
+    })
+  }
+})
+
+
 export const getTabRootProps = createSelector([baseSelector], base => {
   return {
     terminalLines: base.terminalLines,
@@ -46,6 +57,7 @@ export const getTabYardProps = createSelector([baseSelector], base => {
       };
 
       // Sending data with the request
+      base.yardedShip.drones = base.yardedShip.bots
       xhr.send(JSON.stringify(base.yardedShip));
     }
   }
@@ -55,16 +67,6 @@ export const getTabDashProps = createSelector([baseSelector], base => {
   return {
     ...base,
     dashBoard: base.dashBoard,
-  }
-})
-
-export const getTabBotsProps = createSelector([baseSelector], base => {
-  return {
-    drones: base.drones,
-    dispatcher: (type, payload) => store.dispatch({
-      type,
-      payload
-    })
   }
 })
 

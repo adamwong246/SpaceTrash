@@ -101,9 +101,8 @@ sessionController.start = (cache) => {
     Session.findById(sessionId, (err, sessionDoc) => {
 
       User.find({
-        '_id': {
-          $in: sessionDoc.users
-        }
+        '_id': sessionDoc.user
+
       }, (err2, usersDocs) => {
 
         const users = usersDocs
@@ -111,27 +110,28 @@ sessionController.start = (cache) => {
             return user.toObject()
           })
 
-        Ship.find({}, (err2, shipsDocs) => {
-          const ship = shipsDocs[0].toObject({
+        Ship.findById({'_id': sessionDoc.ship}, (err2, shipsDoc) => {
+          const ship = shipsDoc.toObject({
             virtuals: true
           })
 
-          Drone.find({}, (err3, dronesDocs) => {
-            const drones = dronesDocs
-              .map((drone) => drone.toObject({
-                virtuals: true
-              }))
+          cache.initializeGameStateV2(
+            sessionDoc,
+            ship,
+            users
+          )
 
-            cache.initializeGameStateV2(
-              sessionDoc,
-              ship,
-              users,
-              drones
-            )
+          res.redirect(`/sessions/${sessionId}`)
 
-            res.redirect(`/sessions/${sessionId}`)
-
-          })
+          // Drone.find({}, (err3, dronesDocs) => {
+          //   const drones = dronesDocs
+          //     .map((drone) => drone.toObject({
+          //       virtuals: true
+          //     }))
+          //
+          //
+          //
+          // })
         })
       })
     })

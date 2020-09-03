@@ -143,9 +143,7 @@ ipc.connectTo(
     ipc.of.spacetrash.on(
       'message', //any event or message type your server listens for
       function(data) {
-        ipc.log('got a message from spacetrash : '.debug);
-        console.log("MESSAGE: ", data);
-
+        // ipc.log('got a message from spacetrash : '.debug);
         const jsonData = JSON.parse(data)
 
         if (jsonData.name === "MAKE_SHIP") {

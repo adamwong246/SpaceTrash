@@ -11,5 +11,6 @@ export default fromJS({
 
   dashBoard: {},
   autoPilot: {},
-  shipYard: {}
+  shipYard: {},
+  sessionId: false
 })

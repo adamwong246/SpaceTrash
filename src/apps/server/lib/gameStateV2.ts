@@ -54,7 +54,7 @@ module.exports = (socketServer, broadcaster) => {
 
     store,
 
-    initializeGameStateV2: (session, ship, users, drones, semaphore = "init") => {
+    initializeGameStateV2: (session, ship, users, semaphore = "init") => {
       const sessionId = session.id;
       const sessionKey = `session-${sessionId}`
 
@@ -84,8 +84,7 @@ module.exports = (socketServer, broadcaster) => {
         type: "INITIALIZE_SESSION", payload: {
           sessionId,
           ship,
-          users,
-          drones
+          users
         }
       })
       runAllSubscriptions()
@@ -97,9 +96,9 @@ module.exports = (socketServer, broadcaster) => {
       runAllSubscriptions()
     },
 
-    loader: (session,
+    loader: (sessionId,
       message) => {
-      const sessionId = session._id;
+      console.log("loader", sessionId, message)
       const sessionKey = `session-${sessionId}`
       const userId = message.room.split('-')[3]
       const room = `session-${sessionId}-user-${userId}`

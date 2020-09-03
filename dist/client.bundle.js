@@ -61295,7 +61295,7 @@ class App extends React.Component {
                         React.createElement(react_tabs_1.Tab, null, "help"),
                         React.createElement("div", { id: "status" }, "uplink: active, simulator: on")),
                     React.createElement(react_tabs_1.TabPanel, null,
-                        React.createElement(TabRoot_tsx_1.default, null)),
+                        React.createElement(TabRoot_tsx_1.default, { broadcasterV2: this.props.broadcasterV2 })),
                     React.createElement(react_tabs_1.TabPanel, null,
                         React.createElement(TabShip_tsx_1.default, null)),
                     React.createElement(react_tabs_1.TabPanel, null,
@@ -61769,9 +61769,15 @@ class BotV2 extends React.Component {
                 React.createElement(react_tabs_1.Tab, null, "battery"),
                 React.createElement(react_tabs_1.Tab, null, "camera")),
             React.createElement(react_tabs_1.TabPanel, null,
-                React.createElement("p", null, "x: 1.2"),
-                React.createElement("p", null, "y: 4.111"),
-                React.createElement("p", null, "direction: 0.11")),
+                React.createElement("p", null,
+                    "x: ",
+                    bot.x),
+                React.createElement("p", null,
+                    "y: ",
+                    bot.y),
+                React.createElement("p", null,
+                    "direction: ",
+                    bot.direction)),
             React.createElement(react_tabs_1.TabPanel, null,
                 React.createElement("p", null,
                     "id: ",
@@ -62012,7 +62018,9 @@ class Sessions extends React.Component {
                 React.createElement("p", null,
                     "ship: ",
                     session.ship),
-                React.createElement("button", null, "Connect")));
+                React.createElement("button", { onClick: (e) => {
+                        this.props.broadcasterV2({ action: "OPEN_SESSION", payload: session._id });
+                    } }, "Connect")));
         })));
         this.setState({
             "content": newContent
@@ -62538,7 +62546,7 @@ class TabRoot extends React.Component {
                                     React.createElement(react_tabs_1.Tab, null, "Sessions"),
                                     React.createElement(react_tabs_1.Tab, null, "Ships")),
                                 React.createElement(react_tabs_1.TabPanel, null,
-                                    React.createElement(Sessions_tsx_1.default, null)),
+                                    React.createElement(Sessions_tsx_1.default, { broadcasterV2: this.props.broadcasterV2 })),
                                 React.createElement(react_tabs_1.TabPanel, null,
                                     React.createElement(Ships_tsx_1.default, null)))))))));
     }
@@ -62778,7 +62786,8 @@ exports.default = {
     autoPilot: false,
     shipYard: false,
     dashBoard: false,
-    yardedShip: false
+    yardedShip: false,
+    openSession: false
 };
 
 
@@ -62843,16 +62852,16 @@ exports.default = (state = initialState_ts_1.default, action) => {
 /*!********************************************!*\
   !*** ./src/apps/client/redux/selectors.js ***!
   \********************************************/
-/*! exports provided: getTabRootProps, getTabAutoProps, getTabYardProps, getTabDashProps, getTabBotsProps, getTabShipProps, getTabViewProps */
+/*! exports provided: getTabBotsProps, getTabRootProps, getTabAutoProps, getTabYardProps, getTabDashProps, getTabShipProps, getTabViewProps */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabBotsProps", function() { return getTabBotsProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabRootProps", function() { return getTabRootProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabAutoProps", function() { return getTabAutoProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabYardProps", function() { return getTabYardProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabDashProps", function() { return getTabDashProps; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabBotsProps", function() { return getTabBotsProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabShipProps", function() { return getTabShipProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabViewProps", function() { return getTabViewProps; });
 /* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
@@ -62862,6 +62871,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const baseSelector = (state => state)
+
+const getTabBotsProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
+  return {
+    drones: base.drones,
+    dispatcher: (type, payload) => _store_js__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch({
+      type,
+      payload
+    })
+  }
+})
+
 
 const getTabRootProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
   return {
@@ -62903,6 +62923,7 @@ const getTabYardProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
       };
 
       // Sending data with the request
+      base.yardedShip.drones = base.yardedShip.bots
       xhr.send(JSON.stringify(base.yardedShip));
     }
   }
@@ -62912,16 +62933,6 @@ const getTabDashProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
   return {
     ...base,
     dashBoard: base.dashBoard,
-  }
-})
-
-const getTabBotsProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
-  return {
-    drones: base.drones,
-    dispatcher: (type, payload) => _store_js__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch({
-      type,
-      payload
-    })
   }
 })
 

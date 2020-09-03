@@ -245,9 +245,9 @@ class BotV2 extends React.Component<{
         </TabList>
 
         <TabPanel>
-          <p>x: 1.2</p>
-          <p>y: 4.111</p>
-          <p>direction: 0.11</p>
+          <p>x: {bot.x}</p>
+          <p>y: {bot.y}</p>
+          <p>direction: {bot.direction}</p>
         </TabPanel>
 
         <TabPanel>
