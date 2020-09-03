@@ -3,7 +3,7 @@ import * as React from "react";
 
 export default fromJS({
   shipMap: {},
-  drones: {},
+  drones: [],
   sourceFolder: false,
   userViews: [],
   userShips: [],

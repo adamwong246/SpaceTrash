@@ -62291,7 +62291,7 @@ const renderDashboard = (string, props) => {
     if (!string)
         return (React.createElement("span", null, "Nothing to render"));
     const evaled = eval(string);
-    return new evaled().render(props);
+    return new evaled.default().render(props);
 };
 class TabDash extends React.Component {
     render() {
@@ -62305,8 +62305,7 @@ class TabDash extends React.Component {
             this.props.dashBoard && React.createElement("p", null,
                 "loaded: ",
                 this.props.dashBoard.fileName),
-            React.createElement("pre", null, JSON.stringify(this.props.dashBoard)),
-            this.props.dashBoard && renderDashboard(this.props.dashBoard.fileContents, { commandAutopilot })));
+            this.props.dashBoard && renderDashboard(this.props.dashBoard.fileContents, { commandAutopilot, ...this.props })));
     }
 }
 const mapStateToProps = state => {
@@ -62778,7 +62777,7 @@ client_ipc_js_1.ipcSend('load', {}).then((v) => {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
     shipMap: {},
-    drones: [],
+    drones: false,
     terminalLines: [
         "booting spaceTrash session terminal",
     ],
@@ -62882,7 +62881,6 @@ const getTabBotsProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
   }
 })
 
-
 const getTabRootProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
   return {
     terminalLines: base.terminalLines,
@@ -62930,6 +62928,7 @@ const getTabYardProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
 })
 
 const getTabDashProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
+  debugger
   return {
     ...base,
     dashBoard: base.dashBoard,

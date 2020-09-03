@@ -9,7 +9,7 @@ import Video from "./Video.tsx"
 const renderDashboard = (string, props) => {
   if (!string) return (<span>Nothing to render</span>)
   const evaled = eval(string);
-  return new evaled().render(props)
+  return new evaled.default().render(props)
 }
 
 class TabDash extends React.Component<{
@@ -22,6 +22,7 @@ class TabDash extends React.Component<{
     }
 
     return (<div>
+
       {
         !this.props.dashBoard && <div>You haven't loaded a dashboard.</div>
       }
@@ -30,11 +31,12 @@ class TabDash extends React.Component<{
       <br />
 
       {this.props.dashBoard && <p>loaded: {this.props.dashBoard.fileName}</pr>}
-      <pre>{JSON.stringify(this.props.dashBoard)}</pre>
+
 
       {
-        this.props.dashBoard && renderDashboard(this.props.dashBoard.fileContents, { commandAutopilot })
+        this.props.dashBoard && renderDashboard(this.props.dashBoard.fileContents, { commandAutopilot, ...this.props })
       }
+
 
     </div>);
   }

@@ -37,7 +37,7 @@ module.exports = (state = initialState, action) => {
         xMax: Number.NEGATIVE_INFINITY,
         yMax: Number.NEGATIVE_INFINITY,
       }
-      console.log(action.payload)
+      // console.log(action.payload)
       Object.keys(ship.shipMap).forEach((xKey) => {
         Object.keys(ship.shipMap[xKey]).forEach((yKey) => {
           const xNumber = parseInt(xKey)
@@ -104,8 +104,8 @@ module.exports = (state = initialState, action) => {
         sessionId,
       } = action.payload
 
-      console.log(action)
-      debugger
+      // console.log(action)
+      // debugger
       return updateIn(state,
         ['gameStates', sessionId, 'drones'],
         (drones) => {

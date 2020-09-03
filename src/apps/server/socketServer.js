@@ -31,7 +31,7 @@ module.exports = {
       ws.on('close', (e) => console.log('websocket closed' + e))
 
       ws.on('message', message => {
-        console.log("on mesage", message)
+        // console.log("on mesage", message)
         // console.log(new Date().toISOString(), "message")
         const start = Date.now();
 
@@ -99,7 +99,7 @@ module.exports = {
   },
 
   broadcaster: (room, payload) => {
-    console.log(new Date().toISOString(), "BROADCASTING", room, payload)
+    // console.log(new Date().toISOString(), "BROADCASTING", room, payload)
     wss.clients.forEach(client => {
       // console.log("client.room", client.room)
       if (client.room.indexOf(room) > -1) {

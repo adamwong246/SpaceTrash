@@ -1,5 +1,4 @@
 const fs = require('fs');
-const webpack = require('webpack');
 const ipc = require('node-ipc');
 
 var autopilot;
@@ -37,63 +36,6 @@ const informAutopilot = (newMap = {}) => {
   }
 };
 
-const bundleProject = () => {
-  const webpackText = fs.readFileSync('/Users/adam/Programming/spacetrashConfigs/webpack.config.js', {
-    encoding: 'utf8',
-    flag: 'r'
-  });
-
-  const webpackConfig = eval(webpackText).map((config) => {
-    return {
-      ...config,
-      entry: "/Users/adam/Programming/spacetrashConfigs" + config.entry.split('.')[1]
-    }
-  })
-
-  webpack(webpackConfig, (err, stats) => {
-    console.log("done packing")
-
-    ipc.of.spacetrash.emit(
-      'message',
-      JSON.stringify({
-        name: "userView",
-        args: {
-          name: "view-bundle.js",
-          contents: fs.readFileSync('/Users/adam/Programming/spacetrashConfigs/src/view.js', {
-            encoding: 'utf8',
-            flag: 'r'
-          })
-        }
-      })
-    )
-
-    ipc.of.spacetrash.emit(
-      'message',
-      JSON.stringify({
-        name: "userAi",
-        args: {
-          name: "ai-bundle.js"
-        }
-      })
-    )
-
-    ipc.of.spacetrash.emit(
-      'message',
-      JSON.stringify({
-        name: "userShip",
-        args: {
-          name: "ship-bundle.js",
-          contents: fs.readFileSync('/Users/adam/Programming/spacetrashConfigs/src/ship.js', {
-            encoding: 'utf8',
-            flag: 'r'
-          })
-        }
-      })
-    )
-
-  })
-
-};
 
 const makeShip = () => {
   const virtualMachine = new NodeVM({});

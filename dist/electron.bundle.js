@@ -29821,7 +29821,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const immutable_1 = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
 exports.default = immutable_1.fromJS({
     shipMap: {},
-    drones: {},
+    drones: [],
     sourceFolder: false,
     userViews: [],
     userShips: [],

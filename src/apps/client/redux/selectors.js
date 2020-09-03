@@ -16,7 +16,6 @@ export const getTabBotsProps = createSelector([baseSelector], base => {
   }
 })
 
-
 export const getTabRootProps = createSelector([baseSelector], base => {
   return {
     terminalLines: base.terminalLines,
@@ -64,6 +63,7 @@ export const getTabYardProps = createSelector([baseSelector], base => {
 })
 
 export const getTabDashProps = createSelector([baseSelector], base => {
+  debugger
   return {
     ...base,
     dashBoard: base.dashBoard,

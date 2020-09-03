@@ -1,8 +1,9 @@
 import * as React from "react";
+import {List} from "immutable";
 
 export default {
   shipMap: {},
-  drones: [],
+  drones: false,
   terminalLines: [
     "booting spaceTrash session terminal",
   ],

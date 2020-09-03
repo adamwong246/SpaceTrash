@@ -128,9 +128,39 @@ aiHarnessConfig.plugins = [
   }, ]),
 ];
 
+const dashboardBundle = lodash.cloneDeep(commonConfig);
+dashboardBundle.output.filename = 'dashboard.js';
+dashboardBundle.target = 'web',
+dashboardBundle.entry = './src/exampleUserConfig/src/MultiView.tsx',
+dashboardBundle.plugins = [
+  ...commonConfig.plugins,
+];
+
+const autopilotBundle = lodash.cloneDeep(commonConfig);
+autopilotBundle.output.filename = 'autopilot.js';
+autopilotBundle.target = 'node',
+autopilotBundle.entry = './src/exampleUserConfig/src/ai.js',
+autopilotBundle.plugins = [
+  ...commonConfig.plugins,
+];
+
+const shipfactoryBundle = lodash.cloneDeep(commonConfig);
+shipfactoryBundle.output.filename = 'shipFactory.js';
+shipfactoryBundle.target = 'node',
+shipfactoryBundle.entry = './src/exampleUserConfig/src/ship4.js',
+shipfactoryBundle.plugins = [
+  ...commonConfig.plugins,
+];
+
 module.exports = [
   server,
   electronMainConfig,
   electronRendererConfig,
-  aiHarnessConfig
+
+  dashboardBundle,
+  autopilotBundle,
+  shipfactoryBundle,
+
+  // aiHarnessConfig,
+
 ];
