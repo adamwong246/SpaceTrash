@@ -32,7 +32,7 @@ function createWindow() {
     height: 700,
     webPreferences: {
       nodeIntegration: true,
-      preload: path.resolve('dist', 'preload.js'),
+      preload: path.resolve('dist/electron', 'preload.js'),
     },
     title: "SpaceTrash v0.0.8"
   })

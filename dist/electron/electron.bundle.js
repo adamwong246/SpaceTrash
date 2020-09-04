@@ -29630,7 +29630,7 @@ function createWindow() {
     height: 700,
     webPreferences: {
       nodeIntegration: true,
-      preload: path__WEBPACK_IMPORTED_MODULE_0___default().resolve('dist', 'preload.js'),
+      preload: path__WEBPACK_IMPORTED_MODULE_0___default().resolve('dist/electron', 'preload.js'),
     },
     title: "SpaceTrash v0.0.8"
   })
