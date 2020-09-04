@@ -1,3 +1,3 @@
 window.onload = function (){
-  import("./boot.tsx");
+  import("./boot.js");
 }

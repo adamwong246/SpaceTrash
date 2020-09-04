@@ -27,7 +27,16 @@ const commonConfig = {
   },
 
   module: {
-    rules: [{
+    rules: [
+
+      {
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: "babel-loader"
+      }
+    },
+    {
         test: /\.(png)$/,
         use: {
           loader: 'url-loader',
@@ -86,7 +95,7 @@ const commonConfig = {
 
 
 const electronRendererConfig = lodash.cloneDeep(commonConfig);
-electronRendererConfig.entry = ["@babel/polyfill", './src/apps/client/index.tsx'];
+electronRendererConfig.entry = ["@babel/polyfill", './src/apps/client/index.js'];
 electronRendererConfig.target = 'electron-renderer';
 electronRendererConfig.output.filename = 'client.bundle.js';
 electronRendererConfig.output.path = path.join(__dirname, 'dist/electron');

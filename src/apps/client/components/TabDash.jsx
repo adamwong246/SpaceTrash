@@ -4,9 +4,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { getTabDashProps } from '../redux/selectors.js';
 
-class TabDash extends React.Component<{
-  broadcasterV2(): any;
-}, {}> {
+class TabDash extends React.Component{
 
   render() {
     const commandAutopilot = (payload) => {
@@ -22,7 +20,7 @@ class TabDash extends React.Component<{
       <button onClick={() => this.props.broadcasterV2({ action: "PICK_DASHBOARD", payload: {} })}>Pick a dashboard</button>
       <br />
 
-      {this.props.dashBoard && <p>loaded: {this.props.dashBoard.fileName}</pr>}
+      {this.props.dashBoard && <p>loaded: {this.props.dashBoard.fileName}</p>}
 
     </div>);
   }

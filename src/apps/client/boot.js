@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 
 import store from "./redux/store";
-import App from "./App.tsx"
+import App from "./App.jsx"
 import { ipcSend, listen } from "./client-ipc.js";
 
 import selectorsIpcFactory from "./selectors.ts";

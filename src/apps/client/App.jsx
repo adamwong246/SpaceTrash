@@ -5,7 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import TabAuto from './components/TabAuto.tsx'
 import TabBots from './components/TabBots.tsx'
-import TabDash from './components/TabDash.tsx'
+import TabDash from './components/TabDash.jsx'
 import TabManual from './components/TabManual.tsx'
 import TabRoot from './components/TabRoot.tsx'
 import TabShip from './components/TabShip.tsx'
@@ -23,10 +23,7 @@ require("./style/video.css");
 require("./style/color.css");
 require("./style/layout.css");
 
-class App extends React.Component<{
-  broadcaster,
-  broadcasterV2
-}, {}> {
+class App extends React.Component{
 
   render() {
     return (<div id="main" className="crt">
