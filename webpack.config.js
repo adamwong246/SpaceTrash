@@ -4,6 +4,9 @@ const CopyPkgJsonPlugin = require('copy-pkg-json-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const {
+  ModuleFederationPlugin
+} = require("webpack").container;
 
 function srcPaths(src) {
   return path.join(__dirname, src);
@@ -109,6 +112,19 @@ electronRendererConfig.plugins = [
     from: './src/apps/client/index.html',
     to: 'index.html'
   }, ]),
+
+  new ModuleFederationPlugin({
+  name: "app2",
+  library: {
+    type: "var",
+    name: "app2"
+  },
+  remotes: {
+    app1: "app1",
+  },
+  shared: ["react", "react-dom"],
+}),
+
 ];
 
 const electronMainConfig = lodash.cloneDeep(commonConfig);
@@ -137,13 +153,27 @@ electronMainConfig.plugins = [
 //   }, ]),
 // ];
 //
-// const dashboardBundle = lodash.cloneDeep(commonConfig);
-// dashboardBundle.output.filename = 'dashboard.js';
-// dashboardBundle.target = 'web',
-// dashboardBundle.entry = './src/exampleUserConfig/src/MultiView.tsx',
-// dashboardBundle.plugins = [
-//   ...commonConfig.plugins,
-// ];
+const dashboardBundle = lodash.cloneDeep(commonConfig);
+dashboardBundle.output.filename = 'dashboard.js';
+dashboardBundle.output.path = path.join(__dirname, 'dist/electron');
+dashboardBundle.target = 'web',
+dashboardBundle.entry = './src/exampleUserConfig/src/index.js',
+dashboardBundle.plugins = [
+  ...commonConfig.plugins,
+  new ModuleFederationPlugin({
+  name: "app1",
+  library: {
+    type: "var",
+    name: "app1"
+  },
+  filename: "remoteEntry.js",
+  exposes: {
+    // expose each component
+    "./Chunky": "./src/exampleUserConfig/src/components/Chunk.js",
+  },
+  shared: ["react", "react-dom"],
+})
+];
 // dashboardBundle.optimization = {
 //   splitChunks: {
 //     chunks: 'all',
@@ -197,7 +227,7 @@ module.exports = [
   electronMainConfig,
   electronRendererConfig,
 
-  // dashboardBundle,
+  dashboardBundle,
   // autopilotBundle,
   // shipfactoryBundle,
 

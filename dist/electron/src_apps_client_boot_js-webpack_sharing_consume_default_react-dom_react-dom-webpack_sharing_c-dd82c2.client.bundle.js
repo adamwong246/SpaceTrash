@@ -1,4 +1,4 @@
-(self["webpackChunkspace_trash"] = self["webpackChunkspace_trash"] || []).push([["src_apps_client_boot_js"],(self["webpackChunkspace_trash"] = self["webpackChunkspace_trash"] || []).push([["src_apps_client_boot_js"],{
+(self["webpackChunkspace_trash"] = self["webpackChunkspace_trash"] || []).push([["src_apps_client_boot_js-webpack_sharing_consume_default_react-dom_react-dom-webpack_sharing_c-dd82c2"],(self["webpackChunkspace_trash"] = self["webpackChunkspace_trash"] || []).push([["src_apps_client_boot_js-webpack_sharing_consume_default_react-dom_react-dom-webpack_sharing_c-dd82c2"],{
 
 /***/ "./src/apps/client/App.jsx":
 /*!*********************************!*\
@@ -25,7 +25,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_tabs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
 /* harmony import */ var _components_TabAuto_tsx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/TabAuto.tsx */ "./src/apps/client/components/TabAuto.tsx");
@@ -126,13 +127,15 @@ var mapStateToProps = function mapStateToProps(state) {
   \*********************************/
 /*! namespace exports */
 /*! exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
+/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "webpack/sharing/consume/default/react-dom/react-dom?45b1");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _redux_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./redux/store */ "./src/apps/client/redux/store.js");
 /* harmony import */ var _App_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./App.jsx */ "./src/apps/client/App.jsx");
@@ -354,7 +357,7 @@ function unlisten(name) {
 /*! namespace exports */
 /*! export default [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_exports__, __webpack_require__.r, __webpack_require__.e, __webpack_require__.t, __webpack_require__.d, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -372,7 +375,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
 /* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_tabs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
 /* harmony import */ var _redux_selectors_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../redux/selectors.js */ "./src/apps/client/redux/selectors.js");
@@ -390,6 +394,9 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 
 
+var Chunk = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__.lazy(function () {
+  return __webpack_require__.e(/*! import() */ "webpack_container_remote_app1_Chunky").then(__webpack_require__.t.bind(__webpack_require__, /*! app1/Chunky */ "webpack/container/remote/app1/Chunky", 7));
+});
 
 var TabDash = /*#__PURE__*/function (_React$Component) {
   _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_2___default()(TabDash, _React$Component);
@@ -421,7 +428,11 @@ var TabDash = /*#__PURE__*/function (_React$Component) {
             payload: {}
           });
         }
-      }, "Pick a dashboard"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__.createElement("br", null), this.props.dashBoard && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__.createElement("p", null, "loaded: ", this.props.dashBoard.fileName));
+      }, "Pick a dashboard"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__.createElement("br", null), this.props.dashBoard && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__.createElement("p", null, "loaded: ", this.props.dashBoard.fileName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__.createElement(react__WEBPACK_IMPORTED_MODULE_5__.Suspense, {
+        fallback: "Loading header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5__.createElement(Chunk, {
+        name: "this.state.name"
+      }, "Hello this is App 2")));
     }
   }]);
 
@@ -805,6 +816,10 @@ __webpack_require__.r(__webpack_exports__);
   \***********************************************************************************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: __webpack_exports__, module, __webpack_require__, module.id */
+/*! CommonJS bailout: exports is used directly at 3:0-7 */
+/*! CommonJS bailout: exports.push(...) prevents optimization as exports is passed as call context as 5:0-12 */
+/*! CommonJS bailout: exports is used directly at 7:17-24 */
+/*! CommonJS bailout: module.exports is used directly at 7:0-14 */
 /***/ ((module, exports, __webpack_require__) => {
 
 // Imports
@@ -824,6 +839,10 @@ module.exports = exports;
   \************************************************************************************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: __webpack_exports__, module, __webpack_require__, module.id */
+/*! CommonJS bailout: exports is used directly at 3:0-7 */
+/*! CommonJS bailout: exports.push(...) prevents optimization as exports is passed as call context as 5:0-12 */
+/*! CommonJS bailout: exports is used directly at 7:17-24 */
+/*! CommonJS bailout: module.exports is used directly at 7:0-14 */
 /***/ ((module, exports, __webpack_require__) => {
 
 // Imports
@@ -843,6 +862,10 @@ module.exports = exports;
   \***********************************************************************************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: __webpack_exports__, module, __webpack_require__, module.id */
+/*! CommonJS bailout: exports is used directly at 3:0-7 */
+/*! CommonJS bailout: exports.push(...) prevents optimization as exports is passed as call context as 5:0-12 */
+/*! CommonJS bailout: exports is used directly at 7:17-24 */
+/*! CommonJS bailout: module.exports is used directly at 7:0-14 */
 /***/ ((module, exports, __webpack_require__) => {
 
 // Imports
@@ -862,6 +885,10 @@ module.exports = exports;
   \*********************************************************************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: __webpack_exports__, module, __webpack_require__, module.id */
+/*! CommonJS bailout: exports is used directly at 3:0-7 */
+/*! CommonJS bailout: exports.push(...) prevents optimization as exports is passed as call context as 5:0-12 */
+/*! CommonJS bailout: exports is used directly at 7:17-24 */
+/*! CommonJS bailout: module.exports is used directly at 7:0-14 */
 /***/ ((module, exports, __webpack_require__) => {
 
 // Imports
@@ -881,6 +908,10 @@ module.exports = exports;
   \************************************************************************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: __webpack_exports__, module, __webpack_require__, module.id */
+/*! CommonJS bailout: exports is used directly at 3:0-7 */
+/*! CommonJS bailout: exports.push(...) prevents optimization as exports is passed as call context as 5:0-12 */
+/*! CommonJS bailout: exports is used directly at 7:17-24 */
+/*! CommonJS bailout: module.exports is used directly at 7:0-14 */
 /***/ ((module, exports, __webpack_require__) => {
 
 // Imports
@@ -900,6 +931,10 @@ module.exports = exports;
   \***********************************************************************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: __webpack_exports__, module, __webpack_require__, module.id */
+/*! CommonJS bailout: exports is used directly at 3:0-7 */
+/*! CommonJS bailout: exports.push(...) prevents optimization as exports is passed as call context as 5:0-12 */
+/*! CommonJS bailout: exports is used directly at 7:17-24 */
+/*! CommonJS bailout: module.exports is used directly at 7:0-14 */
 /***/ ((module, exports, __webpack_require__) => {
 
 // Imports
@@ -919,6 +954,10 @@ module.exports = exports;
   \**********************************************************************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: __webpack_exports__, module, __webpack_require__, module.id */
+/*! CommonJS bailout: exports is used directly at 3:0-7 */
+/*! CommonJS bailout: exports.push(...) prevents optimization as exports is passed as call context as 5:0-12 */
+/*! CommonJS bailout: exports is used directly at 7:17-24 */
+/*! CommonJS bailout: module.exports is used directly at 7:0-14 */
 /***/ ((module, exports, __webpack_require__) => {
 
 // Imports
@@ -938,6 +977,10 @@ module.exports = exports;
   \**********************************************************************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: __webpack_exports__, module, __webpack_require__, module.id */
+/*! CommonJS bailout: exports is used directly at 3:0-7 */
+/*! CommonJS bailout: exports.push(...) prevents optimization as exports is passed as call context as 5:0-12 */
+/*! CommonJS bailout: exports is used directly at 7:17-24 */
+/*! CommonJS bailout: module.exports is used directly at 7:0-14 */
 /***/ ((module, exports, __webpack_require__) => {
 
 // Imports
@@ -957,6 +1000,7 @@ module.exports = exports;
   \*****************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module, __webpack_require__, module.id */
+/*! CommonJS bailout: module.exports is used directly at 21:0-14 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var api = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
@@ -989,6 +1033,7 @@ module.exports = exported;
   \******************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module, __webpack_require__, module.id */
+/*! CommonJS bailout: module.exports is used directly at 21:0-14 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var api = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
@@ -1021,6 +1066,7 @@ module.exports = exported;
   \*****************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module, __webpack_require__, module.id */
+/*! CommonJS bailout: module.exports is used directly at 21:0-14 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var api = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
@@ -1053,6 +1099,7 @@ module.exports = exported;
   \***************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module, __webpack_require__, module.id */
+/*! CommonJS bailout: module.exports is used directly at 21:0-14 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var api = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
@@ -1085,6 +1132,7 @@ module.exports = exported;
   \******************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module, __webpack_require__, module.id */
+/*! CommonJS bailout: module.exports is used directly at 21:0-14 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var api = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
@@ -1117,6 +1165,7 @@ module.exports = exported;
   \*****************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module, __webpack_require__, module.id */
+/*! CommonJS bailout: module.exports is used directly at 21:0-14 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var api = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
@@ -1149,6 +1198,7 @@ module.exports = exported;
   \****************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module, __webpack_require__, module.id */
+/*! CommonJS bailout: module.exports is used directly at 21:0-14 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var api = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
@@ -1181,6 +1231,7 @@ module.exports = exported;
   \****************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module, __webpack_require__, module.id */
+/*! CommonJS bailout: module.exports is used directly at 21:0-14 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var api = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
@@ -1221,7 +1272,7 @@ module.exports = exported;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
 const Commands_tsx_1 = __webpack_require__(/*! ./Commands.tsx */ "./src/apps/client/components/Commands.tsx");
 const Raycast_tsx_1 = __webpack_require__(/*! ./Raycast.tsx */ "./src/apps/client/components/Raycast.tsx");
@@ -1401,7 +1452,7 @@ exports.default = Bot;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
 const Commands_tsx_1 = __webpack_require__(/*! ./Commands.tsx */ "./src/apps/client/components/Commands.tsx");
 const Raycast_tsx_1 = __webpack_require__(/*! ./Raycast.tsx */ "./src/apps/client/components/Raycast.tsx");
@@ -1600,7 +1651,7 @@ exports.default = BotV2;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
 const BotV2_tsx_1 = __webpack_require__(/*! ./BotV2.tsx */ "./src/apps/client/components/BotV2.tsx");
 class Bots extends React.Component {
@@ -1637,7 +1688,7 @@ exports.default = Bots;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 class Commands extends React.Component {
     constructor(a) {
         super(a);
@@ -1692,7 +1743,7 @@ exports.default = Commands;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 class MapDetail extends React.Component {
     constructor(a) {
         super(a);
@@ -1737,7 +1788,7 @@ exports.default = MapDetail;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 const walls_3_png_1 = __webpack_require__(/*! ../../../images/walls_3.png */ "./src/images/walls_3.png");
 const walls_4_png_1 = __webpack_require__(/*! ../../../images/walls_4.png */ "./src/images/walls_4.png");
 const raycastConsts_ts_1 = __webpack_require__(/*! ../../../raycastConsts.ts */ "./src/raycastConsts.ts");
@@ -1795,7 +1846,7 @@ exports.default = Raycast;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 class Sessions extends React.Component {
     constructor(a) {
         super(a);
@@ -1857,7 +1908,7 @@ exports.default = Sessions;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 const MapDetail_tsx_1 = __webpack_require__(/*! ./MapDetail.tsx */ "./src/apps/client/components/MapDetail.tsx");
 const blankCharacter = '.';
 class ShipMap extends React.Component {
@@ -1951,7 +2002,7 @@ exports.default = ShipMap;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 class Ships extends React.Component {
     constructor(a) {
         super(a);
@@ -2002,8 +2053,8 @@ exports.default = Ships;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
+const react_1 = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const selectors_1 = __webpack_require__(/*! ../redux/selectors */ "./src/apps/client/redux/selectors.js");
 class TabAuto extends React.Component {
@@ -2071,7 +2122,7 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabAuto);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
 const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/apps/client/redux/selectors.js");
@@ -2111,7 +2162,7 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabBots);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
 const signals_js_1 = __webpack_require__(/*! ../../../data/signals.js */ "./src/data/signals.js");
 const threats_js_1 = __webpack_require__(/*! ../../../data/threats.js */ "./src/data/threats.js");
@@ -2289,7 +2340,7 @@ exports.default = TabManual;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/apps/client/redux/selectors.js");
@@ -2362,7 +2413,7 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabRoot);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const MapDetail_tsx_1 = __webpack_require__(/*! ./MapDetail.tsx */ "./src/apps/client/components/MapDetail.tsx");
 const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/apps/client/redux/selectors.js");
@@ -2459,7 +2510,7 @@ exports.default = react_redux_1.connect(mapStateToProps)(TabShip);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const React = __webpack_require__(/*! react */ "webpack/sharing/consume/default/react/react?d85e");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const react_tabs_1 = __webpack_require__(/*! react-tabs */ "./node_modules/react-tabs/esm/index.js");
 const ShipMap_tsx_1 = __webpack_require__(/*! ./ShipMap.tsx */ "./src/apps/client/components/ShipMap.tsx");
@@ -2704,4 +2755,4 @@ __webpack_require__.r(__webpack_exports__);
 /***/ })
 
 }])]);
-//# sourceMappingURL=src_apps_client_boot_js.client.bundle.js.map
+//# sourceMappingURL=src_apps_client_boot_js-webpack_sharing_consume_default_react-dom_react-dom-webpack_sharing_c-dd82c2.client.bundle.js.map
