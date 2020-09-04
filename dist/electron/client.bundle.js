@@ -10824,14 +10824,14 @@ module.exports = app1;
 /******/ 	(() => {
 /******/ 		var installedModules = {};
 /******/ 		var chunkMapping = {
-/******/ 			"webpack_container_remote_app1_Chunky": [
-/******/ 				"webpack/container/remote/app1/Chunky"
+/******/ 			"webpack_container_remote_app1_MultiView": [
+/******/ 				"webpack/container/remote/app1/MultiView"
 /******/ 			]
 /******/ 		};
 /******/ 		var idToExternalAndNameMapping = {
-/******/ 			"webpack/container/remote/app1/Chunky": [
+/******/ 			"webpack/container/remote/app1/MultiView": [
 /******/ 				"default",
-/******/ 				"./Chunky",
+/******/ 				"./MultiView",
 /******/ 				"webpack/container/reference/app1"
 /******/ 			]
 /******/ 		};
@@ -11111,7 +11111,7 @@ module.exports = app1;
 /******/ 					if(installedChunkData) {
 /******/ 						promises.push(installedChunkData[2]);
 /******/ 					} else {
-/******/ 						if(!/^webpack_(container_remote_app1_Chunky|sharing_consume_default_react_react)$/.test(chunkId)) {
+/******/ 						if(!/^webpack_(container_remote_app1_MultiView|sharing_consume_default_react_react)$/.test(chunkId)) {
 /******/ 							// setup Promise in chunk cache
 /******/ 							var promise = new Promise((resolve, reject) => {
 /******/ 								installedChunkData = installedChunks[chunkId] = [resolve, reject];

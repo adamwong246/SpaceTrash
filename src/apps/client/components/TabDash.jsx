@@ -4,7 +4,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { getTabDashProps } from '../redux/selectors.js';
 
-const Chunk = React.lazy(() => import ('app1/Chunky'));
+const MultiView = React.lazy(() => import ('app1/MultiView'));
 
 class TabDash extends React.Component{
 
@@ -25,7 +25,7 @@ class TabDash extends React.Component{
       {this.props.dashBoard && <p>loaded: {this.props.dashBoard.fileName}</p>}
 
       <React.Suspense fallback='Loading header'>
-        <Chunk name={"this.state.name"}>Hello this is App 2</Chunk>
+        <MultiView drones={this.props.drones} broadcasterV2={this.props.broadcasterV2}/>
       </React.Suspense>
 
     </div>);

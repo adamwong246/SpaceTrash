@@ -170,6 +170,7 @@ dashboardBundle.plugins = [
   exposes: {
     // expose each component
     "./Chunky": "./src/exampleUserConfig/src/components/Chunk.js",
+    "./MultiView": "./src/exampleUserConfig/src/MultiView.tsx",
   },
   shared: ["react", "react-dom"],
 })

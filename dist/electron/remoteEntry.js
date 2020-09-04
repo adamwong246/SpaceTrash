@@ -13,7 +13,10 @@ var app1;app1 =
 
 var moduleMap = {
 	"./Chunky": () => {
-		return __webpack_require__.e("src_exampleUserConfig_src_components_Chunk_js").then(() => () => (__webpack_require__(/*! ./src/exampleUserConfig/src/components/Chunk.js */ "./src/exampleUserConfig/src/components/Chunk.js")));
+		return Promise.all([__webpack_require__.e("webpack_sharing_consume_default_react_react"), __webpack_require__.e("src_exampleUserConfig_src_components_Chunk_js")]).then(() => () => (__webpack_require__(/*! ./src/exampleUserConfig/src/components/Chunk.js */ "./src/exampleUserConfig/src/components/Chunk.js")));
+	},
+	"./MultiView": () => {
+		return Promise.all([__webpack_require__.e("vendors-node_modules_lodash_lodash_js"), __webpack_require__.e("webpack_sharing_consume_default_react_react"), __webpack_require__.e("src_exampleUserConfig_src_MultiView_tsx")]).then(() => () => (__webpack_require__(/*! ./src/exampleUserConfig/src/MultiView.tsx */ "./src/exampleUserConfig/src/MultiView.tsx")));
 	}
 };
 var get = (module) => {
@@ -54,13 +57,16 @@ __webpack_require__.d(exports, {
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -114,6 +120,18 @@ __webpack_require__.d(exports, {
 /******/ 			// return url for filenames based on template
 /******/ 			return "" + chunkId + ".dashboard.js";
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -175,6 +193,15 @@ __webpack_require__.d(exports, {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -352,7 +379,7 @@ __webpack_require__.d(exports, {
 /******/ 		};
 /******/ 		// no consumes in initial chunks
 /******/ 		var chunkMapping = {
-/******/ 			"src_exampleUserConfig_src_components_Chunk_js": [
+/******/ 			"webpack_sharing_consume_default_react_react": [
 /******/ 				"webpack/sharing/consume/default/react/react"
 /******/ 			]
 /******/ 		};
@@ -404,7 +431,7 @@ __webpack_require__.d(exports, {
 /******/ 					if(installedChunkData) {
 /******/ 						promises.push(installedChunkData[2]);
 /******/ 					} else {
-/******/ 						if(true) { // all chunks have JS
+/******/ 						if("webpack_sharing_consume_default_react_react" != chunkId) {
 /******/ 							// setup Promise in chunk cache
 /******/ 							var promise = new Promise((resolve, reject) => {
 /******/ 								installedChunkData = installedChunks[chunkId] = [resolve, reject];

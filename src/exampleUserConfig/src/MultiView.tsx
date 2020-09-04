@@ -8,23 +8,23 @@ class MultiView extends React.Component<{}, {}>{
     super(a);
   }
 
-  render(props) {
+  render() {
 
     return (
       <div>
         Hello MultiView
 
         {
-          (props.drones || []).map((drone) => {
+          (this.props.drones || []).map((drone) => {
             return (
               <div>
                 <Raycast drone={drone}/>
-                <Commands drone={drone} broadcasterV2={props.broadcasterV2}/>
+                <Commands drone={drone} broadcasterV2={this.props.broadcasterV2}/>
               </div>
             );
           })
         }
-        <pre>{JSON.stringify(props, null, 2)}</pre>
+        <pre>{JSON.stringify(this.props, null, 2)}</pre>
       </div>
     )
   }
