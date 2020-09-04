@@ -1,97 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/apps/electron/index.js");
-/******/ })
-/************************************************************************/
-/******/ ({
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
 
 /***/ "./node_modules/async-limiter/index.js":
 /*!*********************************************!*\
   !*** ./node_modules/async-limiter/index.js ***!
   \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 67:0-14 */
+/***/ ((module) => {
 
 "use strict";
 
@@ -169,8 +86,10 @@ module.exports = Queue;
 /*!***********************************************!*\
   !*** ./node_modules/electron-is-dev/index.js ***!
   \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 13:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -194,8 +113,10 @@ module.exports = isEnvSet ? getFromEnv : !app.isPackaged;
 /*!******************************************!*\
   !*** ./node_modules/event-pubsub/es5.js ***!
   \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 143:0-14 */
+/***/ ((module) => {
 
 "use strict";
 
@@ -349,8 +270,10 @@ module.exports=EventPubSub;
 /*!******************************************!*\
   !*** ./node_modules/event-pubsub/es6.js ***!
   \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 99:0-14 */
+/***/ ((module) => {
 
 "use strict";
 
@@ -460,8 +383,10 @@ module.exports = EventPubSub;
 /*!***************************************************!*\
   !*** ./node_modules/event-pubsub/event-pubsub.js ***!
   \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 8:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -480,48 +405,91 @@ module.exports=EventPubSub;
 /*!*****************************************************!*\
   !*** ./node_modules/immutable/dist/immutable.es.js ***!
   \*****************************************************/
-/*! exports provided: default, version, Collection, Iterable, Seq, Map, OrderedMap, List, Stack, Set, OrderedSet, Record, Range, Repeat, is, fromJS, hash, isImmutable, isCollection, isKeyed, isIndexed, isAssociative, isOrdered, isValueObject, get, getIn, has, hasIn, merge, mergeDeep, mergeWith, mergeDeepWith, remove, removeIn, set, setIn, update, updateIn */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export Collection [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export Iterable [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export List [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export Map [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export OrderedMap [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export OrderedSet [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export Range [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export Record [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export Repeat [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export Seq [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export Set [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export Stack [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromJS [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export get [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export getIn [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export has [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export hasIn [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export hash [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export is [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export isAssociative [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export isCollection [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export isImmutable [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export isIndexed [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export isKeyed [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export isOrdered [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export isValueObject [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export merge [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export mergeDeep [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export mergeDeepWith [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export mergeWith [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export remove [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export removeIn [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export set [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export setIn [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export update [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export updateIn [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export version [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "version", function() { return version; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Collection", function() { return Collection; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Iterable", function() { return Iterable; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Seq", function() { return Seq; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Map", function() { return Map; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrderedMap", function() { return OrderedMap; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "List", function() { return List; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Stack", function() { return Stack; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Set", function() { return Set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrderedSet", function() { return OrderedSet; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Record", function() { return Record; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Range", function() { return Range; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Repeat", function() { return Repeat; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "is", function() { return is; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromJS", function() { return fromJS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hash", function() { return hash; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isImmutable", function() { return isImmutable; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isCollection", function() { return isCollection; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isKeyed", function() { return isKeyed; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isIndexed", function() { return isIndexed; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isAssociative", function() { return isAssociative; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isOrdered", function() { return isOrdered; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValueObject", function() { return isValueObject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getIn", function() { return getIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "has", function() { return has; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasIn", function() { return hasIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "merge", function() { return merge$1; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mergeDeep", function() { return mergeDeep; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mergeWith", function() { return mergeWith$1; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mergeDeepWith", function() { return mergeDeepWith; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeIn", function() { return removeIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setIn", function() { return setIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateIn", function() { return updateIn; });
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__,
+/* harmony export */   "version": () => /* binding */ version,
+/* harmony export */   "Collection": () => /* binding */ Collection,
+/* harmony export */   "Iterable": () => /* binding */ Iterable,
+/* harmony export */   "Seq": () => /* binding */ Seq,
+/* harmony export */   "Map": () => /* binding */ Map,
+/* harmony export */   "OrderedMap": () => /* binding */ OrderedMap,
+/* harmony export */   "List": () => /* binding */ List,
+/* harmony export */   "Stack": () => /* binding */ Stack,
+/* harmony export */   "Set": () => /* binding */ Set,
+/* harmony export */   "OrderedSet": () => /* binding */ OrderedSet,
+/* harmony export */   "Record": () => /* binding */ Record,
+/* harmony export */   "Range": () => /* binding */ Range,
+/* harmony export */   "Repeat": () => /* binding */ Repeat,
+/* harmony export */   "is": () => /* binding */ is,
+/* harmony export */   "fromJS": () => /* binding */ fromJS,
+/* harmony export */   "hash": () => /* binding */ hash,
+/* harmony export */   "isImmutable": () => /* binding */ isImmutable,
+/* harmony export */   "isCollection": () => /* binding */ isCollection,
+/* harmony export */   "isKeyed": () => /* binding */ isKeyed,
+/* harmony export */   "isIndexed": () => /* binding */ isIndexed,
+/* harmony export */   "isAssociative": () => /* binding */ isAssociative,
+/* harmony export */   "isOrdered": () => /* binding */ isOrdered,
+/* harmony export */   "isValueObject": () => /* binding */ isValueObject,
+/* harmony export */   "get": () => /* binding */ get,
+/* harmony export */   "getIn": () => /* binding */ getIn,
+/* harmony export */   "has": () => /* binding */ has,
+/* harmony export */   "hasIn": () => /* binding */ hasIn,
+/* harmony export */   "merge": () => /* binding */ merge$1,
+/* harmony export */   "mergeDeep": () => /* binding */ mergeDeep,
+/* harmony export */   "mergeWith": () => /* binding */ mergeWith$1,
+/* harmony export */   "mergeDeepWith": () => /* binding */ mergeDeepWith,
+/* harmony export */   "remove": () => /* binding */ remove,
+/* harmony export */   "removeIn": () => /* binding */ removeIn,
+/* harmony export */   "set": () => /* binding */ set,
+/* harmony export */   "setIn": () => /* binding */ setIn,
+/* harmony export */   "update": () => /* binding */ update,
+/* harmony export */   "updateIn": () => /* binding */ updateIn
+/* harmony export */ });
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -6338,7 +6306,7 @@ var Immutable = {
 // Note: Iterable is deprecated
 var Iterable = Collection;
 
-/* harmony default export */ __webpack_exports__["default"] = (Immutable);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Immutable);
 
 
 
@@ -6348,8 +6316,10 @@ var Iterable = Collection;
 /*!********************************************!*\
   !*** ./node_modules/js-message/Message.js ***!
   \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 71:0-14 */
+/***/ ((module) => {
 
 function Message() {
     Object.defineProperties(
@@ -6430,8 +6400,10 @@ module.exports=Message;
 /*!****************************************!*\
   !*** ./node_modules/js-queue/queue.js ***!
   \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 76:0-14 */
+/***/ ((module) => {
 
 function Queue(asStack){
     Object.defineProperties(
@@ -6517,10 +6489,15 @@ module.exports=Queue;
 /*!***************************************!*\
   !*** ./node_modules/lodash/lodash.js ***!
   \***************************************/
-/*! no static exports found */
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: __webpack_exports__, module.loaded, module.id, module, __webpack_require__.nmd, top-level-this-exports, __webpack_require__, __webpack_require__.* */
+/*! CommonJS bailout: this is used directly at 17112:7-11 */
+/*! CommonJS bailout: exports is used directly at 425:50-57 */
+/*! CommonJS bailout: exports is used directly at 425:82-89 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
+/* module decorator */ module = __webpack_require__.nmd(module);
+var __WEBPACK_AMD_DEFINE_RESULT__;/**
  * @license
  * Lodash <https://lodash.com/>
  * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
@@ -6947,7 +6924,7 @@ module.exports=Queue;
   var freeExports =  true && exports && !exports.nodeType && exports;
 
   /** Detect free variable `module`. */
-  var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+  var freeModule = freeExports && "object" == 'object' && module && !module.nodeType && module;
 
   /** Detect the popular CommonJS extension `module.exports`. */
   var moduleExports = freeModule && freeModule.exports === freeExports;
@@ -23619,13 +23596,12 @@ module.exports=Queue;
     !(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
       return _;
     }).call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
   }
   // Check for `exports` after `define` in case a build optimizer adds it.
   else {}
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
 
 /***/ }),
 
@@ -23633,8 +23609,10 @@ module.exports=Queue;
 /*!*********************************************!*\
   !*** ./node_modules/node-ipc/dao/client.js ***!
   \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 257:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -23902,8 +23880,10 @@ module.exports=Client;
 /*!***************************************************!*\
   !*** ./node_modules/node-ipc/dao/socketServer.js ***!
   \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 402:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -24316,8 +24296,10 @@ module.exports=Server;
 /*!****************************************************!*\
   !*** ./node_modules/node-ipc/entities/Defaults.js ***!
   \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 80:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -24408,8 +24390,10 @@ module.exports=Defaults;
 /*!*******************************************************!*\
   !*** ./node_modules/node-ipc/entities/EventParser.js ***!
   \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 32:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -24452,8 +24436,10 @@ module.exports=Parser;
 /*!*******************************************!*\
   !*** ./node_modules/node-ipc/node-ipc.js ***!
   \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 21:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -24485,8 +24471,10 @@ module.exports=new IPCModule;
 /*!***********************************************!*\
   !*** ./node_modules/node-ipc/services/IPC.js ***!
   \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 337:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -24834,17 +24822,27 @@ module.exports=IPC;
 /*!****************************************!*\
   !*** ./node_modules/redux/es/redux.js ***!
   \****************************************/
-/*! exports provided: __DO_NOT_USE__ActionTypes, applyMiddleware, bindActionCreators, combineReducers, compose, createStore */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export __DO_NOT_USE__ActionTypes [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export applyMiddleware [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export bindActionCreators [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export combineReducers [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export compose [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export createStore [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__DO_NOT_USE__ActionTypes", function() { return ActionTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applyMiddleware", function() { return applyMiddleware; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bindActionCreators", function() { return bindActionCreators; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return combineReducers; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return compose; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return createStore; });
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "__DO_NOT_USE__ActionTypes": () => /* binding */ ActionTypes,
+/* harmony export */   "applyMiddleware": () => /* binding */ applyMiddleware,
+/* harmony export */   "bindActionCreators": () => /* binding */ bindActionCreators,
+/* harmony export */   "combineReducers": () => /* binding */ combineReducers,
+/* harmony export */   "compose": () => /* binding */ compose,
+/* harmony export */   "createStore": () => /* binding */ createStore
+/* harmony export */ });
 /* harmony import */ var symbol_observable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! symbol-observable */ "./node_modules/symbol-observable/es/index.js");
 
 
@@ -25136,7 +25134,7 @@ function createStore(reducer, preloadedState, enhancer) {
           unsubscribe: unsubscribe
         };
       }
-    }, _ref[symbol_observable__WEBPACK_IMPORTED_MODULE_0__["default"]] = function () {
+    }, _ref[symbol_observable__WEBPACK_IMPORTED_MODULE_0__.default] = function () {
       return this;
     }, _ref;
   } // When a store is created, an "INIT" action is dispatched so that every
@@ -25152,7 +25150,7 @@ function createStore(reducer, preloadedState, enhancer) {
     subscribe: subscribe,
     getState: getState,
     replaceReducer: replaceReducer
-  }, _ref2[symbol_observable__WEBPACK_IMPORTED_MODULE_0__["default"]] = observable, _ref2;
+  }, _ref2[symbol_observable__WEBPACK_IMPORTED_MODULE_0__.default] = observable, _ref2;
 }
 
 /**
@@ -25517,15 +25515,23 @@ if ( true && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed
 /*!*******************************************!*\
   !*** ./node_modules/reselect/es/index.js ***!
   \*******************************************/
-/*! exports provided: defaultMemoize, createSelectorCreator, createSelector, createStructuredSelector */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export createSelector [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export createSelectorCreator [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export createStructuredSelector [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export defaultMemoize [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultMemoize", function() { return defaultMemoize; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSelectorCreator", function() { return createSelectorCreator; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSelector", function() { return createSelector; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStructuredSelector", function() { return createStructuredSelector; });
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "defaultMemoize": () => /* binding */ defaultMemoize,
+/* harmony export */   "createSelectorCreator": () => /* binding */ createSelectorCreator,
+/* harmony export */   "createSelector": () => /* binding */ createSelector,
+/* harmony export */   "createStructuredSelector": () => /* binding */ createStructuredSelector
+/* harmony export */ });
 function defaultEqualityCheck(a, b) {
   return a === b;
 }
@@ -25653,12 +25659,19 @@ function createStructuredSelector(selectors) {
 /*!****************************************************!*\
   !*** ./node_modules/symbol-observable/es/index.js ***!
   \****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, module.loaded, module.id, module, __webpack_require__.hmd, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ponyfill.js */ "./node_modules/symbol-observable/es/ponyfill.js");
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _ponyfill_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ponyfill.js */ "./node_modules/symbol-observable/es/ponyfill.js");
+/* module decorator */ module = __webpack_require__.hmd(module);
 /* global window */
 
 
@@ -25674,10 +25687,9 @@ if (typeof self !== 'undefined') {
   root = module;
 } else {}
 
-var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__["default"])(root);
-/* harmony default export */ __webpack_exports__["default"] = (result);
+var result = (0,_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__.default)(root);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (result);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
 
 /***/ }),
 
@@ -25685,12 +25697,17 @@ var result = Object(_ponyfill_js__WEBPACK_IMPORTED_MODULE_0__["default"])(root);
 /*!*******************************************************!*\
   !*** ./node_modules/symbol-observable/es/ponyfill.js ***!
   \*******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return symbolObservablePonyfill; });
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => /* binding */ symbolObservablePonyfill
+/* harmony export */ });
 function symbolObservablePonyfill(root) {
 	var result;
 	var Symbol = root.Symbol;
@@ -25712,69 +25729,454 @@ function symbolObservablePonyfill(root) {
 
 /***/ }),
 
-/***/ "./node_modules/webpack/buildin/harmony-module.js":
-/*!*******************************************!*\
-  !*** (webpack)/buildin/harmony-module.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ "./src/apps/electron/getRays.ts":
+/*!**************************************!*\
+  !*** ./src/apps/electron/getRays.ts ***!
+  \**************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: __webpack_exports__, module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 165:0-14 */
+/***/ ((module, exports, __webpack_require__) => {
 
-module.exports = function(originalModule) {
-	if (!originalModule.webpackPolyfill) {
-		var module = Object.create(originalModule);
-		// module.parent = undefined by default
-		if (!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		Object.defineProperty(module, "exports", {
-			enumerable: true
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const { fromJS, List, Map } = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
+const raycastConsts_ts_1 = __webpack_require__(/*! ../../raycastConsts.ts */ "./src/raycastConsts.ts");
+;
+exports.useSingleTexture = false;
+exports.fov = 60 * Math.PI / 180;
+exports.viewDist = (raycastConsts_ts_1.screenWidth / 2) / raycastConsts_ts_1.MMath.tan((exports.fov / 2));
+exports.twoPI = Math.PI * 2;
+exports.numTextures = 4;
+exports.numRays = raycastConsts_ts_1.MMath.ceil(raycastConsts_ts_1.screenWidth / raycastConsts_ts_1.stripWidth);
+exports.wallTextures = [
+    "walls_1.png",
+    "walls_2.png",
+    "walls_3.png",
+    "walls_4.png"
+];
+const getRays = (drone, matrix) => {
+    const startTime = Date.now();
+    // const matrix = ship.matrix;
+    const mapHeight = matrix.size;
+    const mapWidth = matrix.get(0).size;
+    const rays = new fromJS(Array.from(Array(exports.numRays).keys()))
+        .map((i, stripIdx) => {
+        // where on the screen does ray go through?
+        var rayScreenPos = (-exports.numRays / 2 + i) * raycastConsts_ts_1.stripWidth;
+        // the distance from the viewer to the point on the screen, simply Pythagoras.
+        var rayViewDist = raycastConsts_ts_1.MMath.sqrt(rayScreenPos * rayScreenPos + exports.viewDist * exports.viewDist);
+        // the angle of the ray, relative to the viewing direction.
+        // right triangle: a = sin(A) * c
+        var rayAngle = raycastConsts_ts_1.MMath.asin(rayScreenPos / rayViewDist);
+        rayAngle = rayAngle + drone.get("direction");
+        // first make sure the angle is between 0 and 360 degrees
+        rayAngle %= exports.twoPI;
+        if (rayAngle < 0)
+            rayAngle += exports.twoPI;
+        // moving right/left? up/down? Determined by which quadrant the angle is in.
+        var right = (rayAngle > exports.twoPI * 0.75 || rayAngle < exports.twoPI * 0.25);
+        var up = (rayAngle < 0 || rayAngle > Math.PI);
+        var wallType = 0;
+        // only do these once
+        var angleSin = raycastConsts_ts_1.MMath.sin(rayAngle);
+        var angleCos = raycastConsts_ts_1.MMath.cos(rayAngle);
+        var dist = 0; // the distance to the block we hit
+        var xHit = 0; // the x and y coord of where the ray hit the block
+        var yHit = 0;
+        var xWallHit = 0;
+        var yWallHit = 0;
+        var textureX; // the x-coord on the texture of the block, ie. what part of the texture are we going to render
+        var wallX; // the (x,y) map coords of the block
+        var wallY;
+        var wallIsShaded = false;
+        var wallIsHorizontal = false;
+        // first check against the vertical map/wall lines
+        // we do this by moving to the right or left edge of the block we're standing in
+        // and then moving in 1 map unit steps horizontally. The amount we have to move vertically
+        // is determined by the slope of the ray, which is simply defined as sin(angle) / cos(angle).
+        var slope = angleSin / angleCos; // the slope of the straight line made by the ray
+        const dXVer = right ? 1 : -1; // we move either 1 map unit to the left or right
+        const dYVer = dXVer * slope; // how much to move up or down
+        var x = right ? raycastConsts_ts_1.MMath.ceil(drone.get("x")) : raycastConsts_ts_1.MMath.floor(drone.get("x")); // starting horizontal position, at one of the edges of the current map block
+        var y = drone.get("y") + (x - drone.get("x")) * slope; // starting vertical position. We add the small horizontal step we just made, multiplied by the slope.
+        while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
+            const wallX = (x + (right ? 0 : -1)) >> 0;
+            const wallY = (y) >> 0;
+            // if (materializedMap.get(wallX, wallY).type !== 'floor') {
+            if (matrix.get(wallY) && matrix.get(wallY).get(wallX) && matrix.get(wallY).get(wallX).get(0) !== 'f') {
+                var distX = x - drone.get("x");
+                var distY = y - drone.get("y");
+                dist = distX * distX + distY * distY; // the distance from the player to this point, squared.
+                textureX = y % 1; // where exactly are we on the wall? textureX is the x coordinate on the texture that we'll use later when texturing the wall.
+                if (!right)
+                    textureX = 1 - textureX; // if we're looking to the left side of the map, the texture should be reversed
+                xHit = x; // save the coordinates of the hit. We only really use these to draw the rays on minimap.
+                yHit = y;
+                xWallHit = wallX;
+                yWallHit = wallY;
+                // make horizontal walls shaded
+                wallIsShaded = true;
+                wallIsHorizontal = true;
+                break;
+            }
+            x = x + dXVer;
+            y = y + dYVer;
+        }
+        // now check against horizontal lines. It's basically the same, just "turned around".
+        // the only difference here is that once we hit a map block,
+        // we check if there we also found one in the earlier, vertical run. We'll know that if dist != 0.
+        // If so, we only register this hit if this distance is smaller.
+        var slope = angleCos / angleSin;
+        const dYHor = up ? -1 : 1;
+        const dXHor = dYHor * slope;
+        var y = up ? raycastConsts_ts_1.MMath.floor(drone.get("y")) : raycastConsts_ts_1.MMath.ceil(drone.get("y"));
+        var x = drone.get("x") + (y - drone.get("y")) * slope;
+        while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
+            const wallY = (y + (up ? -1 : 0)) >> 0;
+            const wallX = (x) >> 0;
+            // if (materializedMap.get(wallX, wallY).type !== 'floor') {
+            if (matrix.get(wallY).get(wallX).get(0) !== 'f') {
+                const distX = x - drone.get("x");
+                const distY = y - drone.get("y");
+                const blockDist = distX * distX + distY * distY;
+                if (!dist || blockDist < dist) {
+                    dist = blockDist;
+                    xHit = x;
+                    yHit = y;
+                    xWallHit = wallX;
+                    yWallHit = wallY;
+                    textureX = x % 1;
+                    if (up)
+                        textureX = 1 - textureX;
+                    wallIsShaded = false;
+                }
+                break;
+            }
+            x = x + dXHor;
+            y = y + dYHor;
+        }
+        if (dist) {
+            // dist = MMath.sqrt(dist);
+            // use perpendicular distance to adjust for fish eye
+            // distorted_dist = correct_dist / cos(relative_angle_of_ray)
+            // dist = dist * MMath.cos(drone.get("direction") - rayAngle);
+            const correctedDistance = raycastConsts_ts_1.MMath.sqrt(dist) * raycastConsts_ts_1.MMath.cos(drone.get("direction") - rayAngle);
+            // now calc the position, height and width of the wall strip
+            // "real" wall height in the game world is 1 unit, the distance from the player to the screen is viewDist,
+            // thus the height on the screen is equal to wall_height_real * viewDist / dist
+            const height = raycastConsts_ts_1.MMath.round(exports.viewDist / correctedDistance);
+            // width is the same, but we have to stretch the texture to a factor of stripWidth to make it fill the strip correctly
+            const width = height * raycastConsts_ts_1.stripWidth;
+            var texX = raycastConsts_ts_1.MMath.round(textureX * width);
+            if (texX > width - raycastConsts_ts_1.stripWidth)
+                texX = width - raycastConsts_ts_1.stripWidth;
+            texX += (wallIsShaded ? width : 0);
+            return fromJS({
+                id: stripIdx,
+                rayDistance: correctedDistance,
+                x: xWallHit,
+                y: yWallHit,
+                style: ({
+                    height,
+                    width,
+                    texX,
+                    hit: matrix.get(yWallHit).get(xWallHit).get(0) === 'd',
+                }),
+            });
+        }
+        else {
+            return fromJS({
+                id: stripIdx,
+                rayDistance: 0,
+                x: 0,
+                y: 0,
+                style: {
+                    position: raycastConsts_ts_1.ABSOLLUTE,
+                    src: "/walls_3.png",
+                    height: 0, width: 0, left: 0, top: 0, zIndex: 0, clip: ""
+                },
+            });
+        }
+    });
+    console.log(Date.now() - startTime, "...render");
+    return rays;
+};
+module.exports = (payloadReponse) => {
+    // console.log("getrays", payloadReponse)
+    const matrix = fromJS(payloadReponse.ship.matrix);
+    const drones = fromJS(payloadReponse.drones);
+    const dronesWithRays = drones.map((drone) => {
+        return drone.update("rays", (rays) => {
+            return getRays(drone, matrix);
+        });
+    });
+    var shipMap = {};
+    if (dronesWithRays) {
+        dronesWithRays.forEach((drone, ndx) => {
+            if (drone.get("rays")) {
+                drone.get("rays").forEach((ray) => {
+                    var x0 = raycastConsts_ts_1.MMath.round(drone.get("x"));
+                    var y0 = raycastConsts_ts_1.MMath.round(drone.get("y"));
+                    var x1 = ray.get("x");
+                    var y1 = ray.get("y");
+                    var dx = Math.abs(x1 - x0);
+                    var dy = Math.abs(y1 - y0);
+                    var sx = (x0 < x1) ? 1 : -1;
+                    var sy = (y0 < y1) ? 1 : -1;
+                    var err = dx - dy;
+                    var rayShouldContinue = true;
+                    while (rayShouldContinue) {
+                        if (!shipMap[y0])
+                            shipMap[y0] = {};
+                        if (shipMap[y0][x0]) {
+                            // rayShouldContinue = false;
+                        }
+                        else {
+                            shipMap[y0][x0] = matrix.get(y0).get(x0);
+                            rayShouldContinue = true;
+                        }
+                        if ((x0 === x1) && (y0 === y1)) {
+                            rayShouldContinue = false;
+                        }
+                        var e2 = 2 * err;
+                        if (e2 > -dy) {
+                            err -= dy;
+                            x0 += sx;
+                        }
+                        if (e2 < dx) {
+                            err += dx;
+                            y0 += sy;
+                        }
+                    }
+                });
+            }
+        });
+    }
+    const toREturn = { drones: dronesWithRays, shipMap: fromJS(shipMap) };
+    // console.log("done rendering")
+    return toREturn;
 };
 
 
 /***/ }),
 
-/***/ "./node_modules/webpack/buildin/module.js":
-/*!***********************************!*\
-  !*** (webpack)/buildin/module.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ "./src/apps/electron/redux/initialState.ts":
+/*!*************************************************!*\
+  !*** ./src/apps/electron/redux/initialState.ts ***!
+  \*************************************************/
+/*! flagged exports */
+/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
-module.exports = function(module) {
-	if (!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if (!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const immutable_1 = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
+exports.default = immutable_1.fromJS({
+    shipMap: {},
+    drones: [],
+    sourceFolder: false,
+    userViews: [],
+    userShips: [],
+    userAis: [],
+    dashBoard: {},
+    autoPilot: {},
+    shipYard: {},
+    sessionId: false
+});
+
+
+/***/ }),
+
+/***/ "./src/apps/electron/redux/reducers.ts":
+/*!*********************************************!*\
+  !*** ./src/apps/electron/redux/reducers.ts ***!
+  \*********************************************/
+/*! flagged exports */
+/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const immutable_1 = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
+const initialState_ts_1 = __webpack_require__(/*! ./initialState.ts */ "./src/apps/electron/redux/initialState.ts");
+const updatedDroneRays = __webpack_require__(/*! ../getRays.ts */ "./src/apps/electron/getRays.ts");
+exports.default = (state = initialState_ts_1.default, action) => {
+    // console.log(action)
+    switch (action.type) {
+        case "SET_SESSION_ID": {
+            return state.set("sessionId", action.payload);
+        }
+        case "PICK_DASHBOARD": {
+            return state.set("dashBoard", action.payload);
+        }
+        case "PICK_AUTOPILOT": {
+            return state.set("autoPilot", action.payload);
+        }
+        case "PICK_SHIPYARD": {
+            return state.set("shipYard", action.payload);
+        }
+        case "SET_SHIP_DATA": {
+            return state.set("shipMap", action.payload.shipMap.gridMap);
+        }
+        case "ADD_USER_VIEW": {
+            return state.set("userViews", state.get("userViews").concat(action.payload));
+        }
+        case "ADD_USER_SHIP": {
+            return state.set("userShips", state.get("userShips").concat(action.payload));
+        }
+        case "ADD_USER_AI": {
+            return state.set("userAis", state.get("userAis").concat(action.payload));
+        }
+        case "PACK_ERRORS": {
+            return state.set("packErrors", action.payload);
+        }
+        case "RECEIVE_UPDATE": {
+            return state.set("message", action.payload.message);
+        }
+        case "RECEIVE_UPDATE_FROM_SERVER": {
+            // debugger
+            const { drones, shipMap } = updatedDroneRays(action.payload);
+            return state.set("drones", immutable_1.fromJS(drones)).set("shipMap", immutable_1.fromJS(shipMap));
+        }
+        case "PICK_FOLDER": {
+            return state.set("sourceFolder", action.payload);
+        }
+        default:
+            console.log("IDK", action);
+            return state;
+    }
+    return state;
+};
+
+
+/***/ }),
+
+/***/ "./src/apps/electron/websocketFactory.ts":
+/*!***********************************************!*\
+  !*** ./src/apps/electron/websocketFactory.ts ***!
+  \***********************************************/
+/*! flagged exports */
+/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const http = __webpack_require__(/*! http */ "http");
+const WebSocket = __webpack_require__(/*! ws */ "./node_modules/ws/index.js");
+exports.default = (store) => {
+    var ws = new WebSocket('ws://localhost:5000');
+    ws.onerror = function (e) { console.log(`onerror: ${JSON.stringify(e)}`); };
+    ws.onclose = function (e) { console.log(`onclose: ${JSON.stringify(e)}`); };
+    ws.onopen = function (e) {
+        // console.log(`onopen: ${JSON.stringify(e)}`)
+    };
+    return {
+        init: (selectors) => {
+            ws.onmessage = function (e) {
+                const data = JSON.parse(e.data);
+                // console.log(`onmessage`, data)
+                if (data.msg === "user joined") {
+                }
+                else if (data.msg.updateFromCloud) {
+                    store.dispatch({ type: "RECEIVE_UPDATE_FROM_SERVER", payload: data.msg.updateFromCloud });
+                    selectors.selectAndBroadcastEverything(store.getState());
+                }
+                else {
+                    store.dispatch({ type: "RECEIVE_UPDATE", payload: data.msg });
+                    selectors.selectAndBroadcastEverything(store.getState());
+                }
+            };
+        },
+        openSession: () => {
+            const sessionId = store.getState().get("sessionId");
+            ws.send(JSON.stringify({ join: `session-${sessionId}` }));
+            ws.send(JSON.stringify({ join: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56` }));
+            return ws.send(JSON.stringify({
+                msg: { load: true },
+                room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
+            }));
+        },
+        ping: () => {
+            return ws.send(JSON.stringify({ msg: "ping" }));
+        },
+        load: () => {
+            const sessionId = store.getState().get("sessionId");
+            ws.send(JSON.stringify({ join: `session-${sessionId}` }));
+            ws.send(JSON.stringify({ join: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56` }));
+            return ws.send(JSON.stringify({
+                msg: { load: true },
+                room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
+            }));
+        },
+        enqueue: (commands) => {
+            const sessionId = store.getState().get("sessionId");
+            return ws.send(JSON.stringify({
+                msg: { enqueue: commands },
+                room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
+            }));
+        },
+        send: (message) => {
+            const sessionId = store.getState().get("sessionId");
+            ws.send(JSON.stringify({
+                msg: message,
+                room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
+            }));
+        },
+        websocket: ws
+    };
+};
+
+
+/***/ }),
+
+/***/ "./src/raycastConsts.ts":
+/*!******************************!*\
+  !*** ./src/raycastConsts.ts ***!
+  \******************************/
+/*! flagged exports */
+/*! export ABSOLLUTE [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export MMath [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export screenHeight [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export screenWidth [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export stripWidth [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+exports.stripWidth = 1;
+exports.ABSOLLUTE = 'absolute';
+exports.screenWidth = 320;
+exports.screenHeight = 200;
+const precision = 3;
+exports.MMath = {
+    round: lodash_1.memoize((a) => Math.round(a)),
+    ceil: lodash_1.memoize((a) => Math.ceil(a)),
+    floor: lodash_1.memoize((a) => Math.floor(a)),
+    sqrt: lodash_1.memoize((a) => Math.sqrt(a.toFixed(precision))),
+    pow: lodash_1.memoize((a, b) => Math.pow(a.toFixed(precision), b)),
+    sin: lodash_1.memoize((a) => Math.sin(a.toFixed(precision))),
+    asin: lodash_1.memoize((a) => Math.asin(a.toFixed(precision))),
+    cos: lodash_1.memoize((a) => Math.cos(a.toFixed(precision))),
+    tan: lodash_1.memoize((a) => Math.tan(a.toFixed(precision))),
 };
 
 
@@ -25784,8 +26186,10 @@ module.exports = function(module) {
 /*!**********************************!*\
   !*** ./node_modules/ws/index.js ***!
   \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 9:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -25805,8 +26209,11 @@ module.exports = WebSocket;
 /*!********************************************!*\
   !*** ./node_modules/ws/lib/buffer-util.js ***!
   \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 123:2-16 */
+/*! CommonJS bailout: module.exports is used directly at 137:2-16 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -25928,7 +26335,7 @@ function viewToBuffer(view) {
 }
 
 try {
-  const bufferUtil = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module 'bufferutil'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+  const bufferUtil = __webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'bufferutil'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
   const bu = bufferUtil.BufferUtil || bufferUtil;
 
   module.exports = {
@@ -25961,8 +26368,10 @@ try {
 /*!******************************************!*\
   !*** ./node_modules/ws/lib/constants.js ***!
   \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 3:0-14 */
+/***/ ((module) => {
 
 "use strict";
 
@@ -25983,8 +26392,10 @@ module.exports = {
 /*!*********************************************!*\
   !*** ./node_modules/ws/lib/event-target.js ***!
   \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 170:0-14 */
+/***/ ((module) => {
 
 "use strict";
 
@@ -26165,8 +26576,10 @@ module.exports = EventTarget;
 /*!******************************************!*\
   !*** ./node_modules/ws/lib/extension.js ***!
   \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 222:0-14 */
+/***/ ((module) => {
 
 "use strict";
 
@@ -26399,8 +26812,10 @@ module.exports = { format, parse };
 /*!***************************************************!*\
   !*** ./node_modules/ws/lib/permessage-deflate.js ***!
   \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 452:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -26913,8 +27328,10 @@ function inflateOnError(err) {
 /*!*****************************************!*\
   !*** ./node_modules/ws/lib/receiver.js ***!
   \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 471:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -27417,8 +27834,10 @@ function error(ErrorCtor, message, prefix, statusCode) {
 /*!***************************************!*\
   !*** ./node_modules/ws/lib/sender.js ***!
   \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 358:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -27787,14 +28206,18 @@ module.exports = Sender;
 /*!*******************************************!*\
   !*** ./node_modules/ws/lib/validation.js ***!
   \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! default exports */
+/*! export isValidStatusCode [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export isValidUTF8 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 
 try {
-  const isValidUTF8 = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module 'utf-8-validate'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+  const isValidUTF8 = __webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'utf-8-validate'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
   exports.isValidUTF8 =
     typeof isValidUTF8 === 'object'
@@ -27829,8 +28252,10 @@ exports.isValidStatusCode = (code) => {
 /*!*************************************************!*\
   !*** ./node_modules/ws/lib/websocket-server.js ***!
   \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 328:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -28242,8 +28667,10 @@ function abortHandshake(socket, code, message, headers) {
 /*!******************************************!*\
   !*** ./node_modules/ws/lib/websocket.js ***!
   \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 422:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -29145,243 +29572,14 @@ function socketOnError() {
 
 /***/ }),
 
-/***/ "./src/apps/electron/getRays.ts":
-/*!**************************************!*\
-  !*** ./src/apps/electron/getRays.ts ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const { fromJS, List, Map } = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
-const raycastConsts_ts_1 = __webpack_require__(/*! ../../raycastConsts.ts */ "./src/raycastConsts.ts");
-;
-exports.useSingleTexture = false;
-exports.fov = 60 * Math.PI / 180;
-exports.viewDist = (raycastConsts_ts_1.screenWidth / 2) / raycastConsts_ts_1.MMath.tan((exports.fov / 2));
-exports.twoPI = Math.PI * 2;
-exports.numTextures = 4;
-exports.numRays = raycastConsts_ts_1.MMath.ceil(raycastConsts_ts_1.screenWidth / raycastConsts_ts_1.stripWidth);
-exports.wallTextures = [
-    "walls_1.png",
-    "walls_2.png",
-    "walls_3.png",
-    "walls_4.png"
-];
-const getRays = (drone, matrix) => {
-    const startTime = Date.now();
-    // const matrix = ship.matrix;
-    const mapHeight = matrix.size;
-    const mapWidth = matrix.get(0).size;
-    const rays = new fromJS(Array.from(Array(exports.numRays).keys()))
-        .map((i, stripIdx) => {
-        // where on the screen does ray go through?
-        var rayScreenPos = (-exports.numRays / 2 + i) * raycastConsts_ts_1.stripWidth;
-        // the distance from the viewer to the point on the screen, simply Pythagoras.
-        var rayViewDist = raycastConsts_ts_1.MMath.sqrt(rayScreenPos * rayScreenPos + exports.viewDist * exports.viewDist);
-        // the angle of the ray, relative to the viewing direction.
-        // right triangle: a = sin(A) * c
-        var rayAngle = raycastConsts_ts_1.MMath.asin(rayScreenPos / rayViewDist);
-        rayAngle = rayAngle + drone.get("direction");
-        // first make sure the angle is between 0 and 360 degrees
-        rayAngle %= exports.twoPI;
-        if (rayAngle < 0)
-            rayAngle += exports.twoPI;
-        // moving right/left? up/down? Determined by which quadrant the angle is in.
-        var right = (rayAngle > exports.twoPI * 0.75 || rayAngle < exports.twoPI * 0.25);
-        var up = (rayAngle < 0 || rayAngle > Math.PI);
-        var wallType = 0;
-        // only do these once
-        var angleSin = raycastConsts_ts_1.MMath.sin(rayAngle);
-        var angleCos = raycastConsts_ts_1.MMath.cos(rayAngle);
-        var dist = 0; // the distance to the block we hit
-        var xHit = 0; // the x and y coord of where the ray hit the block
-        var yHit = 0;
-        var xWallHit = 0;
-        var yWallHit = 0;
-        var textureX; // the x-coord on the texture of the block, ie. what part of the texture are we going to render
-        var wallX; // the (x,y) map coords of the block
-        var wallY;
-        var wallIsShaded = false;
-        var wallIsHorizontal = false;
-        // first check against the vertical map/wall lines
-        // we do this by moving to the right or left edge of the block we're standing in
-        // and then moving in 1 map unit steps horizontally. The amount we have to move vertically
-        // is determined by the slope of the ray, which is simply defined as sin(angle) / cos(angle).
-        var slope = angleSin / angleCos; // the slope of the straight line made by the ray
-        const dXVer = right ? 1 : -1; // we move either 1 map unit to the left or right
-        const dYVer = dXVer * slope; // how much to move up or down
-        var x = right ? raycastConsts_ts_1.MMath.ceil(drone.get("x")) : raycastConsts_ts_1.MMath.floor(drone.get("x")); // starting horizontal position, at one of the edges of the current map block
-        var y = drone.get("y") + (x - drone.get("x")) * slope; // starting vertical position. We add the small horizontal step we just made, multiplied by the slope.
-        while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
-            const wallX = (x + (right ? 0 : -1)) >> 0;
-            const wallY = (y) >> 0;
-            // if (materializedMap.get(wallX, wallY).type !== 'floor') {
-            if (matrix.get(wallY) && matrix.get(wallY).get(wallX) && matrix.get(wallY).get(wallX).get(0) !== 'f') {
-                var distX = x - drone.get("x");
-                var distY = y - drone.get("y");
-                dist = distX * distX + distY * distY; // the distance from the player to this point, squared.
-                textureX = y % 1; // where exactly are we on the wall? textureX is the x coordinate on the texture that we'll use later when texturing the wall.
-                if (!right)
-                    textureX = 1 - textureX; // if we're looking to the left side of the map, the texture should be reversed
-                xHit = x; // save the coordinates of the hit. We only really use these to draw the rays on minimap.
-                yHit = y;
-                xWallHit = wallX;
-                yWallHit = wallY;
-                // make horizontal walls shaded
-                wallIsShaded = true;
-                wallIsHorizontal = true;
-                break;
-            }
-            x = x + dXVer;
-            y = y + dYVer;
-        }
-        // now check against horizontal lines. It's basically the same, just "turned around".
-        // the only difference here is that once we hit a map block,
-        // we check if there we also found one in the earlier, vertical run. We'll know that if dist != 0.
-        // If so, we only register this hit if this distance is smaller.
-        var slope = angleCos / angleSin;
-        const dYHor = up ? -1 : 1;
-        const dXHor = dYHor * slope;
-        var y = up ? raycastConsts_ts_1.MMath.floor(drone.get("y")) : raycastConsts_ts_1.MMath.ceil(drone.get("y"));
-        var x = drone.get("x") + (y - drone.get("y")) * slope;
-        while (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
-            const wallY = (y + (up ? -1 : 0)) >> 0;
-            const wallX = (x) >> 0;
-            // if (materializedMap.get(wallX, wallY).type !== 'floor') {
-            if (matrix.get(wallY).get(wallX).get(0) !== 'f') {
-                const distX = x - drone.get("x");
-                const distY = y - drone.get("y");
-                const blockDist = distX * distX + distY * distY;
-                if (!dist || blockDist < dist) {
-                    dist = blockDist;
-                    xHit = x;
-                    yHit = y;
-                    xWallHit = wallX;
-                    yWallHit = wallY;
-                    textureX = x % 1;
-                    if (up)
-                        textureX = 1 - textureX;
-                    wallIsShaded = false;
-                }
-                break;
-            }
-            x = x + dXHor;
-            y = y + dYHor;
-        }
-        if (dist) {
-            // dist = MMath.sqrt(dist);
-            // use perpendicular distance to adjust for fish eye
-            // distorted_dist = correct_dist / cos(relative_angle_of_ray)
-            // dist = dist * MMath.cos(drone.get("direction") - rayAngle);
-            const correctedDistance = raycastConsts_ts_1.MMath.sqrt(dist) * raycastConsts_ts_1.MMath.cos(drone.get("direction") - rayAngle);
-            // now calc the position, height and width of the wall strip
-            // "real" wall height in the game world is 1 unit, the distance from the player to the screen is viewDist,
-            // thus the height on the screen is equal to wall_height_real * viewDist / dist
-            const height = raycastConsts_ts_1.MMath.round(exports.viewDist / correctedDistance);
-            // width is the same, but we have to stretch the texture to a factor of stripWidth to make it fill the strip correctly
-            const width = height * raycastConsts_ts_1.stripWidth;
-            var texX = raycastConsts_ts_1.MMath.round(textureX * width);
-            if (texX > width - raycastConsts_ts_1.stripWidth)
-                texX = width - raycastConsts_ts_1.stripWidth;
-            texX += (wallIsShaded ? width : 0);
-            return fromJS({
-                id: stripIdx,
-                rayDistance: correctedDistance,
-                x: xWallHit,
-                y: yWallHit,
-                style: ({
-                    height,
-                    width,
-                    texX,
-                    hit: matrix.get(yWallHit).get(xWallHit).get(0) === 'd',
-                }),
-            });
-        }
-        else {
-            return fromJS({
-                id: stripIdx,
-                rayDistance: 0,
-                x: 0,
-                y: 0,
-                style: {
-                    position: raycastConsts_ts_1.ABSOLLUTE,
-                    src: "/walls_3.png",
-                    height: 0, width: 0, left: 0, top: 0, zIndex: 0, clip: ""
-                },
-            });
-        }
-    });
-    console.log(Date.now() - startTime, "...render");
-    return rays;
-};
-module.exports = (payloadReponse) => {
-    // console.log("getrays", payloadReponse)
-    const matrix = fromJS(payloadReponse.ship.matrix);
-    const drones = fromJS(payloadReponse.drones);
-    const dronesWithRays = drones.map((drone) => {
-        return drone.update("rays", (rays) => {
-            return getRays(drone, matrix);
-        });
-    });
-    var shipMap = {};
-    if (dronesWithRays) {
-        dronesWithRays.forEach((drone, ndx) => {
-            if (drone.get("rays")) {
-                drone.get("rays").forEach((ray) => {
-                    var x0 = raycastConsts_ts_1.MMath.round(drone.get("x"));
-                    var y0 = raycastConsts_ts_1.MMath.round(drone.get("y"));
-                    var x1 = ray.get("x");
-                    var y1 = ray.get("y");
-                    var dx = Math.abs(x1 - x0);
-                    var dy = Math.abs(y1 - y0);
-                    var sx = (x0 < x1) ? 1 : -1;
-                    var sy = (y0 < y1) ? 1 : -1;
-                    var err = dx - dy;
-                    var rayShouldContinue = true;
-                    while (rayShouldContinue) {
-                        if (!shipMap[y0])
-                            shipMap[y0] = {};
-                        if (shipMap[y0][x0]) {
-                            // rayShouldContinue = false;
-                        }
-                        else {
-                            shipMap[y0][x0] = matrix.get(y0).get(x0);
-                            rayShouldContinue = true;
-                        }
-                        if ((x0 === x1) && (y0 === y1)) {
-                            rayShouldContinue = false;
-                        }
-                        var e2 = 2 * err;
-                        if (e2 > -dy) {
-                            err -= dy;
-                            x0 += sx;
-                        }
-                        if (e2 < dx) {
-                            err += dx;
-                            y0 += sy;
-                        }
-                    }
-                });
-            }
-        });
-    }
-    const toREturn = { drones: dronesWithRays, shipMap: fromJS(shipMap) };
-    // console.log("done rendering")
-    return toREturn;
-};
-
-
-/***/ }),
-
 /***/ "./src/apps/electron/index.js":
 /*!************************************!*\
   !*** ./src/apps/electron/index.js ***!
   \************************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -29397,7 +29595,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _redux_selectorsFactory_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./redux/selectorsFactory.js */ "./src/apps/electron/redux/selectorsFactory.js");
 /* harmony import */ var _ipcsocketHandlers_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ipcsocketHandlers.js */ "./src/apps/electron/ipcsocketHandlers.js");
 /* harmony import */ var _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./websocketFactory.ts */ "./src/apps/electron/websocketFactory.ts");
-/* harmony import */ var _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _redux_store_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./redux/store.js */ "./src/apps/electron/redux/store.js");
 
 
@@ -29411,11 +29608,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const websocket = _websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7___default()(_redux_store_js__WEBPACK_IMPORTED_MODULE_8__["default"])
-const ipc = Object(_ipcFactory__WEBPACK_IMPORTED_MODULE_4__["default"])(_redux_store_js__WEBPACK_IMPORTED_MODULE_8__["default"])
+const websocket = (0,_websocketFactory_ts__WEBPACK_IMPORTED_MODULE_7__.default)(_redux_store_js__WEBPACK_IMPORTED_MODULE_8__.default)
+const ipc = (0,_ipcFactory__WEBPACK_IMPORTED_MODULE_4__.default)(_redux_store_js__WEBPACK_IMPORTED_MODULE_8__.default)
 
-const selectors = Object(_redux_selectorsFactory_js__WEBPACK_IMPORTED_MODULE_5__["default"])(ipc, websocket)
-const ipcsocketHandlers = Object(_ipcsocketHandlers_js__WEBPACK_IMPORTED_MODULE_6__["default"])(ipc, websocket, _redux_store_js__WEBPACK_IMPORTED_MODULE_8__["default"], selectors);
+const selectors = (0,_redux_selectorsFactory_js__WEBPACK_IMPORTED_MODULE_5__.default)(ipc, websocket)
+const ipcsocketHandlers = (0,_ipcsocketHandlers_js__WEBPACK_IMPORTED_MODULE_6__.default)(ipc, websocket, _redux_store_js__WEBPACK_IMPORTED_MODULE_8__.default, selectors);
 
 ipc.init(ipcsocketHandlers, selectors)
 websocket.init(selectors)
@@ -29428,12 +29625,12 @@ let serverProcess
 
 function createWindow() {
 
-  clientWin = new electron__WEBPACK_IMPORTED_MODULE_1__["BrowserWindow"]({
+  clientWin = new electron__WEBPACK_IMPORTED_MODULE_1__.BrowserWindow({
     width: 1000,
     height: 700,
     webPreferences: {
       nodeIntegration: true,
-      preload: path__WEBPACK_IMPORTED_MODULE_0___default.a.resolve('dist', 'preload.js'),
+      preload: path__WEBPACK_IMPORTED_MODULE_0___default().resolve('dist', 'preload.js'),
     },
     title: "SpaceTrash v0.0.8"
   })
@@ -29447,7 +29644,7 @@ function createWindow() {
   })
 }
 
-electron__WEBPACK_IMPORTED_MODULE_1__["app"].on('ready', async () => {
+electron__WEBPACK_IMPORTED_MODULE_1__.app.on('ready', async () => {
   createWindow()
 })
 
@@ -29458,16 +29655,22 @@ electron__WEBPACK_IMPORTED_MODULE_1__["app"].on('ready', async () => {
 /*!*****************************************!*\
   !*** ./src/apps/electron/ipcFactory.js ***!
   \*****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var node_ipc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! node-ipc */ "./node_modules/node-ipc/node-ipc.js");
 /* harmony import */ var node_ipc__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(node_ipc__WEBPACK_IMPORTED_MODULE_0__);
 
 
-/* harmony default export */ __webpack_exports__["default"] = ((store) => {
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((store) => {
 
   function init(handlers, selectors) {
     const socketName = "spaceTrash"
@@ -29475,8 +29678,8 @@ __webpack_require__.r(__webpack_exports__);
     node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.config.id = socketName
     node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.config.silent = true
 
-    node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.serve(() => {
-      node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.on('message', (data, socket) => {
+    node_ipc__WEBPACK_IMPORTED_MODULE_0___default().serve(() => {
+      node_ipc__WEBPACK_IMPORTED_MODULE_0___default().server.on('message', (data, socket) => {
         // console.log("message", data)
         selectors.selectAndBroadcastEverything(store.getState())
 
@@ -29491,7 +29694,7 @@ __webpack_require__.r(__webpack_exports__);
         if (handlers[name]) {
           handlers[name](args).then(
             result => {
-              node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(
+              node_ipc__WEBPACK_IMPORTED_MODULE_0___default().server.emit(
                 socket,
                 'message',
                 JSON.stringify({
@@ -29504,7 +29707,7 @@ __webpack_require__.r(__webpack_exports__);
             error => {
               // Up to you how to handle errors, if you want to forward
               // them, etc
-              node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(
+              node_ipc__WEBPACK_IMPORTED_MODULE_0___default().server.emit(
                 socket,
                 'message',
                 JSON.stringify({
@@ -29517,7 +29720,7 @@ __webpack_require__.r(__webpack_exports__);
           )
         } else {
           console.warn('Unknown method: ' + name)
-          node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.emit(
+          node_ipc__WEBPACK_IMPORTED_MODULE_0___default().server.emit(
             socket,
             'message',
             JSON.stringify({
@@ -29530,12 +29733,12 @@ __webpack_require__.r(__webpack_exports__);
       })
     })
 
-    node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.start()
+    node_ipc__WEBPACK_IMPORTED_MODULE_0___default().server.start()
   }
 
   function send(name, args) {
     // console.log("ipc send", name, args)
-    node_ipc__WEBPACK_IMPORTED_MODULE_0___default.a.server.broadcast('message', JSON.stringify({
+    node_ipc__WEBPACK_IMPORTED_MODULE_0___default().server.broadcast('message', JSON.stringify({
       type: 'push',
       name,
       args
@@ -29555,11 +29758,17 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************!*\
   !*** ./src/apps/electron/ipcsocketHandlers.js ***!
   \************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fs */ "fs");
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -29568,7 +29777,7 @@ const {
   dialog
 } = __webpack_require__(/*! electron */ "electron")
 
-/* harmony default export */ __webpack_exports__["default"] = ((ipcSocket, webSocket, store, selectors) => {
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((ipcSocket, webSocket, store, selectors) => {
 
   let handlers = {}
 
@@ -29589,7 +29798,7 @@ const {
         type: "PICK_DASHBOARD",
         payload: {
           fileName: folder.filePaths[0],
-          fileContents: fs__WEBPACK_IMPORTED_MODULE_0___default.a.readFileSync(folder.filePaths[0], {encoding: 'utf8',flag: 'r'})
+          fileContents: fs__WEBPACK_IMPORTED_MODULE_0___default().readFileSync(folder.filePaths[0], {encoding: 'utf8',flag: 'r'})
         }
       })
     }).then(() =>{
@@ -29608,7 +29817,7 @@ const {
         type: "PICK_AUTOPILOT",
         payload: {
           fileName: folder.filePaths[0],
-          fileContents: fs__WEBPACK_IMPORTED_MODULE_0___default.a.readFileSync(folder.filePaths[0], {encoding: 'utf8',flag: 'r'})
+          fileContents: fs__WEBPACK_IMPORTED_MODULE_0___default().readFileSync(folder.filePaths[0], {encoding: 'utf8',flag: 'r'})
         }
       })
     }).then(() =>{
@@ -29627,7 +29836,7 @@ const {
         type: "PICK_SHIPYARD",
         payload: {
           fileName: folder.filePaths[0],
-          fileContents: fs__WEBPACK_IMPORTED_MODULE_0___default.a.readFileSync(folder.filePaths[0], {encoding: 'utf8',flag: 'r'})
+          fileContents: fs__WEBPACK_IMPORTED_MODULE_0___default().readFileSync(folder.filePaths[0], {encoding: 'utf8',flag: 'r'})
         }
       })
     }).then(() =>{
@@ -29808,106 +30017,21 @@ const {
 
 /***/ }),
 
-/***/ "./src/apps/electron/redux/initialState.ts":
-/*!*************************************************!*\
-  !*** ./src/apps/electron/redux/initialState.ts ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const immutable_1 = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
-exports.default = immutable_1.fromJS({
-    shipMap: {},
-    drones: [],
-    sourceFolder: false,
-    userViews: [],
-    userShips: [],
-    userAis: [],
-    dashBoard: {},
-    autoPilot: {},
-    shipYard: {},
-    sessionId: false
-});
-
-
-/***/ }),
-
-/***/ "./src/apps/electron/redux/reducers.ts":
-/*!*********************************************!*\
-  !*** ./src/apps/electron/redux/reducers.ts ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const immutable_1 = __webpack_require__(/*! immutable */ "./node_modules/immutable/dist/immutable.es.js");
-const initialState_ts_1 = __webpack_require__(/*! ./initialState.ts */ "./src/apps/electron/redux/initialState.ts");
-const updatedDroneRays = __webpack_require__(/*! ../getRays.ts */ "./src/apps/electron/getRays.ts");
-exports.default = (state = initialState_ts_1.default, action) => {
-    // console.log(action)
-    switch (action.type) {
-        case "SET_SESSION_ID": {
-            return state.set("sessionId", action.payload);
-        }
-        case "PICK_DASHBOARD": {
-            return state.set("dashBoard", action.payload);
-        }
-        case "PICK_AUTOPILOT": {
-            return state.set("autoPilot", action.payload);
-        }
-        case "PICK_SHIPYARD": {
-            return state.set("shipYard", action.payload);
-        }
-        case "SET_SHIP_DATA": {
-            return state.set("shipMap", action.payload.shipMap.gridMap);
-        }
-        case "ADD_USER_VIEW": {
-            return state.set("userViews", state.get("userViews").concat(action.payload));
-        }
-        case "ADD_USER_SHIP": {
-            return state.set("userShips", state.get("userShips").concat(action.payload));
-        }
-        case "ADD_USER_AI": {
-            return state.set("userAis", state.get("userAis").concat(action.payload));
-        }
-        case "PACK_ERRORS": {
-            return state.set("packErrors", action.payload);
-        }
-        case "RECEIVE_UPDATE": {
-            return state.set("message", action.payload.message);
-        }
-        case "RECEIVE_UPDATE_FROM_SERVER": {
-            // debugger
-            const { drones, shipMap } = updatedDroneRays(action.payload);
-            return state.set("drones", immutable_1.fromJS(drones)).set("shipMap", immutable_1.fromJS(shipMap));
-        }
-        case "PICK_FOLDER": {
-            return state.set("sourceFolder", action.payload);
-        }
-        default:
-            console.log("IDK", action);
-            return state;
-    }
-    return state;
-};
-
-
-/***/ }),
-
 /***/ "./src/apps/electron/redux/selectorsFactory.js":
 /*!*****************************************************!*\
   !*** ./src/apps/electron/redux/selectorsFactory.js ***!
   \*****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fs */ "fs");
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
@@ -29915,14 +30039,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ((ipcSocket, webSocket) => {
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((ipcSocket, webSocket) => {
 
   const baseSelector = ((state) => {
     // console.log('baseSelector')
     return state
   });
 
-  const selectAndBroadcastEverything = Object(reselect__WEBPACK_IMPORTED_MODULE_1__["createSelector"])([baseSelector], (base) => {
+  const selectAndBroadcastEverything = (0,reselect__WEBPACK_IMPORTED_MODULE_1__.createSelector)([baseSelector], (base) => {
     // console.log('selectAndBroadcastEverything', base.toJS())
 
     const fileContents = base.getIn(["shipYard", "fileContents"]);
@@ -30063,131 +30187,26 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************!*\
   !*** ./src/apps/electron/redux/store.js ***!
   \******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _reducers_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducers.ts */ "./src/apps/electron/redux/reducers.ts");
-/* harmony import */ var _reducers_ts__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_reducers_ts__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./initialState.ts */ "./src/apps/electron/redux/initialState.ts");
-/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_initialState_ts__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _reducers_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./reducers.ts */ "./src/apps/electron/redux/reducers.ts");
+/* harmony import */ var _initialState_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./initialState.ts */ "./src/apps/electron/redux/initialState.ts");
 
 
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_ts__WEBPACK_IMPORTED_MODULE_1___default.a, _initialState_ts__WEBPACK_IMPORTED_MODULE_2___default.a));
-
-
-/***/ }),
-
-/***/ "./src/apps/electron/websocketFactory.ts":
-/*!***********************************************!*\
-  !*** ./src/apps/electron/websocketFactory.ts ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const http = __webpack_require__(/*! http */ "http");
-const WebSocket = __webpack_require__(/*! ws */ "./node_modules/ws/index.js");
-exports.default = (store) => {
-    var ws = new WebSocket('ws://localhost:5000');
-    ws.onerror = function (e) { console.log(`onerror: ${JSON.stringify(e)}`); };
-    ws.onclose = function (e) { console.log(`onclose: ${JSON.stringify(e)}`); };
-    ws.onopen = function (e) {
-        // console.log(`onopen: ${JSON.stringify(e)}`)
-    };
-    return {
-        init: (selectors) => {
-            ws.onmessage = function (e) {
-                const data = JSON.parse(e.data);
-                // console.log(`onmessage`, data)
-                if (data.msg === "user joined") {
-                }
-                else if (data.msg.updateFromCloud) {
-                    store.dispatch({ type: "RECEIVE_UPDATE_FROM_SERVER", payload: data.msg.updateFromCloud });
-                    selectors.selectAndBroadcastEverything(store.getState());
-                }
-                else {
-                    store.dispatch({ type: "RECEIVE_UPDATE", payload: data.msg });
-                    selectors.selectAndBroadcastEverything(store.getState());
-                }
-            };
-        },
-        openSession: () => {
-            const sessionId = store.getState().get("sessionId");
-            ws.send(JSON.stringify({ join: `session-${sessionId}` }));
-            ws.send(JSON.stringify({ join: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56` }));
-            return ws.send(JSON.stringify({
-                msg: { load: true },
-                room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
-            }));
-        },
-        ping: () => {
-            return ws.send(JSON.stringify({ msg: "ping" }));
-        },
-        load: () => {
-            const sessionId = store.getState().get("sessionId");
-            ws.send(JSON.stringify({ join: `session-${sessionId}` }));
-            ws.send(JSON.stringify({ join: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56` }));
-            return ws.send(JSON.stringify({
-                msg: { load: true },
-                room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
-            }));
-        },
-        enqueue: (commands) => {
-            const sessionId = store.getState().get("sessionId");
-            return ws.send(JSON.stringify({
-                msg: { enqueue: commands },
-                room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
-            }));
-        },
-        send: (message) => {
-            const sessionId = store.getState().get("sessionId");
-            ws.send(JSON.stringify({
-                msg: message,
-                room: `session-${sessionId}-user-5f48a50a6f5e6f4ecb568e56`
-            }));
-        },
-        websocket: ws
-    };
-};
-
-
-/***/ }),
-
-/***/ "./src/raycastConsts.ts":
-/*!******************************!*\
-  !*** ./src/raycastConsts.ts ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_1 = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-exports.stripWidth = 1;
-exports.ABSOLLUTE = 'absolute';
-exports.screenWidth = 320;
-exports.screenHeight = 200;
-const precision = 3;
-exports.MMath = {
-    round: lodash_1.memoize((a) => Math.round(a)),
-    ceil: lodash_1.memoize((a) => Math.ceil(a)),
-    floor: lodash_1.memoize((a) => Math.floor(a)),
-    sqrt: lodash_1.memoize((a) => Math.sqrt(a.toFixed(precision))),
-    pow: lodash_1.memoize((a, b) => Math.pow(a.toFixed(precision), b)),
-    sin: lodash_1.memoize((a) => Math.sin(a.toFixed(precision))),
-    asin: lodash_1.memoize((a) => Math.asin(a.toFixed(precision))),
-    cos: lodash_1.memoize((a) => Math.cos(a.toFixed(precision))),
-    tan: lodash_1.memoize((a) => Math.tan(a.toFixed(precision))),
-};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,redux__WEBPACK_IMPORTED_MODULE_2__.createStore)(_reducers_ts__WEBPACK_IMPORTED_MODULE_0__.default, _initialState_ts__WEBPACK_IMPORTED_MODULE_1__.default));
 
 
 /***/ }),
@@ -30196,9 +30215,11 @@ exports.MMath = {
 /*!********************************!*\
   !*** external "child_process" ***!
   \********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("child_process");
 
 /***/ }),
@@ -30207,9 +30228,11 @@ module.exports = require("child_process");
 /*!*************************!*\
   !*** external "crypto" ***!
   \*************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("crypto");
 
 /***/ }),
@@ -30218,9 +30241,11 @@ module.exports = require("crypto");
 /*!************************!*\
   !*** external "dgram" ***!
   \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("dgram");
 
 /***/ }),
@@ -30229,9 +30254,11 @@ module.exports = require("dgram");
 /*!***************************!*\
   !*** external "electron" ***!
   \***************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("electron");
 
 /***/ }),
@@ -30240,9 +30267,11 @@ module.exports = require("electron");
 /*!*************************!*\
   !*** external "events" ***!
   \*************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("events");
 
 /***/ }),
@@ -30251,9 +30280,11 @@ module.exports = require("events");
 /*!*********************!*\
   !*** external "fs" ***!
   \*********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("fs");
 
 /***/ }),
@@ -30262,9 +30293,11 @@ module.exports = require("fs");
 /*!***********************!*\
   !*** external "http" ***!
   \***********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("http");
 
 /***/ }),
@@ -30273,9 +30306,11 @@ module.exports = require("http");
 /*!************************!*\
   !*** external "https" ***!
   \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("https");
 
 /***/ }),
@@ -30284,9 +30319,11 @@ module.exports = require("https");
 /*!**********************!*\
   !*** external "net" ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("net");
 
 /***/ }),
@@ -30295,9 +30332,11 @@ module.exports = require("net");
 /*!*********************!*\
   !*** external "os" ***!
   \*********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("os");
 
 /***/ }),
@@ -30306,9 +30345,11 @@ module.exports = require("os");
 /*!***********************!*\
   !*** external "path" ***!
   \***********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("path");
 
 /***/ }),
@@ -30317,9 +30358,11 @@ module.exports = require("path");
 /*!*************************!*\
   !*** external "stream" ***!
   \*************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("stream");
 
 /***/ }),
@@ -30328,9 +30371,11 @@ module.exports = require("stream");
 /*!**********************!*\
   !*** external "tls" ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("tls");
 
 /***/ }),
@@ -30339,9 +30384,11 @@ module.exports = require("tls");
 /*!**********************!*\
   !*** external "url" ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("url");
 
 /***/ }),
@@ -30350,9 +30397,11 @@ module.exports = require("url");
 /*!***********************!*\
   !*** external "util" ***!
   \***********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("util");
 
 /***/ }),
@@ -30361,12 +30410,113 @@ module.exports = require("util");
 /*!***********************!*\
   !*** external "zlib" ***!
   \***********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/***/ ((module) => {
 
+"use strict";
 module.exports = require("zlib");
 
 /***/ })
 
-/******/ });
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => module['default'] :
+/******/ 				() => module;
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/harmony module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.hmd = (module) => {
+/******/ 			module = Object.create(module);
+/******/ 			if (!module.children) module.children = [];
+/******/ 			Object.defineProperty(module, 'exports', {
+/******/ 				enumerable: true,
+/******/ 				set: () => {
+/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
+/******/ 				}
+/******/ 			});
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	// startup
+/******/ 	// Load entry module
+/******/ 	__webpack_require__("./src/apps/electron/index.js");
+/******/ 	// This entry module used 'exports' so it can't be inlined
+/******/ })()
+;
 //# sourceMappingURL=electron.bundle.js.map

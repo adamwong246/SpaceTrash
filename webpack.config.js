@@ -84,7 +84,6 @@ const commonConfig = {
   ]
 };
 
-const server = require("./src/apps/server/webpack.config.js")
 
 const electronRendererConfig = lodash.cloneDeep(commonConfig);
 electronRendererConfig.entry = ["@babel/polyfill", './src/apps/client/index.tsx'];
@@ -92,16 +91,14 @@ electronRendererConfig.target = 'electron-renderer';
 electronRendererConfig.output.filename = 'client.bundle.js';
 electronRendererConfig.plugins = [
   ...commonConfig.plugins,
-  new HtmlWebpackPlugin({
-    template: path.resolve(__dirname, 'src/apps/client/index.html'),
-  }),
-  new webpack.DefinePlugin({
-    __MODE__: JSON.stringify('full')
-  }),
   new CopyWebpackPlugin([{
-    from: './src/apps/imags',
+    from: './src/apps/images',
     to: 'images'
   }]),
+  new CopyWebpackPlugin([{
+    from: './src/apps/client/index.html',
+    to: 'index.html'
+  }, ]),
 ];
 
 const electronMainConfig = lodash.cloneDeep(commonConfig);
@@ -110,36 +107,35 @@ electronMainConfig.target = 'electron-main';
 electronMainConfig.output.filename = 'electron.bundle.js';
 electronMainConfig.plugins = [
   ...commonConfig.plugins,
-
   new CopyWebpackPlugin([{
     from: './src/apps/electron/preload.js',
     to: 'preload.js'
   }, ]),
 ];
 
-// just copy, don't pack. Ignore the warnings.
-const aiHarnessConfig = lodash.cloneDeep(commonConfig);
-aiHarnessConfig.output.filename = 'aiHarness.js';
-aiHarnessConfig.plugins = [
-  ...commonConfig.plugins,
-  new CopyWebpackPlugin([{
-    from: './src/apps/aiHarness/index.js',
-    to: 'aiHarness.js'
-  }, ]),
-];
-
-const dashboardBundle = lodash.cloneDeep(commonConfig);
-dashboardBundle.output.filename = 'dashboard.js';
-dashboardBundle.target = 'web',
-dashboardBundle.entry = './src/exampleUserConfig/src/MultiView.tsx',
-dashboardBundle.plugins = [
-  ...commonConfig.plugins,
-];
-dashboardBundle.optimization = {
-  splitChunks: {
-    chunks: 'all',
-  },
-}
+// // just copy, don't pack. Ignore the warnings.
+// const aiHarnessConfig = lodash.cloneDeep(commonConfig);
+// aiHarnessConfig.output.filename = 'aiHarness.js';
+// aiHarnessConfig.plugins = [
+//   ...commonConfig.plugins,
+//   new CopyWebpackPlugin([{
+//     from: './src/apps/aiHarness/index.js',
+//     to: 'aiHarness.js'
+//   }, ]),
+// ];
+//
+// const dashboardBundle = lodash.cloneDeep(commonConfig);
+// dashboardBundle.output.filename = 'dashboard.js';
+// dashboardBundle.target = 'web',
+// dashboardBundle.entry = './src/exampleUserConfig/src/MultiView.tsx',
+// dashboardBundle.plugins = [
+//   ...commonConfig.plugins,
+// ];
+// dashboardBundle.optimization = {
+//   splitChunks: {
+//     chunks: 'all',
+//   },
+// }
 // dashboardBundle.optimization = {
 //   runtimeChunk: 'single',
 //   splitChunks: {
@@ -163,32 +159,34 @@ dashboardBundle.optimization = {
 // };
 
 
-const autopilotBundle = lodash.cloneDeep(commonConfig);
-autopilotBundle.output.filename = 'autopilot.js';
-autopilotBundle.target = 'node',
-  autopilotBundle.entry = './src/exampleUserConfig/src/ai.js',
-  autopilotBundle.plugins = [
-    ...commonConfig.plugins,
-  ];
+// const autopilotBundle = lodash.cloneDeep(commonConfig);
+// autopilotBundle.output.filename = 'autopilot.js';
+// autopilotBundle.target = 'node',
+//   autopilotBundle.entry = './src/exampleUserConfig/src/ai.js',
+//   autopilotBundle.plugins = [
+//     ...commonConfig.plugins,
+//   ];
+//
+// const shipfactoryBundle = lodash.cloneDeep(commonConfig);
+//
+// shipfactoryBundle.externals = {};
+// shipfactoryBundle.output.filename = 'shipFactory.js';
+// shipfactoryBundle.target = 'node',
+//   shipfactoryBundle.entry = './src/exampleUserConfig/src/ship4.js',
+//   shipfactoryBundle.plugins = [
+//     ...commonConfig.plugins,
+//   ];
 
-const shipfactoryBundle = lodash.cloneDeep(commonConfig);
-
-shipfactoryBundle.externals = {};
-shipfactoryBundle.output.filename = 'shipFactory.js';
-shipfactoryBundle.target = 'node',
-  shipfactoryBundle.entry = './src/exampleUserConfig/src/ship4.js',
-  shipfactoryBundle.plugins = [
-    ...commonConfig.plugins,
-  ];
+// const server = require("./src/apps/server/webpack.config.js")
 
 module.exports = [
-  server,
+  // server,
   electronMainConfig,
   electronRendererConfig,
 
-  dashboardBundle,
-  autopilotBundle,
-  shipfactoryBundle,
+  // dashboardBundle,
+  // autopilotBundle,
+  // shipfactoryBundle,
 
   // aiHarnessConfig,
 
