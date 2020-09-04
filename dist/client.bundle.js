@@ -207,6 +207,169 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
+/***/ "./node_modules/async-selector/dist/index.js":
+/*!***************************************************!*\
+  !*** ./node_modules/async-selector/dist/index.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+exports.createAsyncSelector = createAsyncSelector;
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function validateParams(params) {
+  if ((typeof params === "undefined" ? "undefined" : _typeof(params)) !== "object" || params === null) {
+    throw new Error("An object of parameters must be passed in");
+  }
+  if (typeof params.async !== "function") {
+    throw new Error('Looking for a function called "async". This function returns a promise which handles asynchronous code');
+  }
+}
+
+function hasChanged(oldValues, newValues) {
+  if (oldValues === null) return true;
+  if (oldValues.length !== newValues.length) return true;
+  for (var i = 0; i < oldValues.length; i++) {
+    if (newValues[i] !== oldValues[i]) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function createResultObject(value, previous, isWaiting, isResolved, isRejected, omitStatus) {
+  if (omitStatus) return value;
+  return { value: value, previous: previous, isWaiting: isWaiting, isResolved: isResolved, isRejected: isRejected };
+}
+
+var emptyFunction = function emptyFunction() {};
+
+function createAsyncSelector(params) {
+  for (var _len = arguments.length, selectors = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    selectors[_key - 1] = arguments[_key];
+  }
+
+  validateParams(params);
+
+  // if they passed in an array
+  if (selectors.length === 1 && Array.isArray(selectors[0])) {
+    selectors = selectors[0];
+  }
+
+  // User inputs
+  var sync = params.sync,
+      async = params.async,
+      onReject = params.onReject,
+      onResolve = params.onResolve,
+      onCancel = params.onCancel,
+      shouldUseAsync = params.shouldUseAsync,
+      omitStatus = params.omitStatus,
+      throttle = params.throttle;
+
+  sync = typeof sync === "function" ? sync : emptyFunction;
+  onReject = typeof onReject === "function" ? onReject : emptyFunction;
+  onResolve = typeof onResolve === "function" ? onResolve : emptyFunction;
+  onCancel = typeof onCancel === "function" ? onCancel : emptyFunction;
+  shouldUseAsync = typeof shouldUseAsync === "function" ? shouldUseAsync : function () {
+    return true;
+  };
+  omitStatus = omitStatus === void 0 ? false : omitStatus;
+  throttle = typeof throttle === "function" ? throttle : null;
+
+  //selector state
+  var memoizedResult = null;
+  var isPromisePending = false;
+  var oldInputs = null;
+  var oldPromise = null;
+  var previousResolution = void 0;
+  var f = null;
+
+  var func = function func(state, props) {
+    var forceUpdate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+    var internal = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+    var mapped = selectors.map(function (f) {
+      return f(state, props);
+    });
+    var changed = forceUpdate || hasChanged(oldInputs, mapped);
+    if (changed) {
+      /*  Handle throttling / debouncing if required */
+      if (f !== null && internal === false && forceUpdate === false) {
+        f(state, props, forceUpdate);
+        memoizedResult = createResultObject(sync.apply(undefined, _toConsumableArray(mapped)), previousResolution, true, false, false, omitStatus);
+        return memoizedResult;
+      }
+      /* //////////////////////////////////////////// */
+
+      if (isPromisePending) {
+        onCancel.apply(undefined, [oldPromise].concat(_toConsumableArray(oldInputs)));
+      }
+      oldInputs = mapped;
+
+      memoizedResult = createResultObject(sync.apply(undefined, _toConsumableArray(mapped)), previousResolution, true, false, false, omitStatus);
+
+      if (!shouldUseAsync.apply(undefined, _toConsumableArray(mapped))) {
+        return memoizedResult;
+      }
+      var promise = params.async.apply(params, _toConsumableArray(mapped));
+      oldPromise = promise;
+      isPromisePending = true;
+      promise.then(function (promiseResolution) {
+        if (forceUpdate || !hasChanged(oldInputs, mapped)) {
+          previousResolution = promiseResolution;
+          isPromisePending = false;
+          memoizedResult = createResultObject(promiseResolution, previousResolution, false, true, false, omitStatus);
+          onResolve.apply(undefined, [promiseResolution].concat(_toConsumableArray(mapped)));
+        }
+      }).catch(function (promiseRejection) {
+        if (forceUpdate || !hasChanged(oldInputs, mapped)) {
+          isPromisePending = false;
+          memoizedResult = createResultObject(promiseRejection, previousResolution, false, false, true, omitStatus);
+          onReject.apply(undefined, [promiseRejection].concat(_toConsumableArray(mapped)));
+        }
+      });
+    }
+    // If the inputs didn't change, simply return the old memoized result
+    return memoizedResult;
+  };
+  if (throttle !== null && f === null) {
+    var throttled = throttle(function (state, props) {
+      return func(state, props, true, true);
+    });
+    var old = null;
+    f = function f(state, props) {
+      var New = selectors.map(function (s) {
+        return s(state, props);
+      });
+      if (hasChanged(old, New)) {
+        old = New;
+        throttled(state, props);
+      }
+    };
+  }
+  func.forceUpdate = function (state, props) {
+    return func(state, props, true, false);
+  };
+  func.getResult = function () {
+    return memoizedResult;
+  };
+  return func;
+}
+
+exports.default = createAsyncSelector;
+
+/***/ }),
+
 /***/ "./node_modules/classnames/index.js":
 /*!******************************************!*\
   !*** ./node_modules/classnames/index.js ***!
@@ -62287,12 +62450,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const selectors_js_1 = __webpack_require__(/*! ../redux/selectors.js */ "./src/apps/client/redux/selectors.js");
-const renderDashboard = (string, props) => {
-    if (!string)
-        return (React.createElement("span", null, "Nothing to render"));
-    const evaled = eval(string);
-    return new evaled.default().render(props);
-};
+// function load(url) {
+//   return new Promise(function(resolve, reject) {
+//     var script = document.createElement('script');
+//     script.type = 'text/javascript';
+//     script.async = true;
+//     script.src = url;
+//     script.onload = resolve;
+//     script.onerror = reject;
+//     document.head.appendChild(script);
+//   })
+// }
+//
+// const renderDashboard = (string, props) => {
+//   if (!string) return (<span>Nothing to render</span>)
+//
+//   load('./dashboard.js')
+//     .then(function(a, b) {
+//       console.log('Loaded!');
+//       debugger
+//     })
+//     .catch(function(err) {
+//       console.error('Something went wrong!', err);
+//       debugger
+//     })
+// }
 class TabDash extends React.Component {
     render() {
         const commandAutopilot = (payload) => {
@@ -62305,7 +62487,7 @@ class TabDash extends React.Component {
             this.props.dashBoard && React.createElement("p", null,
                 "loaded: ",
                 this.props.dashBoard.fileName),
-            this.props.dashBoard && renderDashboard(this.props.dashBoard.fileContents, { commandAutopilot, ...this.props })));
+            Window.MULTIVIEW ? new Window.MULTIVIEW().render({ commandAutopilot, ...this.props }) : (React.createElement("p", null, "Nothing to show"))));
     }
 }
 const mapStateToProps = state => {
@@ -62851,30 +63033,91 @@ exports.default = (state = initialState_ts_1.default, action) => {
 /*!********************************************!*\
   !*** ./src/apps/client/redux/selectors.js ***!
   \********************************************/
-/*! exports provided: getTabBotsProps, getTabRootProps, getTabAutoProps, getTabYardProps, getTabDashProps, getTabShipProps, getTabViewProps */
+/*! exports provided: getTabDashProps, getTabBotsProps, getTabRootProps, getTabAutoProps, getTabYardProps, getTabShipProps, getTabViewProps */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabDashProps", function() { return getTabDashProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabBotsProps", function() { return getTabBotsProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabRootProps", function() { return getTabRootProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabAutoProps", function() { return getTabAutoProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabYardProps", function() { return getTabYardProps; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabDashProps", function() { return getTabDashProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabShipProps", function() { return getTabShipProps; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTabViewProps", function() { return getTabViewProps; });
 /* harmony import */ var reselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
-/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store.js */ "./src/apps/client/redux/store.js");
+/* harmony import */ var async_selector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! async-selector */ "./node_modules/async-selector/dist/index.js");
+/* harmony import */ var async_selector__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(async_selector__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store.js */ "./src/apps/client/redux/store.js");
+
 
 
 
 
 const baseSelector = (state => state)
 
+
+const getDashboard = () => {
+  console.log("getDashboard")
+
+  if(Window.MULTIVIEW)  return new Promise(function(resolve, reject) {
+    resolve(true)
+  })
+
+  return new Promise(function(resolve, reject) {
+    console.log("swapping dashboards.js")
+    var script = document.getElementById('multiView');
+    // var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = './dashboard.js';
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.replaceChild(script, document.getElementById('multiView'));
+
+    // document.head.appendChild(script);
+
+
+    // var script = document.createElement('script');
+    // script.type = 'text/javascript';
+    // script.async = true;
+    // script.src = './main.dashboard.js';
+    // script.onload = resolve;
+    // script.onerror = reject;
+    // // document.head.replaceChild(script, document.getElementById('multiView'));
+    // document.head.appendChild(script);
+
+    resolve(true)
+  })
+};
+
+const params = {
+  sync: () => null,
+  async: getDashboard,
+  onResolve: () => console.log('resolved'),
+  onReject: (error) => console.log('error', error),
+  onCancel: (promise) => console.log('canceled', promise)
+};
+
+const selectDashboard = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], (base) => {
+  // console.log("selectDashboard")
+  return base.dashBoard
+})
+
+const selectMultivew = async_selector__WEBPACK_IMPORTED_MODULE_1___default()(params, [selectDashboard]);
+
+
+const getTabDashProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector, selectMultivew], (base, multiView) => {
+  return {
+    ...base,
+    dashBoard: multiView
+  }
+})
+
 const getTabBotsProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
   return {
     drones: base.drones,
-    dispatcher: (type, payload) => _store_js__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch({
+    dispatcher: (type, payload) => _store_js__WEBPACK_IMPORTED_MODULE_2__["default"].dispatch({
       type,
       payload
     })
@@ -62911,7 +63154,7 @@ const getTabYardProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
 
       // Create a state change callback
       xhr.onreadystatechange = (result) => {
-        console.log(result)
+        // console.log(result)
         // if (xhr.readyState === 4 && xhr.status === 200) {
         //
         //   // Print received data from server
@@ -62924,14 +63167,6 @@ const getTabYardProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSele
       base.yardedShip.drones = base.yardedShip.bots
       xhr.send(JSON.stringify(base.yardedShip));
     }
-  }
-})
-
-const getTabDashProps = Object(reselect__WEBPACK_IMPORTED_MODULE_0__["createSelector"])([baseSelector], base => {
-  debugger
-  return {
-    ...base,
-    dashBoard: base.dashBoard,
   }
 })
 

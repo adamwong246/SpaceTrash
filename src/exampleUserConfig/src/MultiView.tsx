@@ -2,6 +2,7 @@ import * as React from 'react';
 import Raycast from "../../apps/client/components/Raycast.tsx";
 import Commands from "../../apps/client/components/CommandsV2.tsx";
 
+console.log("HELLO FROM MULTIVIEW")
 class MultiView extends React.Component<{}, {}>{
   constructor(a) {
     super(a);
@@ -30,3 +31,5 @@ class MultiView extends React.Component<{}, {}>{
 };
 
 export default MultiView
+
+Window.MULTIVIEW = MultiView

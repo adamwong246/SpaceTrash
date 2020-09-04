@@ -16,6 +16,7 @@
     "@types/node-sass": "^4.11.0",
     "@types/react": "^16.9.13",
     "@types/react-dom": "^16.9.4",
+    "async-selector": "^1.0.26",
     "bluebird": "^3.7.2",
     "copy-webpack-plugin": "^5.1.1",
     "css-modules-typescript-loader": "^4.0.0",

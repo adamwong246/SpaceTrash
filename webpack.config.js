@@ -135,22 +135,51 @@ dashboardBundle.entry = './src/exampleUserConfig/src/MultiView.tsx',
 dashboardBundle.plugins = [
   ...commonConfig.plugins,
 ];
+dashboardBundle.optimization = {
+  splitChunks: {
+    chunks: 'all',
+  },
+}
+// dashboardBundle.optimization = {
+//   runtimeChunk: 'single',
+//   splitChunks: {
+//     chunks: 'all',
+//     maxInitialRequests: Infinity,
+//     minSize: 0,
+//     cacheGroups: {
+//       vendor: {
+//         test: /[\\/]node_modules[\\/]/,
+//         name(module) {
+//           // get the name. E.g. node_modules/packageName/not/this/part.js
+//           // or node_modules/packageName
+//           const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+//
+//           // npm package names are URL-safe, but some servers don't like @ symbols
+//           return `npm.${packageName.replace('@', '')}`;
+//         },
+//       },
+//     },
+//   },
+// };
+
 
 const autopilotBundle = lodash.cloneDeep(commonConfig);
 autopilotBundle.output.filename = 'autopilot.js';
 autopilotBundle.target = 'node',
-autopilotBundle.entry = './src/exampleUserConfig/src/ai.js',
-autopilotBundle.plugins = [
-  ...commonConfig.plugins,
-];
+  autopilotBundle.entry = './src/exampleUserConfig/src/ai.js',
+  autopilotBundle.plugins = [
+    ...commonConfig.plugins,
+  ];
 
 const shipfactoryBundle = lodash.cloneDeep(commonConfig);
+
+shipfactoryBundle.externals = {};
 shipfactoryBundle.output.filename = 'shipFactory.js';
 shipfactoryBundle.target = 'node',
-shipfactoryBundle.entry = './src/exampleUserConfig/src/ship4.js',
-shipfactoryBundle.plugins = [
-  ...commonConfig.plugins,
-];
+  shipfactoryBundle.entry = './src/exampleUserConfig/src/ship4.js',
+  shipfactoryBundle.plugins = [
+    ...commonConfig.plugins,
+  ];
 
 module.exports = [
   server,
