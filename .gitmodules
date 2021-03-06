@@ -1,3 +1,6 @@
 [submodule "src/node-express-passport-mongoose-auth"]
 	path = src/node-express-passport-mongoose-auth
 	url = https://github.com/didinj/node-express-passport-mongoose-auth.git
+[submodule "src/apps/experiments/rotFovReact/vendor/2d-visibility"]
+	path = src/apps/experiments/rotFovReact/vendor/2d-visibility
+	url = https://github.com/andrienko/2d-visibility.git
