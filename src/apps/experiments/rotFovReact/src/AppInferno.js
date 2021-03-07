@@ -4,7 +4,6 @@ import { createElement } from 'inferno-create-element';
 
 import * as ROT from "rot-js";
 import { createSelector } from "reselect";
-import FPSStats from "react-fps-stats";
 import { Rectangle } from '../vendor/2d-visibility/src/rectangle.ts';
 import { Segment } from '../vendor/2d-visibility/src/segment.ts';
 import { Point, Lightsource } from '../vendor/2d-visibility/src/point.ts';
@@ -25,8 +24,12 @@ const PointInTriangle = (pt, v1, v2, v3) => {
 };
 
 const initialState = {
-  fudge: 5,
+  fudge: 5, // zoom level
+  
+  // the dimensions of the map
+  width: 100,
   height: 100,
+
   knownMap: [],
   lightSource: {
     x: 0,
@@ -39,8 +42,7 @@ const initialState = {
   mouseY: 0,
   preloadedMap: [],
   visibility: [],
-  visibleMap: [],
-  width: 200
+  visibleMap: []
 };
 
 const markersSelector = state => state.markers;
@@ -48,7 +50,6 @@ const markersSelector = state => state.markers;
 const preloadedMapSelector = state => state.preloadedMap;
 
 const cameraLightMarkersSelector = createSelector([preloadedMapSelector, markersSelector], (preloadedMap, markers) => {
-  console.log("cameraLightMarkersSelector");
   return markers.map(marker => {
     return {
       x: marker.x,
@@ -65,6 +66,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = initialState;
+  }
+  
+  componentDidMount() {
+    this.resetMapDungeon()
   }
 
   resetMapDungeon(width = this.state.width, height = this.state.height) {
@@ -174,23 +179,6 @@ class App extends Component {
   }
 
   render() {
-    // const polylinePoints = visibility.reduce((mm, v) => {
-    //   const firstPoint = v[0];
-    //   const secondPoint = v[1];
-    //   const props = {
-    //     x1: (firstPoint.x || 0),
-    //     y1: (firstPoint.y || 0),
-    //     x2: (secondPoint.x || 0),
-    //     y2: (secondPoint.y || 0)
-    //   }
-    //   return mm.concat([
-    //     { x: props.x1, y: props.y1 },
-    //     { x: props.x2, y: props.y2 }
-    //   ])
-    // }, [{ x: lightSource.x, y: lightSource.y }])
-    //   .reduce((mm, points) => {
-    //     return mm + `${points.x},${points.y} `
-    //   }, "");
     const cameraLightMarkers = cameraLightMarkersSelector(this.state);
     const cameraLightMouse = new Lightsource(new Point(this.state.mouseX, this.state.mouseY), 10);
     const cameraLightMouseVisibility = calculateVisibility(cameraLightMouse, loadMap(this.state.preloadedMap, cameraLightMouse.position));
@@ -198,7 +186,7 @@ class App extends Component {
       return mm.concat(this.state.markers.filter(marker => {
         return this.isInTriangle(marker, vPoints, cameraLightMouse.position);
       }));
-    }, []); /////////
+    }, []);
 
     const litLayer = [];
     cameraLightMarkers.forEach(marker => {
@@ -253,7 +241,7 @@ class App extends Component {
           })
         }, "close"), createElement("div", {
           className: "overlay-content"
-        }, createElement("h1", null, "Duskers-like clone experiment #0"), createElement("p", null, "Move the mouse to change the position of the camera. Click to place a light source."), createElement("button", {
+        }, createElement("h1", null, "Duskers-like experiment #0"), createElement("p", null, "Move the mouse to change the position of the camera. Click to place a light source."), createElement("button", {
           onClick: e => this.resetMapDungeon()
         }, "make a dungeon"),
           createElement('pre', {}, JSON.stringify(filtered, null, 2)),

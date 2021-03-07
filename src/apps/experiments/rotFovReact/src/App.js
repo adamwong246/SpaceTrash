@@ -46,7 +46,6 @@ const markersSelector = state => state.markers
 const preloadedMapSelector = state => state.preloadedMap
 
 const cameraLightMarkersSelector = createSelector([preloadedMapSelector, markersSelector], (preloadedMap, markers) => {
-  console.log("cameraLightMarkersSelector")
   return markers.map((marker) => {
     return {
       x: marker.x,

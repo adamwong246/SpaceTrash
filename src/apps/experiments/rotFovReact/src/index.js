@@ -19,17 +19,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   // whenever the store changes...
   store.subscribe(() => {
-
-    // get the updated state of the app
-    const storeState = store.getState();
-
-    // insert the React app into the DOM
-    // const element = createElement('span', {}, 'Hello World');
-    const element = createElement(App, {storeState}, "")
-    // console.log(element, wrapper)
     wrapper
       ? render(
-        element, wrapper)
+        createElement(App, {storeState: store.getState()}, ""), wrapper)
       : false;
   })
 
