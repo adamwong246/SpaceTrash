@@ -26,6 +26,9 @@
   },
   "dependencies": {
     "fmath": "^1.0.1",
+    "inferno": "^7.4.8",
+    "inferno-compat": "^7.4.8",
+    "inferno-create-element": "^7.4.8",
     "react-fps-stats": "^0.1.3",
     "rot-js": "^2.1.5",
     "terser-webpack-plugin": "^5.1.1"
