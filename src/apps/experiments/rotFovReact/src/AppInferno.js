@@ -24,11 +24,11 @@ const PointInTriangle = (pt, v1, v2, v3) => {
 };
 
 const initialState = {
-  fudge: 5, // zoom level
-  
+  fudge: 10, // zoom level
+
   // the dimensions of the map
-  width: 100,
-  height: 100,
+  width: 50,
+  height: 50,
 
   knownMap: [],
   lightSource: {
@@ -37,7 +37,7 @@ const initialState = {
   },
   markers: [],
   menuOpen: false,
-  mode: "dbg",
+  mode: "fov",
   mouseX: 0,
   mouseY: 0,
   preloadedMap: [],
@@ -67,7 +67,7 @@ class App extends Component {
     super(props);
     this.state = initialState;
   }
-  
+
   componentDidMount() {
     this.resetMapDungeon()
   }
@@ -178,7 +178,36 @@ class App extends Component {
     return PointInTriangle(marker, light, points.first, points.second);
   }
 
+  knownMapCellFillAndStroke(value) {
+    if (value === "foo") { return { fill: 'gray' } }
+    console.log(value)
+    return { fill: 'gray' }
+  }
+
+  polylinePointsOf(origin, triangles, fudge){
+    return triangles.reduce((mm, v) => {
+      const firstPoint = v.first;
+      const secondPoint = v.second;
+      const props = {
+        x1: (firstPoint.x || 0),
+        y1: (firstPoint.y || 0),
+        x2: (secondPoint.x || 0),
+        y2: (secondPoint.y || 0)
+      }
+
+      return mm.concat([
+        { x: props.x1 * fudge, y: props.y1 * fudge },
+        { x: props.x2 * fudge, y: props.y2 * fudge }
+      ])
+    }, [{ x: origin.x * fudge, y: origin.y * fudge }])
+      .reduce((mm, points) => {
+        return mm + `${points.x},${points.y} `
+      }, "")
+  }
+
   render() {
+    const fudge = this.state.fudge;
+
     const cameraLightMarkers = cameraLightMarkersSelector(this.state);
     const cameraLightMouse = new Lightsource(new Point(this.state.mouseX, this.state.mouseY), 10);
     const cameraLightMouseVisibility = calculateVisibility(cameraLightMouse, loadMap(this.state.preloadedMap, cameraLightMouse.position));
@@ -194,38 +223,58 @@ class App extends Component {
         if (!litLayer[triangle.wall.y]) {
           litLayer[triangle.wall.y] = [];
         }
-
         litLayer[triangle.wall.y][triangle.wall.x] = triangle.wall.wallType;
       });
     });
+
+    // reset the visibleMap
     this.state.visibleMap = [];
     cameraLightMouseVisibility.forEach(vt => {
       if (!this.state.knownMap[vt.wall.y]) {
         this.state.knownMap[vt.wall.y] = [];
       }
-
       if (!this.state.visibleMap[vt.wall.y]) {
         this.state.visibleMap[vt.wall.y] = [];
       }
-
       if (litLayer[vt.wall.y] && litLayer[vt.wall.y][vt.wall.x]) {
-        this.state.knownMap[vt.wall.y][vt.wall.x] = vt.wall.wallType === "foo";
+        this.state.knownMap[vt.wall.y][vt.wall.x] = vt.wall.wallType;
         this.state.visibleMap[vt.wall.y][vt.wall.x] = vt.wall.wallType === "foo";
       }
     });
-    const fudge = this.state.fudge;
 
-    const allowed = ['fudge', 'width', 'height', 'mode'];
+
+    // const polylinePoints = cameraLightMouseVisibility.reduce((mm, v) => {
+    //   const firstPoint = v.first;
+    //   const secondPoint = v.second;
+    //   const props = {
+    //     x1: (firstPoint.x || 0),
+    //     y1: (firstPoint.y || 0),
+    //     x2: (secondPoint.x || 0),
+    //     y2: (secondPoint.y || 0)
+    //   }
+
+    //   return mm.concat([
+    //     { x: props.x1 * fudge, y: props.y1 * fudge },
+    //     { x: props.x2 * fudge, y: props.y2 * fudge }
+    //   ])
+    // }, [{ x: cameraLightMouse.position.x * fudge, y: cameraLightMouse.position.y * fudge }])
+    //   .reduce((mm, points) => {
+    //     return mm + `${points.x},${points.y} `
+    //   }, "");
+
+    
 
     const filtered = Object.keys(this.state)
-      .filter(key => allowed.includes(key))
+      .filter(key => ['fudge', 'width', 'height', 'mode'].includes(key))
       .reduce((obj, key) => {
         obj[key] = this.state[key];
         return obj;
       }, {});
 
-    return createElement("div", null,
+    return createElement("div", {},
       [
+        createElement("button", { id: "menuOpenButton", onClick: e => this.setState({ menuOpen: true }) }, 'menu'),
+
         createElement("div", {
           id: "myNav",
           className: "overlay",
@@ -234,46 +283,71 @@ class App extends Component {
           } : {
               width: "0%"
             }
-        }, createElement("button", {
-          className: "closebtn",
-          onClick: e => this.setState({
-            menuOpen: false
-          })
-        }, "close"), createElement("div", {
-          className: "overlay-content"
-        }, createElement("h1", null, "Duskers-like experiment #0"), createElement("p", null, "Move the mouse to change the position of the camera. Click to place a light source."), createElement("button", {
-          onClick: e => this.resetMapDungeon()
-        }, "make a dungeon"),
-          createElement('pre', {}, JSON.stringify(filtered, null, 2)),
-          createElement("br", null),
-          createElement("button", {
-            onClick: e => this.setState({
-              knownMap: []
-            })
-          }, "reset known map"), createElement("br", null), createElement("div", {
-            onChange: e => this.setState({
-              mode: e.target.value
-            })
+        }, [
+          createElement("div", {
+            className: "overlay-content"
           },
-            createElement("input", {
-              type: "radio",
-              value: "fgwr",
-              name: "mode",
-              onClick: e => this.setState({ mode: "fgwr" })
-            }), " Fog of War", createElement("input", {
-              type: "radio",
-              value: "dbg",
-              name: "mode",
-              onClick: e => this.setState({ mode: "dbg" })
-            }), " Debug"), createElement("h2", null, "Credits"), createElement("a", {
-              href: "https://github.com/andrienko/2d-visibility/tree/updated-versions"
-            }, "https://github.com/andrienko/2d-visibility/tree/updated-versions"), createElement("a", {
-              href: "https://www.redblobgames.com/articles/visibility/"
-            }, "https://www.redblobgames.com/articles/visibility/"), createElement("a", {
-              href: "https://ondras.github.io/rot.js"
-            }, "https://ondras.github.io/rot.js"))),
+            [
+              createElement("button", {
+                className: "closebtn",
+                onClick: e => this.setState({
+                  menuOpen: false
+                })
+              }, "close"),
 
-        createElement("button", { id: "menuOpenButton", onClick: e => this.setState({ menuOpen: true }) }, 'menu'),
+              createElement("h1", null, "Duskers-like experiment #0"), createElement("p", null, "Move the mouse to change the position of the camera. Click to place a light source."), createElement("button", {
+                onClick: e => this.resetMapDungeon()
+              }, "make a dungeon"),
+              createElement('pre', {}, JSON.stringify(filtered, null, 2)),
+              createElement("br", null),
+              createElement("button", {
+                onClick: e => this.setState({
+                  knownMap: []
+                })
+              }, "reset known map"), createElement("br", null), createElement("div", {
+                onChange: e => this.setState({
+                  mode: e.target.value
+                })
+              },
+                createElement('label', { for: "fgwr" }, 'Fog of War'),
+                createElement("input", {
+                  type: "radio",
+                  value: "fgwr",
+                  name: "mode",
+                  onClick: e => this.setState({ mode: "fgwr" })
+                }),
+
+                createElement('label', { for: "dbg" }, 'Lights and Camera'),
+                createElement("input", {
+                  type: "radio",
+                  value: "dbg",
+                  name: "mode",
+                  onClick: e => this.setState({ mode: "dbg" })
+                }),
+
+                createElement('label', { for: "fov" }, 'Field of View'),
+                createElement("input", {
+                  type: "radio",
+                  value: "fov",
+                  name: "mode",
+                  onClick: e => this.setState({ mode: "fov" })
+                }),
+
+                createElement("h2", null, "Credits"),
+
+                createElement("a", {
+                  href: "https://github.com/andrienko/2d-visibility/tree/updated-versions"
+                }, "https://github.com/andrienko/2d-visibility/tree/updated-versions"), createElement("a", {
+                  href: "https://www.redblobgames.com/articles/visibility/"
+                }, "https://www.redblobgames.com/articles/visibility/"), createElement("a", {
+                  href: "https://ondras.github.io/rot.js"
+                }, "https://ondras.github.io/rot.js"))
+            ]),
+        ]),
+
+
+
+
 
         createElement("svg", {
           width: "100%",
@@ -284,6 +358,23 @@ class App extends Component {
         },
 
           [
+
+              ...cameraLightMarkers.map((marker) => {
+                return createElement('polyline', {
+                  fill: "yellow",
+                  stroke: "black",
+                  points: this.polylinePointsOf(marker, marker.triangles, fudge)
+                });
+              }),
+
+              this.state.mode === "fov" && [
+                createElement('polyline', {
+                  fill: "blue",
+                  stroke: "black",
+                  points: this.polylinePointsOf(cameraLightMouse.position, cameraLightMouseVisibility, fudge)
+                }),
+                
+            ],
 
             this.state.mode === "dbg" && cameraLightMouseVisibility.map(v => {
               const firstPoint = v.first;
@@ -311,8 +402,8 @@ class App extends Component {
                 stroke: "blue"
               })];
             }),
-            
-            this.state.mode === "dbg" &&  cameraLightMarkers.map(marker => {
+
+            this.state.mode === "dbg" && cameraLightMarkers.map(marker => {
               return marker.triangles.map(triangle => {
                 return [createElement("line", {
                   x1: marker.x * fudge,
@@ -329,7 +420,7 @@ class App extends Component {
                 })];
               });
             }),
-            
+
             this.state.knownMap.map((row, y) => {
               return row.map((columnValue, x) => {
                 return columnValue ? createElement("rect", {
@@ -337,11 +428,11 @@ class App extends Component {
                   y: y * fudge,
                   width: fudge,
                   height: fudge,
-                  fill: "grey"
+                  ...this.knownMapCellFillAndStroke(columnValue),
                 }) : createElement('group', null);
               });
             }),
-            
+
             this.state.visibleMap.map((row, y) => {
               return row.map((columnValue, x) => {
                 return columnValue ? createElement("rect", {
@@ -349,12 +440,12 @@ class App extends Component {
                   y: y * fudge,
                   width: fudge,
                   height: fudge,
-                  fill: "black",
-                  stroke: "yellow"
+                  fill: "transparent",
+                  stroke: "black"
                 }) : createElement('group', null);
               });
             }),
-            
+
             directlyVisibleMarkers.map(marker => {
               return createElement("circle", {
                 cx: marker.x * fudge,
@@ -364,7 +455,7 @@ class App extends Component {
                 stroke: "yellow"
               });
             }),
-            
+
             createElement("circle", {
               cx: cameraLightMouse.position.x * fudge,
               cy: cameraLightMouse.position.y * fudge,
@@ -375,6 +466,8 @@ class App extends Component {
           ]
 
         )
+
+
       ]
     );
   }
