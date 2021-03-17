@@ -1,0 +1,1269 @@
+{
+  "segments": [
+    {
+      "id": -1,
+      "start": [
+        36,
+        11.000000000000002
+      ],
+      "end": [
+        36,
+        10
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        36,
+        10
+      ],
+      "end": [
+        36,
+        8.999999999999998
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        36,
+        8.999999999999996
+      ],
+      "end": [
+        36,
+        7.999999999999992
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        36.00000000000001,
+        8
+      ],
+      "end": [
+        37.00000000000001,
+        8
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        37.00000000000001,
+        8
+      ],
+      "end": [
+        38.00000000000001,
+        8
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        38.00000000000001,
+        8
+      ],
+      "end": [
+        39,
+        8
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        39,
+        8
+      ],
+      "end": [
+        39.99999999999999,
+        8
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        39.99999999999999,
+        8
+      ],
+      "end": [
+        40.99999999999999,
+        8
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        47.95652173913041,
+        0
+      ],
+      "end": [
+        47.999999999999986,
+        0
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        47.99999999999999,
+        0
+      ],
+      "end": [
+        49.00000000000003,
+        0
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        49.00000000000003,
+        0
+      ],
+      "end": [
+        49.99999999999998,
+        0
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        -1.825146777013875e-14
+      ],
+      "end": [
+        50,
+        1.0000000000000373
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        1.0000000000000373
+      ],
+      "end": [
+        50,
+        1.9999999999999944
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        1.9999999999999944
+      ],
+      "end": [
+        50,
+        2.999999999999968
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        2.999999999999968
+      ],
+      "end": [
+        50,
+        4.000000000000002
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        4.000000000000002
+      ],
+      "end": [
+        50,
+        5.000000000000007
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        5.000000000000007
+      ],
+      "end": [
+        50,
+        5.999999999999993
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        5.999999999999993
+      ],
+      "end": [
+        50,
+        6.9999999999999964
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        6.9999999999999964
+      ],
+      "end": [
+        50,
+        8.000000000000007
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        8.000000000000007
+      ],
+      "end": [
+        50,
+        8.999999999999996
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        8.999999999999996
+      ],
+      "end": [
+        50,
+        10.000000000000009
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        10.000000000000009
+      ],
+      "end": [
+        50,
+        10.999999999999991
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        10.999999999999991
+      ],
+      "end": [
+        50,
+        11.999999999999996
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        11.999999999999996
+      ],
+      "end": [
+        50,
+        12.999999999999996
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        12.999999999999996
+      ],
+      "end": [
+        50,
+        13.999999999999986
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        13.999999999999986
+      ],
+      "end": [
+        50,
+        15.000000000000018
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        15.000000000000018
+      ],
+      "end": [
+        50,
+        16.000000000000004
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        16.000000000000004
+      ],
+      "end": [
+        50,
+        17.00000000000002
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        17.00000000000002
+      ],
+      "end": [
+        50,
+        18.00000000000003
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        18.00000000000003
+      ],
+      "end": [
+        50,
+        18.999999999999982
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        18.999999999999982
+      ],
+      "end": [
+        50,
+        20.000000000000004
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        20.000000000000004
+      ],
+      "end": [
+        50,
+        21.000000000000057
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        21.000000000000057
+      ],
+      "end": [
+        50,
+        21.999999999999986
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        21.999999999999986
+      ],
+      "end": [
+        50,
+        22.999999999999982
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        22.999999999999982
+      ],
+      "end": [
+        50,
+        24.00000000000002
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        24.00000000000002
+      ],
+      "end": [
+        50,
+        25.000000000000057
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        25.000000000000057
+      ],
+      "end": [
+        50,
+        26.00000000000004
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        26.00000000000004
+      ],
+      "end": [
+        50,
+        27.00000000000008
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        27.00000000000008
+      ],
+      "end": [
+        50,
+        27.999999999999975
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        27.999999999999975
+      ],
+      "end": [
+        50,
+        28.999999999999872
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        28.999999999999872
+      ],
+      "end": [
+        50,
+        30.000000000000085
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        30.000000000000085
+      ],
+      "end": [
+        50,
+        30.999999999999957
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        30.999999999999957
+      ],
+      "end": [
+        50,
+        31.999999999999893
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        31.999999999999893
+      ],
+      "end": [
+        50,
+        33.00000000000009
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        33.00000000000009
+      ],
+      "end": [
+        50,
+        34.00000000000011
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        34.00000000000011
+      ],
+      "end": [
+        50,
+        35.000000000000014
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        35.000000000000014
+      ],
+      "end": [
+        50,
+        35.99999999999986
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        35.99999999999986
+      ],
+      "end": [
+        50,
+        36.99999999999994
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        36.99999999999994
+      ],
+      "end": [
+        50,
+        38.000000000000156
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        38.000000000000156
+      ],
+      "end": [
+        50,
+        39.00000000000013
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        39.00000000000013
+      ],
+      "end": [
+        50,
+        40.00000000000018
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        40.00000000000018
+      ],
+      "end": [
+        50,
+        40.999999999999766
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        40.999999999999766
+      ],
+      "end": [
+        50,
+        42.00000000000031
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        42.00000000000031
+      ],
+      "end": [
+        50,
+        43.00000000000034
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        43.000000000000334
+      ],
+      "end": [
+        50,
+        43.999999999999616
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        50,
+        43.999999999999616
+      ],
+      "end": [
+        50,
+        44.583333333333584
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        44.99999999999996,
+        29
+      ],
+      "end": [
+        43.999999999999964,
+        29
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        43.999999999999964,
+        29
+      ],
+      "end": [
+        42.999999999999964,
+        29
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        42.999999999999964,
+        29
+      ],
+      "end": [
+        41.999999999999936,
+        29
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        41.999999999999936,
+        29
+      ],
+      "end": [
+        40.99999999999995,
+        29
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        40.99999999999995,
+        29
+      ],
+      "end": [
+        40.00000000000004,
+        29
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        40.00000000000004,
+        29
+      ],
+      "end": [
+        39,
+        29
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        39,
+        25
+      ],
+      "end": [
+        37.99999999999999,
+        25
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        37.99999999999999,
+        25
+      ],
+      "end": [
+        36.999999999999986,
+        25
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        36.999999999999986,
+        25
+      ],
+      "end": [
+        35.99999999999994,
+        25
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        35.99999999999994,
+        25
+      ],
+      "end": [
+        35.00000000000004,
+        25
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        35.00000000000004,
+        25
+      ],
+      "end": [
+        34,
+        25
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        34,
+        25
+      ],
+      "end": [
+        33.00000000000003,
+        25
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        33.00000000000003,
+        25
+      ],
+      "end": [
+        32.562043795620454,
+        25
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        33,
+        24.00000000000003
+      ],
+      "end": [
+        33,
+        22.999999999999996
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        33,
+        22.999999999999996
+      ],
+      "end": [
+        33,
+        22.000000000000014
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        33,
+        22.000000000000014
+      ],
+      "end": [
+        33,
+        20.99999999999991
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        33,
+        20.99999999999991
+      ],
+      "end": [
+        33,
+        20.350000000000037
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        35,
+        17.000000000000025
+      ],
+      "end": [
+        35,
+        16.000000000000036
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        35,
+        16.000000000000036
+      ],
+      "end": [
+        35,
+        15.000000000000027
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        35,
+        15.000000000000027
+      ],
+      "end": [
+        35,
+        13.999999999999996
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        34.99999999999999,
+        14
+      ],
+      "end": [
+        34,
+        14
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        34,
+        13.999999999999998
+      ],
+      "end": [
+        34,
+        13.133333333333338
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        36,
+        12.000000000000004
+      ],
+      "end": [
+        36,
+        11.000000000000002
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    }
+  ],
+  "inverted": false
+}

@@ -1,0 +1,181 @@
+{
+  "segments": [
+    {
+      "id": -1,
+      "start": [
+        5,
+        5
+      ],
+      "end": [
+        11,
+        5
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        11,
+        5
+      ],
+      "end": [
+        11,
+        11
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        5,
+        5
+      ],
+      "end": [
+        11,
+        11
+      ],
+      "myFill": {
+        "above": false,
+        "below": true
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        13,
+        5
+      ],
+      "end": [
+        13,
+        13
+      ],
+      "myFill": {
+        "above": false,
+        "below": true
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        13,
+        13
+      ],
+      "end": [
+        15,
+        15
+      ],
+      "myFill": {
+        "above": false,
+        "below": true
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        13,
+        5
+      ],
+      "end": [
+        17.8,
+        8
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        15,
+        15
+      ],
+      "end": [
+        17.8,
+        8
+      ],
+      "myFill": {
+        "above": false,
+        "below": true
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        17.8,
+        8
+      ],
+      "end": [
+        19,
+        5
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        19,
+        5
+      ],
+      "end": [
+        26,
+        5
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        26,
+        5
+      ],
+      "end": [
+        26,
+        13.125
+      ],
+      "myFill": {
+        "above": true,
+        "below": false
+      },
+      "otherFill": null
+    },
+    {
+      "id": -1,
+      "start": [
+        17.8,
+        8
+      ],
+      "end": [
+        26,
+        13.125
+      ],
+      "myFill": {
+        "above": false,
+        "below": true
+      },
+      "otherFill": null
+    }
+  ],
+  "inverted": false
+}

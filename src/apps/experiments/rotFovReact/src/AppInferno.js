@@ -1,14 +1,16 @@
-
 import { Component } from 'inferno';
 import { createElement } from 'inferno-create-element';
-
 import * as ROT from "rot-js";
-import { createSelector } from "reselect";
+import PolyBool from 'polybooljs';
+
 import { Rectangle } from '../vendor/2d-visibility/src/rectangle.ts';
 import { Segment } from '../vendor/2d-visibility/src/segment.ts';
 import { Point, Lightsource } from '../vendor/2d-visibility/src/point.ts';
 import { loadMap, preLoadMap } from '../vendor/2d-visibility/src/load-map.ts';
 import { calculateVisibility } from '../vendor/2d-visibility/src/visibility.ts';
+
+import makePolygon from "./makePolygon"
+import { selector as cameraLightMarkersSelector } from "./lights/selector.ts";
 
 const sign = (p1, p2, p3) => {
   return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
@@ -37,30 +39,13 @@ const initialState = {
   },
   markers: [],
   menuOpen: false,
-  mode: "fov",
+  mode: "lcv2",
   mouseX: 0,
   mouseY: 0,
   preloadedMap: [],
   visibility: [],
   visibleMap: []
 };
-
-const markersSelector = state => state.markers;
-
-const preloadedMapSelector = state => state.preloadedMap;
-
-const cameraLightMarkersSelector = createSelector([preloadedMapSelector, markersSelector], (preloadedMap, markers) => {
-  return markers.map(marker => {
-    return {
-      x: marker.x,
-      y: marker.y,
-      triangles: calculateVisibility(new Lightsource(new Point(marker.x, marker.y), 10), loadMap(preloadedMap, {
-        x: marker.x,
-        y: marker.y
-      }))
-    };
-  });
-});
 
 class App extends Component {
   constructor(props) {
@@ -180,30 +165,10 @@ class App extends Component {
 
   knownMapCellFillAndStroke(value) {
     if (value === "foo") { return { fill: 'gray' } }
-    console.log(value)
     return { fill: 'gray' }
   }
 
-  polylinePointsOf(origin, triangles, fudge){
-    return triangles.reduce((mm, v) => {
-      const firstPoint = v.first;
-      const secondPoint = v.second;
-      const props = {
-        x1: (firstPoint.x || 0),
-        y1: (firstPoint.y || 0),
-        x2: (secondPoint.x || 0),
-        y2: (secondPoint.y || 0)
-      }
-
-      return mm.concat([
-        { x: props.x1 * fudge, y: props.y1 * fudge },
-        { x: props.x2 * fudge, y: props.y2 * fudge }
-      ])
-    }, [{ x: origin.x * fudge, y: origin.y * fudge }])
-      .reduce((mm, points) => {
-        return mm + `${points.x},${points.y} `
-      }, "")
-  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
 
   render() {
     const fudge = this.state.fudge;
@@ -217,6 +182,30 @@ class App extends Component {
       }));
     }, []);
 
+    //////////////////////////////////////////////////
+
+
+    let cameraPolygon = {
+      regions: []
+    };
+
+    let lightsPolygons;
+
+    if (cameraLightMouseVisibility.length) {
+      cameraPolygon = makePolygon(cameraLightMouseVisibility);
+    }
+
+    if (cameraLightMarkers.length) {
+
+      lightsPolygons = cameraLightMarkers.map((light) => {
+        return makePolygon(light.triangles)
+      });
+
+      console.log(lightsPolygons)
+    }
+
+    //////////////////////////////////////////////////
+
     const litLayer = [];
     cameraLightMarkers.forEach(marker => {
       marker.triangles.forEach(triangle => {
@@ -229,6 +218,7 @@ class App extends Component {
 
     // reset the visibleMap
     this.state.visibleMap = [];
+
     cameraLightMouseVisibility.forEach(vt => {
       if (!this.state.knownMap[vt.wall.y]) {
         this.state.knownMap[vt.wall.y] = [];
@@ -243,33 +233,9 @@ class App extends Component {
     });
 
 
-    // const polylinePoints = cameraLightMouseVisibility.reduce((mm, v) => {
-    //   const firstPoint = v.first;
-    //   const secondPoint = v.second;
-    //   const props = {
-    //     x1: (firstPoint.x || 0),
-    //     y1: (firstPoint.y || 0),
-    //     x2: (secondPoint.x || 0),
-    //     y2: (secondPoint.y || 0)
-    //   }
+    // console.log("cameraPolygon", cameraPolygon);
 
-    //   return mm.concat([
-    //     { x: props.x1 * fudge, y: props.y1 * fudge },
-    //     { x: props.x2 * fudge, y: props.y2 * fudge }
-    //   ])
-    // }, [{ x: cameraLightMouse.position.x * fudge, y: cameraLightMouse.position.y * fudge }])
-    //   .reduce((mm, points) => {
-    //     return mm + `${points.x},${points.y} `
-    //   }, "");
-
-    
-
-    const filtered = Object.keys(this.state)
-      .filter(key => ['fudge', 'width', 'height', 'mode'].includes(key))
-      .reduce((obj, key) => {
-        obj[key] = this.state[key];
-        return obj;
-      }, {});
+    //////////////////////////////////////////////////
 
     return createElement("div", {},
       [
@@ -281,8 +247,8 @@ class App extends Component {
           style: this.state.menuOpen ? {
             width: "100%"
           } : {
-              width: "0%"
-            }
+            width: "0%"
+          }
         }, [
           createElement("div", {
             className: "overlay-content"
@@ -298,17 +264,19 @@ class App extends Component {
               createElement("h1", null, "Duskers-like experiment #0"), createElement("p", null, "Move the mouse to change the position of the camera. Click to place a light source."), createElement("button", {
                 onClick: e => this.resetMapDungeon()
               }, "make a dungeon"),
-              createElement('pre', {}, JSON.stringify(filtered, null, 2)),
+              createElement('pre', {}, JSON.stringify(Object.keys(this.state)
+                .filter(key => ['fudge', 'width', 'height', 'mode'].includes(key))
+                .reduce((obj, key) => {
+                  obj[key] = this.state[key];
+                  return obj;
+                }, {}), null, 2)),
+
               createElement("br", null),
-              createElement("button", {
-                onClick: e => this.setState({
-                  knownMap: []
-                })
-              }, "reset known map"), createElement("br", null), createElement("div", {
-                onChange: e => this.setState({
-                  mode: e.target.value
-                })
-              },
+              createElement("button", { onClick: e => this.setState({ knownMap: [] }) }, "reset known map"),
+              createElement("br", null),
+              createElement("div", { onChange: e => this.setState({ mode: e.target.value }) },
+
+                createElement('br', {}, ''),
                 createElement('label', { for: "fgwr" }, 'Fog of War'),
                 createElement("input", {
                   type: "radio",
@@ -317,6 +285,7 @@ class App extends Component {
                   onClick: e => this.setState({ mode: "fgwr" })
                 }),
 
+                createElement('br', {}, ''),
                 createElement('label', { for: "dbg" }, 'Lights and Camera'),
                 createElement("input", {
                   type: "radio",
@@ -325,6 +294,16 @@ class App extends Component {
                   onClick: e => this.setState({ mode: "dbg" })
                 }),
 
+                createElement('br', {}, ''),
+                createElement('label', { for: "lcv2" }, 'Lights and Camera V2'),
+                createElement("input", {
+                  type: "radio",
+                  value: "lcv2",
+                  name: "mode",
+                  onClick: e => this.setState({ mode: "lcv2" })
+                }),
+
+                createElement('br', {}, ''),
                 createElement('label', { for: "fov" }, 'Field of View'),
                 createElement("input", {
                   type: "radio",
@@ -335,48 +314,64 @@ class App extends Component {
 
                 createElement("h2", null, "Credits"),
 
-                createElement("a", {
-                  href: "https://github.com/andrienko/2d-visibility/tree/updated-versions"
-                }, "https://github.com/andrienko/2d-visibility/tree/updated-versions"), createElement("a", {
-                  href: "https://www.redblobgames.com/articles/visibility/"
-                }, "https://www.redblobgames.com/articles/visibility/"), createElement("a", {
-                  href: "https://ondras.github.io/rot.js"
-                }, "https://ondras.github.io/rot.js"))
+                createElement("a", { href: "https://github.com/andrienko/2d-visibility/tree/updated-versions" }, "https://github.com/andrienko/2d-visibility/tree/updated-versions"),
+                createElement("a", { href: "https://www.redblobgames.com/articles/visibility/" }, "https://www.redblobgames.com/articles/visibility/"),
+                createElement("a", { href: "https://ondras.github.io/rot.js" }, "https://ondras.github.io/rot.js"))
             ]),
         ]),
 
-
-
-
-
         createElement("svg", {
-          width: "100%",
-          height: "100%",
-          xmlns: "http://www.w3.org/2000/svg",
+          width: "100%", height: "100%", xmlns: "http://www.w3.org/2000/svg",
           onMouseMove: e => this.onMouseMove(e),
           onClick: e => this.placeMarker(e)
         },
 
           [
 
-              ...cameraLightMarkers.map((marker) => {
-                return createElement('polyline', {
-                  fill: "yellow",
-                  stroke: "black",
-                  points: this.polylinePointsOf(marker, marker.triangles, fudge)
-                });
-              }),
+            this.state.mode === "lcv2" &&
+            cameraPolygon &&
+            cameraPolygon.regions &&
+            cameraPolygon.regions.map((region) => {
+              return createElement('polyline', {
+                fill: "blue",
+                stroke: "black",
+                points: region.reduce((mm, coord) => {
+                  return mm.concat(`${coord[0] * fudge}, ${coord[1] * fudge}`)
+                }, [])
+                  .join(' ')
+              });
+            }),
 
-              this.state.mode === "fov" && [
-                createElement('polyline', {
-                  fill: "blue",
-                  stroke: "black",
-                  points: this.polylinePointsOf(cameraLightMouse.position, cameraLightMouseVisibility, fudge)
-                }),
-                
-            ],
+            this.state.mode === "lcv2" &&
+            lightsPolygons &&
+            lightsPolygons.map((polygon) => {
+              return polygon.regions.map((region) => {
+                return (
+                  createElement('polyline', {
+                    fill: "yellow",
+                    stroke: "black",
+                    points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
+                  })
 
-            this.state.mode === "dbg" && cameraLightMouseVisibility.map(v => {
+                );
+              })
+
+            }),
+
+
+            // this.state.mode === "fov"
+            // && cameraLightMouseVisibility.length
+            // && polygons.intersections
+            // && polygons.intersections.map((intersectionPolylines) => {
+            //   return createElement('polyline', {
+            //     fill: "lightgrey",
+            //     stroke: "black",
+            //     points: intersectionPolylines.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
+            //   })
+            // }),
+
+            this.state.mode === "dbg" &&
+            cameraLightMouseVisibility.map(v => {
               const firstPoint = v.first;
               const secondPoint = v.second;
               const props = {
@@ -403,7 +398,8 @@ class App extends Component {
               })];
             }),
 
-            this.state.mode === "dbg" && cameraLightMarkers.map(marker => {
+            this.state.mode === "dbg" &&
+            cameraLightMarkers.map(marker => {
               return marker.triangles.map(triangle => {
                 return [createElement("line", {
                   x1: marker.x * fudge,
@@ -464,14 +460,10 @@ class App extends Component {
               stroke: "black"
             })
           ]
-
         )
-
-
       ]
     );
   }
-
 }
 
 export default App;
