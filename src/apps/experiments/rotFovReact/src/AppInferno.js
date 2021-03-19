@@ -28,7 +28,7 @@ const PointInTriangle = (pt, v1, v2, v3) => {
 };
 
 const initialState = {
-  fudge: 5, // zoom level
+  fudge: 7, // zoom level
 
   // the dimensions of the map
   width: 100,
@@ -194,7 +194,7 @@ class App extends Component {
   render() {
     const fudge = this.state.fudge;
 
-    const cameraLightMarkers = cameraLightMarkersSelector(this.state);
+    const cameraLightMarkersVis = cameraLightMarkersSelector(this.state);
     const cameraLightMouse = new Lightsource(new Point(this.state.mouseX, this.state.mouseY), 10);
     const cameraLightMouseVisibility = calculateVisibility(cameraLightMouse, loadMap(this.state.preloadedMap, cameraLightMouse.position));
     const directlyVisibleMarkers = cameraLightMouseVisibility.reduce((mm, vPoints) => {
@@ -203,31 +203,24 @@ class App extends Component {
       }));
     }, []);
 
+    let cameraLightMarkers = cameraLightMarkersVis.markers;
+    let union = cameraLightMarkersVis.union;
+
     let cameraPolygon = {
       regions: []
     };
-    let lightsPolygons = [];
+    let lightsPolygons = cameraLightMarkers.map((light) => light.polygon)
 
     if (cameraLightMouseVisibility.length) {
       cameraPolygon = makePolygon(cameraLightMouseVisibility);
     }
 
-    if (cameraLightMarkers.length) {
-      lightsPolygons = cameraLightMarkers.map((light) => {
-        return makePolygon(light.triangles)
-      });
-    }
-
-    let union;
+    // let union;
     let intersection;
     let result;
     let intersectionPolygon;
 
     if (cameraLightMouseVisibility.length && cameraLightMarkers.length) {
-      union = lightsPolygons[0];
-      for (var i = 1; i < lightsPolygons.length; i++)
-        union = PolyBool.union(union, lightsPolygons[i]);
-
       result = PolyBool.combine(
         { segments: PolyBool.segments(union).segments },
         { segments: PolyBool.segments(cameraPolygon).segments }
