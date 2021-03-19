@@ -1,56 +1,56 @@
-import {polygon} from 'polybooljs';
-
-// console.log(PolyBool);
+import { polygon as makePolygon, segments as makeSegments } from 'polybooljs';
 
 interface ITriangle {
-    first: {
-        x: number, y: number
-    }, second: {
-        x: number, y: number
-    }
+  first: {
+    x: number, y: number
+  }, second: {
+    x: number, y: number
+  }
 };
 
 export default (triangles: ITriangle[]) => {
-    const segments = {
+  const segments = {
 
-        segments: triangles.reduce((mm: any[], triangle: ITriangle ) => {
-            const equalPoints = ((triangle.first.x === triangle.second.x) && (triangle.first.y === triangle.second.y))
-            if (!equalPoints) {
-                const lastSegment = mm[mm.length - 1];
-                if (
-                    (lastSegment &&
-                        triangle.first.x !== lastSegment.start[0]) && (triangle.first.y !== lastSegment.start[1])
-                ) {
-                    mm.push(
-                        {
-                            id: -2,
-                            start: [lastSegment.end[0], lastSegment.end[1]],
-                            end: [triangle.first.x, triangle.first.y],
-                            myFill: {
-                                above: true,
-                                below: false
-                            },
-                            otherFill: null
-                        }
-                    )
-                }
-
-                mm.push(
-                    {
-                        id: -1,
-                        start: [triangle.first.x, triangle.first.y],
-                        end: [triangle.second.x, triangle.second.y],
-                        myFill: {
-                            above: true,
-                            below: false
-                        },
-                        otherFill: null
-                    }
-                )
+    segments: triangles.reduce((mm: any[], triangle: ITriangle) => {
+      const equalPoints = ((triangle.first.x === triangle.second.x) && (triangle.first.y === triangle.second.y))
+      if (!equalPoints) {
+        const lastSegment = mm[mm.length - 1];
+        if (
+          (lastSegment &&
+            triangle.first.x !== lastSegment.start[0]) && (triangle.first.y !== lastSegment.start[1])
+        ) {
+          mm.push(
+            {
+              id: -2,
+              start: [lastSegment.end[0], lastSegment.end[1]],
+              end: [triangle.first.x, triangle.first.y],
+              myFill: {
+                above: true,
+                below: false
+              },
+              otherFill: null
             }
-            return mm;
-        }, []), inverted: false
-    };
+          )
+        }
 
-    return polygon(segments);
+        mm.push(
+          {
+            id: -1,
+            start: [triangle.first.x, triangle.first.y],
+            end: [triangle.second.x, triangle.second.y],
+            myFill: {
+              above: true,
+              below: false
+            },
+            otherFill: null
+          }
+        )
+      }
+      return mm;
+    }, []), inverted: false
+  };
+
+  // console.log(segments)
+  // return polygon(segments);
+  return makePolygon(segments)
 }

@@ -36,6 +36,7 @@
     "inferno": "^7.4.8",
     "inferno-compat": "^7.4.8",
     "inferno-create-element": "^7.4.8",
+    "point-in-polygon": "^1.1.0",
     "polybooljs": "^1.2.0",
     "polygon-clipping": "^0.15.2",
     "react-fps-stats": "^0.1.3",

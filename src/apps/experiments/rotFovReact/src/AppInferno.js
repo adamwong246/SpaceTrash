@@ -2,6 +2,7 @@ import { Component } from 'inferno';
 import { createElement } from 'inferno-create-element';
 import * as ROT from "rot-js";
 import PolyBool from 'polybooljs';
+import pointInPolygon from "point-in-polygon";
 
 import { Rectangle } from '../vendor/2d-visibility/src/rectangle.ts';
 import { Segment } from '../vendor/2d-visibility/src/segment.ts';
@@ -10,6 +11,7 @@ import { loadMap, preLoadMap } from '../vendor/2d-visibility/src/load-map.ts';
 import { calculateVisibility } from '../vendor/2d-visibility/src/visibility.ts';
 
 import makePolygon from "./makePolygon"
+
 import { selector as cameraLightMarkersSelector } from "./lights/selector.ts";
 
 const sign = (p1, p2, p3) => {
@@ -26,11 +28,11 @@ const PointInTriangle = (pt, v1, v2, v3) => {
 };
 
 const initialState = {
-  fudge: 10, // zoom level
+  fudge: 5, // zoom level
 
   // the dimensions of the map
-  width: 50,
-  height: 50,
+  width: 100,
+  height: 100,
 
   knownMap: [],
   lightSource: {
@@ -39,12 +41,18 @@ const initialState = {
   },
   markers: [],
   menuOpen: false,
-  mode: "lcv2",
   mouseX: 0,
   mouseY: 0,
   preloadedMap: [],
   visibility: [],
-  visibleMap: []
+  visibleMap: [],
+
+  // lightrays: true,
+  // camerarays: true,
+  // lightsPolygons: true,
+  cameraPolygon: true,
+  // lightsUnionPolygon: true,
+  // cameraLightsIntersectionPolygon: true
 };
 
 class App extends Component {
@@ -163,9 +171,22 @@ class App extends Component {
     return PointInTriangle(marker, light, points.first, points.second);
   }
 
-  knownMapCellFillAndStroke(value) {
-    if (value === "foo") { return { fill: 'gray' } }
-    return { fill: 'gray' }
+  knownMapCellFillAndStroke(tile) {
+    const style = {}
+    if (tile.type === "foo") {
+      style.fill = "darkgrey"
+    } else if (tile.type === "floor") {
+      style.fill = "lightgrey";
+    } else {
+      style.fill = "black"
+    }
+    if (tile.visible) {
+      style.stroke = "white"
+    } else {
+      style.stroke = "transparent"
+    }
+
+    return style
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,26 +203,37 @@ class App extends Component {
       }));
     }, []);
 
-    //////////////////////////////////////////////////
-
-
     let cameraPolygon = {
       regions: []
     };
-
-    let lightsPolygons;
+    let lightsPolygons = [];
 
     if (cameraLightMouseVisibility.length) {
       cameraPolygon = makePolygon(cameraLightMouseVisibility);
     }
 
     if (cameraLightMarkers.length) {
-
       lightsPolygons = cameraLightMarkers.map((light) => {
         return makePolygon(light.triangles)
       });
+    }
 
-      console.log(lightsPolygons)
+    let union;
+    let intersection;
+    let result;
+    let intersectionPolygon;
+
+    if (cameraLightMouseVisibility.length && cameraLightMarkers.length) {
+      union = lightsPolygons[0];
+      for (var i = 1; i < lightsPolygons.length; i++)
+        union = PolyBool.union(union, lightsPolygons[i]);
+
+      result = PolyBool.combine(
+        { segments: PolyBool.segments(union).segments },
+        { segments: PolyBool.segments(cameraPolygon).segments }
+      );
+      intersection = PolyBool.selectIntersect(result)
+      intersectionPolygon = PolyBool.polygon(intersection)
     }
 
     //////////////////////////////////////////////////
@@ -218,6 +250,24 @@ class App extends Component {
 
     // reset the visibleMap
     this.state.visibleMap = [];
+    if (intersectionPolygon && intersectionPolygon.regions && intersectionPolygon.regions[0]) {
+      for (let y = 0; y < this.state.height; y++) {
+        for (let x = 0; x < this.state.width; x++) {
+          if (!this.state.knownMap[y]) {
+            this.state.knownMap[y] = [];
+          }
+          if (!this.state.visibleMap[y]) {
+            this.state.visibleMap[y] = [];
+          }
+          if (pointInPolygon([x + 0.5, y + 0.5], intersectionPolygon.regions[0])) {
+            this.state.knownMap[y][x] = "floor";
+            this.state.visibleMap[y][x] = true;
+          } else {
+            // console.log("without!")
+          }
+        }
+      }
+    }
 
     cameraLightMouseVisibility.forEach(vt => {
       if (!this.state.knownMap[vt.wall.y]) {
@@ -232,11 +282,18 @@ class App extends Component {
       }
     });
 
-
-    // console.log("cameraPolygon", cameraPolygon);
+    const tiles = []
+    for (let y = 0; y < this.state.height; y++) {
+      for (let x = 0; x < this.state.width; x++) {
+        tiles.push({
+          x, y,
+          type: this.state.knownMap[y] && this.state.knownMap[y][x],
+          visible: this.state.visibleMap[y] && this.state.visibleMap[y][x]
+        })
+      }
+    }
 
     //////////////////////////////////////////////////
-
     return createElement("div", {},
       [
         createElement("button", { id: "menuOpenButton", onClick: e => this.setState({ menuOpen: true }) }, 'menu'),
@@ -261,62 +318,76 @@ class App extends Component {
                 })
               }, "close"),
 
-              createElement("h1", null, "Duskers-like experiment #0"), createElement("p", null, "Move the mouse to change the position of the camera. Click to place a light source."), createElement("button", {
-                onClick: e => this.resetMapDungeon()
-              }, "make a dungeon"),
-              createElement('pre', {}, JSON.stringify(Object.keys(this.state)
-                .filter(key => ['fudge', 'width', 'height', 'mode'].includes(key))
-                .reduce((obj, key) => {
-                  obj[key] = this.state[key];
-                  return obj;
-                }, {}), null, 2)),
+              createElement("h1", null, "Duskers-like experiment #1"),
+              createElement("p", null, "Move the mouse to change the position of the camera. Click to place a light source."),
 
-              createElement("br", null),
-              createElement("button", { onClick: e => this.setState({ knownMap: [] }) }, "reset known map"),
-              createElement("br", null),
-              createElement("div", { onChange: e => this.setState({ mode: e.target.value }) },
+              createElement("h2", null, "Settings"),
+              createElement("h3", null, "Rays"),
+              createElement('label', { for: "lightrays" }, 'Lights'),
+              createElement("input", {
+                type: "checkbox",
+                value: "lightrays",
+                name: "lightrays",
+                checked: this.state.lightrays,
+                onChange: e => this.setState({ lightrays: e.target.checked })
+              }),
 
-                createElement('br', {}, ''),
-                createElement('label', { for: "fgwr" }, 'Fog of War'),
-                createElement("input", {
-                  type: "radio",
-                  value: "fgwr",
-                  name: "mode",
-                  onClick: e => this.setState({ mode: "fgwr" })
-                }),
+              createElement('br', {}, ''),
+              createElement('label', { for: "camerarays" }, 'Camera'),
+              createElement("input", {
+                type: "checkbox",
+                value: "camerarays",
+                name: "camerarays",
+                checked: this.state.camerarays,
+                onChange: e => this.setState({ camerarays: e.target.checked })
+              }),
 
-                createElement('br', {}, ''),
-                createElement('label', { for: "dbg" }, 'Lights and Camera'),
-                createElement("input", {
-                  type: "radio",
-                  value: "dbg",
-                  name: "mode",
-                  onClick: e => this.setState({ mode: "dbg" })
-                }),
+              createElement("h3", null, "Polygons"),
+              createElement('label', { for: "cameraPolygon" }, 'Camera'),
+              createElement("input", {
+                type: "checkbox",
+                value: "cameraPolygon",
+                name: "cameraPolygon",
+                checked: this.state.cameraPolygon,
+                onChange: e => this.setState({ cameraPolygon: e.target.checked })
+              }),
 
-                createElement('br', {}, ''),
-                createElement('label', { for: "lcv2" }, 'Lights and Camera V2'),
-                createElement("input", {
-                  type: "radio",
-                  value: "lcv2",
-                  name: "mode",
-                  onClick: e => this.setState({ mode: "lcv2" })
-                }),
+              createElement('br', {}, ''),
+              createElement('label', { for: "lightsPolygons" }, 'Lights'),
+              createElement("input", {
+                type: "checkbox",
+                value: "lightsPolygons",
+                name: "lightsPolygons",
+                checked: this.state.lightsPolygons,
+                onChange: e => this.setState({ lightsPolygons: e.target.checked })
+              }),
 
-                createElement('br', {}, ''),
-                createElement('label', { for: "fov" }, 'Field of View'),
-                createElement("input", {
-                  type: "radio",
-                  value: "fov",
-                  name: "mode",
-                  onClick: e => this.setState({ mode: "fov" })
-                }),
+              createElement('br', {}, ''),
+              createElement('label', { for: "lightsUnionPolygon" }, 'Lights union'),
+              createElement("input", {
+                type: "checkbox",
+                value: "lightsUnionPolygon",
+                name: "lightsUnionPolygon",
+                checked: this.state.lightsUnionPolygon,
+                onChange: e => this.setState({ lightsUnionPolygon: e.target.checked })
+              }),
 
-                createElement("h2", null, "Credits"),
+              createElement('br', {}, ''),
+              createElement('label', { for: "cameraLightsIntersectionPolygon" }, 'Camera-lights interesction'),
+              createElement("input", {
+                type: "checkbox",
+                value: "cameraLightsIntersectionPolygon",
+                name: "cameraLightsIntersectionPolygon",
+                checked: this.state.cameraLightsIntersectionPolygon,
+                onChange: e => this.setState({ cameraLightsIntersectionPolygon: e.target.checked })
+              }),
 
-                createElement("a", { href: "https://github.com/andrienko/2d-visibility/tree/updated-versions" }, "https://github.com/andrienko/2d-visibility/tree/updated-versions"),
-                createElement("a", { href: "https://www.redblobgames.com/articles/visibility/" }, "https://www.redblobgames.com/articles/visibility/"),
-                createElement("a", { href: "https://ondras.github.io/rot.js" }, "https://ondras.github.io/rot.js"))
+              createElement("h2", null, "Credits"),
+
+              createElement("a", { href: "https://github.com/andrienko/2d-visibility/tree/updated-versions" }, "https://github.com/andrienko/2d-visibility/tree/updated-versions"),
+              createElement("a", { href: "https://www.redblobgames.com/articles/visibility/" }, "https://www.redblobgames.com/articles/visibility/"),
+              createElement("a", { href: "https://ondras.github.io/rot.js" }, "https://ondras.github.io/rot.js"),
+              createElement("a", { href: "https://github.com/velipso/polybooljs" }, "https://github.com/velipso/polybooljs")
             ]),
         ]),
 
@@ -328,7 +399,27 @@ class App extends Component {
 
           [
 
-            this.state.mode === "lcv2" &&
+            ...tiles.map((tile) => {
+              return (createElement("rect", {
+                x: tile.x * fudge,
+                y: tile.y * fudge,
+                width: fudge,
+                height: fudge,
+                ...this.knownMapCellFillAndStroke(tile),
+              }));
+            }),
+
+            directlyVisibleMarkers.map(marker => {
+              return createElement("circle", {
+                cx: marker.x * fudge,
+                cy: marker.y * fudge,
+                r: 4,
+                fill: "yellow",
+                stroke: "black"
+              });
+            }),
+
+            this.state.cameraPolygon &&
             cameraPolygon &&
             cameraPolygon.regions &&
             cameraPolygon.regions.map((region) => {
@@ -342,7 +433,7 @@ class App extends Component {
               });
             }),
 
-            this.state.mode === "lcv2" &&
+            this.state.lightsPolygons &&
             lightsPolygons &&
             lightsPolygons.map((polygon) => {
               return polygon.regions.map((region) => {
@@ -352,25 +443,35 @@ class App extends Component {
                     stroke: "black",
                     points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
                   })
-
                 );
               })
-
             }),
 
+            this.state.lightsUnionPolygon &&
+            union &&
+            union.regions.map((region) => {
+              return (
+                createElement('polyline', {
+                  fill: "yellow",
+                  stroke: "black",
+                  points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
+                })
+              );
+            }),
 
-            // this.state.mode === "fov"
-            // && cameraLightMouseVisibility.length
-            // && polygons.intersections
-            // && polygons.intersections.map((intersectionPolylines) => {
-            //   return createElement('polyline', {
-            //     fill: "lightgrey",
-            //     stroke: "black",
-            //     points: intersectionPolylines.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
-            //   })
-            // }),
+            this.state.cameraLightsIntersectionPolygon &&
+            intersectionPolygon &&
+            intersectionPolygon.regions.map((region) => {
+              return (
+                createElement('polyline', {
+                  fill: "yellow",
+                  stroke: "blue",
+                  points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
+                })
+              );
+            }),
 
-            this.state.mode === "dbg" &&
+            this.state.camerarays &&
             cameraLightMouseVisibility.map(v => {
               const firstPoint = v.first;
               const secondPoint = v.second;
@@ -398,7 +499,7 @@ class App extends Component {
               })];
             }),
 
-            this.state.mode === "dbg" &&
+            this.state.lightrays &&
             cameraLightMarkers.map(marker => {
               return marker.triangles.map(triangle => {
                 return [createElement("line", {
@@ -414,41 +515,6 @@ class App extends Component {
                   y2: triangle.second.y * fudge,
                   stroke: "yellow"
                 })];
-              });
-            }),
-
-            this.state.knownMap.map((row, y) => {
-              return row.map((columnValue, x) => {
-                return columnValue ? createElement("rect", {
-                  x: x * fudge,
-                  y: y * fudge,
-                  width: fudge,
-                  height: fudge,
-                  ...this.knownMapCellFillAndStroke(columnValue),
-                }) : createElement('group', null);
-              });
-            }),
-
-            this.state.visibleMap.map((row, y) => {
-              return row.map((columnValue, x) => {
-                return columnValue ? createElement("rect", {
-                  x: x * fudge,
-                  y: y * fudge,
-                  width: fudge,
-                  height: fudge,
-                  fill: "transparent",
-                  stroke: "black"
-                }) : createElement('group', null);
-              });
-            }),
-
-            directlyVisibleMarkers.map(marker => {
-              return createElement("circle", {
-                cx: marker.x * fudge,
-                cy: marker.y * fudge,
-                r: 4,
-                fill: "yellow",
-                stroke: "yellow"
               });
             }),
 
