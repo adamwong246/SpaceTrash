@@ -52,13 +52,13 @@ const initialState = {
 
   // user settings
   //
-  lightrays: true,
+  // lightrays: true,
   camerarays: true,
-  lightsPolygons: true,
-  showCameraPolygon: true,
-  lightsUnionPolygon: true,
+  // lightsPolygons: true,
+  // showCameraPolygon: true,
+  // lightsUnionPolygon: true,
   cameraLightsIntersectionPolygon: true,
-  showWallSegments: true
+  // showWallSegments: true
 };
 
 class App extends Component {
@@ -75,15 +75,15 @@ class App extends Component {
     const levelMap = [];
     const walls = [];
 
-    new ROT.Map.Uniform(width, height, {}).create((x, y, value) => {
-      if (value) {
-        if (!levelMap[y]) {
-          levelMap[y] = [];
-        }
+    // new ROT.Map.Uniform(width, height, {}).create((x, y, value) => {
+    //   if (value) {
+    //     if (!levelMap[y]) {
+    //       levelMap[y] = [];
+    //     }
 
-        levelMap[y][x] = value;
-      }
-    });
+    //     levelMap[y][x] = value;
+    //   }
+    // });
     new ROT.Map.Arena(width, height).create((x, y, value) => {
       if (value) {
         if (!levelMap[y]) {
@@ -245,67 +245,70 @@ class App extends Component {
         { segments: cameraSegs }
       );
       intersection = PolyBool.selectIntersect(result)
-      // console.log(intersection)
+      
       intersectionPolygon = PolyBool.polygon(intersection)
-      console.log(intersectionPolygon)
     }
 
     //////////////////////////////////////////////////
 
-    const litLayer = [];
-    cameraLightMarkers.forEach(marker => {
-      marker.triangles.forEach(triangle => {
-        if (!litLayer[triangle.wall.y]) {
-          litLayer[triangle.wall.y] = [];
-        }
-        litLayer[triangle.wall.y][triangle.wall.x] = triangle.wall.wallType;
-      });
-    });
+    // const litLayer = [];
+    // cameraLightMarkers.forEach(marker => {
+    //   marker.triangles.forEach(triangle => {
+    //     if (!litLayer[triangle.wall.y]) {
+    //       litLayer[triangle.wall.y] = [];
+    //     }
+    //     litLayer[triangle.wall.y][triangle.wall.x] = triangle.wall.wallType;
+    //   });
+    // });
 
-    // reset the visibleMap
-    this.state.visibleMap = [];
-    if (intersectionPolygon && intersectionPolygon.regions && intersectionPolygon.regions[0]) {
-      for (let y = 0; y < this.state.height; y++) {
-        for (let x = 0; x < this.state.width; x++) {
-          if (!this.state.knownMap[y]) {
-            this.state.knownMap[y] = [];
-          }
-          if (!this.state.visibleMap[y]) {
-            this.state.visibleMap[y] = [];
-          }
-          if (pointInPolygon([x + 0.5, y + 0.5], intersectionPolygon.regions[0])) {
-            this.state.knownMap[y][x] = "floor";
-            this.state.visibleMap[y][x] = true;
-          } else {
-            // console.log("without!")
-          }
-        }
-      }
-    }
+    // // reset the visibleMap
+    // this.state.visibleMap = [];
 
-    cameraLightMouseVisibility.forEach(vt => {
-      if (!this.state.knownMap[vt.wall.y]) {
-        this.state.knownMap[vt.wall.y] = [];
-      }
-      if (!this.state.visibleMap[vt.wall.y]) {
-        this.state.visibleMap[vt.wall.y] = [];
-      }
-      if (litLayer[vt.wall.y] && litLayer[vt.wall.y][vt.wall.x]) {
-        this.state.knownMap[vt.wall.y][vt.wall.x] = vt.wall.wallType;
-        this.state.visibleMap[vt.wall.y][vt.wall.x] = vt.wall.wallType === "foo";
-      }
-    });
+    // if (intersectionPolygon && intersectionPolygon.regions && intersectionPolygon.regions.length ) {
+    //   for (let y = 0; y < this.state.height; y++) {
+    //     for (let x = 0; x < this.state.width; x++) {
+    //       if (!this.state.knownMap[y]) {
+    //         this.state.knownMap[y] = [];
+    //       }
+    //       if (!this.state.visibleMap[y]) {
+    //         this.state.visibleMap[y] = [];
+    //       }
+    //       intersectionPolygon.regions.forEach((region) => {
+    //         if (pointInPolygon([x + 0.5, y + 0.5], region)) {
+    //           this.state.knownMap[y][x] = "floor";
+    //           this.state.visibleMap[y][x] = true;
+    //         } else {
+    //           // console.log("without!")
+    //         }
+    //       })
 
-    const tiles = []
-    for (let y = 0; y < this.state.height; y++) {
-      for (let x = 0; x < this.state.width; x++) {
-        tiles.push({
-          x, y,
-          type: this.state.knownMap[y] && this.state.knownMap[y][x],
-          visible: this.state.visibleMap[y] && this.state.visibleMap[y][x]
-        })
-      }
-    }
+    //     }
+    //   }
+    // }
+
+    // cameraLightMouseVisibility.forEach(vt => {
+    //   if (!this.state.knownMap[vt.wall.y]) {
+    //     this.state.knownMap[vt.wall.y] = [];
+    //   }
+    //   if (!this.state.visibleMap[vt.wall.y]) {
+    //     this.state.visibleMap[vt.wall.y] = [];
+    //   }
+    //   if (litLayer[vt.wall.y] && litLayer[vt.wall.y][vt.wall.x]) {
+    //     this.state.knownMap[vt.wall.y][vt.wall.x] = vt.wall.wallType;
+    //     this.state.visibleMap[vt.wall.y][vt.wall.x] = vt.wall.wallType === "foo";
+    //   }
+    // });
+
+    // const tiles = []
+    // for (let y = 0; y < this.state.height; y++) {
+    //   for (let x = 0; x < this.state.width; x++) {
+    //     tiles.push({
+    //       x, y,
+    //       type: this.state.knownMap[y] && this.state.knownMap[y][x],
+    //       visible: this.state.visibleMap[y] && this.state.visibleMap[y][x]
+    //     })
+    //   }
+    // }
 
     //////////////////////////////////////////////////
 
@@ -391,16 +394,6 @@ class App extends Component {
               }),
 
               createElement('br', {}, ''),
-              createElement('label', { for: "lightsUnionPolygon" }, 'Lights union'),
-              createElement("input", {
-                type: "checkbox",
-                value: "lightsUnionPolygon",
-                name: "lightsUnionPolygon",
-                checked: this.state.lightsUnionPolygon,
-                onChange: e => this.setState({ lightsUnionPolygon: e.target.checked })
-              }),
-
-              createElement('br', {}, ''),
               createElement('label', { for: "cameraLightsIntersectionPolygon" }, 'Camera-lights interesction'),
               createElement("input", {
                 type: "checkbox",
@@ -427,15 +420,15 @@ class App extends Component {
 
           [
 
-            ...tiles.map((tile) => {
-              return (createElement("rect", {
-                x: tile.x * fudge,
-                y: tile.y * fudge,
-                width: fudge,
-                height: fudge,
-                ...this.knownMapCellFillAndStroke(tile),
-              }));
-            }),
+            // ...tiles.map((tile) => {
+            //   return (createElement("rect", {
+            //     x: tile.x * fudge,
+            //     y: tile.y * fudge,
+            //     width: fudge,
+            //     height: fudge,
+            //     ...this.knownMapCellFillAndStroke(tile),
+            //   }));
+            // }),
 
             directlyVisibleMarkers.map(marker => {
               return createElement("circle", {
@@ -501,18 +494,6 @@ class App extends Component {
                   })
                 );
               })
-            }),
-
-            this.state.lightsUnionPolygon &&
-            union &&
-            union.regions.map((region) => {
-              return (
-                createElement('polygon', {
-                  fill: "yellow",
-                  stroke: "black",
-                  points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
-                })
-              );
             }),
 
             this.state.cameraLightsIntersectionPolygon &&
