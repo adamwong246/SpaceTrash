@@ -4,7 +4,6 @@ import * as ROT from "rot-js";
 import PolyBool from 'polybooljs';
 import pointInPolygon from "point-in-polygon";
 
-
 import { Rectangle } from '../vendor/2d-visibility/src/rectangle.ts';
 import { Segment } from '../vendor/2d-visibility/src/segment.ts';
 import { Point, Lightsource } from '../vendor/2d-visibility/src/point.ts';
@@ -12,10 +11,11 @@ import { loadMap, preLoadMap } from '../vendor/2d-visibility/src/load-map.ts';
 import { calculateVisibility } from '../vendor/2d-visibility/src/visibility.ts';
 
 import makePolygon from "./makePolygon"
-
 import { selector as cameraLightMarkersSelector } from "./lights/selector.ts";
-
 import Fps from "./Fps.js";
+
+// PolyBool.epsilon(0.0000000001);
+// PolyBool.epsilon(0.000000000000000001);
 
 const sign = (p1, p2, p3) => {
   return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
@@ -31,11 +31,11 @@ const PointInTriangle = (pt, v1, v2, v3) => {
 };
 
 const initialState = {
-  fudge: 10, // zoom level
+  fudge: 5, // zoom level
 
   // the dimensions of the map
-  width: 50,
-  height: 25,
+  width: 100,
+  height: 100,
 
   knownMap: [],
   lightSource: {
@@ -49,16 +49,15 @@ const initialState = {
   preloadedMap: [],
   visibility: [],
   visibleMap: [],
-  simplifiedWalls: [],
 
   // user settings
   //
-  // lightrays: true,
+  lightrays: true,
   camerarays: true,
-  // lightsPolygons: true,
-  // cameraPolygon: true,
-  // lightsUnionPolygon: true,
-  // cameraLightsIntersectionPolygon: true
+  lightsPolygons: true,
+  showCameraPolygon: true,
+  lightsUnionPolygon: true,
+  cameraLightsIntersectionPolygon: true,
   showWallSegments: true
 };
 
@@ -75,6 +74,7 @@ class App extends Component {
   resetMapDungeon(width = this.state.width, height = this.state.height) {
     const levelMap = [];
     const walls = [];
+
     new ROT.Map.Uniform(width, height, {}).create((x, y, value) => {
       if (value) {
         if (!levelMap[y]) {
@@ -93,6 +93,17 @@ class App extends Component {
         levelMap[y][x] = value;
       }
     });
+
+    new ROT.Map.Cellular(width, height).randomize(0.3).create((x, y, value) => {
+      if (value) {
+        if (!levelMap[y]) {
+          levelMap[y] = [];
+        }
+
+        levelMap[y][x] = value;
+      }
+    });
+
     const wallMap = [];
     levelMap.map((row, y) => {
       if (!wallMap[y]) {
@@ -101,23 +112,24 @@ class App extends Component {
 
       row.map((value, x) => {
         if (value === 1) {
-          wallMap[y][x] = {}; // check north
-
+          wallMap[y][x] = {};
+          
+          // check north
           if (y - 1 < 0 || levelMap[y - 1][x] != 1) {
             wallMap[y][x].north = true;
-          } // check south
-
-
+          }
+          
+          // check south
           if (y + 1 > levelMap.length - 1 || levelMap[y + 1][x] != 1) {
             wallMap[y][x].south = true;
-          } // // check west
-
-
+          }
+          
+          // check west
           if (x - 1 < 0 || levelMap[y][x - 1] != 1) {
             wallMap[y][x].west = true;
-          } // check east
-
-
+          }
+          
+          // check east
           if (x + 1 > levelMap[0].length - 1 || levelMap[y][x + 1] != 1) {
             wallMap[y][x].east = true;
           }
@@ -150,25 +162,17 @@ class App extends Component {
       });
     });
 
-    const preloadedMap = preLoadMap(new Rectangle(0, 0, 0, 0, {
-      x: 0,
-      y: 0,
-      wallType: "idk"
-    }), [], walls)
-
 
     const polygonWallsSimplified = PolyBool.segments({
-      regions: preloadedMap.map((segment) => {
+      regions: walls.map((segment) => {
         return ([[segment.p1.x, segment.p1.y], [segment.p2.x, segment.p2.y]]);
       })
     })
 
     const simplifiedWalls = PolyBool.polygon(polygonWallsSimplified)
- 
-    this.setState({
-      preloadedMap,
-      simplifiedWalls
-    });
+    const preloadedMap = preLoadMap(new Rectangle(0, 0, 0, 0, {x: 0,y: 0,wallType: "idk"}), [], simplifiedWalls)
+
+    this.setState({preloadedMap});
   }
 
   onMouseMove(event) {
@@ -213,17 +217,12 @@ class App extends Component {
 
   render() {
     const fudge = this.state.fudge;
-
     const cameraLightMarkersVis = cameraLightMarkersSelector(this.state);
-    const cameraLightMouse = new Lightsource(new Point(this.state.mouseX, this.state.mouseY), 10);
     
+    const cameraLightMouse = new Lightsource(new Point(this.state.mouseX, this.state.mouseY), 10);
     const cameraLightMouseVisibility = calculateVisibility(
       cameraLightMouse, loadMap(this.state.preloadedMap, cameraLightMouse.position)
     );
-
-    // const cameraLightMouseVisibility = calculateVisibility(
-    //   cameraLightMouse, loadMap(this.state.simplifiedWalls, cameraLightMouse.position)
-    // );
     
     const directlyVisibleMarkers = cameraLightMouseVisibility.reduce((mm, vPoints) => {
       return mm.concat(this.state.markers.filter(marker => {
@@ -233,27 +232,22 @@ class App extends Component {
 
     let cameraLightMarkers = cameraLightMarkersVis.markers;
     let union = cameraLightMarkersVis.union;
-
-    let cameraPolygon = {
-      regions: []
-    };
+    let cameraPolygon = makePolygon(cameraLightMouseVisibility);
     let lightsPolygons = cameraLightMarkers.map((light) => light.polygon)
-
-    if (cameraLightMouseVisibility.length) {
-      cameraPolygon = makePolygon(cameraLightMouseVisibility);
-    }
-
     let intersection;
     let result;
     let intersectionPolygon;
 
     if (cameraLightMouseVisibility.length && cameraLightMarkers.length) {
+      const cameraSegs = PolyBool.segments(cameraPolygon).segments;
       result = PolyBool.combine(
-        { segments: PolyBool.segments(union).segments },
-        { segments: PolyBool.segments(cameraPolygon).segments }
+        { segments: union },
+        { segments: cameraSegs }
       );
       intersection = PolyBool.selectIntersect(result)
+      // console.log(intersection)
       intersectionPolygon = PolyBool.polygon(intersection)
+      console.log(intersectionPolygon)
     }
 
     //////////////////////////////////////////////////
@@ -318,7 +312,9 @@ class App extends Component {
     return createElement("div", {},
       [
         createElement("button", { id: "menuOpenButton", onClick: e => this.setState({ menuOpen: true }) }, 'menu'),
-        // createElement(Fps, {}),
+        
+        createElement(Fps, {}),
+        
         createElement("div", {
           id: "myNav",
           className: "overlay",
@@ -375,13 +371,13 @@ class App extends Component {
               }),
 
               createElement("h3", null, "Polygons"),
-              createElement('label', { for: "cameraPolygon" }, 'Camera'),
+              createElement('label', { for: "showCameraPolygon" }, 'Camera'),
               createElement("input", {
                 type: "checkbox",
-                value: "cameraPolygon",
-                name: "cameraPolygon",
-                checked: this.state.cameraPolygon,
-                onChange: e => this.setState({ cameraPolygon: e.target.checked })
+                value: "showCameraPolygon",
+                name: "showCameraPolygon",
+                checked: this.state.showCameraPolygon,
+                onChange: e => this.setState({ showCameraPolygon: e.target.checked })
               }),
 
               createElement('br', {}, ''),
@@ -451,53 +447,39 @@ class App extends Component {
               });
             }),
 
-
             this.state.showWallSegments &&
-            this.state.simplifiedWalls &&
-            this.state.simplifiedWalls.regions &&
-            this.state.simplifiedWalls.regions.map((region) => {
-              return (
-                createElement('polyline', {
-                  fill: "transparent",
+            this.state.preloadedMap &&
+            this.state.preloadedMap.map((segment) => {
+              return createElement('g', {}, [
+                createElement('line', {
                   stroke: "red",
-                  points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
-                })
-              );
+                  x1: segment.p1.x * fudge,
+                  y1: segment.p1.y * fudge,
+                  x2: segment.p2.x * fudge,
+                  y2: segment.p2.y * fudge,
+                }),
+
+                createElement('circle', {
+                  stroke: "red",
+                  cx: segment.p1.x * fudge,
+                  cy: segment.p1.y * fudge,
+                  r: fudge / 10
+                }),
+
+                createElement('circle', {
+                  stroke: "red",
+                  cx: segment.p2.x * fudge,
+                  cy: segment.p2.y * fudge,
+                  r: fudge / 10
+                }),
+              ])
             }),
 
-            // this.state.showWallSegments &&
-            // this.state.preloadedMap &&
-            // this.state.preloadedMap.map((segment) => {
-            //   return createElement('g', {}, [
-            //     createElement('line', {
-            //       stroke: "red",
-            //       x1: segment.p1.x * fudge,
-            //       y1: segment.p1.y * fudge,
-            //       x2: segment.p2.x * fudge,
-            //       y2: segment.p2.y * fudge,
-            //     }),
-
-            //     createElement('circle', {
-            //       stroke: "red",
-            //       cx: segment.p1.x * fudge,
-            //       cy: segment.p1.y * fudge,
-            //       r: fudge / 10
-            //     }),
-
-            //     createElement('circle', {
-            //       stroke: "red",
-            //       cx: segment.p2.x * fudge,
-            //       cy: segment.p2.y * fudge,
-            //       r: fudge / 10
-            //     }),
-            //   ])
-            // }),
-
-            this.state.cameraPolygon &&
+            this.state.showCameraPolygon &&
             cameraPolygon &&
             cameraPolygon.regions &&
             cameraPolygon.regions.map((region) => {
-              return createElement('polyline', {
+              return createElement('polygon', {
                 fill: "blue",
                 stroke: "black",
                 points: region.reduce((mm, coord) => {
@@ -512,7 +494,7 @@ class App extends Component {
             lightsPolygons.map((polygon) => {
               return polygon.regions.map((region) => {
                 return (
-                  createElement('polyline', {
+                  createElement('polygon', {
                     fill: "yellow",
                     stroke: "black",
                     points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
@@ -525,7 +507,7 @@ class App extends Component {
             union &&
             union.regions.map((region) => {
               return (
-                createElement('polyline', {
+                createElement('polygon', {
                   fill: "yellow",
                   stroke: "black",
                   points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
@@ -537,7 +519,7 @@ class App extends Component {
             intersectionPolygon &&
             intersectionPolygon.regions.map((region) => {
               return (
-                createElement('polyline', {
+                createElement('polygon', {
                   fill: "yellow",
                   stroke: "blue",
                   points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')

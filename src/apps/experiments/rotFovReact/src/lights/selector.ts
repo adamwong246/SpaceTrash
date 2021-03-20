@@ -1,6 +1,6 @@
 
 import { createSelector } from "reselect";
-import {union} from 'polybooljs';
+import {union, segments} from 'polybooljs';
 
 import { loadMap } from '../../vendor/2d-visibility/src/load-map';
 import { Point, Lightsource } from '../../vendor/2d-visibility/src/point';
@@ -40,7 +40,8 @@ export const makeVisibilityOfLights = (markers: any[], preloadedMap: Segment[]) 
 
   return {
     markers: markersWithVis,
-    union: unionPolygon
+    // union: unionPolygon
+    union: unionPolygon && segments(unionPolygon).segments
   }
 };
 

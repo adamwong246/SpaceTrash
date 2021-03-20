@@ -2,7 +2,7 @@
     max-width: 35em;
 } */
 
-polyline{
+polyline, polygon{
     fill-opacity: 0.3;
 }
 
