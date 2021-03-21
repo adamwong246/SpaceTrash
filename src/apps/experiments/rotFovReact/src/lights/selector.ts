@@ -1,6 +1,5 @@
 
 import { createSelector } from "reselect";
-import {union, segments} from 'polybooljs';
 
 import { loadMap } from '../../vendor/2d-visibility/src/load-map';
 import { Point, Lightsource } from '../../vendor/2d-visibility/src/point';
@@ -8,6 +7,7 @@ import { Segment } from "../../vendor/2d-visibility/src/segment";
 import { calculateVisibility } from '../../vendor/2d-visibility/src/visibility';
 
 import makePolygon from "../makePolygon"
+import PolygonBooleanLib from "../PolygonBooleanLib/index.ts";
 
 const markersSelector = (state: { markers: any[] }) => state.markers;
 
@@ -35,15 +35,13 @@ export const makeVisibilityOfLights = (markers: any[], preloadedMap: Segment[]) 
   if(lightsPolygons.length){
     unionPolygon = lightsPolygons[0];
     for (var i = 1; i < lightsPolygons.length; i++)
-      unionPolygon = union(unionPolygon, lightsPolygons[i]);
+      unionPolygon = PolygonBooleanLib.segmentsUnion(unionPolygon, lightsPolygons[i]);
   }
 
   return {
     markers: markersWithVis,
-    // union: unionPolygon
-    union: unionPolygon && segments(unionPolygon).segments
+    union: unionPolygon && PolygonBooleanLib.toSegments(unionPolygon).segments
   }
 };
-
 
 export const selector = createSelector([markersSelector, preloadedMapSelector], makeVisibilityOfLights);

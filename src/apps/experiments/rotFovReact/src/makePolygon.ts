@@ -1,5 +1,3 @@
-import { polygon as makePolygon, segments as makeSegments } from 'polybooljs';
-
 interface ITriangle {
   first: {
     x: number, y: number
