@@ -3,6 +3,7 @@
   "version": "0.0.8",
   "description": "a roguelike with javascript bots",
   "scripts": {
+    "mongo": "sudo mongod",
     "server": "node --inspect src/apps/server/bin/www",
     "electron": "electron ./dist/electron/electron.bundle.js",
     "ai": "node ./dist/aiHarness.js",
