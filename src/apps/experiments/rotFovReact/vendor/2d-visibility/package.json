@@ -1,0 +1,28 @@
+{
+  "name": "2d-visibility-demo-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "contributors": [
+    {
+      "name": "Cyril Silverman"
+    },
+    {
+      "name": "David Neilsen"
+    }
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "rollup": "^1.13.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-typescript": "^1.0.1",
+    "typescript": "^3.5.1"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "lint": "tslint --project tsconfig.json"
+  },
+  "dependencies": {
+    "rot-js": "^2.1.5"
+  }
+}
