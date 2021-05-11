@@ -82,7 +82,7 @@
     "file-loader": "^2.0.0",
     "html-webpack-plugin": "^4.3.0",
     "jade": "~1.11.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mocha": "^5.2.0",
     "mongoose": "^4.8.6",
     "morgan": "~1.7.0",
