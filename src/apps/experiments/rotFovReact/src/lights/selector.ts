@@ -10,13 +10,13 @@ import makePolygon from "../makePolygon"
 import PolygonBooleanLib from "../PolygonBooleanLib/index.ts";
 
 const markersSelector = (state: { markers: any[] }) => state.markers;
-
 const preloadedMapSelector = (state: { preloadedMap: Segment[] }) => state.preloadedMap;
+const lightDistanceSelector = (state: { lightDistance: number }) => state.lightDistance;
 
-export const makeVisibilityOfLights = (markers: any[], preloadedMap: Segment[]) => {
+export const makeVisibilityOfLights = (markers: any[], preloadedMap: Segment[], lightDistance: number) => {
   const markersWithVis = markers.map((marker: { x: number, y: number, triangles: [] }) => {
 
-    const triangles = calculateVisibility(new Lightsource(new Point(marker.x, marker.y), 10), loadMap(preloadedMap, {
+    const triangles = calculateVisibility(new Lightsource(new Point(marker.x, marker.y), lightDistance), loadMap(preloadedMap, {
       x: marker.x,
       y: marker.y
     }));
@@ -45,4 +45,4 @@ export const makeVisibilityOfLights = (markers: any[], preloadedMap: Segment[]) 
   }
 };
 
-export const selector = createSelector([markersSelector, preloadedMapSelector], makeVisibilityOfLights);
+export const selector = createSelector([markersSelector, preloadedMapSelector, lightDistanceSelector], makeVisibilityOfLights);

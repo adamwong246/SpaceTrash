@@ -64,6 +64,12 @@ polygon {
   color: #f1f1f1;
 }
 
+.footer {
+  left: 0;
+  bottom: 0;
+  position: absolute;
+}
+
 
 /* .overlay .closebtn {
     position: absolute;
