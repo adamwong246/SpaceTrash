@@ -35,12 +35,12 @@ export const makeVisibilityOfLights = (markers: any[], preloadedMap: Segment[]) 
   if(lightsPolygons.length){
     unionPolygon = lightsPolygons[0];
     for (var i = 1; i < lightsPolygons.length; i++)
-      unionPolygon = PolygonBooleanLib.segmentsUnion(unionPolygon, lightsPolygons[i]);
+      unionPolygon = PolygonBooleanLib.union(unionPolygon, lightsPolygons[i]);
   }
 
   return {
     markers: markersWithVis,
-    union: unionPolygon && PolygonBooleanLib.toSegments(unionPolygon).segments
+    union: unionPolygon && PolygonBooleanLib.segments(unionPolygon).segments
   }
 };
 
