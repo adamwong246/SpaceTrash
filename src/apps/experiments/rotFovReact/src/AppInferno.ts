@@ -4,8 +4,8 @@ import * as ROT from "rot-js";
 
 import PolygonBooleanLib from './PolygonBooleanLib/index.ts';
 
-import { Rectangle } from '../vendor/2d-visibility/src/rectangle.ts';
-import { Segment } from '../vendor/2d-visibility/src/segment.ts';
+import { Rectangle } from '../vendor/2d-visibility/src/rectangle';
+import { Segment } from '../vendor/2d-visibility/src/segment';
 import { Point, Lightsource } from '../vendor/2d-visibility/src/point.ts';
 import { loadMap, preLoadMap } from '../vendor/2d-visibility/src/load-map.ts';
 import { calculateVisibility } from '../vendor/2d-visibility/src/visibility.ts';
@@ -52,12 +52,12 @@ const initialState = {
   //
   showWallSegments: true,
   // lightrays: true,
-  camerarays: true,
-  // lightsPolygons: true,
+  camerarays: false,
+  lightsPolygons: false,
   // showCameraPolygon: true,
   // lightsUnionPolygon: true,
-  // cameraLightsIntersectionPolygon: false,
-  showLiveMap: true
+  cameraLightsIntersectionPolygon: false,
+  showLiveMap: false
 
 };
 
@@ -221,40 +221,55 @@ class App extends Component {
   render() {
     const fudge = this.state.fudge;
     const cameraLightMarkersVis = cameraLightMarkersSelector(this.state);
-
     const cameraLightMouse = new Lightsource(new Point(this.state.mouseX, this.state.mouseY), 10);
+
+    const lightsPolygons = cameraLightMarkersVis.unionPolygon || { regions: [] };
+    const unionSegments = cameraLightMarkersVis.unionSegments || [];
     const cameraLightMouseVisibility = calculateVisibility(
       cameraLightMouse, loadMap(this.state.preloadedMap, cameraLightMouse.position)
     );
 
-    const directlyVisibleMarkers = cameraLightMouseVisibility.reduce((mm, vPoints) => {
-      return mm.concat(this.state.markers.filter(marker => {
-        return this.isInTriangle(marker, vPoints, cameraLightMouse.position);
-      }));
-    }, []);
+    const interesction = PolygonBooleanLib.selectIntersect(PolygonBooleanLib.combine(
+      PolygonBooleanLib.segments(makePolygon(cameraLightMouseVisibility)), {segments: unionSegments}
+    ));
+    const combinedIntersection = PolygonBooleanLib.polygon(interesction);
+    
+    // this.state.liveMap = PolygonBooleanLib.combine(PolygonBooleanLib.selectIntersect(interesction, this.state.liveMap || []);
 
-    if (cameraLightMouseVisibility.length && cameraLightMarkersVis.markers.length) {
+    // console.log('this.state.liveMap', this.state.liveMap);
 
-      this.state.liveMap = PolygonBooleanLib.selectUnion(
-        PolygonBooleanLib.combine(
 
-          // 
-          PolygonBooleanLib.selectIntersect(
+    // const directlyVisibleMarkers = cameraLightMouseVisibility.reduce((mm, vPoints) => {
+    //   return mm.concat(this.state.markers.filter(marker => {
+    //     return this.isInTriangle(marker, vPoints, cameraLightMouse.position);
+    //   }));
+    // }, []);
 
-            // combine the light rays with camera-mouse rays
-            PolygonBooleanLib.combine(
-              // 
-              { segments: cameraLightMarkersVis.union },
-              // 
-              { segments: PolygonBooleanLib.segments(makePolygon(cameraLightMouseVisibility)).segments })
+    // let intersectionPolygon = false;
+    // if (cameraLightMouseVisibility.length && cameraLightMarkersVis.markers.length) {
+    //   intersectionPolygon = PolygonBooleanLib.combine(
 
-          ), this.state.liveMap
+    //     // 
+    //     PolygonBooleanLib.selectIntersect(
 
-        )
-      );
-    }
+    //       // combine the light rays with camera-mouse rays
+    //       PolygonBooleanLib.combine(
+    //         // 
+    //         { segments: cameraLightMarkersVis.union },
+    //         // 
+    //         { segments: PolygonBooleanLib.segments(makePolygon(cameraLightMouseVisibility)).segments })
 
-    const liveMapPolygon = PolygonBooleanLib.polygon(this.state.liveMap);
+    //     ), this.state.liveMap
+
+    //   );
+
+    //   console.log(intersectionPolygon);
+    //   this.state.liveMap = PolygonBooleanLib.selectUnion(
+    //     intersectionPolygon
+    //   );
+    // }
+
+    // const liveMapPolygon = PolygonBooleanLib.polygon(this.state.liveMap);
 
     //////////////////////////////////////////////////
 
@@ -365,26 +380,64 @@ class App extends Component {
           createElement("a", { href: "https://github.com/velipso/polybooljs" }, "https://github.com/velipso/polybooljs")
         ]),
       ]),
-
+      // createElement("p", {}, "click to drop a light"),
       createElement("svg", {
-          width: "100%",
-          height: "100%",
-          xmlns: "http://www.w3.org/2000/svg",
-          onMouseMove: e => this.onMouseMove(e),
-          onClick: e => this.placeMarker(e)
+        width: "100%",
+        height: "100%",
+        xmlns: "http://www.w3.org/2000/svg",
+        style: {
+          stroke: 'black'
         },
+        onMouseMove: e => this.onMouseMove(e),
+        onClick: e => this.placeMarker(e)
+      },
 
+        // [
+        //   lightSegments &&  lightSegments.map((segment) => {
+        //     return createElement('g', {}, [
+        //       createElement('line', {
+        //         stroke: "yellow",
+        //         x1: segment.p1.x * fudge,
+        //         y1: segment.p1.y * fudge,
+        //         x2: segment.p2.x * fudge,
+        //         y2: segment.p2.y * fudge,
+        //       }),
+        //     ])
+        //   })
+        // ],
+
+        // [
+          
+        // ],
+
+        // [
+        //   directlyVisibleMarkers && directlyVisibleMarkers.map(marker => {
+        //     return createElement("circle", {
+        //       cx: marker.x * fudge,
+        //       cy: marker.y * fudge,
+        //       r: 4,
+        //       fill: "yellow",
+        //       stroke: "black"
+        //     });
+        //   }),
+        // [
+
+        // ],
+
+        // this.state.showCameraPolygon &&
+        // cameraPolygon &&
+        // cameraPolygon.regions &&
+        // cameraPolygon.regions.map((region) => {
+        //   return createElement('polygon', {
+        //     fill: "blue",
+        //     stroke: "black",
+        //     points: region.reduce((mm, coord) => {
+        //       return mm.concat(`${coord[0] * fudge}, ${coord[1] * fudge}`)
+        //     }, [])
+        //       .join(' ')
+        //   });
+        // }),
         [
-          directlyVisibleMarkers.map(marker => {
-            return createElement("circle", {
-              cx: marker.x * fudge,
-              cy: marker.y * fudge,
-              r: 4,
-              fill: "yellow",
-              stroke: "black"
-            });
-          }),
-
           this.state.showWallSegments &&
           this.state.preloadedMap &&
           this.state.preloadedMap.map((segment) => {
@@ -413,54 +466,13 @@ class App extends Component {
             ])
           }),
 
-          // this.state.showCameraPolygon &&
-          // cameraPolygon &&
-          // cameraPolygon.regions &&
-          // cameraPolygon.regions.map((region) => {
-          //   return createElement('polygon', {
-          //     fill: "blue",
-          //     stroke: "black",
-          //     points: region.reduce((mm, coord) => {
-          //       return mm.concat(`${coord[0] * fudge}, ${coord[1] * fudge}`)
-          //     }, [])
-          //       .join(' ')
-          //   });
-          // }),
-
-          // this.state.lightsPolygons &&
-          // lightsPolygons &&
-          // lightsPolygons.map((polygon) => {
-          //   return polygon.regions.map((region) => {
-          //     return (
-          //       createElement('polygon', {
-          //         fill: "yellow",
-          //         stroke: "black",
-          //         points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
-          //       })
-          //     );
-          //   })
-          // }),
-
-          // this.state.cameraLightsIntersectionPolygon &&
-          // intersectionPolygon &&
-          // intersectionPolygon.regions.map((region) => {
-          //   return (
-          //     createElement('polygon', {
-          //       fill: "yellow",
-          //       stroke: "blue",
-          //       points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
-          //     })
-          //   );
-          // }),
-
-          this.state.showLiveMap &&
-          liveMapPolygon &&
-          liveMapPolygon.regions &&
-          liveMapPolygon.regions.map((region) => {
+          this.state.lightsPolygons &&
+          lightsPolygons &&
+          lightsPolygons.regions.map((region) => {
             return (
               createElement('polygon', {
-                fill: "green",
-                stroke: "green",
+                fill: "yellow",
+                stroke: "black",
                 points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
               })
             );
@@ -494,22 +506,14 @@ class App extends Component {
             })];
           }),
 
-          this.state.lightrays &&
-          cameraLightMarkers.map(marker => {
-            return marker.triangles.map(triangle => {
-              return [createElement("line", {
-                x1: marker.x * fudge,
-                y1: marker.y * fudge,
-                x2: triangle.first.x * fudge,
-                y2: triangle.first.y * fudge,
-                stroke: "yellow"
-              }), " ", createElement("line", {
-                x1: marker.x * fudge,
-                y1: marker.y * fudge,
-                x2: triangle.second.x * fudge,
-                y2: triangle.second.y * fudge,
-                stroke: "yellow"
-              })];
+          combinedIntersection && combinedIntersection.regions.map((region) => {
+            return createElement('polygon', {
+              fill: "green",
+              stroke: "green",
+              points: region.reduce((mm, coord) => {
+                  return mm.concat(`${coord[0] * fudge}, ${coord[1] * fudge}`)
+                }, [])
+                .join(' ')
             });
           }),
 
@@ -521,6 +525,56 @@ class App extends Component {
             stroke: "black"
           })
         ]
+
+
+        // this.state.cameraLightsIntersectionPolygon &&
+        // intersectionPolygon &&
+        // intersectionPolygon.markers.map((region) => {
+        //   return (
+        //     createElement('polygon', {
+        //       fill: "yellow",
+        //       stroke: "blue",
+        //       points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
+        //     })
+        //   );
+        // }),
+
+        // this.state.showLiveMap &&
+        // liveMapPolygon &&
+        // liveMapPolygon.regions &&
+        // liveMapPolygon.regions.map((region) => {
+        //   return (
+        //     createElement('polygon', {
+        //       fill: "green",
+        //       stroke: "green",
+        //       points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
+        //     })
+        //   );
+        // }),
+
+
+
+        // this.state.lightrays &&
+        // cameraLightMarkersVis.markers.map(marker => {
+        //   return marker.triangles.map(triangle => {
+        //     return [createElement("line", {
+        //       x1: marker.x * fudge,
+        //       y1: marker.y * fudge,
+        //       x2: triangle.first.x * fudge,
+        //       y2: triangle.first.y * fudge,
+        //       stroke: "yellow"
+        //     }), " ", createElement("line", {
+        //       x1: marker.x * fudge,
+        //       y1: marker.y * fudge,
+        //       x2: triangle.second.x * fudge,
+        //       y2: triangle.second.y * fudge,
+        //       stroke: "yellow"
+        //     })];
+        //   });
+        // }),
+
+
+        // ]
       )
     ]);
   }

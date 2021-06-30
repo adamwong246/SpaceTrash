@@ -1,7 +1,7 @@
 // import React from 'react'
 // import ReactDOM from 'react-dom'
 import { render } from 'inferno';
-import {createElement} from 'inferno-create-element';
+import { createElement } from 'inferno-create-element';
 
 import storeCreator from "./state/store.js";
 import initialState from "./state/initialState.js";
@@ -9,7 +9,7 @@ import initialState from "./state/initialState.js";
 // create the redux store
 const store = storeCreator(initialState);
 
-import App from "./AppInferno.js";
+import App from "./AppInferno.ts";
 
 // when the page is ready...
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -20,9 +20,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
   // whenever the store changes...
   store.subscribe(() => {
     wrapper
-      ? render(
-        createElement(App, {storeState: store.getState()}, ""), wrapper)
-      : false;
+      ?
+      render(
+        createElement(App, { storeState: store.getState() }, ""), wrapper) :
+      false;
   })
 
   // Dispatch something to trigger the initial render. The subscriber will listen for future changes. 
