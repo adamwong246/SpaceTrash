@@ -13,6 +13,7 @@ import { calculateVisibility } from '../vendor/2d-visibility/src/visibility.ts';
 import makePolygon from "./makePolygon"
 import { selector as cameraLightMarkersSelector } from "./lights/selector.ts";
 import Fps from "./Fps.js";
+import { Lightsource } from '../vendor/2d-visibility/src/point';
 
 const sign = (p1, p2, p3) => {
   return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
@@ -48,8 +49,8 @@ const initialState = {
   visibleMap: [],
   liveMap: { segments: [], inverted: false },
 
-  lightDistance: 200,
-  cameraDistance: 100,
+  lightDistance: 100,
+  cameraDistance: 25,
 
   showWallSegments: true,
   lightrays: true,
@@ -221,18 +222,26 @@ class App extends Component {
 
   render() {
     const fudge = this.state.fudge;
-    const cameraLightMarkersVis = cameraLightMarkersSelector(this.state);
-    const cameraLightMouse = new Lightsource(new Point(this.state.mouseX, this.state.mouseY), this.state.cameraDistance);
+    const preloadedMap: Segment[] = this.state.preloadedMap;
 
-    const lightsPolygons = cameraLightMarkersVis.unionPolygon || { regions: [] };
-    const unionSegments = cameraLightMarkersVis.unionSegments || [];
-    const cameraLightMouseVisibility = calculateVisibility(
-      cameraLightMouse, loadMap(this.state.preloadedMap, cameraLightMouse.position)
+
+    const lightVisibility = cameraLightMarkersSelector(this.state);
+    const cameraLightMouse: Lightsource = new Lightsource(new Point(this.state.mouseX, this.state.mouseY), this.state.cameraDistance);
+    const cameraVisibility = calculateVisibility(cameraLightMouse, loadMap(preloadedMap, cameraLightMouse));
+    
+    const combinedIntersection =
+    PolygonBooleanLib.polygon(
+      PolygonBooleanLib.selectIntersect(
+        PolygonBooleanLib.combine(
+          PolygonBooleanLib.segments(
+            makePolygon(cameraVisibility, false)),
+            {
+              inverted: false,
+              segments: (lightVisibility.unionSegments || [])
+            }
+        )
+      )
     );
-
-    const combinedIntersection = PolygonBooleanLib.polygon(PolygonBooleanLib.selectIntersect(PolygonBooleanLib.combine(
-      PolygonBooleanLib.segments(makePolygon(cameraLightMouseVisibility)), {segments: unionSegments}
-    )));
 
     //////////////////////////////////////////////////
 
@@ -280,7 +289,6 @@ class App extends Component {
             // value: this.state.lightDistance,
             name: "lightDistance",
             onChange: (e) => {
-              console.log(e.target.value);
               this.setState({ lightDistance: e.target.value });
             }
             // onChange: e => this.setState({ lightDistance: e.target.value })
@@ -292,7 +300,6 @@ class App extends Component {
             // value: this.state.cameraDistance,
             name: "cameraDistance",
             onChange: (e) => {
-              console.log(e.target.value);
               this.setState({ cameraDistance: e.target.value });
             },
             // onChange: e => this.setState({ cameraDistance: e.target.value })
@@ -378,7 +385,7 @@ class App extends Component {
           // }),
 
           this.state.camerarays &&
-          cameraLightMouseVisibility.map(v => {
+          cameraVisibility.map(v => {
             const firstPoint = v.first;
             const secondPoint = v.second;
             const props = {
@@ -402,11 +409,19 @@ class App extends Component {
               x2: props.x2,
               y2: props.y2,
               stroke: "blue"
-            })];
+            }),
+            createElement("line", {
+              x1: props.x1,
+              y1: props.y1,
+              x2: props.x2,
+              y2: props.y2,
+              stroke: "blue"
+            })
+          ];
           }),
 
           this.state.lightrays &&
-          cameraLightMarkersVis.markers.map(marker => {
+          lightVisibility.markers.map(marker => {
             return marker.triangles.map(triangle => {
               return [createElement("line", {
                 x1: marker.x * fudge,
@@ -414,13 +429,21 @@ class App extends Component {
                 x2: triangle.first.x * fudge,
                 y2: triangle.first.y * fudge,
                 stroke: "yellow"
-              }), " ", createElement("line", {
+              }), createElement("line", {
                 x1: marker.x * fudge,
                 y1: marker.y * fudge,
                 x2: triangle.second.x * fudge,
                 y2: triangle.second.y * fudge,
                 stroke: "yellow"
-              })];
+              }),
+              createElement("line", {
+                x1: triangle.first.x * fudge,
+                y1: triangle.first.y * fudge,
+                x2: triangle.second.x * fudge,
+                y2: triangle.second.y * fudge,
+                stroke: "yellow"
+              })
+            ];
             });
           }),
 
@@ -443,7 +466,7 @@ class App extends Component {
             stroke: "black"
           }),
 
-          ...cameraLightMarkersVis.markers.map((m) => {
+          ...lightVisibility.markers.map((m) => {
             return (
               createElement("circle", {
                 cx: m.x * fudge,

@@ -69,6 +69,7 @@ export function calculateVisibility(lightSource: Lightsource, endpoints: EndPoin
   let beginAngle = 0;
 
   endpoints.sort(endpointCompare);
+  // console.log(endpoints[0]);
 
   for (let pass = 0; pass < 2; pass += 1) {
     for (const endpoint of endpoints) {
@@ -96,16 +97,14 @@ export function calculateVisibility(lightSource: Lightsource, endpoints: EndPoin
         if (pass === 1) {
 
           // console.log(openSegment.d, lightSource.range)
-          if(openSegment && openSegment.d < lightSource.range){
-            const trianglePoints = getTrianglePoints(origin, beginAngle, endpoint.angle, openSegment);
-            output.push(trianglePoints);
-          } 
-          // if{
-          //   break;
-          // }
 
-          // const trianglePoints = getTrianglePoints(origin, beginAngle, endpoint.angle, openSegment);
-          // output.push(trianglePoints);
+          // if(openSegment && openSegment.d < lightSource.range){
+          //   const trianglePoints = getTrianglePoints(origin, beginAngle, endpoint.angle, openSegment);
+          //   output.push(trianglePoints);
+          // } 
+
+          const trianglePoints = getTrianglePoints(origin, beginAngle, endpoint.angle, openSegment);
+          output.push(trianglePoints);
           
         }
         beginAngle = endpoint.angle;

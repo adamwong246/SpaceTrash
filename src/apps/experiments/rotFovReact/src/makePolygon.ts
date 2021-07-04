@@ -6,7 +6,7 @@ interface ITriangle {
   }
 };
 
-export default (triangles: ITriangle[]) => {
+export default (triangles: ITriangle[], inverted = false) => {
   const regions = [];
   for(let i = 0; i < triangles.length; i++){
     const t = triangles[i]
@@ -15,7 +15,7 @@ export default (triangles: ITriangle[]) => {
   }
   
   return {
-    inverted: false,
+    inverted,
     regions: [regions]
   }
 }

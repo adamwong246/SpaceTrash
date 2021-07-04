@@ -1,10 +1,10 @@
 import { Segment } from './segment';
 import { Rectangle } from './rectangle';
-import { Point } from './point';
+import { Lightsource, Point, Wall } from './point';
 import { EndPoint } from './end-point';
 
-const calculateEndPointAngles = (lightSource: Point, segment: Segment) => {
-  const { x, y } = lightSource;
+const calculateEndPointAngles = (lightSource: Lightsource, segment: Segment) => {
+  const { x, y } = lightSource.position;
   const dx = 0.5 * (segment.p1.x + segment.p2.x) - x;
   const dy = 0.5 * (segment.p1.y + segment.p2.y) - y;
 
@@ -29,7 +29,7 @@ const setSegmentBeginning = (segment: Segment) => {
   segment.p2.beginsSegment = !segment.p1.beginsSegment;
 };
 
-const processSegments = (lightSource: Point, segments: Segment[]) => {
+const processSegments = (lightSource: Lightsource, segments: Segment[]) => {
   for (const segment of segments) {
     calculateEndPointAngles(lightSource, segment);
     setSegmentBeginning(segment);
@@ -76,26 +76,24 @@ export function preLoadMap(room: Rectangle, blocks: Rectangle[], wallsAsPolygon:
 }
 
 
-export function loadMap(segments: Segment[], lightSource: Point): EndPoint[] {
-  // console.log(segments);
+export function loadMap(segments: Segment[], lightSource: Lightsource): EndPoint[] {
+  // console.log("segments", segments);
+
+  // const hyptns = lightSource.range;
+  // for(let i = 0; i < 35; i++){
+  //   segments.push(new Segment(
+  //     0,
+  //     0,
+  //     0,
+  //     0,
+  //     new Wall(0, 0, 'edge')
+  //   ));
+  // };
+
   const endPoints: EndPoint[] = [];
   for (const segment of processSegments(lightSource, segments)) {
     endPoints.push(segment.p1, segment.p2);
   }
+  // console.log("endPoints", endPoints);
   return endPoints;
 }
-
-// export function loadMapV2(polygon: any, lightSource: Point): EndPoint[] {
-//   console.log(polygon);
-//   debugger
-
-//   const segments = polygon.regions.reduce((mm: any[], r: any) => {
-//     return mm.concat()
-//   });
-
-//   const endPoints: EndPoint[] = [];
-//   for (const segment of processSegments(lightSource, segments)) {
-//     endPoints.push(segment.p1, segment.p2);
-//   }
-//   return endPoints;
-// }

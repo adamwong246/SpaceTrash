@@ -16,10 +16,8 @@ const lightDistanceSelector = (state: { lightDistance: number }) => state.lightD
 export const makeVisibilityOfLights = (markers: any[], preloadedMap: Segment[], lightDistance: number) => {
   const markersWithVis = markers.map((marker: { x: number, y: number, triangles: [] }) => {
 
-    const triangles = calculateVisibility(new Lightsource(new Point(marker.x, marker.y), lightDistance), loadMap(preloadedMap, {
-      x: marker.x,
-      y: marker.y
-    }));
+    const lightsource: Lightsource = new Lightsource(new Point(marker.x, marker.y), lightDistance);
+    const triangles = calculateVisibility(lightsource, loadMap(preloadedMap, lightsource));
 
     return {
       x: marker.x,
