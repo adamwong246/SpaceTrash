@@ -38,6 +38,15 @@ const processSegments = (lightSource: Lightsource, segments: Segment[]) => {
   return segments;
 };
 
+
+const distance = (a: Point, b: Point): number => {
+  var da = a.x - b.x;
+  var db = a.y - b.y;
+
+  var dc = Math.sqrt(da * da + db * db);
+  return dc;
+};
+
 export function preLoadMap(room: Rectangle, blocks: Rectangle[], wallsAsPolygon: any): Segment[] {
 
   const walls = wallsAsPolygon.regions.reduce((memo: any[], region: any) => {
@@ -72,7 +81,10 @@ export function preLoadMap(room: Rectangle, blocks: Rectangle[], wallsAsPolygon:
   for (const segment of walls) {
     segments.push(segment);
   }
-  return segments;
+  console.log(segments)
+  console.log(segments.filter((s: Segment) => distance(s.p1, s.p2) >  Number.EPSILON))
+  // return segments;
+  return segments.filter((s: Segment) => distance(s.p1, s.p2) >  Number.EPSILON);
 }
 
 
