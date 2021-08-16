@@ -230,14 +230,9 @@ class App extends Component<any, IState> {
 
   render() {
     const fudge = this.state.fudge;
-    // const preloadedMap: Segment[] = this.state.preloadedMap;
-
     const lightVisibility = cameraLightMarkersSelector(this.state);
     const cameraLightMouse: Lightsource = new Lightsource(new Point(this.state.mouseX, this.state.mouseY), this.state.cameraDistance);
-
-
     const visMap = lightVisibility.visibleMap.filter((l) => l.slices.length);
-    // console.log("visMap", visMap);
 
     //////////////////////////////////////////////////
 
@@ -491,121 +486,3 @@ class App extends Component<any, IState> {
 }
 
 export default App;
-
-
-
-  // isInTriangle(marker, points, light) {
-  //   return PointInTriangle(marker, light, points.first, points.second);
-  // }
-
-// const intersector = (linesA, linexB) => {
-//   return linesA + linexB;
-// };
-// const sign = (p1, p2, p3) => {
-//   return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
-// };
-// const PointInTriangle = (pt, v1, v2, v3) => {
-//   const d1 = sign(pt, v1, v2);
-//   const d2 = sign(pt, v2, v3);
-//   const d3 = sign(pt, v3, v1);
-//   const has_neg = d1 < 0 || d2 < 0 || d3 < 0;
-//   const has_pos = d1 > 0 || d2 > 0 || d3 > 0;
-//   return !(has_neg && has_pos);
-// };
-
-
-          // lightVisibility.reducedLitSegments.map(marker => {
-          //   const buffer = fudge * (this.state.height + 1) * 2;
-          //   return createElement("g", {},
-
-          //     [createElement("line", {
-          //       x1: marker.first.x * fudge,
-          //       y1: marker.first.y * fudge + buffer,
-          //       x2: marker.second.x * fudge,
-          //       y2: marker.second.y * fudge + buffer,
-          //       stroke: "orange"
-          //     }), createElement("circle", {
-          //       cx: marker.first.x * fudge,
-          //       cy: marker.first.y * fudge + buffer,
-          //       r: 1,
-          //       // x2: marker.second.x * fudge,
-          //       // y2: marker.second.y * fudge + buffer,
-          //       stroke: "orange",
-          //       fill: "orange"
-          //     }), createElement("circle", {
-          //       cx: marker.second.x * fudge,
-          //       cy: marker.second.y * fudge + buffer,
-          //       r: 1,
-          //       // x2: marker.second.x * fudge,
-          //       // y2: marker.second.y * fudge + buffer,
-          //       stroke: "orange",
-          //       fill: "orange"
-          //     })
-          //     ]);
-          // }),
-
-          // this.state.knownMap && this.state.knownMap.regions.map((region) => {
-          //   return createElement('polygon', {
-          //     fill: "green",
-          //     stroke: "green",
-          //     points: region.reduce((mm, coord) => {
-          //         return mm.concat(`${coord[0] * fudge}, ${coord[1] * fudge}`)
-          //       }, [])
-          //       .join(' ')
-          //   });
-          // }),
-
-
-                    // this.state.lightsPolygons &&
-          // lightsPolygons &&
-          // lightsPolygons.regions.map((region) => {
-          //   return (
-          //     createElement('polygon', {
-          //       fill: "yellow",
-          //       stroke: "black",
-          //       points: region.map((coord) => `${coord[0] * fudge}, ${coord[1] * fudge}`).join(' ')
-          //     })
-          //   );
-          // }),
-
-
-          // cameraVisibility && cameraVisibility.map(v => {
-          //   const firstPoint = v.first;
-          //   const secondPoint = v.second;
-          //   const props = {
-          //     x1: firstPoint.x * fudge,
-          //     y1: firstPoint.y * fudge,
-          //     x2: secondPoint.x * fudge,
-          //     y2: secondPoint.y * fudge
-          //   };
-          //   const cameraX = cameraLightMouse.position.x * fudge;
-          //   const cameraY = cameraLightMouse.position.y * fudge;
-          //   const buffer = fudge * (this.state.height + 1);
-
-          //   return [
-          //     this.state.camerarays && createElement("line", {
-          //       x1: cameraX,
-          //       y1: cameraY + buffer,
-          //       x2: props.x1,
-          //       y2: props.y1 + buffer,
-          //       stroke: "blue",
-          //       'stroke-dasharray': fudge / 10
-          //     }),
-          //     this.state.camerarays && createElement("line", {
-          //       x1: cameraX,
-          //       y1: cameraY + buffer,
-          //       x2: props.x2,
-          //       y2: props.y2 + buffer,
-          //       stroke: "blue",
-          //       'stroke-dasharray': fudge / 10
-          //     }),
-          //     createElement("line", {
-          //       x1: props.x1,
-          //       y1: props.y1 + buffer,
-          //       x2: props.x2,
-          //       y2: props.y2 + buffer,
-          //       stroke: "blue",
-
-          //     })
-          //   ];
-          // }),
