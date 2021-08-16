@@ -81,8 +81,8 @@ export function preLoadMap(room: Rectangle, blocks: Rectangle[], wallsAsPolygon:
   for (const segment of walls) {
     segments.push(segment);
   }
-  console.log(segments)
-  console.log(segments.filter((s: Segment) => distance(s.p1, s.p2) >  Number.EPSILON))
+  // console.log(segments)
+  // console.log(segments.filter((s: Segment) => distance(s.p1, s.p2) >  Number.EPSILON))
   // return segments;
   return segments.filter((s: Segment) => distance(s.p1, s.p2) >  Number.EPSILON);
 }

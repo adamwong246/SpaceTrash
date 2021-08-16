@@ -17,7 +17,7 @@ export class Segment {
   public p2: EndPoint;
   public d: number = 0;
   public wall: Wall;
-
+  public breadth: number;
 
   constructor(
     x1: number,
@@ -32,6 +32,6 @@ export class Segment {
     this.p2.segment = this;
     this.wall = wall;
     this.uid = uuidv4();
-    // console.log(wall)
+    this.breadth = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
   }
 }

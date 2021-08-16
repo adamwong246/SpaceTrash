@@ -27,7 +27,8 @@ export class VizTriangle {
   constructor(
     public first: Point,
     public second: Point,
-    public wall: Wall
+    public wall: Wall,
+    public uid: any
   ) {
   }
 }

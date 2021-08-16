@@ -76,14 +76,8 @@ const initialState: IState = {
 };
 
 class App extends Component<any, IState> {
-  constructor(props) {
-    super(props);
-    this.state = initialState;
-  }
-
-  componentDidMount() {
-    this.resetMapDungeon()
-  }
+  constructor(props) { super(props); this.state = initialState; }
+  componentDidMount() { this.resetMapDungeon(); }
 
   resetMapDungeon(width = this.state.width, height = this.state.height) {
     const levelMap = [];
@@ -241,6 +235,10 @@ class App extends Component<any, IState> {
     const lightVisibility = cameraLightMarkersSelector(this.state);
     const cameraLightMouse: Lightsource = new Lightsource(new Point(this.state.mouseX, this.state.mouseY), this.state.cameraDistance);
 
+
+    const visMap = lightVisibility.visibleMap.filter((l) => l.slices.length);
+    // console.log("visMap", visMap);
+
     //////////////////////////////////////////////////
 
     return createElement("div", {}, [
@@ -370,7 +368,195 @@ class App extends Component<any, IState> {
             ])
           }),
 
-          // this.state.lightsPolygons &&
+          lightVisibility.markers.map(marker => {
+            return marker.triangles.map(triangle => {
+              const buffer = fudge * (this.state.height + 1);
+              return createElement("g", {}, [
+                this.state.lightrays && createElement("line", {
+                  x1: marker.x * fudge,
+                  y1: marker.y * fudge + buffer,
+                  x2: triangle.first.x * fudge,
+                  y2: triangle.first.y * fudge + buffer,
+                  stroke: "red",
+                  'stroke-dasharray': fudge / 10
+                }),
+                this.state.lightrays && createElement("line", {
+                  x1: marker.x * fudge,
+                  y1: marker.y * fudge + buffer,
+                  x2: triangle.second.x * fudge,
+                  y2: triangle.second.y * fudge + buffer,
+                  stroke: "red",
+                  'stroke-dasharray': fudge / 10
+                }),
+
+                createElement("circle", {
+                  cx: triangle.first.x * fudge,
+                  cy: triangle.first.y * fudge + buffer,
+                  r: 1,
+                  stroke: "red",
+                  fill: "red"
+                }),
+
+                createElement("circle", {
+                  cx: triangle.second.x * fudge,
+                  cy: triangle.second.y * fudge + buffer,
+                  r: 1,
+                  stroke: "red",
+                  fill: "red"
+                }),
+
+                createElement("line", {
+                  x1: triangle.first.x * fudge,
+                  y1: triangle.first.y * fudge + buffer,
+                  x2: triangle.second.x * fudge,
+                  y2: triangle.second.y * fudge + buffer,
+                  stroke: "red"
+                })
+              ]);
+            });
+          }),
+
+
+
+
+          visMap.map(line => {
+            const buffer = fudge * (this.state.height + 1) * 2;
+
+            const dasharray = [0, ...line.slices, line.breadth];
+
+            // const diff = triangle.breadth - triangle.slices[triangle.slices.length - 1];
+
+            // if (diff > 0){
+            //   dasharray.push(diff);
+            // }
+
+            const mappeddashArray = dasharray.map((d) => d * fudge);
+
+            return createElement("g", {}, [
+
+              // createElement("circle", {
+              //   cx: line.p1.x * fudge,
+              //   cy: line.p1.y * fudge + buffer,
+              //   r: 1,
+              //   stroke: "green",
+              //   fill: "green"
+              // }),
+
+              // createElement("circle", {
+              //   cx: line.p2.x * fudge,
+              //   cy: line.p2.y * fudge + buffer,
+              //   r: 1,
+              //   stroke: "green",
+              //   fill: "green"
+              // }),
+
+              createElement("line", {
+                x1: line.p1.x * fudge,
+                y1: line.p1.y * fudge + buffer,
+                x2: line.p2.x * fudge,
+                y2: line.p2.y * fudge + buffer,
+                stroke: "green",
+                'stroke-dasharray': mappeddashArray,
+                'data-breadth': line.breadth * fudge
+              })
+            ]);
+          }),
+
+
+
+          createElement("circle", {
+            cx: cameraLightMouse.position.x * fudge,
+            cy: cameraLightMouse.position.y * fudge,
+            r: 4,
+            fill: "blue",
+            stroke: "black"
+          }),
+
+          ...lightVisibility.markers.map((m) => {
+            return (
+              createElement("circle", {
+                cx: m.x * fudge,
+                cy: m.y * fudge,
+                r: 4,
+                fill: "yellow",
+                stroke: "black"
+              })
+            );
+          })
+        ],
+      ),
+      createElement("p", { className: 'footer' }, "Move the mouse to change the position of the camera. Click to place a light source."),
+    ]);
+  }
+}
+
+export default App;
+
+
+
+  // isInTriangle(marker, points, light) {
+  //   return PointInTriangle(marker, light, points.first, points.second);
+  // }
+
+// const intersector = (linesA, linexB) => {
+//   return linesA + linexB;
+// };
+// const sign = (p1, p2, p3) => {
+//   return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+// };
+// const PointInTriangle = (pt, v1, v2, v3) => {
+//   const d1 = sign(pt, v1, v2);
+//   const d2 = sign(pt, v2, v3);
+//   const d3 = sign(pt, v3, v1);
+//   const has_neg = d1 < 0 || d2 < 0 || d3 < 0;
+//   const has_pos = d1 > 0 || d2 > 0 || d3 > 0;
+//   return !(has_neg && has_pos);
+// };
+
+
+          // lightVisibility.reducedLitSegments.map(marker => {
+          //   const buffer = fudge * (this.state.height + 1) * 2;
+          //   return createElement("g", {},
+
+          //     [createElement("line", {
+          //       x1: marker.first.x * fudge,
+          //       y1: marker.first.y * fudge + buffer,
+          //       x2: marker.second.x * fudge,
+          //       y2: marker.second.y * fudge + buffer,
+          //       stroke: "orange"
+          //     }), createElement("circle", {
+          //       cx: marker.first.x * fudge,
+          //       cy: marker.first.y * fudge + buffer,
+          //       r: 1,
+          //       // x2: marker.second.x * fudge,
+          //       // y2: marker.second.y * fudge + buffer,
+          //       stroke: "orange",
+          //       fill: "orange"
+          //     }), createElement("circle", {
+          //       cx: marker.second.x * fudge,
+          //       cy: marker.second.y * fudge + buffer,
+          //       r: 1,
+          //       // x2: marker.second.x * fudge,
+          //       // y2: marker.second.y * fudge + buffer,
+          //       stroke: "orange",
+          //       fill: "orange"
+          //     })
+          //     ]);
+          // }),
+
+          // this.state.knownMap && this.state.knownMap.regions.map((region) => {
+          //   return createElement('polygon', {
+          //     fill: "green",
+          //     stroke: "green",
+          //     points: region.reduce((mm, coord) => {
+          //         return mm.concat(`${coord[0] * fudge}, ${coord[1] * fudge}`)
+          //       }, [])
+          //       .join(' ')
+          //   });
+          // }),
+
+
+                    // this.state.lightsPolygons &&
           // lightsPolygons &&
           // lightsPolygons.regions.map((region) => {
           //   return (
@@ -423,141 +609,3 @@ class App extends Component<any, IState> {
           //     })
           //   ];
           // }),
-
-          lightVisibility.markers.map(marker => {
-            return marker.triangles.map(triangle => {
-              const buffer = fudge * (this.state.height + 1);
-              return createElement("g", {}, [
-                this.state.lightrays && createElement("line", {
-                  x1: marker.x * fudge,
-                  y1: marker.y * fudge + buffer,
-                  x2: triangle.first.x * fudge,
-                  y2: triangle.first.y * fudge + buffer,
-                  stroke: "red",
-                  'stroke-dasharray': fudge / 10
-                }),
-                this.state.lightrays && createElement("line", {
-                  x1: marker.x * fudge,
-                  y1: marker.y * fudge + buffer,
-                  x2: triangle.second.x * fudge,
-                  y2: triangle.second.y * fudge + buffer,
-                  stroke: "red",
-                  'stroke-dasharray': fudge / 10
-                }),
-
-                createElement("circle", {
-                  cx: triangle.first.x * fudge,
-                  cy: triangle.first.y * fudge + buffer,
-                  r: 1,
-                  stroke: "red",
-                  fill: "red"
-                }),
-
-                createElement("circle", {
-                  cx: triangle.second.x * fudge,
-                  cy: triangle.second.y * fudge + buffer,
-                  r: 1,
-                  stroke: "red",
-                  fill: "red"
-                }),
-
-                createElement("line", {
-                  x1: triangle.first.x * fudge,
-                  y1: triangle.first.y * fudge + buffer,
-                  x2: triangle.second.x * fudge,
-                  y2: triangle.second.y * fudge + buffer,
-                  stroke: "red"
-                })
-              ]);
-            });
-          }),
-
-          // lightVisibility.reducedLitSegments.map(marker => {
-          //   const buffer = fudge * (this.state.height + 1) * 2;
-          //   return createElement("g", {},
-
-          //     [createElement("line", {
-          //       x1: marker.first.x * fudge,
-          //       y1: marker.first.y * fudge + buffer,
-          //       x2: marker.second.x * fudge,
-          //       y2: marker.second.y * fudge + buffer,
-          //       stroke: "orange"
-          //     }), createElement("circle", {
-          //       cx: marker.first.x * fudge,
-          //       cy: marker.first.y * fudge + buffer,
-          //       r: 1,
-          //       // x2: marker.second.x * fudge,
-          //       // y2: marker.second.y * fudge + buffer,
-          //       stroke: "orange",
-          //       fill: "orange"
-          //     }), createElement("circle", {
-          //       cx: marker.second.x * fudge,
-          //       cy: marker.second.y * fudge + buffer,
-          //       r: 1,
-          //       // x2: marker.second.x * fudge,
-          //       // y2: marker.second.y * fudge + buffer,
-          //       stroke: "orange",
-          //       fill: "orange"
-          //     })
-          //     ]);
-          // }),
-
-          // this.state.knownMap && this.state.knownMap.regions.map((region) => {
-          //   return createElement('polygon', {
-          //     fill: "green",
-          //     stroke: "green",
-          //     points: region.reduce((mm, coord) => {
-          //         return mm.concat(`${coord[0] * fudge}, ${coord[1] * fudge}`)
-          //       }, [])
-          //       .join(' ')
-          //   });
-          // }),
-
-          createElement("circle", {
-            cx: cameraLightMouse.position.x * fudge,
-            cy: cameraLightMouse.position.y * fudge,
-            r: 4,
-            fill: "blue",
-            stroke: "black"
-          }),
-
-          ...lightVisibility.markers.map((m) => {
-            return (
-              createElement("circle", {
-                cx: m.x * fudge,
-                cy: m.y * fudge,
-                r: 4,
-                fill: "yellow",
-                stroke: "black"
-              })
-            );
-          })
-        ],
-      ),
-      createElement("p", { className: 'footer' }, "Move the mouse to change the position of the camera. Click to place a light source."),
-    ]);
-  }
-}
-
-export default App;
-
-
-
-  // isInTriangle(marker, points, light) {
-  //   return PointInTriangle(marker, light, points.first, points.second);
-  // }
-
-// const intersector = (linesA, linexB) => {
-//   return linesA + linexB;
-// };
-// const sign = (p1, p2, p3) => {
-//   return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
-// };
-// const PointInTriangle = (pt, v1, v2, v3) => {
-//   const d1 = sign(pt, v1, v2);
-//   const d2 = sign(pt, v2, v3);
-//   const d3 = sign(pt, v3, v1);
-//   const has_neg = d1 < 0 || d2 < 0 || d3 < 0;
-//   const has_pos = d1 > 0 || d2 > 0 || d3 > 0;
-//   return !(has_neg && has_pos);
-// };

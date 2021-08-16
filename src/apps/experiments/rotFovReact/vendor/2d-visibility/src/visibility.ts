@@ -51,12 +51,16 @@ function getTrianglePoints(origin: Point, angle1: number, angle2: number, segmen
 
   if (segment) {
     return {
-      first: pBegin, second: pEnd, wall: segment.wall
+      first: pBegin, second: pEnd,
+      uid: segment.uid,
+      wall: segment.wall
     }
   }
   else {
     return {
-      first: pBegin, second: pEnd, wall: { x: 0, y: 0, wallType: "idk" }
+      first: pBegin, second: pEnd,
+      uid: 'idk',
+      wall: { x: 0, y: 0, wallType: "idk" }
     }
   }
 
