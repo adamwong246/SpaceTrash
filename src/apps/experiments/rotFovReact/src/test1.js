@@ -1,6 +1,9 @@
 import PolyBool from 'polybooljs';
-import { render } from 'inferno';
-import { createElement } from 'inferno-create-element';
+
+import { Component, createElement } from 'react';
+
+// import { render } from 'inferno';
+// import { createElement } from 'inferno-create-element';
 
 // import testFixture0 from "./test0.json";
 // import testFixture2 from "./testFixture2.json";
@@ -8,14 +11,15 @@ import testFixture from "./testFixture6.json";
 
 const fudge = 10;
 
-const cameraPolygon  = PolyBool.polygon(testFixture);
+const cameraPolygon = PolyBool.polygon(testFixture);
 console.log(cameraPolygon);
 
 document.addEventListener('DOMContentLoaded', (event) => {
   const wrapper = document.getElementById("root");
 
   wrapper
-    ? render(
+    ?
+    render(
       createElement('div', {}, [
         createElement("svg", { width: "100%", height: "100%", xmlns: "http://www.w3.org/2000/svg" },
 
@@ -43,7 +47,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             testFixture.segments.map((s) => {
 
               let stroke;
-              if(s.id === -1){
+              if (s.id === -1) {
                 stroke = 'black';
               } else {
                 stroke = 'red';
@@ -60,8 +64,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         )
 
-      ])
-      , wrapper)
-    : false;
+      ]), wrapper) :
+    false;
 
 })

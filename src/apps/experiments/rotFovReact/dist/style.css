@@ -7,24 +7,24 @@ polygon {
   fill-opacity: 0.3;
 }
 
-#fps {
+#gui {
   position: fixed;
-  top: 0;
-  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 1;
   background-color: white;
 }
 
-#menuOpenButton {
+.menuOpenButton {
   position: fixed;
-  top: 0;
+  bottom: 20;
   left: 0;
   z-index: 1;
 }
 
 .closebtn {
   left: 0;
-  top: 0;
+  bottom: 0;
   position: absolute;
 }
 
@@ -48,6 +48,10 @@ polygon {
   width: 100%;
   /* text-align: right; */
   /* margin-top: 30px; */
+}
+
+react-monaco-editor-container {
+  /* text-align: left; */
 }
 
 .overlay a {

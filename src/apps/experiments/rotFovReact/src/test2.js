@@ -1,6 +1,8 @@
 import PolyBool from 'polybooljs';
-import { render } from 'inferno';
-import { createElement } from 'inferno-create-element';
+
+import { Component, createElement } from 'react';
+// import { render } from 'inferno';
+// import { createElement } from 'inferno-create-element';
 
 import testFixture from "./testFixture6.json";
 
@@ -13,7 +15,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   const wrapper = document.getElementById("root");
 
   wrapper
-    ? render(
+    ?
+    render(
       createElement('div', {}, [
         createElement("svg", { width: "100%", height: "100%", xmlns: "http://www.w3.org/2000/svg" },
 
@@ -29,8 +32,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
           })
 
         )
-      ])
-      , wrapper)
-    : false;
+      ]), wrapper) :
+    false;
 
 })

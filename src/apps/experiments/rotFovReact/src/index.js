@@ -1,7 +1,7 @@
-// import React from 'react'
-// import ReactDOM from 'react-dom'
-import { render } from 'inferno';
-import { createElement } from 'inferno-create-element';
+import React from 'react'
+import ReactDOM from 'react-dom'
+// import { render } from 'inferno';
+// import { createElement } from 'inferno-create-element';
 
 import storeCreator from "./state/store.js";
 import initialState from "./state/initialState.js";
@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   store.subscribe(() => {
     wrapper
       ?
-      render(
-        createElement(App, { storeState: store.getState() }, ""), wrapper) :
+      ReactDOM.render(
+        React.createElement(App, { storeState: store.getState() }, ""), wrapper) :
       false;
   })
 

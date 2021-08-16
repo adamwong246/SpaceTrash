@@ -1,6 +1,13 @@
-import { Component } from 'inferno';
-import { createElement } from 'inferno-create-element';
+// import { Component } from 'inferno';
+// import { createElement } from 'inferno-create-element';
+
+import { Component, createElement } from 'react';
+// import { createElement } from 'inferno-create-element';
+
 import * as ROT from "rot-js";
+
+import { v4 as uuidv4 } from 'uuid';
+import MonacoEditor from 'react-monaco-editor';
 
 import { Rectangle } from '../vendor/2d-visibility/src/rectangle';
 import { Segment } from '../vendor/2d-visibility/src/segment';
@@ -11,10 +18,25 @@ import { selector as cameraLightMarkersSelector } from "./lights/selector.ts";
 import PolygonBooleanLib from './PolygonBooleanLib/index.ts';
 
 import Fps from "./Fps.js";
+import xStateFixture from "./xStateFixture.ts";
+
+const MENU_ABOUT = 'MENU_ABOUT'
+const MENU_DRONE = 'MENU_DRONE';
+
+interface IDrone {
+  name: string
+  uid: any
+  xstate: any
+  x: number
+  y: number
+  r: number;
+}
 
 interface IState {
   cameraDistance: number
+  cameraLightsIntersectionPolygon: boolean
   camerarays: boolean
+  drones: IDrone[]
   fudge: number
   height: number
   knownMap: any
@@ -23,19 +45,20 @@ interface IState {
   lightSource: { x: number, y: number }
   lightsPolygons: boolean
   markers: any[]
-  menuOpen: boolean
+  menuOpen: typeof MENU_ABOUT | typeof MENU_DRONE
+  menuOpenToDrone: null | string
   mouseX: number
   mouseY: number
   preloadedMap: any
+  showLiveMap: boolean
   showWallSegments: boolean
   visibility: any[]
   visibleMap: any[]
   width: number
-  cameraLightsIntersectionPolygon: boolean
-  showLiveMap: boolean;
 };
 
 const initialState: IState = {
+  menuOpenToDrone: null,
   fudge: 14, // zoom level
 
   // the dimensions of the map
@@ -48,7 +71,7 @@ const initialState: IState = {
     y: 0
   },
   markers: [],
-  menuOpen: false,
+  menuOpen: null,
   mouseX: 0,
   mouseY: 0,
   preloadedMap: [],
@@ -71,7 +94,34 @@ const initialState: IState = {
   // showCameraPolygon: true,
   // lightsUnionPolygon: true,
   cameraLightsIntersectionPolygon: false,
-  showLiveMap: false
+  showLiveMap: false,
+
+  drones: [
+    {
+      uid: uuidv4(),
+      name: 'bob',
+      xstate: xStateFixture,
+      x: 1,
+      y: 1,
+      r: 1
+    },
+    {
+      uid: uuidv4(),
+      name: 'larry',
+      xstate: xStateFixture,
+      x: 2,
+      y: 2,
+      r: 2
+    },
+    {
+      uid: uuidv4(),
+      name: 'curly',
+      xstate: xStateFixture,
+      x: 3,
+      y: 3,
+      r: 3
+    }
+  ]
 
 };
 
@@ -237,14 +287,12 @@ class App extends Component<any, IState> {
     //////////////////////////////////////////////////
 
     return createElement("div", {}, [
-      createElement("button", { id: "menuOpenButton", onClick: e => this.setState({ menuOpen: true }) }, 'menu'),
 
-      createElement(Fps, {}),
 
       createElement("div", {
         id: "myNav",
         className: "overlay",
-        style: this.state.menuOpen ? {
+        style: this.state.menuOpen !== null ? {
           width: "100%"
         } : {
           width: "0%"
@@ -256,82 +304,138 @@ class App extends Component<any, IState> {
           createElement("button", {
             className: "closebtn",
             onClick: e => this.setState({
-              menuOpen: false
+              menuOpen: null
             })
           }, "close"),
 
-          createElement("h1", null, "Duskers-like experiment #3"),
-
-          createElement('label', { for: "showWallSegments" }, 'Show walls'),
-          createElement("input", {
-            type: "checkbox",
-            value: "showWallSegments",
-            name: "showWallSegments",
-            checked: this.state.showWallSegments,
-            onChange: e => this.setState({ showWallSegments: e.target.checked })
-          }),
+          [
+            this.state.menuOpen === MENU_ABOUT && ([
 
 
+              createElement("h1", null, "Duskers-like experiment #4"),
 
-          createElement('br', {}, ''),
-          createElement('label', { for: "lightDistance" }, 'Length of light rays: ' + this.state.lightDistance),
-          createElement("input", {
-            type: "number",
-            // value: this.state.lightDistance,
-            name: "lightDistance",
-            onChange: (e) => {
-              this.setState({ lightDistance: e.target.value });
-            }
-            // onChange: e => this.setState({ lightDistance: e.target.value })
-          }),
-          createElement('br', {}, ''),
-          createElement('label', { for: "cameraDistance" }, 'Length of cameras vision: ' + this.state.cameraDistance),
-          createElement("input", {
-            type: "number",
-            // value: this.state.cameraDistance,
-            name: "cameraDistance",
-            onChange: (e) => {
-              this.setState({ cameraDistance: e.target.value });
-            },
-            // onChange: e => this.setState({ cameraDistance: e.target.value })
-          }),
+              createElement('label', { for: "showWallSegments" }, 'Show walls'),
+              createElement("input", {
+                type: "checkbox",
+                value: "showWallSegments",
+                name: "showWallSegments",
+                checked: this.state.showWallSegments,
+                onChange: e => this.setState({ showWallSegments: e.target.checked })
+              }),
 
-          createElement('br', {}, ''),
-          createElement('label', { for: "lightrays" }, 'Show Lights-rays'),
-          createElement("input", {
-            type: "checkbox",
-            value: "lightrays",
-            name: "lightrays",
-            checked: this.state.lightrays,
-            onChange: e => this.setState({ lightrays: e.target.checked })
-          }),
 
-          createElement('br', {}, ''),
-          createElement('label', { for: "camerarays" }, 'Show Camera-rays'),
-          createElement("input", {
-            type: "checkbox",
-            value: "camerarays",
-            name: "camerarays",
-            checked: this.state.camerarays,
-            onChange: e => this.setState({ camerarays: e.target.checked })
-          }),
 
-          createElement("a", { href: "https://github.com/andrienko/2d-visibility/tree/updated-versions" }, "https://github.com/andrienko/2d-visibility/tree/updated-versions"),
-          createElement("a", { href: "https://www.redblobgames.com/articles/visibility/" }, "https://www.redblobgames.com/articles/visibility/"),
-          createElement("a", { href: "https://ondras.github.io/rot.js" }, "https://ondras.github.io/rot.js"),
-          createElement("a", { href: "https://github.com/velipso/polybooljs" }, "https://github.com/velipso/polybooljs")
+              createElement('br', {}, ''),
+              createElement('label', { for: "lightDistance" }, 'Length of light rays: ' + this.state.lightDistance),
+              createElement("input", {
+                type: "number",
+                // value: this.state.lightDistance,
+                name: "lightDistance",
+                onChange: (e) => {
+                  this.setState({ lightDistance: e.target.value });
+                }
+                // onChange: e => this.setState({ lightDistance: e.target.value })
+              }),
+              createElement('br', {}, ''),
+              createElement('label', { for: "cameraDistance" }, 'Length of cameras vision: ' + this.state.cameraDistance),
+              createElement("input", {
+                type: "number",
+                // value: this.state.cameraDistance,
+                name: "cameraDistance",
+                onChange: (e) => {
+                  this.setState({ cameraDistance: e.target.value });
+                },
+                // onChange: e => this.setState({ cameraDistance: e.target.value })
+              }),
+
+              createElement('br', {}, ''),
+              createElement('label', { for: "lightrays" }, 'Show Lights-rays'),
+              createElement("input", {
+                type: "checkbox",
+                value: "lightrays",
+                name: "lightrays",
+                checked: this.state.lightrays,
+                onChange: e => this.setState({ lightrays: e.target.checked })
+              }),
+
+              createElement('br', {}, ''),
+              createElement('label', { for: "camerarays" }, 'Show Camera-rays'),
+              createElement("input", {
+                type: "checkbox",
+                value: "camerarays",
+                name: "camerarays",
+                checked: this.state.camerarays,
+                onChange: e => this.setState({ camerarays: e.target.checked })
+              }),
+
+              createElement("a", { href: "https://github.com/andrienko/2d-visibility/tree/updated-versions" }, "https://github.com/andrienko/2d-visibility/tree/updated-versions"),
+              createElement("a", { href: "https://www.redblobgames.com/articles/visibility/" }, "https://www.redblobgames.com/articles/visibility/"),
+              createElement("a", { href: "https://ondras.github.io/rot.js" }, "https://ondras.github.io/rot.js"),
+              createElement("a", { href: "https://github.com/velipso/polybooljs" }, "https://github.com/velipso/polybooljs")
+
+            ]),
+            this.state.menuOpen === MENU_DRONE && ([
+
+              createElement('h2', {}, "DRONES"),
+
+
+              this.state.menuOpenToDrone === null && [
+                createElement('ul', {}, this.state.drones.map((drone) => {
+                  return createElement('li', {}, [
+
+                    createElement('button', {
+                      onClick: e => this.setState({
+                        menuOpenToDrone: drone.uid
+                      })
+                    }, 'open'),
+                    `${drone.name} #${drone.uid}`,
+                  ])
+                }))
+              ],
+
+              this.state.menuOpenToDrone !== null && [
+
+
+
+                createElement(MonacoEditor, {
+                  width: 800,
+                  height: 600,
+                  language: "json",
+                  theme: "vs-dark",
+                  value: JSON.stringify(this.state.drones.find((d) => d.uid === this.state.menuOpenToDrone).xstate, null, 2)
+                }, []),
+
+                createElement('button', {
+                  className: 'closebtn',
+                  onClick: e => this.setState({
+                    menuOpenToDrone: null
+                  })
+                }, `close ${this.state.menuOpenToDrone}`),
+              ]
+            ]),
+
+
+
+          ]
+
+
+
         ]),
       ]),
+
+
+
 
       createElement("svg", {
         width: "100%",
         height: "100%",
         xmlns: "http://www.w3.org/2000/svg",
         style: {
-          stroke: 'black'
+          stroke: 'black',
+          cursor: 'none'
         },
         onMouseMove: e => this.onMouseMove(e),
-        onClick: e => this.placeMarker(e)
+        // onClick: e => this.placeMarker(e)
       },
 
         [
@@ -362,6 +466,14 @@ class App extends Component<any, IState> {
               }),
             ])
           }),
+
+          createElement('g', {}, this.state.drones.map((d) => createElement('circle', {
+            cx: d.x * fudge,
+            cy: d.y * fudge,
+            r: fudge / 2,
+            stroke: "red",
+          }))),
+
 
           lightVisibility.markers.map(marker => {
             return marker.triangles.map(triangle => {
@@ -457,14 +569,13 @@ class App extends Component<any, IState> {
             ]);
           }),
 
-
-
           createElement("circle", {
             cx: cameraLightMouse.position.x * fudge,
             cy: cameraLightMouse.position.y * fudge,
-            r: 4,
-            fill: "blue",
-            stroke: "black"
+            r: fudge  / 4,
+            fill: "transparent",
+            stroke: "green",
+            strokeWidth: 3
           }),
 
           ...lightVisibility.markers.map((m) => {
@@ -480,7 +591,13 @@ class App extends Component<any, IState> {
           })
         ],
       ),
-      createElement("p", { className: 'footer' }, "Move the mouse to change the position of the camera. Click to place a light source."),
+
+      createElement("div", { id: "gui" }, [
+        createElement(Fps, {}),
+        createElement("button", { className: "", onClick: e => this.setState({ menuOpen: MENU_ABOUT }) }, 'about/settings'),
+        createElement("button", { className: "", onClick: e => this.setState({ menuOpen: MENU_DRONE }) }, 'drones'),
+      ])
+
     ]);
   }
 }
