@@ -5,7 +5,9 @@ import { Point, Lightsource, VizTriangle, } from '../../vendor/2d-visibility/src
 import { Segment } from "../../vendor/2d-visibility/src/segment";
 import { calculateVisibility } from '../../vendor/2d-visibility/src/visibility';
 
-const markersSelector = (state: { markers: any[] }) => state.markers;
+import { IDrone } from '../IDrone';
+
+const markersSelector = (state: { drones: IDrone[] }) => state.drones;
 const preloadedMapSelector = (state: { preloadedMap: Segment[] }) => state.preloadedMap;
 const lightDistanceSelector = (state: { lightDistance: number }) => state.lightDistance;
 
@@ -72,8 +74,8 @@ const makeVisibleMap = (
 
 };
 
-export const makeVisibilityOfLights = (markers: any[], preloadedMap: Segment[], lightDistance: number) => {
-  const markersWithTrianglesAndPolyons = markers.map((marker: { uid: any; x: number, y: number, triangles: [] }) => {
+export const makeVisibilityOfLights = (markers: IDrone[], preloadedMap: Segment[], lightDistance: number) => {
+  const markersWithTrianglesAndPolyons = markers.map((marker) => {
 
     const lightsource: Lightsource = new Lightsource(new Point(marker.x, marker.y), lightDistance);
     const triangles = calculateVisibility(lightsource, loadMap(preloadedMap, lightsource));

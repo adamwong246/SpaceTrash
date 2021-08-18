@@ -1,41 +1,10 @@
-// Available variables:
-// - Machine
-// - interpret
-// - assign
-// - send
-// - sendParent
-// - spawn
-// - raise
-// - actions
-// - XState (all XState exports)
+const TOGGLE = 'TOGGLE';
 
 export default {
-  id: 'fetch',
-  initial: 'idle',
-  context: {
-    retries: 0
-  },
+  id: 'toggle',
+  initial: 'inactive',
   states: {
-    idle: {
-      on: {
-        FETCH: 'loading'
-      }
-    },
-    loading: {
-      on: {
-        RESOLVE: 'success',
-        REJECT: 'failure'
-      }
-    },
-    success: {
-      type: 'final'
-    },
-    failure: {
-      on: {
-        RETRY: {
-          target: 'loading'
-        }
-      }
-    }
+    inactive: { on: { TOGGLE: 'active' } },
+    active: { on: { TOGGLE: 'inactive' } }
   }
 };

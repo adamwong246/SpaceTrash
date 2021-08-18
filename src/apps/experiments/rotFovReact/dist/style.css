@@ -1,53 +1,5 @@
-/* p {
-    max-width: 35em;
-} */
-
-polyline,
-polygon {
-  fill-opacity: 0.3;
-}
-
-#gui {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-  background-color: white;
-}
-
-.menuOpenButton {
-  position: fixed;
-  bottom: 20;
-  left: 0;
-  z-index: 1;
-}
-
-.closebtn {
-  left: 0;
-  bottom: 0;
-  position: absolute;
-}
-
-.overlay {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 2;
-  top: 0;
-  left: 0;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.9);
-  overflow-x: hidden;
-  transition: 0.5s;
-  color: white;
-}
-
-.overlay-content {
-  /* position: relative;
-    top: 25%; */
-  width: 100%;
-  /* text-align: right; */
-  /* margin-top: 30px; */
+p {
+  max-width: 35em;
 }
 
 react-monaco-editor-container {
