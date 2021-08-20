@@ -13,129 +13,12 @@ import { selector as cameraLightMarkersSelector } from "./lights/selector.ts";
 import PolygonBooleanLib from "./PolygonBooleanLib/index.ts";
 
 import Fps from "./Fps.js";
-import xStateFixture from "./xStateFixture.ts";
-import fixture1 from "./fixture1.ts";
-import hoverPlugin from "./hoverPlugin";
-
 import fillingGlassPlugin from "./fillingGlassPlugin";
 import { IDrone, IState, MENU_ABOUT, MENU_DRONE } from "./types";
-
 import style from "./style";
+import { initialState } from "./initialState";
 
 const plugins: StateMachine<any, any, any>[] = [fillingGlassPlugin];
-
-const initialState: IState = {
-  clock: 0,
-  droneIconSelected: null,
-  droneIconHighlighted: null,
-  menuOpenToDrone: null,
-  fudge: 14, // zoom level
-
-  // the dimensions of the map
-  width: 25,
-  height: 10,
-
-  // knownMap: [],
-  lightSource: {
-    x: 0,
-    y: 0,
-  },
-  // markers: [],
-  menuOpen: null,
-  mouseX: 0,
-  mouseY: 0,
-  preloadedMap: [],
-  visibility: [],
-  visibleMap: [],
-
-  // knownMap: { segments: [], inverted: false },
-  knownMap: {
-    regions: [],
-    inverted: false,
-  },
-
-  lightDistance: 100,
-  cameraDistance: 25,
-
-  showWallSegments: true,
-  lightrays: true,
-  camerarays: true,
-  lightsPolygons: false,
-  // showCameraPolygon: true,
-  // lightsUnionPolygon: true,
-  cameraLightsIntersectionPolygon: false,
-  showLiveMap: false,
-
-  drones: [
-    {
-      uid: uuidv4(),
-      name: "bob",
-      x: 1,
-      y: 1,
-      r: 1,
-      triangles: [],
-      plugins: [
-        {
-          xstate: xStateFixture,
-          promiseState: {},
-          uid: uuidv4(),
-          name: "blinker",
-        },
-        {
-          xstate: hoverPlugin,
-          promiseState: {},
-          uid: uuidv4(),
-          name: "hovering unit 3",
-        },
-      ],
-    },
-    {
-      uid: uuidv4(),
-      name: "larry",
-      x: 2,
-      y: 2,
-      r: 2,
-      triangles: [],
-
-      plugins: [
-        {
-          xstate: fixture1,
-          promiseState: {},
-          uid: uuidv4(),
-          name: "blinker v0.9",
-        },
-        {
-          xstate: hoverPlugin,
-          promiseState: {},
-          uid: uuidv4(),
-          name: "hovering unit 2",
-        },
-      ],
-    },
-
-    {
-      uid: uuidv4(),
-      name: "curly",
-      x: 3,
-      y: 3,
-      r: 3,
-      triangles: [],
-
-      plugins: [
-        {
-          xstate: hoverPlugin,
-          promiseState: {},
-          uid: uuidv4(),
-          name: "hovering unit",
-        },
-      ],
-    },
-  ],
-};
-
-const SpaceTrash = {
-  hello: "hello world",
-};
 
 class App extends Component<any, IState> {
   constructor(props) {
@@ -145,13 +28,6 @@ class App extends Component<any, IState> {
   componentDidMount() {
     this.resetMapDungeon();
   }
-
-  // startRun() {
-  //   this.state.drones.forEach((d) => {
-  //     d.promiseMachine.send({ type: 'TOGGLE' });
-  //   });
-  //   // this.startRun();
-  // };
 
   resetMapDungeon(width = this.state.width, height = this.state.height) {
     const levelMap = [];
@@ -416,17 +292,18 @@ class App extends Component<any, IState> {
       drones: this.state.drones.map((d) => {
         return {
           ...d,
-          plugins: d.uid === drone.uid ? d.plugins.concat({
-            promiseState,
-            promiseMachine,
-            uid: uuidv4(),
-            name: `spawned ${plugin.id}`,
-          }) : d.plugins
-        }
-      })
-    })
-
-    
+          plugins:
+            d.uid === drone.uid
+              ? d.plugins.concat({
+                  promiseState,
+                  promiseMachine,
+                  uid: uuidv4(),
+                  name: `spawned ${plugin.id}`,
+                })
+              : d.plugins,
+        };
+      }),
+    });
   }
 
   // placeMarker(event) {
@@ -466,16 +343,13 @@ class App extends Component<any, IState> {
           style: style.overlay(this.state.menuOpen),
         },
         [
-          createElement(
-            "div",
-            {},
+          createElement("div", {}, [
             [
-              [
-                this.state.menuOpen === MENU_ABOUT && [
-                  createElement(
-                    "pre",
-                    null,
-                    `
+              this.state.menuOpen === MENU_ABOUT && [
+                createElement(
+                  "pre",
+                  null,
+                  `
 // spaceTrash v0.0.5
 // a game about programming robots in space
 
@@ -484,169 +358,162 @@ class App extends Component<any, IState> {
 30 GOTO 10
 
 `,
-                    createElement(
-                      "a",
-                      {
-                        href: "https://github.com/andrienko/2d-visibility/tree/updated-versions",
-                      },
-                      "https://github.com/andrienko/2d-visibility/tree/updated-versions"
-                    ),
-                    `\n`,
-                    createElement(
-                      "a",
-                      {
-                        href: "https://www.redblobgames.com/articles/visibility/",
-                      },
-                      "https://www.redblobgames.com/articles/visibility/"
-                    ),
-                    `\n`,
-                    createElement(
-                      "a",
-                      { href: "https://ondras.github.io/rot.js" },
-                      "https://ondras.github.io/rot.js"
-                    ),
-                    `\n`,
-                    createElement(
-                      "a",
-                      { href: "https://github.com/velipso/polybooljs" },
-                      "https://github.com/velipso/polybooljs"
-                    )
+                  createElement(
+                    "a",
+                    {
+                      href: "https://github.com/andrienko/2d-visibility/tree/updated-versions",
+                    },
+                    "https://github.com/andrienko/2d-visibility/tree/updated-versions"
+                  ),
+                  `\n`,
+                  createElement(
+                    "a",
+                    {
+                      href: "https://www.redblobgames.com/articles/visibility/",
+                    },
+                    "https://www.redblobgames.com/articles/visibility/"
+                  ),
+                  `\n`,
+                  createElement(
+                    "a",
+                    { href: "https://ondras.github.io/rot.js" },
+                    "https://ondras.github.io/rot.js"
+                  ),
+                  `\n`,
+                  createElement(
+                    "a",
+                    { href: "https://github.com/velipso/polybooljs" },
+                    "https://github.com/velipso/polybooljs"
+                  )
+                ),
+              ],
+
+              this.state.menuOpen === MENU_DRONE && [
+                this.state.menuOpenToDrone === null && [
+                  createElement(
+                    "ul",
+                    {},
+                    this.state.drones.map((drone) => {
+                      return createElement("li", {}, [
+                        createElement(
+                          "span",
+                          {},
+                          `${drone.name}, #${drone.uid}`
+                        ),
+
+                        createElement(
+                          "ul",
+                          {},
+                          drone.plugins.map((p) => {
+                            const computedState =
+                              p.promiseState.value || p.xstate.initial;
+
+                            return createElement(
+                              "li",
+                              {},
+                              createElement("p", {}, `${p.name}, #${p.uid}`),
+
+                              createElement(
+                                "pre",
+                                {},
+                                JSON.stringify(computedState, null, 2)
+                              ),
+
+                              (p.promiseState.nextEvents || []).map((k) => {
+                                return createElement(
+                                  "button",
+                                  {
+                                    onClick: (e) =>
+                                      this.fire(drone.uid, p.uid, k),
+                                  },
+                                  k
+                                );
+                              })
+                            );
+                          })
+                        ),
+
+                        createElement(
+                          "select",
+                          {
+                            onChange: (e) =>
+                              this.spawnUpgradeOnDrone(e.target.value, drone),
+                          },
+
+                          [
+                            createElement("option", { value: null }, " - "),
+
+                            ...plugins.map((p) => {
+                              return createElement(
+                                "option",
+                                { value: p.id },
+                                p.id
+                              );
+                            }),
+                          ]
+                        ),
+
+                        // createElement(
+                        //   "button",
+                        //   {
+                        //     onClick: (e) =>
+                        //       this.setState({
+                        //         menuOpenToDrone: drone.uid,
+                        //       }),
+                        //   },
+                        //   "open"
+                        // ),
+                      ]);
+                    })
                   ),
                 ],
 
-                this.state.menuOpen === MENU_DRONE && [
-                  this.state.menuOpenToDrone === null && [
-                    createElement(
-                      "ul",
-                      {},
-                      this.state.drones.map((drone) => {
-                        return createElement("li", {}, [
-                          createElement(
-                            "span",
-                            {},
-                            `${drone.name}, #${drone.uid}`
-                          ),
+                this.state.menuOpenToDrone !== null && [
+                  createElement("h3", {}, `# ${this.state.menuOpenToDrone}`),
 
-                          createElement(
-                            "ul",
-                            {},
-                            drone.plugins.map((p) => {
-                              const computedState =
-                                p.promiseState.value || p.xstate.initial;
+                  createElement(
+                    MonacoEditor,
+                    {
+                      width: 800,
+                      height: "70vh",
+                      language: "json",
+                      theme: "vs-dark",
+                      value: JSON.stringify(
+                        this.state.drones.find(
+                          (d) => d.uid === this.state.menuOpenToDrone
+                        ).xstate,
+                        null,
+                        2
+                      ),
+                    },
+                    []
+                  ),
 
-                              return createElement(
-                                "li",
-                                {},
-                                createElement("p", {}, `${p.name}, #${p.uid}`),
+                  createElement(
+                    "button",
+                    {
+                      onClick: (e) =>
+                        this.setState({
+                          menuOpenToDrone: null,
+                        }),
+                    },
+                    `close`
+                  ),
 
-                                createElement(
-                                  "pre",
-                                  {},
-                                  JSON.stringify(computedState, null, 2)
-                                ),
-
-                                (p.promiseState.nextEvents || []).map((k) => {
-                                  return createElement(
-                                    "button",
-                                    {
-                                      onClick: (e) =>
-                                        this.fire(drone.uid, p.uid, k),
-                                    },
-                                    k
-                                  );
-                                })
-                              );
-                            })
-                          ),
-
-                          createElement(
-                            "select",
-                            {
-                              onChange: (e) => this.spawnUpgradeOnDrone(e.target.value, drone),
-                            },
-
-                            [
-                              createElement(
-                                "option",
-                                { value: null },
-                                ' - '
-                              ),
-
-                              ...plugins.map((p) => {
-                                return createElement(
-                                  "option",
-                                  { value: p.id },
-                                  p.id
-                                );
-                              }),
-
-
-                            ]
-                            
-                          ),
-
-                          // createElement(
-                          //   "button",
-                          //   {
-                          //     onClick: (e) =>
-                          //       this.setState({
-                          //         menuOpenToDrone: drone.uid,
-                          //       }),
-                          //   },
-                          //   "open"
-                          // ),
-                        ]);
-                      })
-                    ),
-                  ],
-
-                  this.state.menuOpenToDrone !== null && [
-                    createElement("h3", {}, `# ${this.state.menuOpenToDrone}`),
-
-                    createElement(
-                      MonacoEditor,
-                      {
-                        width: 800,
-                        height: "70vh",
-                        language: "json",
-                        theme: "vs-dark",
-                        value: JSON.stringify(
-                          this.state.drones.find(
-                            (d) => d.uid === this.state.menuOpenToDrone
-                          ).xstate,
-                          null,
-                          2
-                        ),
-                      },
-                      []
-                    ),
-
-                    createElement(
-                      "button",
-                      {
-                        onClick: (e) =>
-                          this.setState({
-                            menuOpenToDrone: null,
-                          }),
-                      },
-                      `close`
-                    ),
-
-                    createElement(
-                      "button",
-                      {
-                        onClick: (e) =>
-                          this.setState({
-                            menuOpenToDrone: null,
-                          }),
-                      },
-                      `save`
-                    ),
-                  ],
+                  createElement(
+                    "button",
+                    {
+                      onClick: (e) =>
+                        this.setState({
+                          menuOpenToDrone: null,
+                        }),
+                    },
+                    `save`
+                  ),
                 ],
               ],
-            ]
-          ),
+            ],
+          ]),
         ]
       ),
 
@@ -753,15 +620,13 @@ class App extends Component<any, IState> {
           visMap.map((line) => {
             const buffer = fudge * (this.state.height + 1) * 2;
 
-            const dasharray = [0, ...line.slices, line.breadth];
+            // const dasharray = [0, ...line.slices, line.breadth];
 
             // const diff = triangle.breadth - triangle.slices[triangle.slices.length - 1];
 
             // if (diff > 0){
             //   dasharray.push(diff);
             // }
-
-            const mappeddashArray = dasharray.map((d) => d * fudge);
 
             return createElement("g", {}, [
               // createElement("circle", {
@@ -786,8 +651,9 @@ class App extends Component<any, IState> {
                 x2: line.p2.x * fudge,
                 y2: line.p2.y * fudge + buffer,
                 stroke: "green",
-                "stroke-dasharray": mappeddashArray,
-                "data-breadth": line.breadth * fudge,
+                "stroke-dasharray": [0, ...line.slices, line.breadth].map(
+                  (d) => d * fudge
+                )
               }),
             ]);
           }),
@@ -842,8 +708,7 @@ class App extends Component<any, IState> {
               "about"
             ),
 
-
-            this.state.menuOpen === MENU_DRONE
+        this.state.menuOpen === MENU_DRONE
           ? createElement(
               "button",
               {
@@ -866,11 +731,7 @@ class App extends Component<any, IState> {
         // ),
 
         createElement("span", {}, this.state.clock),
-        createElement(
-          "button",
-          { onClick: (e) => this.stepOnce() },
-          "+ 1"
-        ),
+        createElement("button", { onClick: (e) => this.stepOnce() }, "+ 1"),
       ]),
     ]);
   }

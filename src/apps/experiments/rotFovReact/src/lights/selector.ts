@@ -1,31 +1,38 @@
 import { createSelector } from "reselect";
 
-import { loadMap } from '../../vendor/2d-visibility/src/load-map';
-import { Point, Lightsource, VizTriangle, } from '../../vendor/2d-visibility/src/point';
+import { loadMap } from "../../vendor/2d-visibility/src/load-map";
+import { Point, Lightsource } from "../../vendor/2d-visibility/src/point";
 import { Segment } from "../../vendor/2d-visibility/src/segment";
-import { calculateVisibility } from '../../vendor/2d-visibility/src/visibility';
+import { calculateVisibility } from "../../vendor/2d-visibility/src/visibility";
 
-import { IDrone } from '../IDrone';
+import { IDrone } from "../IDrone";
 
 const markersSelector = (state: { drones: IDrone[] }) => state.drones;
-const preloadedMapSelector = (state: { preloadedMap: Segment[] }) => state.preloadedMap;
-const lightDistanceSelector = (state: { lightDistance: number }) => state.lightDistance;
+const preloadedMapSelector = (state: { preloadedMap: Segment[] }) =>
+  state.preloadedMap;
+const lightDistanceSelector = (state: { lightDistance: number }) =>
+  state.lightDistance;
 
-const distance = (a, b) => Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
+const distance = (a, b) =>
+  Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
 
 // take a line segments and "slices" of that line and organize for SVG
-const visibilityLine = (mapSegment: Segment, slicesOfALine) => {
-
+const visibilityLine = (mapSegment: Segment, slicesOfALine: any[]) => {
   let toReturn = [];
   let counter = 0;
 
-  slicesOfALine.map((s) => {
-    const a = distance(mapSegment.p1, s.first);
-    const b = distance(mapSegment.p1, s.second);
-    return [{ payload: 1, ndx: Math.min(a, b) }, { payload: -1, ndx: Math.max(a, b) }];
-  }).flat(1)
+  slicesOfALine
+    .map((s) => {
+      const a = distance(mapSegment.p1, s.first);
+      const b = distance(mapSegment.p1, s.second);
+      return [
+        { payload: 1, ndx: Math.min(a, b) },
+        { payload: -1, ndx: Math.max(a, b) },
+      ];
+    })
+    .flat(1)
     .sort((a, b) => a.ndx - b.ndx)
-    .forEach(upperOrDowner => {
+    .forEach((upperOrDowner) => {
       const newCounter = counter + upperOrDowner.payload;
       if (counter === 0 && newCounter > 0) {
         toReturn.push(upperOrDowner.ndx);
@@ -36,12 +43,11 @@ const visibilityLine = (mapSegment: Segment, slicesOfALine) => {
       }
 
       counter = newCounter;
-
     });
 
   return {
     ...mapSegment,
-    slices: toReturn
+    slices: toReturn,
   };
 };
 
@@ -49,36 +55,43 @@ const makeVisibleMap = (
   mapSegments: Segment[],
   markersWithTriangles: any[]
 ) => {
-
   const toReturn = [];
 
   // loop over map segments
   mapSegments.forEach((mapSegment) => {
-
     // gather the "slices" from each bot which are of the map segment in question
     const collectiveViewsOfAWallSegment = [];
     markersWithTriangles.forEach((marker) => {
-      collectiveViewsOfAWallSegment.push(...(marker.triangles
-        .filter((triangle) => triangle.uid === mapSegment.uid)
-        .reduce((triangles_mm, triangle_cv) => {
-          triangles_mm.push(triangle_cv);
-          return triangles_mm;
-        }, [])));
+      collectiveViewsOfAWallSegment.push(
+        ...marker.triangles
+          .filter((triangle) => triangle.uid === mapSegment.uid)
+          .reduce((triangles_mm, triangle_cv) => {
+            triangles_mm.push(triangle_cv);
+            return triangles_mm;
+          }, [])
+      );
     });
 
     toReturn.push(visibilityLine(mapSegment, collectiveViewsOfAWallSegment));
-
   });
 
   return toReturn;
-
 };
 
-export const makeVisibilityOfLights = (markers: IDrone[], preloadedMap: Segment[], lightDistance: number) => {
+export const makeVisibilityOfLights = (
+  markers: IDrone[],
+  preloadedMap: Segment[],
+  lightDistance: number
+) => {
   const markersWithTrianglesAndPolyons = markers.map((marker) => {
-
-    const lightsource: Lightsource = new Lightsource(new Point(marker.x, marker.y), lightDistance);
-    const triangles = calculateVisibility(lightsource, loadMap(preloadedMap, lightsource));
+    const lightsource: Lightsource = new Lightsource(
+      new Point(marker.x, marker.y),
+      lightDistance
+    );
+    const triangles = calculateVisibility(
+      lightsource,
+      loadMap(preloadedMap, lightsource)
+    );
 
     return {
       x: marker.x,
@@ -89,8 +102,11 @@ export const makeVisibilityOfLights = (markers: IDrone[], preloadedMap: Segment[
 
   return {
     markers: markersWithTrianglesAndPolyons,
-    visibleMap: makeVisibleMap(preloadedMap, markersWithTrianglesAndPolyons)
-  }
+    visibleMap: makeVisibleMap(preloadedMap, markersWithTrianglesAndPolyons),
+  };
 };
 
-export const selector = createSelector([markersSelector, preloadedMapSelector, lightDistanceSelector], makeVisibilityOfLights);
+export const selector = createSelector(
+  [markersSelector, preloadedMapSelector, lightDistanceSelector],
+  makeVisibilityOfLights
+);
