@@ -69,7 +69,7 @@ const trafficLightFsm = {
 
 const addWater = {
   amount: (context, event) => {
-    console.log('addWater amount', context);
+    console.log("aloha");
     return (context.amount || 0) + 1;
   },
 };
@@ -136,15 +136,15 @@ const installFsm = (fsm, path: string, rawActions) => {
 
   const actions = {};
   Object.entries(rawActions || []).forEach(([k2, v2]: [string, any]) => {
-    
+    console.log("hello", k2, rawActions[k2]);
     // newOn[`${k2}.${path}`] = ons[k2];
     const action = rawActions[k2];
     // return () => assign(action);
-    console.log("hello", k2)
+
     actions[k2] = () => {
-      
+      console.log("bonjour", action);
       assign(action);
-    }
+    };
   });
 
   return {
@@ -168,9 +168,18 @@ const upcount = assign({
   time: (context: ComputatorContext, event) => context.time + 1,
 });
 
-const drinkingGlassZero = installFsm({ ...glassFsm }, "drinking glass 0", { addWater, dumpWater });
-const drinkingGlassOne = installFsm({ ...glassFsm }, "drinking glass 1", { addWater, dumpWater });
-const drinkingGlassTwo = installFsm({ ...glassFsm }, "drinking glass 2", { addWater, dumpWater });
+const drinkingGlassZero = installFsm(glassFsm, "drinking glass 0", {
+  addWater,
+  dumpWater,
+});
+const drinkingGlassOne = installFsm(glassFsm, "drinking glass 1", {
+  addWater,
+  dumpWater,
+});
+const drinkingGlassTwo = installFsm(glassFsm, "drinking glass 2", {
+  addWater,
+  dumpWater,
+});
 
 const computatorFsm = {
   id: "computatorMachine",
@@ -188,20 +197,20 @@ const computatorFsm = {
       },
     },
 
-    ["drinking glass 0"]: drinkingGlassZero,
-    ["drinking glass 1"]: drinkingGlassOne,
-    ["drinking glass 2"]: drinkingGlassTwo,
+    // ["drinking glass 0"]: drinkingGlassZero,
+    // ["drinking glass 1"]: drinkingGlassOne,
+    // ["drinking glass 2"]: drinkingGlassTwo,
   },
 };
 
 console.log(JSON.stringify(computatorFsm, null, 2));
 
 const computatorMachine = createMachine(
-  computatorFsm,
-  {
-    actions: { upcount, addWater, dumpWater },
-    guards: { glassIsFull },
-  }
+  computatorFsm
+  // {
+  //   actions: { upcount, addWater, dumpWater },
+  //   guards: { glassIsFull },
+  // }
 );
 
 export default computatorMachine;
