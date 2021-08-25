@@ -8,6 +8,7 @@ export enum MenuItem {
   game = "game",
   stage = "stage",
   xstate = "xstate",
+  level = "level",
 }
 
 export type MenuItemConfig = {

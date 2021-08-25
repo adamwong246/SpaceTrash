@@ -2,7 +2,6 @@ import { Component, createElement } from "react";
 
 import { EMoves, ERoles, IPlayer, SMoveDefintions } from "./IGameGonfig";
 
-
 class PlayerMovesForm extends Component<
   {
     player: IPlayer;

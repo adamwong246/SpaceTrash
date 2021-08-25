@@ -1,60 +1,11 @@
 import { Component, createElement } from "react";
-import Form from "@rjsf/core";
 
 import { IGameConfig } from "./IGameGonfig";
 
 import ContextPage from "./ContextPage";
 import FsmPage from "./FsmPage";
 import StatePage from "./StatePage";
-
-const deps = (
-  a: string,
-  b: { additionsToPropertiesAtMessagePayload: object }
-) => {
-  const oneOf = Object.keys(b).map((k, ndx) => {
-    return {
-      properties: {
-        [a]: {
-          enum: [k],
-        },
-        messagePayload: {
-          properties: b[k]?.additionsToPropertiesAtMessagePayload,
-        },
-      },
-      ...b[k]?.additionsToSchema,
-    };
-  });
-
-  return {
-    dependencies: {
-      [a]: { oneOf },
-    },
-  };
-};
-
-const ADD_PLAYER = "ADD_PLAYER";
-const TICK = "TICK";
-const SPEAK = "SPEAK";
-const GREEN_FLAG = "GREEN_FLAG";
-const CHECKERED_FLAG = "CHECKERED_FLAG";  
-
-const dependents = {
-  ADD_PLAYER: {
-    additionsToPropertiesAtMessagePayload: { playerName: { type: "string" } },
-  },
-  TICK: {
-    additionsToPropertiesAtMessagePayload: { tock: { type: "boolean" } },
-  },
-  SPEAK: {
-    additionsToPropertiesAtMessagePayload: { message: { type: "string" } },
-  },
-  GREEN_FLAG: {
-    additionsToPropertiesAtMessagePayload: { },
-  },
-  CHECKERED_FLAG: {
-    additionsToPropertiesAtMessagePayload: { },
-  }
-};
+import SendForm from "./SendForm";
 
 export default class extends Component<
   {
@@ -76,43 +27,6 @@ export default class extends Component<
     super(props);
     this.state = { tab: "context" };
   }
-
-  makeSchema(nextEvents: string[]) {
-    const depOptions = {};
-    nextEvents.forEach((e) => (depOptions[e] = dependents[e]));
-
-    const schema = {
-      title: "RogueState Director",
-      type: "object",
-      required: ["messageType", "messagePayload"],
-
-      properties: {
-        messageType: { type: "string", enum: nextEvents },
-        messagePayload: {},
-      },
-
-      ...deps("messageType", depOptions),
-    };
-
-    return schema;
-  }
-
-  activateActor(
-    actor: ActorRef<any, any>,
-    formdata: {
-      messageType: string;
-      messagePayload: object;
-    }
-  ) {
-    this.props.directorInterpreter.send({
-      type: formdata.messageType,
-      payload: {
-        messsage: formdata.messagePayload.message,
-        sender: this.props.directorActor.id,
-      },
-    });
-  }
-
   render() {
     const director = this.props.directorActor;
 
@@ -177,11 +91,98 @@ export default class extends Component<
           fsm: this.props.fsm,
         }),
       this.state.tab === "send" &&
-        createElement(Form, {
-          onSubmit: (e: object) =>
-            this.activateActor(director, e.formData),
-          schema: this.makeSchema(this.props.nextEvents),
-        })
+        createElement(
+          SendForm,
+          {
+            actor: this.props.directorActor,
+            actorInterpreter: this.props.directorInterpreter,
+            nextEvents: this.props.nextEvents,
+          },
+          []
+        )
     );
   }
 }
+
+// const deps = (
+//   a: string,
+//   b: { additionsToPropertiesAtMessagePayload: object }
+// ) => {
+//   const oneOf = Object.keys(b).map((k, ndx) => {
+//     return {
+//       properties: {
+//         [a]: {
+//           enum: [k],
+//         },
+//         messagePayload: {
+//           properties: b[k]?.additionsToPropertiesAtMessagePayload,
+//         },
+//       },
+//       ...b[k]?.additionsToSchema,
+//     };
+//   });
+
+//   return {
+//     dependencies: {
+//       [a]: { oneOf },
+//     },
+//   };
+// };
+
+// const ADD_PLAYER = "ADD_PLAYER";
+// const TICK = "TICK";
+// const SPEAK = "SPEAK";
+// const GREEN_FLAG = "GREEN_FLAG";
+// const CHECKERED_FLAG = "CHECKERED_FLAG";
+
+// const dependents = {
+//   ADD_PLAYER: {
+//     additionsToPropertiesAtMessagePayload: { playerName: { type: "string" } },
+//   },
+//   TICK: {
+//     additionsToPropertiesAtMessagePayload: { tock: { type: "boolean" } },
+//   },
+//   SPEAK: {
+//     additionsToPropertiesAtMessagePayload: { message: { type: "string" } },
+//   },
+//   GREEN_FLAG: {
+//     additionsToPropertiesAtMessagePayload: { },
+//   },
+//   CHECKERED_FLAG: {
+//     additionsToPropertiesAtMessagePayload: { },
+//   }
+// };
+
+// makeSchema(nextEvents: string[]) {
+//   const depOptions = {};
+//   nextEvents.forEach((e) => (depOptions[e] = dependents[e]));
+
+//   const schema = {
+//     title: "RogueState Director",
+//     type: "object",
+//     required: ["messageType", "messagePayload"],
+
+//     properties: {
+//       messageType: { type: "string", enum: nextEvents },
+//       messagePayload: {},
+//     },
+
+//     ...deps("messageType", depOptions),
+//   };
+
+//   return schema;
+// }
+
+// activateActor(
+//   actor: ActorRef<any, any>,
+//   formdata: {
+//     messageType: string;
+//     messagePayload: object;
+//   }
+// ) {
+//   this.props.directorInterpreter.send({
+//     type: formdata.messageType,
+//     payload: formdata.messagePayload,
+//     sender: this.props.directorActor.id,
+//   });
+// }

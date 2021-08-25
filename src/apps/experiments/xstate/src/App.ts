@@ -1,14 +1,14 @@
+import FsmPage from "FsmPage";
 import { Component, createElement } from "react";
+import { iPlayer } from "types";
+import { ActorRef } from "xstate";
+import StatechartViz from 'statechart-viz'
 
 import AboutPage from "./About";
 import GamePage from "./GamePage";
-import LevelPage from "./LevelPage";
-import StagePage from "./StagePage";
-import XStatePage from "./XStatePage";
 
 import { MenuItem, MenuItemConfig, MenuItems } from "./Menu";
-
-const initialState = { location: [MenuItem.stage, "stage"] };
+import SendForm from "./SendForm";
 
 class App extends Component<
   {
@@ -16,27 +16,20 @@ class App extends Component<
     directorActor: any;
     directorInterpreter: any;
     nextEvents: any[];
+    context: any;
     fireV2: (actorId, formdata: object) => void;
   },
   {
-    location: string[];
-    player?: string;
-    stagedMoveset: object;
+    tab: string;
   }
 > {
   constructor(props) {
     super(props);
-
-    this.state = {
-      ...initialState,
-      stagedMoveset: {},
-    };
+    this.state = { tab: MenuItem.about };
   }
 
-  setLocation(val: string, index: number) {
-    const location = [...this.state.location];
-    location[index] = val;
-    this.setState({ location });
+  setLocation(val: MenuItem) {
+    this.setState({ tab: val });
   }
 
   listOfActors() {
@@ -50,7 +43,6 @@ class App extends Component<
       createElement(
         "nav",
         {},
-
         createElement(
           "pre",
           {},
@@ -59,9 +51,6 @@ class App extends Component<
 // a rogue-ish game engine
 `
         ),
-
-        // createElement("hr", {}),
-        // createElement("pre", {}, JSON.stringify(this.state.location)),
         createElement("hr", {}),
 
         createElement(
@@ -71,69 +60,52 @@ class App extends Component<
           createElement(
             "li",
             {
-              onClick: () => this.setLocation("about", 0),
+              onClick: () => this.setLocation(MenuItem.about),
             },
             createElement("button", {}, "about")
           ),
 
-          createElement(
-            "li",
-            {
-              onClick: () => this.setLocation("level", 0),
-            },
-            createElement("button", {}, "config")
-          ),
+          // createElement(
+          //   "li",
+          //   {
+          //     onClick: () => this.setLocation("level", 0),
+          //   },
+          //   createElement("button", {}, "config")
+          // ),
 
           createElement(
             "li",
             {
-              onClick: () => this.setLocation("game", 0),
+              onClick: () => this.setLocation(MenuItem.game),
             },
             createElement("button", {}, "Director")
           ),
 
-          createElement(
-            "li",
-            {
-              onClick: () => this.setLocation("stage", 0),
-            },
-            createElement("button", {}, "stage")
-          ),
-
-          createElement(
-            "li",
-            {
-              onClick: () => this.setLocation(MenuItem.xstate, 0),
-            },
-            createElement("button", {}, "xstate")
-          )
+          ...this.props.context.players.map((player: iPlayer) => {
+            return createElement(
+              "li",
+              {},
+              createElement(
+                "button",
+                {
+                  onClick: (e) => this.setState({ tab: player.actor.id }),
+                },
+                `#${player.actor.id} aka ${player.playerName}`
+              )
+            );
+          })
         ),
 
-        createElement(
-          "div",
-          {},
-
-          createElement("hr", {}),
-
-          createElement("label", {}, `clocktime: `),
-          createElement("pre", {}, `0`),
-          createElement(
-            "label",
-            {},
-            "Submit staged changes and increment clock"
-          ),
-          createElement("button", {}, "+1")
-        )
+        createElement("pre", {}, JSON.stringify(this.state, null, 2)),
+        createElement("hr", {})
       ),
-
       createElement(
         "main",
         {},
 
-        this.state.location[0] === MenuItem.about &&
-          createElement(AboutPage, {}),
+        this.state.tab === MenuItem.about && createElement(AboutPage, {}),
 
-        this.state.location[0] === MenuItem.game &&
+        this.state.tab === MenuItem.game &&
           createElement(GamePage, {
             actors: this.state.actors,
             directorActor: this.props.directorActor,
@@ -142,30 +114,35 @@ class App extends Component<
             finiteState: this.props.value,
             fsm: this.props.machine.config,
             gameConfig: this.props.gameConfig,
-            localLocation: this.state.location.slice(1,this.state.location.length),
             nextEvents: this.props.nextEvents,
-            setLocation: (e) => this.setLocation(e, 1),
           }),
 
-        this.state.location[0] === "level" &&
-          createElement(LevelPage, {
-            gameConfig: this.props.gameConfig,
-          }),
+        this.props.context.players
+          .filter((player) => player.actor.id === this.state.tab)
+          .map((player: iPlayer) => {
+            return createElement(
+              "div",
+              {},
 
-        this.state.location[0] === MenuItem.stage &&
-          createElement(StagePage, {
-            players: this.props.gameConfig.players,
-            stagedChanged: {
-              foo: "bar",
-            },
-          }),
+              createElement("h3", {}, `player: #${player.actor.id} aka ${player.playerName}`),
 
-        this.state.location[0] === MenuItem.xstate &&
-          createElement(XStatePage, {
-            actors: this.listOfActors(),
-            fireV2: this.props.fireV2,
-            directorInterpreter: this.props.directorInterpreter,
-            directorActor: this.props.directorActor,
+
+
+              
+
+              createElement(SendForm, {
+                actor: player.actor,
+                actorInterpreter: player.interpreter,
+                nextEvents: player.interpreter.state.nextEvents,
+              }),
+
+              createElement(StatechartViz,{
+                statechart: player.fsm
+              }),
+              
+              createElement("pre", {}, JSON.stringify(player)),
+              
+            );
           })
       ),
     ]);
