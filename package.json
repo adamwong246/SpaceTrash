@@ -48,7 +48,7 @@
     "reselect": "^4.0.0",
     "sass-loader": "^8.0.2",
     "scss-loader": "^0.0.1",
-    "terser": "3.14.1",
+    "terser": "4.8.1",
     "terser-webpack-plugin": "^4.1.0",
     "typings-for-css-modules-loader": "^1.7.0",
     "url-loader": "^4.1.0",
