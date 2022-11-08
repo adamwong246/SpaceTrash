@@ -80,7 +80,7 @@
     "express": "~4.14.1",
     "express-session": "^1.15.1",
     "file-loader": "^2.0.0",
-    "html-webpack-plugin": "^4.3.0",
+    "html-webpack-plugin": "^4.5.2",
     "jade": "~1.11.0",
     "lodash": "^4.17.15",
     "mocha": "^5.2.0",
